@@ -55,7 +55,7 @@ CreditsMenu::CreditsMenu(int w, int h, const std::string & title)
 
     GuiText *text = NULL;
 
-    f32 positionY = 200.0f;
+    f32 positionY = 230.0f;
     f32 positionX = 50.0f;
     f32 positionX2 = 350.0f;
 
@@ -134,6 +134,19 @@ CreditsMenu::CreditsMenu(int w, int h, const std::string & title)
     append(text);
     positionY -= 50;
 
+    text = new GuiText("Based on:", fontSize, textColor);
+    text->setPosition(positionX, positionY);
+    text->setAlignment(ALIGN_LEFT | ALIGN_MIDDLE);
+    creditsText.push_back(text);
+    append(text);
+
+    text = new GuiText("Loadiine v4.0 by Golden45 and Dimok", fontSize, textColor);
+    text->setPosition(positionX2, positionY);
+    text->setAlignment(ALIGN_LEFT | ALIGN_MIDDLE);
+    creditsText.push_back(text);
+    append(text);
+    positionY -= 50;
+
     text = new GuiText("Big thanks to:", fontSize, textColor);
     text->setPosition(positionX, positionY);
     text->setAlignment(ALIGN_LEFT | ALIGN_MIDDLE);
@@ -147,13 +160,14 @@ CreditsMenu::CreditsMenu(int w, int h, const std::string & title)
     append(text);
     positionY -= 50;
 
-    text = new GuiText("Based on:", fontSize, textColor);
-    text->setPosition(positionX, positionY);
+    text = new GuiText("Marionumber1 for his kernel exploit", fontSize, textColor);
+    text->setPosition(positionX2, positionY);
     text->setAlignment(ALIGN_LEFT | ALIGN_MIDDLE);
     creditsText.push_back(text);
     append(text);
+    positionY -= 50;
 
-    text = new GuiText("Loadiine v4.0 by Golden45 and Dimok", fontSize, textColor);
+    text = new GuiText("The whole libwiiu team and it's contributors.", fontSize, textColor);
     text->setPosition(positionX2, positionY);
     text->setAlignment(ALIGN_LEFT | ALIGN_MIDDLE);
     creditsText.push_back(text);

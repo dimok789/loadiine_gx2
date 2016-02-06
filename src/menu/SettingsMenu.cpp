@@ -63,7 +63,7 @@ stSettingsCategories[] =
     { "GUI",     "guiSettingsIcon.png",    "guiSettingsIconGlow.png",    "Game View Selection\n" "Background customizations" },
     { "Loader",  "loaderSettingsIcon.png", "loaderSettingsIconGlow.png", "Customize games path\nCustomize save path" },
     { "Game",    "gameSettingsIcon.png",   "gameSettingsIconGlow.png",   "Launch method selection\n" "Log server control\n" "Adjust log server IP and port" },
-    { "Credits", "creditsIcon.png",        "creditsIconGlow.png",        "Credits to all contributers" }
+    { "Credits", "creditsIcon.png",        "creditsIconGlow.png",        "Credits to all contributors" }
 };
 
 static const SettingType GuiSettings[] =
@@ -122,7 +122,7 @@ SettingsMenu::SettingsMenu(int w, int h)
     versionText.setFontSize(42);
     versionText.setAlignment(ALIGN_TOP | ALIGN_RIGHT);
     versionText.setPosition(-50, -80);
-    versionText.setText("Loadiine GX2 v1.0");
+    versionText.setText("Loadiine GX2 " LOADIINE_VERSION);
     categorySelectionFrame.append(&versionText);
 
     const u32 cuCategoriesCount = sizeof(stSettingsCategories) / sizeof(stSettingsCategories[0]);
