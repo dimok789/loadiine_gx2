@@ -1,0 +1,12 @@
+C:\Users\golden\Desktop\supercafiine\src\bin\Debug\loadiine_server.exe.config
+C:\Users\golden\Desktop\supercafiine\src\obj\x86\Debug\loadiine_server.exe
+C:\Users\golden\Desktop\supercafiine\src\obj\x86\Debug\loadiine_server.pdb
+C:\Users\golden\Desktop\supercafiine\src\bin\Debug\loadiine_server.exe
+C:\Users\golden\Desktop\supercafiine\src\bin\Debug\loadiine_server.pdb
+C:\Users\golden\Desktop\supercafiine\src\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\golden\Desktop\loadiine_server\src\bin\Debug\loadiine_server.exe.config
+C:\Users\golden\Desktop\loadiine_server\src\obj\x86\Debug\loadiine_server.exe
+C:\Users\golden\Desktop\loadiine_server\src\obj\x86\Debug\loadiine_server.pdb
+C:\Users\golden\Desktop\loadiine_server\src\bin\Debug\loadiine_server.exe
+C:\Users\golden\Desktop\loadiine_server\src\bin\Debug\loadiine_server.pdb
+C:\Users\golden\Desktop\loadiine_server\src\obj\x86\Debug\ResolveAssemblyReference.cache

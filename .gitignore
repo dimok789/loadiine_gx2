@@ -1,0 +1,11 @@
+/fs/build
+/installer/bin
+/loader/build
+/menu/build
+/server/logs/*.txt
+/build
+/*.elf
+/fs/*.elf
+/loader/*.elf
+/sd_loader/build
+/sd_loader/*.elf

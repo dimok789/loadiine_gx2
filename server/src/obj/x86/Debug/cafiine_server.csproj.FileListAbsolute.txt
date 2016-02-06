@@ -1,0 +1,12 @@
+C:\Users\golden\Desktop\cafiine532-v1.2-dump_files\cafiine532-v1.2-dump_files\cafiine\server\src\bin\Debug\cafiine_server.exe.config
+C:\Users\golden\Desktop\cafiine532-v1.2-dump_files\cafiine532-v1.2-dump_files\cafiine\server\src\bin\Debug\cafiine_server.exe
+C:\Users\golden\Desktop\cafiine532-v1.2-dump_files\cafiine532-v1.2-dump_files\cafiine\server\src\bin\Debug\cafiine_server.pdb
+C:\Users\golden\Desktop\cafiine532-v1.2-dump_files\cafiine532-v1.2-dump_files\cafiine\server\src\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\golden\Desktop\cafiine532-v1.2-dump_files\cafiine532-v1.2-dump_files\cafiine\server\src\obj\x86\Debug\cafiine_server.exe
+C:\Users\golden\Desktop\cafiine532-v1.2-dump_files\cafiine532-v1.2-dump_files\cafiine\server\src\obj\x86\Debug\cafiine_server.pdb
+C:\Users\golden\Desktop\supercafiine\src\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\golden\Desktop\supercafiine\src\bin\Debug\loadiine_server.exe.config
+C:\Users\golden\Desktop\supercafiine\src\bin\Debug\loadiine_server.exe
+C:\Users\golden\Desktop\supercafiine\src\bin\Debug\loadiine_server.pdb
+C:\Users\golden\Desktop\supercafiine\src\obj\x86\Debug\loadiine_server.exe
+C:\Users\golden\Desktop\supercafiine\src\obj\x86\Debug\loadiine_server.pdb
