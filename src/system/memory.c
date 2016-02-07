@@ -312,7 +312,7 @@ void GenerateMemoryAreaTable()
         { 0xB9030800, 0xB93F6A04 }, // 3864 kB
         { 0xB88EEC30, 0xB8B06E98 }, // 2144 kB
         { 0xB970200C, 0xB98B9C58 }, // 1759 kB
-        { 0xB8B06EC4, 0xB8B930C4 }, // 560
+        { 0xB8B06EC4, 0xB8B930C4 }, // 560 kB
 
         {0, 0}
     };

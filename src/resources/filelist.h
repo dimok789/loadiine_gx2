@@ -26,8 +26,8 @@ extern const u32 backButton_png_size;
 extern const u8 bgGridTile_png[];
 extern const u32 bgGridTile_png_size;
 
-extern const u8 bgMusic_mp3[];
-extern const u32 bgMusic_mp3_size;
+extern const u8 bgMusic_ogg[];
+extern const u32 bgMusic_ogg_size;
 
 extern const u8 button_click_mp3[];
 extern const u32 button_click_mp3_size;
@@ -44,8 +44,8 @@ extern const u32 creditsIconGlow_png_size;
 extern const u8 creditsIcon_png[];
 extern const u32 creditsIcon_png_size;
 
-extern const u8 credits_music_mp3[];
-extern const u32 credits_music_mp3_size;
+extern const u8 credits_music_ogg[];
+extern const u32 credits_music_ogg_size;
 
 extern const u8 emptyRoundButton_png[];
 extern const u32 emptyRoundButton_png_size;
@@ -147,13 +147,13 @@ static RecourceFile RecourceList[] =
 {
 	{"backButton.png", backButton_png, backButton_png_size, NULL, 0},
 	{"bgGridTile.png", bgGridTile_png, bgGridTile_png_size, NULL, 0},
-	{"bgMusic.mp3", bgMusic_mp3, bgMusic_mp3_size, NULL, 0},
+	{"bgMusic.ogg", bgMusic_ogg, bgMusic_ogg_size, NULL, 0},
 	{"button_click.mp3", button_click_mp3, button_click_mp3_size, NULL, 0},
 	{"choiceCheckedSquare.png", choiceCheckedSquare_png, choiceCheckedSquare_png_size, NULL, 0},
 	{"choiceUncheckedSquare.png", choiceUncheckedSquare_png, choiceUncheckedSquare_png_size, NULL, 0},
 	{"creditsIconGlow.png", creditsIconGlow_png, creditsIconGlow_png_size, NULL, 0},
 	{"creditsIcon.png", creditsIcon_png, creditsIcon_png_size, NULL, 0},
-	{"credits_music.mp3", credits_music_mp3, credits_music_mp3_size, NULL, 0},
+	{"credits_music.ogg", credits_music_ogg, credits_music_ogg_size, NULL, 0},
 	{"emptyRoundButton.png", emptyRoundButton_png, emptyRoundButton_png_size, NULL, 0},
 	{"font.ttf", font_ttf, font_ttf_size, NULL, 0},
 	{"game_click.mp3", game_click_mp3, game_click_mp3_size, NULL, 0},

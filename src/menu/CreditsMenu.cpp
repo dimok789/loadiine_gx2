@@ -19,7 +19,7 @@
 
 CreditsMenu::CreditsMenu(int w, int h, const std::string & title)
     : GuiFrame(w, h)
-    , creditsMusic(Resources::GetSound("credits_music.mp3"))
+    , creditsMusic(Resources::GetSound("credits_music.ogg"))
     , buttonClickSound(Resources::GetSound("settings_click_2.mp3"))
     , backImageData(Resources::GetImageData("backButton.png"))
     , backImage(backImageData)

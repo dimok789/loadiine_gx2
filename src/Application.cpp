@@ -39,7 +39,7 @@ Application::Application()
     //! create bgMusic
     if(CSettings::getValueAsString(CSettings::BgMusicPath).empty())
     {
-        bgMusic = new GuiSound(Resources::GetFile("bgMusic.mp3"), Resources::GetFileSize("bgMusic.mp3"));
+        bgMusic = new GuiSound(Resources::GetFile("bgMusic.ogg"), Resources::GetFileSize("bgMusic.ogg"));
     }
     else
     {
@@ -61,9 +61,10 @@ Application::~Application()
 
     delete bgMusic;
 
-	SoundHandler::DestroyInstance();
 	AsyncDeleter::destroyInstance();
     Resources::Clear();
+
+	SoundHandler::DestroyInstance();
 }
 
 void Application::exec()

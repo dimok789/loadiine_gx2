@@ -81,7 +81,6 @@ void SoundDecoder::Init()
 int SoundDecoder::Rewind()
 {
 	CurPos = 0;
-	whichLoad = 0;
 	EndOfFile = false;
 	file_fd->rewind();
 
@@ -207,7 +206,7 @@ void SoundDecoder::Decode()
 			done = done >> 1;
 
             for(int i = 0; i < done; i++)
-                monoBuf[i] = monoBuf[i * 2];
+                monoBuf[i] = monoBuf[i << 1];
 		}
 
         DCFlushRange(write_buf, done);

@@ -89,7 +89,7 @@ void SoundHandler::RemoveDecoder(int voice)
 
 	if(DecoderList[voice] != NULL)
     {
-        if(voiceList[voice]->getState() != Voice::STATE_STOPPED)
+        if(voiceList[voice] && voiceList[voice]->getState() != Voice::STATE_STOPPED)
         {
             if(voiceList[voice]->getState() != Voice::STATE_STOP)
                 voiceList[voice]->setState(Voice::STATE_STOP);
@@ -257,7 +257,10 @@ void SoundHandler::executeThread()
     AXQuit();
 
 	for(u32 i = 0; i < MAX_DECODERS; ++i)
+    {
         delete voiceList[i];
+        voiceList[i] = NULL;
+    }
 }
 
 void SoundHandler::axFrameCallback(void)

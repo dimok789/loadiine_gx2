@@ -144,8 +144,8 @@ public:
         posX = 2.0f * posX * getWidthScaleFactor();
         posY = 2.0f * posY * getHeightScaleFactor();
 
-        glm::vec4 rayStart(posX, posY, 0.0, 1.0f);
-        glm::vec4 rayEnd(posX, posY, 1.0, 1.0f);
+        glm::vec4 rayStart(posX, posY, 0.0f, 1.0f);
+        glm::vec4 rayEnd(posX, posY, 1.0f, 1.0f);
 
         glm::mat4 IMV = glm::inverse(projectionMtx * viewMtx);
         glm::vec4 rayStartWorld = IMV * rayStart;

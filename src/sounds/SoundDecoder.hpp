@@ -53,7 +53,7 @@ public:
 	virtual bool IsEOF() { return EndOfFile; }
 	virtual void SetLoop(bool l) { Loop = l; EndOfFile = false; }
 	virtual u8 GetSoundType() { return SoundType; }
-	virtual void ClearBuffer() { SoundBuffer.ClearBuffer(); }
+	virtual void ClearBuffer() { SoundBuffer.ClearBuffer(); whichLoad = 0; }
 	virtual bool IsStereo() { return (GetFormat() & CHANNELS_STEREO) != 0; }
 	virtual bool Is16Bit() { return ((GetFormat() & 0xFF) == FORMAT_PCM_16_BIT); }
 	virtual bool IsDecoding() { return Decoding; }

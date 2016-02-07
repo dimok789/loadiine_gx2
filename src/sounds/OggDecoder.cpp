@@ -28,32 +28,32 @@
 #include "dynamic_libs/os_functions.h"
 #include "OggDecoder.hpp"
 
-extern "C"  int ogg_read(void * punt, int bytes, int blocks, int *f)
+static int ogg_read(void * punt, int bytes, int blocks, int *f)
 {
 	return ((CFile *) f)->read((u8 *) punt, bytes*blocks);
 }
 
-extern "C" int ogg_seek(int *f, ogg_int64_t offset, int mode)
+static int ogg_seek(int *f, ogg_int64_t offset, int mode)
 {
 	return ((CFile *) f)->seek((u64) offset, mode);
 }
 
-extern "C" int ogg_close(int *f)
+static int ogg_close(int *f)
 {
 	((CFile *) f)->close();
 	return 0;
 }
 
-extern "C" long ogg_tell(int *f)
+static long ogg_tell(int *f)
 {
 	return (long) ((CFile *) f)->tell();
 }
 
 static ov_callbacks callbacks = {
-	(size_t (*)(void *, size_t, size_t, void *))  ogg_read,
-	(int (*)(void *, ogg_int64_t, int))		   ogg_seek,
-	(int (*)(void *))							 ogg_close,
-	(long (*)(void *))							ogg_tell
+	(size_t (*)(void *, size_t, size_t, void *))    ogg_read,
+	(int (*)(void *, ogg_int64_t, int))             ogg_seek,
+	(int (*)(void *))                               ogg_close,
+	(long (*)(void *))                              ogg_tell
 };
 
 OggDecoder::OggDecoder(const char * filepath)
