@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -77,14 +77,17 @@ namespace cafiine_server
 
         // Logs folder
         public static string logs_root = "logs";
+
+	// Port to listen on
+	public static short port = 7332; 
         
         static void Main(string[] args)
         {
             // Check if logs folder
             if (!Directory.Exists(logs_root))
             {
-                Console.Error.WriteLine("Logs directory `{0}' does not exist!", logs_root);
-                return;
+                Console.WriteLine("Logs directory '{0}' does not exist, creating it ...", logs_root);
+			Directory.CreateDirectory (logs_root);
             }
             // Delete logs
             System.IO.DirectoryInfo downloadedMessageInfo = new DirectoryInfo(logs_root);
@@ -97,9 +100,9 @@ namespace cafiine_server
             string name = "[listener]";
             try
             {
-                TcpListener listener = new TcpListener(IPAddress.Any, 7332);
+                TcpListener listener = new TcpListener(IPAddress.Any, port);
                 listener.Start();
-                Console.WriteLine(name + " Listening on 7332");
+                Console.WriteLine(name + " Listening on " + port);
 
                 int index = 0;
                 while (true)
@@ -144,7 +147,7 @@ namespace cafiine_server
                     Console.WriteLine(name + " Accepted connection from client " + client.Client.RemoteEndPoint.ToString());
 
                     // Create log file for current thread
-                    log = new StreamWriter(logs_root + "\\" + DateTime.Now.ToString("yyyy-MM-dd") + "-" + name + ".txt");
+		    log = new StreamWriter(Path.Combine(logs_root, DateTime.Now.ToString("yyyy-MM-dd") + "-" + name + ".txt"));
                     log.WriteLine(name + " Accepted connection from client " + client.Client.RemoteEndPoint.ToString());
 
                     writer.Write(BYTE_SPECIAL);
