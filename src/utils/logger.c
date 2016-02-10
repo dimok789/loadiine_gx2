@@ -8,6 +8,8 @@
 #include "dynamic_libs/socket_functions.h"
 #include "logger.h"
 
+#define LOADIINE_LOGGER_IP  "192.168.178.3"
+
 static int log_socket = 0;
 static volatile int log_lock = 0;
 
@@ -25,7 +27,7 @@ void log_init(void)
 	memset(&connect_addr, 0, sizeof(connect_addr));
 	connect_addr.sin_family = AF_INET;
 	connect_addr.sin_port = 4405;
-	inet_aton("192.168.178.3", &connect_addr.sin_addr);
+	inet_aton(LOADIINE_LOGGER_IP, &connect_addr.sin_addr);
 
 	if(connect(log_socket, (struct sockaddr*)&connect_addr, sizeof(connect_addr)) < 0)
 	{

@@ -1,0 +1,424 @@
+# depslib dependency file v1.0
+1279792267 source:c:\dokumente und einstellungen\dima\desktop\UdpDebugReader\source\network.c
+	<stdio.h>
+	<sys/types.h>
+	<stdlib.h>
+	<string.h>
+	<unistd.h>
+	<conio.h>
+	<conio.h>
+	<fcntl.h>
+	"network.h"
+
+1452177726 "
+
+1279792340 source:c:\dokumente und einstellungen\dima\desktop\UdpDebugReader\source\main.c
+	<stdio.h>
+	<stdlib.h>
+	<unistd.h>
+	"network.h"
+
+1279798227 source:/home/dima/Desktop/UdpDebugReader/source/main.c
+	<stdio.h>
+	<stdlib.h>
+	<unistd.h>
+	"Input.h"
+	"network.h"
+
+1279798084 /home/dima/Desktop/UdpDebugReader/source/network.h
+	"winsock/winsock.h"
+	<sys/types.h>
+	<sys/socket.h>
+	<netinet/in.h>
+
+1279798084 n.h>
+
+1279797916 source:/home/dima/Desktop/UdpDebugReader/source/network.c
+	<stdio.h>
+	<sys/types.h>
+	<stdlib.h>
+	<string.h>
+	<unistd.h>
+	<fcntl.h>
+	"network.h"
+
+1279798221 /home/dima/Desktop/UdpDebugReader/source/Input.h
+	<conio.h>
+	<termios.h>
+
+1445718391 >
+
+1279798252 source:/home/dima/Desktop/UdpDebugReader/source/Input.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Input.h"
+	<termios.h>
+
+1198764450 /home/dima/Desktop/UdpDebugReader/source/winsock/winsock.h
+	<windows.h>
+	<mswsock.h>
+
+1279798227 source:d:\UdpDebugReader\source\main.c
+	<stdio.h>
+	<stdlib.h>
+	<unistd.h>
+	"Input.h"
+	"network.h"
+
+1279799401 d:\UdpDebugReader\source\input.h
+	<conio.h>
+	<termios.h>
+
+1279799400 d:\UdpDebugReader\source\network.h
+	"winsock/winsock.h"
+	<sys/types.h>
+	<sys/socket.h>
+	<netinet/in.h>
+	<fcntl.h>
+
+1452177726 
+
+1198768050 d:\UdpDebugReader\source\winsock\winsock.h
+	<windows.h>
+	<mswsock.h>
+
+1279799399 source:d:\UdpDebugReader\source\network.c
+	<stdio.h>
+	<sys/types.h>
+	<stdlib.h>
+	<string.h>
+	<unistd.h>
+	"network.h"
+
+1279798252 source:d:\UdpDebugReader\source\input.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Input.h"
+	<termios.h>
+
+1291665385 source:d:\code\windowstools\UdpDebugReader\source\network.c
+	<stdio.h>
+	<sys/types.h>
+	<stdlib.h>
+	<string.h>
+	<unistd.h>
+	"network.h"
+
+1291665388 d:\code\windowstools\UdpDebugReader\source\network.h
+	"winsock/winsock.h"
+	<sys/types.h>
+	<sys/socket.h>
+	<netinet/in.h>
+	<fcntl.h>
+
+1198764450 d:\code\windowstools\UdpDebugReader\source\winsock\winsock.h
+	<windows.h>
+	<mswsock.h>
+
+1291665361 source:d:\code\windowstools\UdpDebugReader\source\input.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Input.h"
+	<termios.h>
+
+1291665378 d:\code\windowstools\UdpDebugReader\source\input.h
+	<conio.h>
+	<termios.h>
+
+1293478462 source:d:\code\windowstools\UdpDebugReader\source\main.c
+	<stdio.h>
+	<stdlib.h>
+	<unistd.h>
+	"Input.h"
+	"network.h"
+
+1325182250 source:/media/truecrypt1/code/LocalTrunk/Tools/UdpDebugReader/source/Input.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Input.h"
+	<termios.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Input.h"
+	<termios.h>
+
+1325182250 /media/truecrypt1/code/LocalTrunk/Tools/UdpDebugReader/source/Input.h
+	<conio.h>
+	<termios.h>
+	<conio.h>
+	<termios.h>
+
+1334304767 source:/media/truecrypt1/code/LocalTrunk/Tools/UdpDebugReader/source/main.c
+	<stdio.h>
+	<stdlib.h>
+	<unistd.h>
+	"Input.h"
+	"network.h"
+	<stdio.h>
+	<stdlib.h>
+	<unistd.h>
+	"Input.h"
+	"network.h"
+
+1334304019 /media/truecrypt1/code/LocalTrunk/Tools/UdpDebugReader/source/network.h
+	"winsock/winsock.h"
+	<sys/types.h>
+	<sys/socket.h>
+	<netinet/in.h>
+	<fcntl.h>
+	"winsock/winsock.h"
+	<sys/types.h>
+	<sys/socket.h>
+	<netinet/in.h>
+	<fcntl.h>
+
+1325182250 /media/truecrypt1/code/LocalTrunk/Tools/UdpDebugReader/source/winsock/winsock.h
+	<windows.h>
+	<mswsock.h>
+	<windows.h>
+	<mswsock.h>
+
+1334308770 source:/media/truecrypt1/code/LocalTrunk/Tools/UdpDebugReader/source/network.c
+	<stdio.h>
+	<sys/types.h>
+	<stdlib.h>
+	<string.h>
+	<unistd.h>
+	"network.h"
+	<stdio.h>
+	<sys/types.h>
+	<stdlib.h>
+	<string.h>
+	<unistd.h>
+	"network.h"
+
+1334910814 source:d:\code\localtrunk\tools\UdpDebugReader\source\main.c
+	<stdio.h>
+	<stdlib.h>
+	<unistd.h>
+	"Input.h"
+	"network.h"
+
+1334909941 d:\code\localtrunk\tools\UdpDebugReader\source\input.h
+	<conio.h>
+	<termios.h>
+
+1334910353 d:\code\localtrunk\tools\UdpDebugReader\source\network.h
+	"winsock/winsock.h"
+	<sys/types.h>
+	<sys/socket.h>
+	<netinet/in.h>
+	<fcntl.h>
+
+1325182250 d:\code\localtrunk\tools\UdpDebugReader\source\winsock\winsock.h
+	<windows.h>
+	<mswsock.h>
+
+1334910629 source:d:\code\localtrunk\tools\UdpDebugReader\source\network.c
+	<stdio.h>
+	<sys/types.h>
+	<stdlib.h>
+	<string.h>
+	<unistd.h>
+	"network.h"
+
+1334909938 source:d:\code\localtrunk\tools\UdpDebugReader\source\input.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Input.h"
+	<termios.h>
+
+1334909938 source:/media/truecrypt1/test/UdpDebugReader/source/Input.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Input.h"
+	<termios.h>
+
+1334909941 /media/truecrypt1/test/UdpDebugReader/source/Input.h
+	<conio.h>
+	<termios.h>
+
+1334910431 source:/media/truecrypt1/test/UdpDebugReader/source/main.c
+	<stdio.h>
+	<stdlib.h>
+	<unistd.h>
+	"Input.h"
+	"network.h"
+
+1334910353 /media/truecrypt1/test/UdpDebugReader/source/network.h
+	"winsock/winsock.h"
+	<sys/types.h>
+	<sys/socket.h>
+	<netinet/in.h>
+	<fcntl.h>
+
+1325182250 /media/truecrypt1/test/UdpDebugReader/source/winsock/winsock.h
+	<windows.h>
+	<mswsock.h>
+
+1334910629 source:/media/truecrypt1/test/UdpDebugReader/source/network.c
+	<stdio.h>
+	<sys/types.h>
+	<stdlib.h>
+	<string.h>
+	<unistd.h>
+	"network.h"
+
+1445714791 source:d:\code\UdpDebugReader\source\input.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Input.h"
+	<termios.h>
+
+1445714791 d:\code\UdpDebugReader\source\input.h
+	<conio.h>
+	<termios.h>
+
+1452177726 source:d:\code\UdpDebugReader\source\main.c
+	<stdio.h>
+	<stdlib.h>
+	<unistd.h>
+	"Input.h"
+	"network.h"
+
+1452177726 d:\code\UdpDebugReader\source\network.h
+	"winsock/winsock.h"
+	<sys/types.h>
+	<sys/socket.h>
+	<netinet/in.h>
+	<fcntl.h>
+
+1445714791 d:\code\UdpDebugReader\source\winsock\winsock.h
+	<windows.h>
+	<mswsock.h>
+
+1452177726 source:d:\code\UdpDebugReader\source\network.c
+	<stdio.h>
+	<sys/types.h>
+	<stdlib.h>
+	<string.h>
+	<unistd.h>
+	"network.h"
+
+1445714791 source:d:\loadiine_code\loadiine_gx2\udpdebugreader\source\input.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Input.h"
+	<termios.h>
+
+1445714791 d:\loadiine_code\loadiine_gx2\udpdebugreader\source\input.h
+	<conio.h>
+	<termios.h>
+
+1455123313 source:d:\loadiine_code\loadiine_gx2\udpdebugreader\source\network.c
+	<stdio.h>
+	<sys/types.h>
+	<stdlib.h>
+	<string.h>
+	<unistd.h>
+	"network.h"
+
+1452177726 d:\loadiine_code\loadiine_gx2\udpdebugreader\source\network.h
+	"winsock/winsock.h"
+	<sys/types.h>
+	<sys/socket.h>
+	<netinet/in.h>
+	<fcntl.h>
+
+1445714791 d:\loadiine_code\loadiine_gx2\udpdebugreader\source\winsock\winsock.h
+	<windows.h>
+	<mswsock.h>
+
+1455123353 source:d:\loadiine_code\loadiine_gx2\udpdebugreader\source\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<unistd.h>
+	"Input.h"
+	"network.h"
+
+1445718391 source:/media/harddisk1/loadiine_code/loadiine_gx2/UdpDebugReader/source/Input.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Input.h"
+	<termios.h>
+
+1445718391 /media/harddisk1/loadiine_code/loadiine_gx2/UdpDebugReader/source/Input.h
+	<conio.h>
+	<termios.h>
+
+1455123087 source:/media/harddisk1/loadiine_code/loadiine_gx2/UdpDebugReader/source/main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<unistd.h>
+	"Input.h"
+	"network.h"
+
+1452177726 /media/harddisk1/loadiine_code/loadiine_gx2/UdpDebugReader/source/network.h
+	"winsock/winsock.h"
+	<sys/types.h>
+	<sys/socket.h>
+	<netinet/in.h>
+	<fcntl.h>
+
+1445718391 /media/harddisk1/loadiine_code/loadiine_gx2/UdpDebugReader/source/winsock/winsock.h
+	<windows.h>
+	<mswsock.h>
+
+1452177726 source:/media/harddisk1/loadiine_code/loadiine_gx2/UdpDebugReader/source/network.c
+	<stdio.h>
+	<sys/types.h>
+	<stdlib.h>
+	<string.h>
+	<unistd.h>
+	"network.h"
+
+1445718391 source:/media/harddisk1/loadiine_code/loadiine_gx2/UdpDebugReader/source/Input.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Input.h"
+	<termios.h>
+
+1445718391 /media/harddisk1/loadiine_code/loadiine_gx2/UdpDebugReader/source/Input.h
+	<conio.h>
+	<termios.h>
+
+1455123353 source:/media/harddisk1/loadiine_code/loadiine_gx2/UdpDebugReader/source/main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<unistd.h>
+	"Input.h"
+	"network.h"
+
+1452177726 /media/harddisk1/loadiine_code/loadiine_gx2/UdpDebugReader/source/network.h
+	"winsock/winsock.h"
+	<sys/types.h>
+	<sys/socket.h>
+	<netinet/in.h>
+	<fcntl.h>
+
+1445718391 /media/harddisk1/loadiine_code/loadiine_gx2/UdpDebugReader/source/winsock/winsock.h
+	<windows.h>
+	<mswsock.h>
+
+1455123550 source:/media/harddisk1/loadiine_code/loadiine_gx2/UdpDebugReader/source/network.c
+	<stdio.h>
+	<sys/types.h>
+	<stdlib.h>
+	<string.h>
+	<unistd.h>
+	"network.h"
+

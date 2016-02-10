@@ -9,3 +9,4 @@
 /loader/*.elf
 /sd_loader/build
 /sd_loader/*.elf
+/UdpDebugReader/obj
