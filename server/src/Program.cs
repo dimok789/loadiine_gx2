@@ -78,8 +78,8 @@ namespace cafiine_server
         // Logs folder
         public static string logs_root = "logs";
 
-		// Port to listen on
-		public static short port = 7332; 
+	// Port to listen on
+	public static short port = 7332; 
         
         static void Main(string[] args)
         {
@@ -87,7 +87,7 @@ namespace cafiine_server
             if (!Directory.Exists(logs_root))
             {
                 Console.WriteLine("Logs directory '{0}' does not exist, creating it ...", logs_root);
-				Directory.CreateDirectory (logs_root);
+			Directory.CreateDirectory (logs_root);
             }
             // Delete logs
             System.IO.DirectoryInfo downloadedMessageInfo = new DirectoryInfo(logs_root);
@@ -147,7 +147,7 @@ namespace cafiine_server
                     Console.WriteLine(name + " Accepted connection from client " + client.Client.RemoteEndPoint.ToString());
 
                     // Create log file for current thread
-					log = new StreamWriter(Path.Combine(logs_root, DateTime.Now.ToString("yyyy-MM-dd") + "-" + name + ".txt"));
+		    log = new StreamWriter(Path.Combine(logs_root, DateTime.Now.ToString("yyyy-MM-dd") + "-" + name + ".txt"));
                     log.WriteLine(name + " Accepted connection from client " + client.Client.RemoteEndPoint.ToString());
 
                     writer.Write(BYTE_SPECIAL);
