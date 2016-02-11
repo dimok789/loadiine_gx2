@@ -18,7 +18,7 @@
 #define __GUI_H
 
 #include "GuiElement.h"
-#include "GuiImagedata.h"
+#include "GuiImageData.h"
 #include "GuiImage.h"
 #include "GuiFrame.h"
 #include "GuiController.h"

@@ -17,7 +17,7 @@
 #ifndef _SETTINGS_CATEGORY_WINDOW_H_
 #define _SETTINGS_CATEGORY_WINDOW_H_
 
-#include "gui/gui.h"
+#include "gui/Gui.h"
 #include "settings/SettingsDefs.h"
 
 class SettingsCategoryMenu : public GuiFrame, public sigslot::has_slots<>
