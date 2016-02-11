@@ -107,7 +107,7 @@ SettingsMenu::SettingsMenu(int w, int h)
     currentPosition = 0;
     targetPosition = 0;
     selectedCategory = 0;
-    animationSpeed = 25;
+    animationSpeed = 45;
     bUpdatePositions = true;
 
     closeButton.setImage(&closeImage);
@@ -381,9 +381,22 @@ void SettingsMenu::OnSmallIconClick(GuiButton *button, const GuiController *cont
     for(u32 i = 0; i < categorySmallButtons.size(); ++i)
     {
         if(button == categorySmallButtons[i])
-        {
+        {       
+            int distance = i - selectedCategory;
+            
+            animationSpeed = 75;
+            
+            if(distance > 2 || distance < -2)
+            {
+                animationSpeed = 180;
+            }
+            else if(distance > 1 || distance < -1)
+            {
+                animationSpeed = 125;
+            }
+
             setTargetPosition(i);
-            animationSpeed = 35;
+
             break;
         }
     }
@@ -395,7 +408,7 @@ void SettingsMenu::OnCategoryRightClick(GuiButton *button, const GuiController *
     {
         selectedCategory++;
         setTargetPosition(selectedCategory);
-        animationSpeed = 25;
+        animationSpeed = 75;
     }
 }
 
@@ -405,7 +418,7 @@ void SettingsMenu::OnCategoryLeftClick(GuiButton *button, const GuiController *c
     {
         selectedCategory--;
         setTargetPosition(selectedCategory);
-        animationSpeed = 25;
+        animationSpeed = 75;
     }
 }
 
