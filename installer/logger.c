@@ -23,7 +23,7 @@ void log_init(void)
 	memset(&connect_addr, 0, sizeof(connect_addr));
 	connect_addr.sin_family = AF_INET;
 	connect_addr.sin_port = 4405;
-	inet_aton("192.168.0.44", &connect_addr.sin_addr);
+	inet_aton("192.168.2.156", &connect_addr.sin_addr);
 
 	if(connect(log_socket, (struct sockaddr*)&connect_addr, sizeof(connect_addr)) < 0)
 	{
