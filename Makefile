@@ -141,7 +141,7 @@ $(BUILD):
 #COPY TO SERVER
 	
 	@echo "Uploading to http://test.loadiine.scuba156.com..." 
-	@cp $(OUTPUT).elf u:/
+	@cp $(BUILD_DBG).elf u:/
 	@echo "done."
 
 #---------------------------------------------------------------------------------
