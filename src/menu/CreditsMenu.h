@@ -17,7 +17,7 @@
 #ifndef _CREDITS_MENU_H_
 #define _CREDITS_MENU_H_
 
-#include "gui/gui.h"
+#include "gui/Gui.h"
 
 class CreditsMenu : public GuiFrame, public sigslot::has_slots<>
 {

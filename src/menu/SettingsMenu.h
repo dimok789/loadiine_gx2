@@ -17,7 +17,7 @@
 #ifndef _SETTINGS_WINDOW_H_
 #define _SETTINGS_WINDOW_H_
 
-#include "gui/gui.h"
+#include "gui/Gui.h"
 #include "gui/GuiParticleImage.h"
 
 class SettingsMenu : public GuiFrame, public sigslot::has_slots<>

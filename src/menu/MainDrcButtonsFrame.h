@@ -17,7 +17,7 @@
 #ifndef _MAIN_DRC_BUTTONS_FRAME_H_
 #define _MAIN_DRC_BUTTONS_FRAME_H_
 
-#include "gui/gui.h"
+#include "gui/Gui.h"
 #include "resources/Resources.h"
 
 class MainDrcButtonsFrame : public GuiFrame, public sigslot::has_slots<>

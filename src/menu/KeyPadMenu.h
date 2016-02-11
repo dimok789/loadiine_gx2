@@ -17,7 +17,7 @@
 #ifndef _KEY_PAD_MENU_H_
 #define _KEY_PAD_MENU_H_
 
-#include "gui/gui.h"
+#include "gui/Gui.h"
 #include "settings/SettingsDefs.h"
 
 class KeyPadMenu : public GuiFrame, public sigslot::has_slots<>
