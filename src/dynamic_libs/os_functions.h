@@ -46,9 +46,7 @@ extern "C" {
 #define EXPORT_VAR(type, var)           type var __attribute__((section(".data")));
 
 
-#define EXPORT_FUNC_WRITE(func, val)    *(u32*)(((u32)&func) + 0) = (u32)val;               \
-                                        FLUSH_DATA_BLOCK((((u32)&func) + 0));
-
+#define EXPORT_FUNC_WRITE(func, val)    *(u32*)(((u32)&func) + 0) = (u32)val
 
 #define OS_FIND_EXPORT(handle, func)    funcPointer = 0;                                                                \
                                         OSDynLoad_FindExport(handle, 0, # func, &funcPointer);                          \
@@ -56,6 +54,12 @@ extern "C" {
                                             OSFatal("Function " # func " is NULL");                                     \
                                         EXPORT_FUNC_WRITE(func, funcPointer);
 
+#define OS_FIND_EXPORT_EX(handle, func, func_p)                                                                         \
+                                        funcPointer = 0;                                                                \
+                                        OSDynLoad_FindExport(handle, 0, # func, &funcPointer);                          \
+                                        if(!funcPointer)                                                                \
+                                            OSFatal("Function " # func " is NULL");                                     \
+                                        EXPORT_FUNC_WRITE(func_p, funcPointer);
 
 #define OS_MUTEX_SIZE                   44
 

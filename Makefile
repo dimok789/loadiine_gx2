@@ -36,6 +36,7 @@ SOURCES		:=	src \
 				src/kernel \
 				src/loader \
 				src/menu \
+				src/network \
 				src/patcher \
 				src/resources \
 				src/settings \

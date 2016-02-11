@@ -144,6 +144,16 @@ void __main(void)
         );
     }
 
+    /* Install our code now */
+    InstallMain(&private_data);
+
+    /* setup our own syscall and call it */
+    SetupKernelSyscall((unsigned int)KernelPatches);
+    Syscall_0x36();
+
+    /* Patch functions and our code for usage */
+    InstallPatches(&private_data);
+
     /* Free thread memory and stack */
     private_data.MEMFreeToDefaultHeap(thread);
     private_data.MEMFreeToDefaultHeap(stack);
@@ -364,16 +374,6 @@ static void curl_thread_callback(int argc, void *argv)
     OSDynLoad_FindExport(sysapp_handle, 0, "_SYSLaunchMiiStudio", &_SYSLaunchMiiStudio);
 
     _SYSLaunchMiiStudio();
-
-    /* Install our code now */
-    InstallMain(private_data);
-
-    /* setup our own syscall and call it */
-    SetupKernelSyscall((unsigned int)KernelPatches);
-    Syscall_0x36();
-
-    /* Patch functions and our code for usage */
-    InstallPatches(private_data);
 }
 
 static int strcmp(const char *s1, const char *s2)

@@ -19,6 +19,7 @@
 #include <math.h>
 #include <sstream>
 #include <unistd.h>
+#include "settings/CSettings.h"
 #include "GuiGameCarousel.h"
 #include "GuiImageAsync.h"
 #include "common/common.h"
@@ -176,11 +177,7 @@ void GuiGameCarousel::refresh()
 		//------------------------
 		delete coverImg[i];
 
-		std::string filepath;
-        filepath += "sd:";
-        filepath += SD_LOADIINE_PATH;
-        filepath += "/apps/loadiine_gx2/covers3d/";
-        filepath += GameList::instance()->at(i)->id + ".png";
+		std::string filepath = CSettings::getValueAsString(CSettings::GameCover3DPath) + "/" + GameList::instance()->at(i)->id + ".png";
 
 		coverImg[i] = new GuiImageAsync(filepath, &noCover);
 

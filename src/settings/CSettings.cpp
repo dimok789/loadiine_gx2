@@ -96,6 +96,14 @@ void CSettings::SetDefault()
     settingsNames[BgMusicPath] = "BgMusicPath";
     settingsValues[BgMusicPath].dataType = TypeString;
     settingsValues[BgMusicPath].strValue = new std::string();
+
+    settingsNames[GameCover3DPath] = "GameCover3DPath";
+    settingsValues[GameCover3DPath].dataType = TypeString;
+    settingsValues[GameCover3DPath].strValue = new std::string(SD_PATH SD_LOADIINE_PATH "/apps/loadiine_gx2/covers3d");
+
+    settingsNames[ConsoleRegionCode] = "ConsoleRegionCode";
+    settingsValues[ConsoleRegionCode].dataType = TypeString;
+    settingsValues[ConsoleRegionCode].strValue = new std::string("EN");
 }
 
 bool CSettings::Load()

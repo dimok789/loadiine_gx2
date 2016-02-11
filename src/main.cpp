@@ -6,6 +6,7 @@
 #include "dynamic_libs/sys_functions.h"
 #include "dynamic_libs/vpad_functions.h"
 #include "dynamic_libs/socket_functions.h"
+#include "dynamic_libs/curl_functions.h"
 #include "dynamic_libs/ax_functions.h"
 #include "patcher/function_hooks.h"
 #include "fs/fs_utils.h"
@@ -37,6 +38,7 @@ extern "C" int Menu_Main(void)
     InitSysFunctionPointers();
     InitVPadFunctionPointers();
     InitAXFunctionPointers();
+    InitCurlFunctionPointers();
 
     log_print("Function exports loaded\n");
 

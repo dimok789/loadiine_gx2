@@ -23,6 +23,7 @@
 #include "gui/GuiGameBrowser.h"
 #include "game/GameList.h"
 #include "MainDrcButtonsFrame.h"
+#include "network/GameImageDownloader.h"
 
 class CVideo;
 
@@ -131,6 +132,9 @@ private:
     void OnSettingsQuit(GuiElement *element);
 
     void OnGameLoadFinish(const discHeader *diskHeader, int result);
+
+    void OnImageDownloadClicked(GuiElement *element);
+    void OnImageDownloadFinish(GameImageDownloader *downloader, int fileLeft);
 
     int width, height;
     std::vector<GuiElement *> drcElements;

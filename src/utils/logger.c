@@ -53,7 +53,8 @@ void log_print(const char *str)
     int len = strlen(str);
     int ret;
     while (len > 0) {
-        ret = send(log_socket, str, len, 0);
+        int block = len < 1400 ? len : 1400; // take max 1400 bytes per UDP packet
+        ret = send(log_socket, str, block, 0);
         if(ret < 0)
             break;
 

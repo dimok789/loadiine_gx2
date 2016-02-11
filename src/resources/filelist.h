@@ -1,7 +1,7 @@
 /****************************************************************************
  * Loadiine resource files.
  * This file is generated automatically.
- * Includes 41 files.
+ * Includes 44 files.
  *
  * NOTE:
  * Any manual modification of this file will be overwriten by the generation.
@@ -116,6 +116,9 @@ extern const u32 noCover_png_size;
 extern const u8 noGameIcon_png[];
 extern const u32 noGameIcon_png_size;
 
+extern const u8 progressWindow_png[];
+extern const u32 progressWindow_png_size;
+
 extern const u8 quitButton_png[];
 extern const u32 quitButton_png_size;
 
@@ -124,6 +127,12 @@ extern const u32 rightArrow_png_size;
 
 extern const u8 screenSwitchSound_mp3[];
 extern const u32 screenSwitchSound_mp3_size;
+
+extern const u8 scrollbarButton_png[];
+extern const u32 scrollbarButton_png_size;
+
+extern const u8 scrollbarLine_png[];
+extern const u32 scrollbarLine_png_size;
 
 extern const u8 settingButton_png[];
 extern const u32 settingButton_png_size;
@@ -177,9 +186,12 @@ static RecourceFile RecourceList[] =
 	{"loaderSettingsIcon.png", loaderSettingsIcon_png, loaderSettingsIcon_png_size, NULL, 0},
 	{"noCover.png", noCover_png, noCover_png_size, NULL, 0},
 	{"noGameIcon.png", noGameIcon_png, noGameIcon_png_size, NULL, 0},
+	{"progressWindow.png", progressWindow_png, progressWindow_png_size, NULL, 0},
 	{"quitButton.png", quitButton_png, quitButton_png_size, NULL, 0},
 	{"rightArrow.png", rightArrow_png, rightArrow_png_size, NULL, 0},
 	{"screenSwitchSound.mp3", screenSwitchSound_mp3, screenSwitchSound_mp3_size, NULL, 0},
+	{"scrollbarButton.png", scrollbarButton_png, scrollbarButton_png_size, NULL, 0},
+	{"scrollbarLine.png", scrollbarLine_png, scrollbarLine_png_size, NULL, 0},
 	{"settingButton.png", settingButton_png, settingButton_png_size, NULL, 0},
 	{"settingsButton.png", settingsButton_png, settingsButton_png_size, NULL, 0},
 	{"settingsCategoryBg.png", settingsCategoryBg_png, settingsCategoryBg_png_size, NULL, 0},

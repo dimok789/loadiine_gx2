@@ -192,6 +192,7 @@ void MainWindow::SetupMainView()
     mainSwitchButtonFrame = new MainDrcButtonsFrame(width, height);
     mainSwitchButtonFrame->settingsButtonClicked.connect(this, &MainWindow::OnSettingsButtonClicked);
     mainSwitchButtonFrame->layoutSwitchClicked.connect(this, &MainWindow::OnLayoutSwitchClicked);
+    mainSwitchButtonFrame->gameImageDownloadClicked.connect(this, &MainWindow::OnImageDownloadClicked);
     mainSwitchButtonFrame->setState(GuiElement::STATE_DISABLED);
     mainSwitchButtonFrame->setEffect(EFFECT_FADE, 10, 255);
     mainSwitchButtonFrame->setState(GuiElement::STATE_DISABLED);
@@ -373,4 +374,33 @@ void MainWindow::OnGameSelectionChange(GuiGameBrowser *element, int selectedIdx)
 
     if(element == currentDrcFrame && currentDrcFrame != currentTvFrame)
         currentTvFrame->setSelectedGame(selectedIdx);
+}
+
+void MainWindow::OnImageDownloadClicked(GuiElement *element)
+{
+    mainSwitchButtonFrame->setState(GuiElement::STATE_DISABLED);
+    if(currentTvFrame)
+        currentTvFrame->setState(GuiElement::STATE_DISABLED);
+    if(currentDrcFrame)
+        currentDrcFrame->setState(GuiElement::STATE_DISABLED);
+
+    GameImageDownloader *downloader = new GameImageDownloader();
+    downloader->setEffect(EFFECT_FADE, 15, 255);
+    downloader->effectFinished.connect(this, &MainWindow::OnOpenEffectFinish);
+    downloader->asyncLoadFinished.connect(this, &MainWindow::OnImageDownloadFinish);
+    downloader->startDownloading();
+    append(downloader);
+}
+
+void MainWindow::OnImageDownloadFinish(GameImageDownloader *downloader, int fileLeft)
+{
+    mainSwitchButtonFrame->resetState();
+    if(currentTvFrame)
+        currentTvFrame->resetState();
+    if(currentDrcFrame)
+        currentDrcFrame->resetState();
+
+    downloader->setState(GuiElement::STATE_DISABLED);
+    downloader->setEffect(EFFECT_FADE, -15, 0);
+    downloader->effectFinished.connect(this, &MainWindow::OnCloseEffectFinish);
 }

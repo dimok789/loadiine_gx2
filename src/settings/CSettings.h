@@ -74,6 +74,8 @@ public:
         GameLogServerIp,
         GameSaveMode,
         BgMusicPath,
+        GameCover3DPath,
+        ConsoleRegionCode,
         MAX_VALUE
     };
 
