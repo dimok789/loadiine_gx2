@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-#define LOADIINE_VERSION        "v0.1"
+#define LOADIINE_VERSION        "v0.1 [scuba156 test build]"
 #define IS_USING_MII_MAKER      1
 
 /* Loadiine common paths */
