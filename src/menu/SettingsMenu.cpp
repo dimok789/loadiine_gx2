@@ -91,11 +91,11 @@ SettingsMenu::SettingsMenu(int w, int h)
     , categorySelectionFrame(w, h)
     , particleBgImage(w, h, 50)
     , buttonClickSound(Resources::GetSound("settings_click_2.mp3"))
-    , quitImageData(Resources::GetImageData("quitButton.png"))
+    , closeImageData(Resources::GetImageData("backButton.png"))
     , categoryImageData(Resources::GetImageData("settingsCategoryButton.png"))
     , categoryBgImageData(Resources::GetImageData("settingsCategoryBg.png"))
-    , quitImage(quitImageData)
-    , quitButton(quitImage.getWidth(), quitImage.getHeight())
+    , closeImage(closeImageData)
+    , closeButton(closeImage.getWidth(), closeImage.getHeight())
     , touchTrigger(GuiTrigger::CHANNEL_1, GuiTrigger::VPAD_TOUCH)
     , leftArrowImageData(Resources::GetImageData("leftArrow.png"))
     , rightArrowImageData(Resources::GetImageData("rightArrow.png"))
@@ -107,16 +107,16 @@ SettingsMenu::SettingsMenu(int w, int h)
     currentPosition = 0;
     targetPosition = 0;
     selectedCategory = 0;
-    animationSpeed = 25;
+    animationSpeed = 45;
     bUpdatePositions = true;
 
-    quitButton.setImage(&quitImage);
-    quitButton.setAlignment(ALIGN_BOTTOM | ALIGN_LEFT);
-    quitButton.clicked.connect(this, &SettingsMenu::OnQuitButtonClick);
-    quitButton.setTrigger(&touchTrigger);
-    quitButton.setEffectGrow();
-    quitButton.setSoundClick(buttonClickSound);
-    categorySelectionFrame.append(&quitButton);
+    closeButton.setImage(&closeImage);
+    closeButton.setAlignment(ALIGN_BOTTOM | ALIGN_LEFT);
+    closeButton.clicked.connect(this, &SettingsMenu::OnCloseButtonClick);
+    closeButton.setTrigger(&touchTrigger);
+    closeButton.setEffectGrow();
+    closeButton.setSoundClick(buttonClickSound);
+    categorySelectionFrame.append(&closeButton);
 
     versionText.setColor(glm::vec4(0.6f, 0.6f, 0.6f, 1.0f));
     versionText.setFontSize(42);
@@ -238,7 +238,7 @@ SettingsMenu::~SettingsMenu()
         delete categorySmallImagesOver[i];
         delete categorySmallButtons[i];
     }
-    Resources::RemoveImageData(quitImageData);
+    Resources::RemoveImageData(closeImageData);
     Resources::RemoveImageData(categoryImageData);
     Resources::RemoveImageData(categoryBgImageData);
     Resources::RemoveImageData(leftArrowImageData);
@@ -281,12 +281,12 @@ void SettingsMenu::setTargetPosition(int selectedIdx)
     }
 }
 
-void SettingsMenu::OnSubMenuCloseClicked(GuiElement *element)
+void SettingsMenu::OnSubMenuBackClicked(GuiElement *element)
 {
     //! disable element for triggering buttons again
     element->setState(GuiElement::STATE_DISABLED);
     element->setEffect(EFFECT_FADE, -10, 0);
-    element->effectFinished.connect(this, &SettingsMenu::OnSubMenuCloseEffectFinish);
+    element->effectFinished.connect(this, &SettingsMenu::OnSubMenuBackEffectFinish);
 
     //! fade in category selection
     categorySelectionFrame.setEffect(EFFECT_FADE, 10, 255);
@@ -302,7 +302,7 @@ void SettingsMenu::OnSubMenuOpenEffectFinish(GuiElement *element)
     remove(&categorySelectionFrame);
 }
 
-void SettingsMenu::OnSubMenuCloseEffectFinish(GuiElement *element)
+void SettingsMenu::OnSubMenuBackEffectFinish(GuiElement *element)
 {
     remove(element);
     AsyncDeleter::pushForDelete(element);
@@ -348,7 +348,7 @@ void SettingsMenu::OnCategoryClick(GuiButton *button, const GuiController *contr
         menu->setEffect(EFFECT_FADE, 10, 255);
         menu->setState(STATE_DISABLED);
         menu->effectFinished.connect(this, &SettingsMenu::OnSubMenuOpenEffectFinish);
-        menu->settingsBackClicked.connect(this, &SettingsMenu::OnSubMenuCloseClicked);
+        menu->settingsBackClicked.connect(this, &SettingsMenu::OnSubMenuBackClicked);
 
         //! disable all current elements and fade them out with fading in new menu
         categorySelectionFrame.setState(STATE_DISABLED);
@@ -366,7 +366,7 @@ void SettingsMenu::OnCategoryClick(GuiButton *button, const GuiController *contr
     menu->setEffect(EFFECT_FADE, 10, 255);
     menu->setState(STATE_DISABLED);
     menu->effectFinished.connect(this, &SettingsMenu::OnSubMenuOpenEffectFinish);
-    menu->settingsBackClicked.connect(this, &SettingsMenu::OnSubMenuCloseClicked);
+    menu->settingsBackClicked.connect(this, &SettingsMenu::OnSubMenuBackClicked);
 
     //! disable all current elements and fade them out with fading in new menu
     categorySelectionFrame.setState(STATE_DISABLED);
@@ -381,9 +381,22 @@ void SettingsMenu::OnSmallIconClick(GuiButton *button, const GuiController *cont
     for(u32 i = 0; i < categorySmallButtons.size(); ++i)
     {
         if(button == categorySmallButtons[i])
-        {
+        {       
+            int distance = i - selectedCategory;
+            
+            animationSpeed = 75;
+            
+            if(distance > 2 || distance < -2)
+            {
+                animationSpeed = 180;
+            }
+            else if(distance > 1 || distance < -1)
+            {
+                animationSpeed = 125;
+            }
+
             setTargetPosition(i);
-            animationSpeed = 35;
+
             break;
         }
     }
@@ -395,7 +408,7 @@ void SettingsMenu::OnCategoryRightClick(GuiButton *button, const GuiController *
     {
         selectedCategory++;
         setTargetPosition(selectedCategory);
-        animationSpeed = 25;
+        animationSpeed = 75;
     }
 }
 
@@ -405,7 +418,7 @@ void SettingsMenu::OnCategoryLeftClick(GuiButton *button, const GuiController *c
     {
         selectedCategory--;
         setTargetPosition(selectedCategory);
-        animationSpeed = 25;
+        animationSpeed = 75;
     }
 }
 

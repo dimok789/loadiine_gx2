@@ -137,6 +137,12 @@ export OUTPUT	:=	$(CURDIR)/$(TARGET)
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
+		
+#COPY TO SERVER
+	
+	@echo "Uploading to http://test.loadiine.scuba156.com..." 
+	@cp $(BUILD_DBG).elf u:/$(TARGET).elf
+	@echo "done."
 
 #---------------------------------------------------------------------------------
 clean:

@@ -17,7 +17,7 @@
 #ifndef _SETTINGS_WINDOW_H_
 #define _SETTINGS_WINDOW_H_
 
-#include "gui/gui.h"
+#include "gui/Gui.h"
 #include "gui/GuiParticleImage.h"
 
 class SettingsMenu : public GuiFrame, public sigslot::has_slots<>
@@ -28,21 +28,21 @@ public:
 
     void update(GuiController *c);
 
-    sigslot::signal1<GuiElement *> settingsQuitClicked;
+    sigslot::signal1<GuiElement *> settingsCloseClicked;
 private:
     void OnSmallIconClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
     void OnCategoryLeftClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
     void OnCategoryRightClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
     void OnCategoryClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
 
-    void OnQuitButtonClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
+    void OnCloseButtonClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
     {
-        settingsQuitClicked(this);
+        settingsCloseClicked(this);
     }
 
-    void OnSubMenuCloseClicked(GuiElement *element);
+    void OnSubMenuBackClicked(GuiElement *element);
     void OnSubMenuOpenEffectFinish(GuiElement *element);
-    void OnSubMenuCloseEffectFinish(GuiElement *element);
+    void OnSubMenuBackEffectFinish(GuiElement *element);
 
     void setTargetPosition(int selectedIdx);
 
@@ -52,12 +52,12 @@ private:
 
     GuiSound *buttonClickSound;
 
-    GuiImageData *quitImageData;
+    GuiImageData *closeImageData;
     GuiImageData *categoryImageData;
     GuiImageData *categoryBgImageData;
 
 
-    GuiImage quitImage;
+    GuiImage closeImage;
 
     typedef struct
     {
@@ -79,7 +79,7 @@ private:
     std::vector<GuiImage *> categorySmallImagesOver;
     std::vector<GuiImage *> categorySmallImages;
 
-    GuiButton quitButton;
+    GuiButton closeButton;
 
     GuiTrigger touchTrigger;
 

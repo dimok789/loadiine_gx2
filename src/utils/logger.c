@@ -8,7 +8,7 @@
 #include "dynamic_libs/socket_functions.h"
 #include "logger.h"
 
-#define LOADIINE_LOGGER_IP  "192.168.178.3"
+#define LOADIINE_LOGGER_IP  "192.168.2.156"
 
 static int log_socket = 0;
 static volatile int log_lock = 0;

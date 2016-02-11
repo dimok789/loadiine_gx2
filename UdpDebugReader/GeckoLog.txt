@@ -1,0 +1,643 @@
+Main application stopped
+Unmount SD
+Release memory
+Loadiine peace out...
+Starting Loadiine GX2 v0.1 [scuba156 test build]
+Function exports loaded
+Initialize memory management
+Patch FS and loader functions
+Mount SD partition
+Start main application
+Loading game list
+Initialize video
+Video size 1280 x 720
+Initialize main font system
+Initialize main window
+Entering main loop
+Distance is: -3422
+Animation Speed is:
+Distance is: -2283
+Animation Speed is:
+Distance is: -3422
+Animation Speed is:
+Distance is: -2280
+Animation Speed is:
+Distance is: -3
+Animation Speed is:
+Distance is: -3420
+Animation Speed is:
+Distance is: -3
+Animation Speed is:
+Distance is: -3423
+Animation Speed is:
+Distance is: -3423
+Animation Speed is:
+Distance is: -3422
+Animation Speed is:
+Distance is: -2283
+Animation Speed is:
+Distance is: -3422
+Animation Speed is:
+Distance is: -2281
+Animation Speed is:
+Distance is: -1140
+Animation Speed is:
+Main application stopped
+Unmount SD
+Release memory
+Loadiine peace out...
+Starting Loadiine GX2 v0.1 [scuba156 test build]
+Function exports loaded
+Initialize memory management
+Patch FS and loader functions
+Mount SD partition
+Start main application
+Loading game list
+Initialize video
+Video size 1280 x 720
+Initialize main font system
+Initialize main window
+Entering main loop
+Current:0 Selected:1Distance is: -1
+Animation Speed is: 75
+Current:-1140 Selected:0Distance is: -1140
+Animation Speed is: 180
+Animation Speed is: 75
+Current:-1140 Selected:0Distance is: -1140
+Animation Speed is: 180
+Current:0 Selected:1Distance is: -1
+Animation Speed is: 75
+Current:-1140 Selected:2Distance is: -1142
+Animation Speed is: 180
+Current:-2280 Selected:1Distance is: -2281
+Animation Speed is: 180
+Current:-1140 Selected:2Distance is: -1142
+Animation Speed is: 180
+Current:-2280 Selected:1Distance is: -2281
+Animation Speed is: 180
+Current:-1140 Selected:2Distance is: -1142
+Animation Speed is: 180
+Current:-2280 Selected:1Distance is: -2281
+Animation Speed is: 180
+Current:-1140 Selected:2Distance is: -1142
+Animation Speed is: 180
+Current:-2280 Selected:1Distance is: -2281
+Animation Speed is: 180
+Current:-1140 Selected:3Distance is: -1143
+Animation Speed is: 180
+Current:-3420 Selected:0Distance is: -3420
+Animation Speed is: 180
+Current:0 Selected:3Distance is: -3
+Animation Speed is: 180
+Current:-3420 Selected:1Distance is: -3421
+Animation Speed is: 180
+Current:-1140 Selected:2Distance is: -1142
+Animation Speed is: 180
+Current:-2280 Selected:0Distance is: -2280
+Animation Speed is: 180
+Current:0 Selected:1Distance is: -1
+Animation Speed is: 75
+Current:-1140 Selected:0Distance is: -1140
+Animation Speed is: 180
+Current:0 Selected:1Distance is: -1
+Animation Speed is: 75
+Current:-1140 Selected:0Distance is: -1140
+Animation Speed is: 180
+Current:0 Selected:1Distance is: -1
+Animation Speed is: 75
+Current:-1140 Selected:2Distance is: -1142
+Animation Speed is: 180
+Current:-2280 Selected:3Distance is: -2283
+Animation Speed is: 180
+Current:-3420 Selected:2Distance is: -3422
+Animation Speed is: 180
+Current:-2280 Selected:1Distance is: -2281
+Animation Speed is: 180
+Current:-1140 Selected:0Distance is: -1140
+Animation Speed is: 180
+Current:0 Selected:3Distance is: -3
+Animation Speed is: 180
+Current:-3420 Selected:2Distance is: -3422
+Animation Speed is: 180
+Current:-2280 Selected:1Distance is: -2281
+Animation Speed is: 180
+Current:-1140 Selected:0Distance is: -1140
+Animation Speed is: 180
+Current:0 Selected:1Distance is: -1
+Animation Speed is: 75
+Current:-1140 Selected:2Distance is: -1142
+Animation Speed is: 180
+Current:-2280 Selected:3Distance is: -2283
+Animation Speed is: 180
+Current:-3420 Selected:2Distance is: -3422
+Animation Speed is: 180
+Current:-2280 Selected:1Distance is: -2281
+Animation Speed is: 180
+Current:-1140 Selected:0Distance is: -1140
+Animation Speed is: 180
+Main application stopped
+Unmount SD
+Release memory
+Loadiine peace out...
+Starting Loadiine GX2 v0.1 [scuba156 test build]
+Function exports loaded
+Initialize memory management
+Patch FS and loader functions
+Mount SD partition
+Start main application
+Loading game list
+Initialize video
+Video size 1280 x 720
+Initialize main font system
+Initialize main window
+Entering main loop
+Current: 0 Selected: 0
+Target: 0 SelCat: 0
+Distance is: 0
+Animation Speed is: 75
+Current: 0 Selected: 1
+Target: 0 SelCat: 0
+Distance is: -1
+Animation Speed is: 75
+Main application stopped
+Unmount SD
+Release memory
+Loadiine peace out...
+Starting Loadiine GX2 v0.1 [scuba156 test build]
+Function exports loaded
+Initialize memory management
+Patch FS and loader functions
+Mount SD partition
+Start main application
+Loading game list
+Initialize video
+Video size 1280 x 720
+Initialize main font system
+Initialize main window
+Entering main loop
+==========================================================Current: 0 Selected: 1
+Target: 0 SelCat: 0
+Distance is: -1
+Animation Speed is: 75
+==========================================================Current: -1140 Selected: 2
+Target: -1140 SelCat: 1
+Distance is: -1142
+Animation Speed is: 180
+==========================================================Current: -2280 Selected: 0
+Target: -2280 SelCat: 2
+Distance is: -2280
+Animation Speed is: 180
+==========================================================Current: 0 Selected: 0
+Target: 0 SelCat: 0
+Distance is: 0
+Animation Speed is: 75
+Main application stopped
+Unmount SD
+Release memory
+Loadiine peace out...
+Starting Loadiine GX2 v0.1 [scuba156 test build]
+Function exports loaded
+Initialize memory management
+Patch FS and loader functions
+Mount SD partition
+Start main application
+Loading game list
+Initialize video
+Video size 1280 x 720
+Initialize main font system
+Initialize main window
+Entering main loop
+==========================================================
+Current: 0 Selected: 0
+Target: 0 SelCat: 0
+Distance is: 0
+Animation Speed is: 75
+==========================================================
+Current: 0 Selected: 1
+Target: 0 SelCat: 0
+Distance is: -1
+Animation Speed is: 75
+==========================================================
+Current: -1140 Selected: 0
+Target: -1140 SelCat: 1
+Distance is: -1140
+Animation Speed is: 180
+==========================================================
+Current: 0 Selected: 0
+Target: 0 SelCat: 0
+Distance is: 0
+Animation Speed is: 75
+==========================================================
+Current: 0 Selected: 2
+Target: 0 SelCat: 0
+Distance is: -2
+Animation Speed is: 180
+==========================================================
+Current: -2280 Selected: 2
+Target: -2280 SelCat: 2
+Distance is: -2282
+Animation Speed is: 180
+==========================================================
+Current: -2280 Selected: 3
+Target: -2280 SelCat: 2
+Distance is: -2283
+Animation Speed is: 180
+==========================================================
+Current: -3420 Selected: 3
+Target: -3420 SelCat: 3
+Distance is: -3423
+Animation Speed is: 180
+==========================================================
+Current: -3420 Selected: 1
+Target: -3420 SelCat: 3
+Distance is: -3421
+Animation Speed is: 180
+==========================================================
+Current: -1140 Selected: 0
+Target: -1140 SelCat: 1
+Distance is: -1140
+Animation Speed is: 180
+==========================================================
+Current: 0 Selected: 1
+Target: 0 SelCat: 0
+Distance is: -1
+Animation Speed is: 75
+==========================================================
+Current: -1140 Selected: 2
+Target: -1140 SelCat: 1
+Distance is: -1142
+Animation Speed is: 180
+==========================================================
+Current: -2280 Selected: 3
+Target: -2280 SelCat: 2
+Distance is: -2283
+Animation Speed is: 180
+==========================================================
+Current: -3420 Selected: 3
+Target: -3420 SelCat: 3
+Distance is: -3423
+Animation Speed is: 180
+==========================================================
+Current: -3420 Selected: 0
+Target: -3420 SelCat: 3
+Distance is: -3420
+Animation Speed is: 180
+Main application stopped
+Unmount SD
+Release memory
+Loadiine peace out...
+Starting Loadiine GX2 v0.1 [scuba156 test build]
+Function exports loaded
+Initialize memory management
+Patch FS and loader functions
+Mount SD partition
+Start main application
+Loading game list
+Initialize video
+Video size 1280 x 720
+Initialize main font system
+Initialize main window
+Entering main loop
+==========================================================
+Current: 0 Selected: 1
+Target: 0 SelCat: 0
+0 - 1 = -1
+Animation Speed is: 75
+==========================================================
+Current: -1140 Selected: 0
+Target: -1140 SelCat: 1
+-1140 - 0 = 1
+Animation Speed is: 75
+==========================================================
+Current: 0 Selected: 1
+Target: 0 SelCat: 0
+0 - 1 = -1
+Animation Speed is: 75
+==========================================================
+Current: -1140 Selected: 0
+Target: -1140 SelCat: 1
+-1140 - 0 = 1
+Animation Speed is: 75
+==========================================================
+Current: 0 Selected: 1
+Target: 0 SelCat: 0
+0 - 1 = -1
+Animation Speed is: 75
+==========================================================
+Current: -1140 Selected: 0
+Target: -1140 SelCat: 1
+-1140 - 0 = 1
+Animation Speed is: 75
+==========================================================
+Current: 0 Selected: 3
+Target: 0 SelCat: 0
+0 - 3 = -3
+Animation Speed is: 180
+==========================================================
+Current: -3420 Selected: 2
+Target: -3420 SelCat: 3
+-3420 - 2 = 1
+Animation Speed is: 75
+==========================================================
+Current: -2280 Selected: 2
+Target: -2280 SelCat: 2
+-2280 - 2 = 0
+Animation Speed is: 75
+==========================================================
+Current: -2280 Selected: 2
+Target: -2280 SelCat: 2
+-2280 - 2 = 0
+Animation Speed is: 75
+==========================================================
+Current: -2280 Selected: 2
+Target: -2280 SelCat: 2
+-2280 - 2 = 0
+Animation Speed is: 75
+==========================================================
+Current: -2280 Selected: 1
+Target: -2280 SelCat: 2
+-2280 - 1 = 1
+Animation Speed is: 75
+==========================================================
+Current: -1140 Selected: 0
+Target: -1140 SelCat: 1
+-1140 - 0 = 1
+Animation Speed is: 75
+==========================================================
+Current: 0 Selected: 1
+Target: 0 SelCat: 0
+0 - 1 = -1
+Animation Speed is: 75
+==========================================================
+Current: -1140 Selected: 2
+Target: -1140 SelCat: 1
+-1140 - 2 = -1
+Animation Speed is: 75
+==========================================================
+Current: -2280 Selected: 3
+Target: -2280 SelCat: 2
+-2280 - 3 = -1
+Animation Speed is: 75
+==========================================================
+Current: -3420 Selected: 1
+Target: -3420 SelCat: 3
+-3420 - 1 = 2
+Animation Speed is: 180
+==========================================================
+Current: -1140 Selected: 3
+Target: -1140 SelCat: 1
+-1140 - 3 = -2
+Animation Speed is: 180
+==========================================================
+Current: -3420 Selected: 0
+Target: -3420 SelCat: 3
+-3420 - 0 = 3
+Animation Speed is: 180
+==========================================================
+Current: 0 Selected: 3
+Target: 0 SelCat: 0
+0 - 3 = -3
+Animation Speed is: 180
+==========================================================
+Current: -3420 Selected: 0
+Target: -3420 SelCat: 3
+-3420 - 0 = 3
+Animation Speed is: 180
+==========================================================
+Current: 0 Selected: 1
+Target: 0 SelCat: 0
+0 - 1 = -1
+Animation Speed is: 75
+==========================================================
+Current: -1140 Selected: 2
+Target: -1140 SelCat: 1
+-1140 - 2 = -1
+Animation Speed is: 75
+==========================================================
+Current: -2280 Selected: 0
+Target: -2280 SelCat: 2
+-2280 - 0 = 2
+Animation Speed is: 180
+Main application stopped
+Unmount SD
+Release memory
+Loadiine peace out...
+Starting Loadiine GX2 v0.1 [scuba156 test build]
+Function exports loaded
+Initialize memory management
+Patch FS and loader functions
+Mount SD partition
+Start main application
+Loading game list
+Initialize video
+Video size 1280 x 720
+Initialize main font system
+Initialize main window
+Entering main loop
+0 - 1 = 1
+Animation Speed is: 75
+1 - 2 = 1
+Animation Speed is: 75
+2 - 3 = 1
+Animation Speed is: 75
+3 - 1 = -2
+Animation Speed is: 125
+1 - 3 = 2
+Animation Speed is: 125
+3 - 1 = -2
+Animation Speed is: 125
+1 - 0 = -1
+Animation Speed is: 75
+0 - 1 = 1
+Animation Speed is: 75
+1 - 2 = 1
+Animation Speed is: 75
+2 - 3 = 1
+Animation Speed is: 75
+3 - 1 = -2
+Animation Speed is: 125
+1 - 0 = -1
+Animation Speed is: 75
+0 - 3 = 3
+Animation Speed is: 180
+3 - 0 = -3
+Animation Speed is: 180
+0 - 3 = 3
+Animation Speed is: 180
+3 - 0 = -3
+Animation Speed is: 180
+0 - 3 = 3
+Animation Speed is: 180
+3 - 1 = -2
+Animation Speed is: 125
+1 - 3 = 2
+Animation Speed is: 125
+3 - 0 = -3
+Animation Speed is: 180
+0 - 2 = 2
+Animation Speed is: 125
+2 - 1 = -1
+Animation Speed is: 75
+1 - 0 = -1
+Animation Speed is: 75
+0 - 1 = 1
+Animation Speed is: 75
+1 - 2 = 1
+Animation Speed is: 75
+2 - 3 = 1
+Animation Speed is: 75
+3 - 0 = -3
+Animation Speed is: 180
+0 - 1 = 1
+Animation Speed is: 75
+1 - 2 = 1
+Animation Speed is: 75
+2 - 2 = 0
+Animation Speed is: 75
+2 - 2 = 0
+Animation Speed is: 75
+2 - 2 = 0
+Animation Speed is: 75
+2 - 2 = 0
+Animation Speed is: 75
+2 - 2 = 0
+Animation Speed is: 75
+2 - 2 = 0
+Animation Speed is: 75
+2 - 2 = 0
+Animation Speed is: 75
+2 - 2 = 0
+Animation Speed is: 75
+2 - 0 = -2
+Animation Speed is: 125
+0 - 1 = 1
+Animation Speed is: 75
+1 - 0 = -1
+Animation Speed is: 75
+0 - 3 = 3
+Animation Speed is: 180
+3 - 0 = -3
+Animation Speed is: 180
+0 - 3 = 3
+Animation Speed is: 180
+3 - 0 = -3
+Animation Speed is: 180
+0 - 3 = 3
+Animation Speed is: 180
+3 - 0 = -3
+Animation Speed is: 180
+0 - 3 = 3
+Animation Speed is: 180
+0 - 3 = 3
+Animation Speed is: 180
+3 - 0 = -3
+Animation Speed is: 180
+Loading game NES REMIX
+WUP-P-AFDE.rpx: loaded into 0xC0AC6828, offset: 0x00000000, size: 0x0014A140
+game_paths->os_game_path_base: /vol/external01/wiiu/games
+game_paths->os_save_path_base: /vol/external01/wiiu/saves
+game_paths->game_dir:          NES REMIX [AFDE01]
+game_paths->save_dir_common:   c
+game_paths->save_dir_user:     u
+XML Launching Parameters
+rpx_name:        WUP-P-AFDE.rpx
+version_cos_xml: 18
+os_version:      000500101000400A
+title_id:        0005000010162800
+app_type:        80000000
+cmdFlags:        00000000
+max_size:        40000000
+avail_size:      00000000
+codegen_size:    00000000
+codegen_core:    00000001
+max_codesize:    0E000000
+overlay_arena:   00000000
+sdk_version:     20922
+title_version:   00000002
+game loading result 0
+FS log server on 192.168.2.156
+Main application stopped
+Unmount SD
+Release memory
+Loadiine peace out...
+Starting Loadiine GX2 v0.1 [scuba156 test build]
+Function exports loaded
+Initialize memory management
+Patch FS and loader functions
+Mount SD partition
+Start main application
+Loading game list
+Initialize video
+Video size 1280 x 720
+Initialize main font system
+Initialize main window
+Entering main loop
+Main application stopped
+Unmount SD
+Release memory
+Loadiine peace out...
+Starting Loadiine GX2 v0.1 [scuba156 test build]
+Function exports loaded
+Initialize memory management
+Patch FS and loader functions
+Mount SD partition
+Start main application
+Loading game list
+Initialize video
+Video size 1280 x 720
+Initialize main font system
+Initialize main window
+Entering main loop
+0 - 1 = 1
+Animation Speed is: 75
+1 - 0 = -1
+Animation Speed is: 75
+0 - 3 = 3
+Animation Speed is: 180
+3 - 0 = -3
+Animation Speed is: 180
+0 - 1 = 1
+Animation Speed is: 75
+1 - 2 = 1
+Animation Speed is: 75
+2 - 3 = 1
+Animation Speed is: 75
+3 - 1 = -2
+Animation Speed is: 125
+1 - 3 = 2
+Animation Speed is: 125
+3 - 1 = -2
+Animation Speed is: 125
+1 - 0 = -1
+Animation Speed is: 75
+Main application stopped
+Unmount SD
+Release memory
+Loadiine peace out...
+Starting Loadiine GX2 v0.1 [scuba156 test build]
+Function exports loaded
+Initialize memory management
+Patch FS and loader functions
+Mount SD partition
+Start main application
+Loading game list
+Initialize video
+Video size 1280 x 720
+Initialize main font system
+Initialize main window
+Entering main loop
+Main application stopped
+Unmount SD
+Release memory
+Loadiine peace out...
+Starting Loadiine GX2 v0.1 [scuba156 test build]
+Function exports loaded
+Initialize memory management
+Patch FS and loader functions
+Mount SD partition
+Start main application
+Loading game list
+Initialize video
+Video size 1280 x 720
+Initialize main font system
+Init
