@@ -242,12 +242,12 @@ void MainWindow::OnSettingsButtonClicked(GuiElement *element)
     SettingsMenu * settings = new SettingsMenu(width, height);
     settings->setEffect(EFFECT_FADE, 10, 255);
     settings->setState(GuiElement::STATE_DISABLED);
-    settings->settingsQuitClicked.connect(this, &MainWindow::OnSettingsQuit);
+    settings->settingsCloseClicked.connect(this, &MainWindow::OnSettingsClose);
     settings->effectFinished.connect(this, &MainWindow::OnOpenEffectFinish);
     append(settings);
 }
 
-void MainWindow::OnSettingsQuit(GuiElement *element)
+void MainWindow::OnSettingsClose(GuiElement *element)
 {
     //! disable element for triggering buttons again
     element->setState(GuiElement::STATE_DISABLED);

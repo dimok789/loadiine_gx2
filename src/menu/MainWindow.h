@@ -128,7 +128,7 @@ private:
     void OnGameSelectionChange(GuiGameBrowser *element, int selectedIdx);
 
     void OnSettingsButtonClicked(GuiElement *element);
-    void OnSettingsQuit(GuiElement *element);
+    void OnSettingsClose(GuiElement *element);
 
     void OnGameLoadFinish(const discHeader *diskHeader, int result);
 
