@@ -17,6 +17,12 @@
     #define ADDRESS_LiWaitOneChunk                      0x010007EC
     #define ADDRESS_LiWaitIopComplete                   0x0100FFA4
     #define ADDRESS_LiWaitIopCompleteWithInterrupts     0x0100FE90
+ #elif VER == 500
+    #define ADDRESS_OSTitle_main_entry_ptr              0x1005CB00
+    #define ADDRESS_main_entry_hook                     0x0101C15C
+    #define ADDRESS_LiWaitOneChunk                      0x010007EC
+    #define ADDRESS_LiWaitIopComplete                   0x0100FBC4
+    #define ADDRESS_LiWaitIopCompleteWithInterrupts     0x0100FAB0
 #endif // VER
 
 /* Install functions */
@@ -557,7 +563,15 @@ static void InstallPatches(private_data_t *private_data)
     private_data->ICInvalidateRange((void*)(0x010095b4), 4);
     private_data->DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x01009658), 4);
     private_data->ICInvalidateRange((void*)(0x01009658), 4);
-#else
+#elif ((VER == 500) || (VER == 510))
+    /* Patch to bypass SDK version tests */
+    *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x010091CC)) = 0x480000a0; // ble loc_100926C    (0x408100a0) => b loc_100926C      (0x480000a0)
+    *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x01009270)) = 0x480000e8; // bge loc_1009358    (0x408000e8) => b loc_1009358      (0x480000e8)
+    private_data->DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x010091CC), 4);
+    private_data->ICInvalidateRange((void*)(0x010091CC), 4);
+    private_data->DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x01009270), 4);
+    private_data->ICInvalidateRange((void*)(0x01009270), 4);
+ #else
     #ERROR  Please define an SDK check address.
 #endif
 }

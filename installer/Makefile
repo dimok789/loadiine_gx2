@@ -15,7 +15,7 @@ framework:=$(root)/../../../framework
 #CFLAGS += -DUSE_SD_LOADER 
 #ASFLAGS += -DUSE_SD_LOADER 
 
-all: clean setup main532
+all: clean setup main500
 
 setup:
 	mkdir -p $(root)/bin/
@@ -44,7 +44,7 @@ main300:
 main210:
 	make main FIRMWARE=210
 
-main210:
+main200:
 	make main FIRMWARE=200
 
 main:
