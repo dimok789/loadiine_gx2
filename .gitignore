@@ -9,5 +9,5 @@
 /loader/*.elf
 /sd_loader/build
 /sd_loader/*.elf
-/UdpDebugReader/obj
-/UdpDebugReader/GeckoLog.txt
+/udp_debug_reader/obj
+/udp_debug_reader/GeckoLog.txt
