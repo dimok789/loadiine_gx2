@@ -89,24 +89,6 @@ void __main(void)
     OSDynLoad_FindExport(coreinit_handle, 0, "OSAllocFromSystem", &OSAllocFromSystem);
     OSDynLoad_FindExport(coreinit_handle, 0, "OSFreeToSystem", &OSFreeToSystem);
 
-    /* Send restart signal to get rid of uneeded threads */
-    /* Cause the other browser threads to exit */
-    int fd = IM_Open();
-    void *mem = OSAllocFromSystem(0x100, 64);
-    if(!mem)
-        ExitFailure(&private_data, "Not enough memory. Exit and re-enter browser.");
-
-    private_data.memset(mem, 0, 0x100);
-
-    /* Sets wanted flag */
-    IM_SetDeviceState(fd, mem, 3, 0, 0);
-    IM_Close(fd);
-    OSFreeToSystem(mem);
-
-    /* Waits for thread exits */
-    unsigned int t1 = 0x1FFFFFFF;
-    while(t1--) ;
-
     /* Prepare for thread startups */
     int (*OSCreateThread)(void *thread, void *entry, int argc, void *args, unsigned int stack, unsigned int stack_size, int priority, unsigned short attr);
     int (*OSResumeThread)(void *thread);
@@ -163,6 +145,24 @@ void __main(void)
     /* Free thread memory and stack */
     private_data.MEMFreeToDefaultHeap(thread);
     private_data.MEMFreeToDefaultHeap(stack);
+
+    /* Send restart signal to get rid of uneeded threads */
+    /* Cause the other browser threads to exit */
+    int fd = IM_Open();
+    void *mem = OSAllocFromSystem(0x100, 64);
+    if(!mem)
+        ExitFailure(&private_data, "Not enough memory. Exit and re-enter browser.");
+
+    private_data.memset(mem, 0, 0x100);
+
+    /* Sets wanted flag */
+    IM_SetDeviceState(fd, mem, 3, 0, 0);
+    IM_Close(fd);
+    OSFreeToSystem(mem);
+
+    /* Waits for thread exits */
+    unsigned int t1 = 0x1FFFFFFF;
+    while(t1--) ;
 
     //! we are done -> exit browser now
     private_data._Exit();
