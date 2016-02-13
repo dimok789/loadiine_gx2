@@ -7,7 +7,7 @@
 #if ((VER == 532) || (VER == 540))
 	#define BAT_SETUP_HOOK_ADDR	0xFFF1D638
 	#define PREP_TITLE_HOOK_ADDR	0xFFF18558
-#elif ((VER == 500) || (VER == 510)
+#elif ((VER == 500) || (VER == 510))
 	#define BAT_SETUP_HOOK_ADDR	0xFFF1D518
 	#define PREP_TITLE_HOOK_ADDR	0xFFF18534
 #elif VER == 410
