@@ -44,7 +44,7 @@ main300:
 main210:
 	make main FIRMWARE=210
 
-main210:
+main200:
 	make main FIRMWARE=200
 
 main:
