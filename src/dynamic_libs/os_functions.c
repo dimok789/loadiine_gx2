@@ -109,7 +109,11 @@ void InitOSFunctionPointers(void)
     //!----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     OS_FIND_EXPORT(coreinit_handle, OSFatal);
     OS_FIND_EXPORT(coreinit_handle, OSGetTitleID);
+#if ((VER == 532) || (VER == 540))
     OS_FIND_EXPORT(coreinit_handle, OSSetExceptionCallbackEx);
+#elif ((VER == 410) || (VER == 500))
+    OS_FIND_EXPORT(coreinit_handle, OSSetExceptionCallback);
+#endif
     OS_FIND_EXPORT(coreinit_handle, DCFlushRange);
     OS_FIND_EXPORT(coreinit_handle, ICInvalidateRange);
     OS_FIND_EXPORT(coreinit_handle, __os_snprintf);
