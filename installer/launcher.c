@@ -224,7 +224,11 @@ void ExitFailure(private_data_t *private_data, const char *failure)
 /* *****************************************************************************
  * Base functions
  * ****************************************************************************/
-#define KERN_SYSCALL_TBL_5          0xFFEAA0E0 // works with browser
+#if VER == 500
+    #define KERN_SYSCALL_TBL_5          0xffea9520 // works with browser
+#else
+    #define KERN_SYSCALL_TBL_5          0xFFEAA0E0 // works with browser
+#endif
 
 static void SetupKernelSyscall(unsigned int address)
 {
