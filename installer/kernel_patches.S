@@ -1,24 +1,32 @@
-#if ((VER == 532) || (VER == 540))
 #ifdef USE_SD_LOADER
-#define BAT_SETUP_HOOK_ENTRY	0x00800000
+	#define BAT_SETUP_HOOK_ENTRY	0x00800000
 #else
-#define BAT_SETUP_HOOK_ENTRY	(0x00800000 + 0x2000)
-#endif
-#define BAT_SETUP_HOOK_ADDR		0xFFF1D638
-#define PREP_TITLE_HOOK_ENTRY	(BAT_SETUP_HOOK_ENTRY + 0x38)
-#define PREP_TITLE_HOOK_ADDR	0xFFF18558
-#define BAT4U_VAL				0x008000FF
-#define BAT4L_VAL				0x30800013
-#else
-#error Please define valid values for kernel setup.
+	#define BAT_SETUP_HOOK_ENTRY	(0x00800000 + 0x2000)
 #endif
 
+#if ((VER == 532) || (VER == 540))
+	#define BAT_SETUP_HOOK_ADDR	0xFFF1D638
+	#define PREP_TITLE_HOOK_ADDR	0xFFF18558
+#elif ((VER == 500) || (VER == 510)
+	#define BAT_SETUP_HOOK_ADDR	0xFFF1D518
+	#define PREP_TITLE_HOOK_ADDR	0xFFF18534
+#elif VER == 410
+	#define BAT_SETUP_HOOK_ADDR	0xFFF1AD00
+	#define PREP_TITLE_HOOK_ADDR	0xFFF166DC
+#else
+	#error Please define valid values for kernel setup.
+#endif
+
+#define PREP_TITLE_HOOK_ENTRY	(BAT_SETUP_HOOK_ENTRY + 0x38)
+#define BAT4U_VAL			0x008000FF
+#define BAT4L_VAL			0x30800013
+
 #define SET_R4_TO_ADDR(addr)				\
-	lis r3, addr@h						;	\
-    ori r3, r3, addr@l					;	\
-    stw r4, 0(r3)						;	\
-    dcbf 0, r3							;	\
-    icbi 0, r3							;
+	lis r3, addr@h				;	\
+    ori r3, r3, addr@l				;	\
+    stw r4, 0(r3)				;	\
+    dcbf 0, r3					;	\
+    icbi 0, r3					;
 
      .globl Syscall_0x36
 Syscall_0x36:
