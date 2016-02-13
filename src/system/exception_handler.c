@@ -170,4 +170,5 @@ void setup_os_exceptions(void) {
     OSSetExceptionCallback(OS_EXCEPTION_DSI, &dsi_exception_cb);
     OSSetExceptionCallback(OS_EXCEPTION_ISI, &isi_exception_cb);
     OSSetExceptionCallback(OS_EXCEPTION_PROGRAM, &program_exception_cb);
+#endif
 }
