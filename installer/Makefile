@@ -15,7 +15,7 @@ framework:=$(root)/../../../framework
 #CFLAGS += -DUSE_SD_LOADER 
 #ASFLAGS += -DUSE_SD_LOADER 
 
-all: clean setup main532
+all: clean setup main532 main500 main410
 
 setup:
 	mkdir -p $(root)/bin/
