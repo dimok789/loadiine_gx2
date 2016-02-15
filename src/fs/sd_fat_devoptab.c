@@ -987,7 +987,6 @@ int mount_sd_fat(const char *path)
     FSInit();
     FSInitCmdBlock(pCmd);
     FSAddClientEx(pClient, 0, -1);
-    MountFS(pClient, pCmd, NULL);
 
     char *mountPath = NULL;
 

@@ -5,6 +5,7 @@
 #include "../src/common/common.h"
 #include "../src/common/os_defs.h"
 #include "../../libwiiu/src/coreinit.h"
+#include "logger.h"
 
 //! this shouldnt depend on OS
 #define LIB_CODE_RW_BASE_OFFSET                         0xC1000000
@@ -17,12 +18,21 @@
     #define ADDRESS_LiWaitOneChunk                      0x010007EC
     #define ADDRESS_LiWaitIopComplete                   0x0100FFA4
     #define ADDRESS_LiWaitIopCompleteWithInterrupts     0x0100FE90
- #elif VER == 500
+    #define KERN_SYSCALL_TBL_5                          0xFFEAA0E0 // works with browser
+#elif VER == 500
     #define ADDRESS_OSTitle_main_entry_ptr              0x1005CB00
     #define ADDRESS_main_entry_hook                     0x0101C15C
     #define ADDRESS_LiWaitOneChunk                      0x010007EC
     #define ADDRESS_LiWaitIopComplete                   0x0100FBC4
     #define ADDRESS_LiWaitIopCompleteWithInterrupts     0x0100FAB0
+    #define KERN_SYSCALL_TBL_5                          0xFFEA9520 // works with browser
+#elif VER == 410
+    #define ADDRESS_OSTitle_main_entry_ptr              0x1005A8C0
+    #define ADDRESS_main_entry_hook                     0x0101BD4C
+    #define ADDRESS_LiWaitOneChunk                      0x010007F8
+    #define ADDRESS_LiWaitIopComplete                   0x0100F78C
+    #define ADDRESS_LiWaitIopCompleteWithInterrupts     0x0100F678
+    #define KERN_SYSCALL_TBL_5                          0xFFE85890 // works with browser
 #endif // VER
 
 /* Install functions */
@@ -30,7 +40,6 @@ static void InstallMain(private_data_t *private_data);
 static void InstallPatches(private_data_t *private_data);
 static void ExitFailure(private_data_t *private_data, const char *failure);
 
-static int show_install_menu(unsigned int coreinit_handle, unsigned int *ip_address);
 static void curl_thread_callback(int argc, void *argv);
 
 static void SetupKernelSyscall(unsigned int addr);
@@ -115,7 +124,7 @@ void __main(void)
 
     /* Schedule it for execution */
     OSResumeThread(thread);
-
+    
     // Keep this main thread around for ELF loading
     // Can not use OSJoinThread, which hangs for some reason, so we use a detached one and wait for it to terminate
     while(OSIsThreadTerminated(thread) == 0)
@@ -132,20 +141,6 @@ void __main(void)
         );
     }
 
-    /* Install our code now */
-    InstallMain(&private_data);
-
-    /* setup our own syscall and call it */
-    SetupKernelSyscall((unsigned int)KernelPatches);
-    Syscall_0x36();
-
-    /* Patch functions and our code for usage */
-    InstallPatches(&private_data);
-
-    /* Free thread memory and stack */
-    private_data.MEMFreeToDefaultHeap(thread);
-    private_data.MEMFreeToDefaultHeap(stack);
-
     /* Send restart signal to get rid of uneeded threads */
     /* Cause the other browser threads to exit */
     int fd = IM_Open();
@@ -161,8 +156,22 @@ void __main(void)
     OSFreeToSystem(mem);
 
     /* Waits for thread exits */
-    unsigned int t1 = 0x1FFFFFFF;
+    unsigned int t1 = 0xFFFFFFFF;
     while(t1--) ;
+
+    /* Install our code now */
+    InstallMain(&private_data);
+
+    /* setup our own syscall and call it */
+    SetupKernelSyscall((unsigned int)KernelPatches);
+    Syscall_0x36();
+
+    /* Patch functions and our code for usage */
+    InstallPatches(&private_data);
+
+    /* Free thread memory and stack */
+    private_data.MEMFreeToDefaultHeap(thread);
+    private_data.MEMFreeToDefaultHeap(stack);
 
     //! we are done -> exit browser now
     private_data._Exit();
@@ -224,12 +233,6 @@ void ExitFailure(private_data_t *private_data, const char *failure)
 /* *****************************************************************************
  * Base functions
  * ****************************************************************************/
-#if VER == 500
-    #define KERN_SYSCALL_TBL_5          0xffea9520 // works with browser
-#else
-    #define KERN_SYSCALL_TBL_5          0xFFEAA0E0 // works with browser
-#endif
-
 static void SetupKernelSyscall(unsigned int address)
 {
     // Add syscall #0x36
@@ -252,7 +255,7 @@ static int curl_write_data_callback(void *buffer, int size, int nmemb, void *use
 #define CURLOPT_ERRORBUFFER 10010
 #define CURLOPT_WRITEFUNCTION 20011
 #define CURLINFO_RESPONSE_CODE 0x200002
-#define 	CURL_ERROR_SIZE   256
+#define CURL_ERROR_SIZE   256
 
 static int curl_download_file(private_data_t *private_data, void * curl, const char *url)
 {
@@ -477,6 +480,7 @@ static void InstallMain(private_data_t *private_data)
         private_data->DCFlushRange((void*)(CODE_RW_BASE_OFFSET + main_text_addr), main_text_len);
         private_data->ICInvalidateRange((void*)(main_text_addr), main_text_len);
     }
+    else ExitFailure(private_data, "InstallMain: Error on section .text");
 
     // get the .rodata section
     unsigned int main_rodata_addr = 0;
@@ -489,6 +493,7 @@ static void InstallMain(private_data_t *private_data)
         private_data->memcpy((void*)(DATA_RW_BASE_OFFSET + main_rodata_addr), main_rodata, main_rodata_len);
         private_data->DCFlushRange((void*)(DATA_RW_BASE_OFFSET + main_rodata_addr), main_rodata_len);
     }
+    else ExitFailure(private_data, "InstallMain: Error on section .rodata");
 
     // get the .data section
     unsigned int main_data_addr = 0;
@@ -501,6 +506,7 @@ static void InstallMain(private_data_t *private_data)
         private_data->memcpy((void*)(DATA_RW_BASE_OFFSET + main_data_addr), main_data, main_data_len);
         private_data->DCFlushRange((void*)(DATA_RW_BASE_OFFSET + main_data_addr), main_data_len);
     }
+    else ExitFailure(private_data, "InstallMain: Error on section .data");
 
     // get the .bss section
     unsigned int main_bss_addr = 0;
@@ -512,6 +518,7 @@ static void InstallMain(private_data_t *private_data)
         private_data->memset((void*)(DATA_RW_BASE_OFFSET + main_bss_addr), 0, main_bss_len);
         private_data->DCFlushRange((void*)(DATA_RW_BASE_OFFSET + main_bss_addr), main_bss_len);
     }
+    else ExitFailure(private_data, "InstallMain: Error on section .bss");
 }
 
 /* ****************************************************************** */
@@ -550,13 +557,13 @@ static void InstallPatches(private_data_t *private_data)
     Elf32_Ehdr *ehdr = (Elf32_Ehdr *) private_data->data_elf;
     unsigned int mainEntryPoint = ehdr->e_entry;
 
-    //! Install out entry point hook
+    //! Install our entry point hook
     unsigned int repl_addr = ADDRESS_main_entry_hook;
     unsigned int jump_addr = mainEntryPoint & 0x03fffffc;
     *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + repl_addr)) = 0x48000003 | jump_addr;
     // flush caches and invalidate instruction cache
     private_data->DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + repl_addr), 4);
-    private_data->ICInvalidateRange((void*)(repl_addr), 4);
+    private_data->ICInvalidateRange((void*)(LIB_CODE_RW_BASE_OFFSET + repl_addr), 4);
 
     //! TODO: Not sure if this is still needed at all after changing the SDK version in the xml struct, check that
 #if ((VER == 532) || (VER == 540))
@@ -569,13 +576,21 @@ static void InstallPatches(private_data_t *private_data)
     private_data->ICInvalidateRange((void*)(0x01009658), 4);
 #elif ((VER == 500) || (VER == 510))
     /* Patch to bypass SDK version tests */
-    *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x010091CC)) = 0x480000a0; // ble loc_100926C    (0x408100a0) => b loc_100926C      (0x480000a0)
-    *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x01009270)) = 0x480000e8; // bge loc_1009358    (0x408000e8) => b loc_1009358      (0x480000e8)
+    *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x010091CC)) = 0x480000a0; // ble loc_1009654    (0x408100a0) => b loc_1009654      (0x480000a0)
+    *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x01009270)) = 0x480000e8; // bge loc_1009740    (0x408100a0) => b loc_1009740      (0x480000e8)
     private_data->DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x010091CC), 4);
     private_data->ICInvalidateRange((void*)(0x010091CC), 4);
     private_data->DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x01009270), 4);
     private_data->ICInvalidateRange((void*)(0x01009270), 4);
- #else
+#elif ((VER == 400) || (VER == 410))
+    /* Patch to bypass SDK version tests */
+    *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x01008DAC)) = 0x480000a0; // ble loc_1009654    (0x408100a0) => b loc_1009654      (0x480000a0)
+    *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x01008E50)) = 0x480000e8; // bge loc_1009740    (0x408100a0) => b loc_1009740      (0x480000e8)
+    private_data->DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x01008DAC), 4);
+    private_data->ICInvalidateRange((void*)(0x01008DAC), 4);
+    private_data->DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x01008E50), 4);
+    private_data->ICInvalidateRange((void*)(0x01008E50), 4);
+#else
     #ERROR  Please define an SDK check address.
 #endif
 }

@@ -105,7 +105,11 @@ extern void (* ICInvalidateRange)(const void *addr, u32 length);
 extern int (* __os_snprintf)(char* s, int n, const char * format, ...);
 
 typedef unsigned char (*exception_callback)(void * interruptedContext);
-extern void (* OSSetExceptionCallback)(u8 exceptionType, exception_callback newCallback);
+#if ((VER == 532) || (VER == 540))
+	extern void (* OSSetExceptionCallbackEx)(u8 exceptionMode, u8 exceptionType, exception_callback newCallback);
+#elif ((VER == 410) || (VER == 500))
+	extern void (* OSSetExceptionCallback)(u8 exceptionType, exception_callback newCallback);
+#endif
 
 extern int (* LiWaitIopComplete)(int unknown_syscall_arg_r3, int * remaining_bytes);
 extern int (* LiWaitIopCompleteWithInterrupts)(int unknown_syscall_arg_r3, int * remaining_bytes);
