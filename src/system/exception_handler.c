@@ -162,13 +162,7 @@ static unsigned char program_exception_cb(void * context) {
 }
 
 void setup_os_exceptions(void) {
-#if ((VER == 532) || (VER == 540))
-    OSSetExceptionCallbackEx(OS_EXCEPTION_MODE_GLOBAL_ALL_CORES, OS_EXCEPTION_DSI, &dsi_exception_cb);
-    OSSetExceptionCallbackEx(OS_EXCEPTION_MODE_GLOBAL_ALL_CORES, OS_EXCEPTION_ISI, &isi_exception_cb);
-    OSSetExceptionCallbackEx(OS_EXCEPTION_MODE_GLOBAL_ALL_CORES, OS_EXCEPTION_PROGRAM, &program_exception_cb);
-#elif ((VER == 410) || (VER == 500))
     OSSetExceptionCallback(OS_EXCEPTION_DSI, &dsi_exception_cb);
     OSSetExceptionCallback(OS_EXCEPTION_ISI, &isi_exception_cb);
     OSSetExceptionCallback(OS_EXCEPTION_PROGRAM, &program_exception_cb);
-#endif
 }
