@@ -4,7 +4,7 @@
 #include "../../src/common/fs_defs.h"
 #include "../../src/common/os_defs.h"
 
-#define CODE_RW_BASE_OFFSET                             0xC0000000
+#define CODE_RW_BASE_OFFSET                             0
 #define DATA_RW_BASE_OFFSET                             0
 
 #define EXPORT_DECL(res, func, ...)                     res (* func)(__VA_ARGS__) __attribute__((section(".data"))) = 0;
@@ -155,10 +155,6 @@ unsigned int load_elf_image (unsigned char *elfstart)
 			continue;
 
         unsigned int p_paddr = phdrs[i].p_paddr;
-
-        //! skip our magicptr section as its empty anyway
-        if(p_paddr == 0x011DD000)
-            continue;
 
         // use 0xC1000000 offset fore coreinit
         //if(p_paddr >= 0x01000000 && p_paddr <= 0x02000000)

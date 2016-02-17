@@ -53,7 +53,7 @@ DATA		:=	data \
 				data/images \
 				data/fonts \
 				data/sounds
-				
+
 INCLUDES	:=  src \
 				libs
 
@@ -82,7 +82,7 @@ LIBS	:= -lgcc -lgd -lpng -ljpeg -lz -lfreetype -lmad -lvorbisidec
 LIBDIRS	:=	$(CURDIR)	\
 			$(DEVKITPPC)/lib  \
 			$(DEVKITPPC)/lib/gcc/powerpc-eabi/4.8.2
-		  
+
 
 #---------------------------------------------------------------------------------
 # no real need to edit anything past this point unless you need to add additional
@@ -180,7 +180,7 @@ $(OUTPUT).elf:  $(OFILES)
 %.o: %.cpp
 	@echo $(notdir $<)
 	@$(CXX) -MMD -MP -MF $(DEPSDIR)/$*.d $(CXXFLAGS) -c $< -o $@ $(ERROR_FILTER)
-	
+
 #---------------------------------------------------------------------------------
 %.o: %.c
 	@echo $(notdir $<)

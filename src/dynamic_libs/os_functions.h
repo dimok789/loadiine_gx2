@@ -102,6 +102,7 @@ extern void (* __Exit)(void);
 extern void (* OSFatal)(const char* msg);
 extern void (* DCFlushRange)(const void *addr, u32 length);
 extern void (* ICInvalidateRange)(const void *addr, u32 length);
+extern void* (* OSEffectiveToPhysical)(const void*);
 extern int (* __os_snprintf)(char* s, int n, const char * format, ...);
 
 typedef unsigned char (*exception_callback)(void * interruptedContext);

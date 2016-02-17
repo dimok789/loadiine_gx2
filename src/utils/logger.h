@@ -76,6 +76,7 @@ void log_string(int sock, const char* str, char byte);
 void log_byte(int sock, char byte);
 
 void log_init(void);
+void log_deinit(void);
 void log_print(const char *str);
 void log_printf(const char *format, ...);
 

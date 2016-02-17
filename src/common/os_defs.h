@@ -14,6 +14,12 @@ typedef struct _OsSpecifics
     unsigned int addr_LiWaitOneChunk;
     unsigned int addr_LiWaitIopComplete;
     unsigned int addr_LiWaitIopCompleteWithInterrupts;
+
+    unsigned int addr_KernSyscallTbl1;
+    unsigned int addr_KernSyscallTbl2;
+    unsigned int addr_KernSyscallTbl3;
+    unsigned int addr_KernSyscallTbl4;
+    unsigned int addr_KernSyscallTbl5;
 } OsSpecifics;
 
 #ifdef __cplusplus

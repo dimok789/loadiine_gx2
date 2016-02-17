@@ -59,7 +59,6 @@ extern void (* GX2InitColorBufferRegs)(GX2ColorBuffer *colorBuffer);
 extern void (* GX2CalcColorBufferAuxInfo)(GX2ColorBuffer *colorBuffer, u32 *size, u32 *align);
 extern void (* GX2CalcDepthBufferHiZInfo)(GX2DepthBuffer *depthBuffer, u32 *size, u32 *align);
 extern void (* GX2InitDepthBufferHiZEnable)(GX2DepthBuffer *depthBuffer, s32 hiZ_enable);
-//extern void (* GX2SetSpecialState)(s32 special_state, s32 enable);
 extern void (* GX2SetupContextStateEx)(GX2ContextState* state, s32 enable_profiling);
 extern void (* GX2SetColorBuffer)(const GX2ColorBuffer *colorBuffer, s32 target);
 extern void (* GX2SetDepthBuffer)(const GX2DepthBuffer *depthBuffer);
@@ -78,8 +77,6 @@ extern void (* GX2SetVertexSampler)(const GX2Sampler *sampler, u32 sampler_hw_lo
 extern void (* GX2SetPixelShader)(const GX2PixelShader* pixelShader);
 extern void (* GX2SetVertexShader)(const GX2VertexShader* vertexShader);
 extern void (* GX2InitSamplerZMFilter)(GX2Sampler *sampler, s32 z_filter, s32 mip_filter);
-//extern void (* GX2SetClearDepth)(GX2DepthBuffer *depthBuffer, f32 depth_value);
-//extern void (* GX2SetClearStencil)(GX2DepthBuffer *depthBuffer, u8 stencil_value);
 extern void (* GX2SetColorControl)(s32 lop, u8 blend_enable_mask, s32 enable_multi_write, s32 enable_color_buffer);
 extern void (* GX2SetDepthOnlyControl)(s32 enable_depth, s32 enable_depth_write, s32 depth_comp_function);
 extern void (* GX2SetBlendControl)(s32 target, s32 color_src_blend, s32 color_dst_blend, s32 color_combine, s32 separate_alpha_blend, s32 alpha_src_blend, s32 alpha_dst_blend, s32 alpha_combine);

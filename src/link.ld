@@ -11,7 +11,6 @@ SECTIONS {
 		/* Tell linker to not garbage collect this section as it is not referenced anywhere */
 		KEEP(*(.kernel_code*));
 	}
-	. = . + 0xC0000000;
 	.rodata : {
 		*(.rodata*);
 	}
@@ -35,9 +34,6 @@ SECTIONS {
 	}
 	__CODE_END = .;
 	
-	.magicptr 0x011DD000 : {
-		*(.magicptr*);
-	}
 	/DISCARD/ : {
 		*(*);
 	}

@@ -5,21 +5,25 @@
 #include "common/common.h"
 #include "common/fs_defs.h"
 #include "common/loader_defs.h"
+#include "game/rpx_rpl_table.h"
 #include "dynamic_libs/fs_functions.h"
 #include "dynamic_libs/os_functions.h"
+#include "kernel/kernel_functions.h"
 #include "system/exception_handler.h"
 #include "function_hooks.h"
 #include "fs/fs_utils.h"
 #include "utils/strings.h"
 
 #define LIB_CODE_RW_BASE_OFFSET                         0xC1000000
-#define CODE_RW_BASE_OFFSET                             0xC0000000
+#define CODE_RW_BASE_OFFSET                             0x00000000
 
 #define USE_EXTRA_LOG_FUNCTIONS   0
 
 #define DECL(res, name, ...) \
-        res (* real_ ## name)(__VA_ARGS__) __attribute__((section(".magicptr"))); \
+        res (* real_ ## name)(__VA_ARGS__) __attribute__((section(".data"))); \
         res my_ ## name(__VA_ARGS__)
+
+extern game_paths_t gamePathStruct;
 
 /* Client functions */
 static int client_num_alloc(void *pClient) {
@@ -128,14 +132,13 @@ static void compute_new_path(char* new_path, const char* path, int len, int is_s
         new_path[n++] = '\0';
     }
     else {
-        game_paths_t *game_paths = (game_paths_t *)GAME_PATH_STRUCT;
         n = m_strlcpy(new_path, bss.save_base, sizeof(bss.save_base));
         new_path[n++] = '/';
 
         // Create path for common and user dirs
         if (path[10 + path_offset] == 'c') // common dir ("common")
         {
-            n += m_strlcpy(&new_path[n], game_paths->save_dir_common, m_strlen(game_paths->save_dir_common) + 1);
+            n += m_strlcpy(&new_path[n], bss.save_dir_common, m_strlen(bss.save_dir_common) + 1);
 
             // copy the save game filename now with the slash at the beginning
             for (i = 0; i < (len - 16 - path_offset); i++) {
@@ -149,7 +152,7 @@ static void compute_new_path(char* new_path, const char* path, int len, int is_s
         }
         else if (path[10 + path_offset] == '8') // user dir ("800000??") ?? = user permanent id
         {
-            n += m_strlcpy(&new_path[n], game_paths->save_dir_user, m_strlen(game_paths->save_dir_user) + 1);
+            n += m_strlcpy(&new_path[n], bss.save_dir_user, m_strlen(bss.save_dir_user) + 1);
 
             // copy the save game filename now with the slash at the beginning
             for (i = 0; i < (len - 18 - path_offset); i++) {
@@ -179,9 +182,7 @@ DECL(int, FSInit, void)
 {
     if ((int)bss_ptr == 0x0a000000)
     {
-        // check that loadiine initialized the FS system for games
-        game_paths_t *game_paths = (game_paths_t *)GAME_PATH_STRUCT;
-        if(game_paths->os_game_path_base == 0)
+        if(gamePathStruct.os_game_path_base == 0)
             return real_FSInit();
 
         // allocate memory for our stuff
@@ -197,9 +198,12 @@ DECL(int, FSInit, void)
         fs_logger_connect(&bss.global_sock);
 
         // create game mount path prefix
-        __os_snprintf(bss.mount_base, sizeof(bss.mount_base), "%s/%s%s", game_paths->os_game_path_base, game_paths->game_dir, CONTENT_PATH);
+        __os_snprintf(bss.mount_base, sizeof(bss.mount_base), "%s/%s%s", gamePathStruct.os_game_path_base, gamePathStruct.game_dir, CONTENT_PATH);
         // create game save path prefix
-        __os_snprintf(bss.save_base, sizeof(bss.save_base), "%s/%s", game_paths->os_save_path_base, game_paths->game_dir);
+        __os_snprintf(bss.save_base, sizeof(bss.save_base), "%s/%s", gamePathStruct.os_save_path_base, gamePathStruct.game_dir);
+        // copy save dirs
+        __os_snprintf(bss.save_dir_common, sizeof(bss.save_dir_common), "%s", gamePathStruct.save_dir_common);
+        __os_snprintf(bss.save_dir_user, sizeof(bss.save_dir_user), "%s", gamePathStruct.save_dir_user);
 
         // setup exceptions, has to be done once per core
         setup_os_exceptions();
@@ -764,10 +768,8 @@ static int LoadRPLToMemory(s_rpx_rpl *rpl_entry)
         return 0;
     }
 
-    game_paths_t *game_paths = (game_paths_t *)GAME_PATH_STRUCT;
-
     // calculate path length for SD access of RPL
-    int path_len = m_strlen(game_paths->os_game_path_base) + m_strlen(game_paths->game_dir) + m_strlen(RPX_RPL_PATH) + m_strlen(rpl_entry->name) + 3;
+    int path_len = m_strlen(gamePathStruct.os_game_path_base) + m_strlen(gamePathStruct.game_dir) + m_strlen(RPX_RPL_PATH) + m_strlen(rpl_entry->name) + 3;
     char *path_rpl = malloc(path_len);
     if(!path_rpl) {
         free(pCmd);
@@ -775,10 +777,10 @@ static int LoadRPLToMemory(s_rpx_rpl *rpl_entry)
         return 0;
     }
     // create path
-    __os_snprintf(path_rpl, path_len, "%s/%s%s/%s", game_paths->os_game_path_base, game_paths->game_dir, RPX_RPL_PATH, rpl_entry->name);
+    __os_snprintf(path_rpl, path_len, "%s/%s%s/%s", gamePathStruct.os_game_path_base, gamePathStruct.game_dir, RPX_RPL_PATH, rpl_entry->name);
 
     // malloc mem for read file
-    unsigned char* dataBuf = (unsigned char*)memalign(0x40, 0x1000);
+    unsigned char* dataBuf = (unsigned char*)memalign(0x40, 0x10000);
     if(!dataBuf) {
         free(pCmd);
         free(pClient);
@@ -800,40 +802,22 @@ static int LoadRPLToMemory(s_rpx_rpl *rpl_entry)
         int ret;
         int rpl_size = 0;
 
-        // Get current memory area
-        s_mem_area* mem_area    = (s_mem_area*)(MEM_AREA_ARRAY);
-        int mem_area_addr_start = mem_area->address;
-        int mem_area_addr_end   = mem_area->address + mem_area->size;
-        int mem_area_offset     = 0;
-
         // Copy rpl in memory
-        while ((ret = FSReadFile(pClient, pCmd, dataBuf, 0x1, 0x1000, fd, 0, FS_RET_ALL_ERROR)) > 0)
+        while ((ret = FSReadFile(pClient, pCmd, dataBuf, 0x1, 0x10000, fd, 0, FS_RET_ALL_ERROR)) > 0)
         {
             // Copy in memory and save offset
-            for (int j = 0; j < ret; j++)
+            int copiedData = rpxRplCopyDataToMem(rpl_entry, rpl_size, dataBuf, ret);
+            if(copiedData != ret)
             {
-                if ((mem_area_addr_start + mem_area_offset) >= mem_area_addr_end)
-                {
-                    // Set next memory area
-                    mem_area            = mem_area->next;
-                    mem_area_addr_start = mem_area->address;
-                    mem_area_addr_end   = mem_area->address + mem_area->size;
-                    mem_area_offset     = 0;
-                }
-                *(volatile unsigned char*)(mem_area_addr_start + mem_area_offset) = dataBuf[j];
-                mem_area_offset += 1;
+                char buffer[200];
+                __os_snprintf(buffer, sizeof(buffer), "CheckAndLoadRPL(%s) failure on copying data to memory. Copied %i expected %i.", rpl_entry->name, copiedData, ret);
+                fs_log_string(bss.global_sock, buffer, BYTE_LOG_STR);
             }
             rpl_size += ret;
         }
 
         // Fill rpl entry
-        rpl_entry->area = (s_mem_area*)(MEM_AREA_ARRAY);
-        rpl_entry->offset = 0;
         rpl_entry->size = rpl_size;
-
-        // flush memory
-        // DCFlushRange((void*)rpl_entry, sizeof(s_rpx_rpl));
-        // DCFlushRange((void*)rpl_entry->address, rpl_entry->size);
 
         if ((int)bss_ptr != 0x0a000000)
         {
@@ -862,7 +846,7 @@ static int CheckAndLoadRPL(const char *rpl) {
         return 0;
 
     // Look for rpl name in our table
-    s_rpx_rpl *rpl_entry = (s_rpx_rpl*)(RPX_RPL_ARRAY);
+    s_rpx_rpl *rpl_entry = rpxRplTableGet();
 
     do
     {
@@ -877,10 +861,12 @@ static int CheckAndLoadRPL(const char *rpl) {
 
         // compare name string case insensitive and without ".rpl" extension
         if (m_strncasecmp(rpl_entry->name, rpl, len) == 0)
-            return LoadRPLToMemory(rpl_entry);
+        {
+            int result = LoadRPLToMemory(rpl_entry);
+            return result;
+        }
     }
     while((rpl_entry = rpl_entry->next) != 0);
-
     return 0;
 }
 
@@ -952,7 +938,7 @@ DECL(int, LiWaitOneChunk, unsigned int * iRemainingBytes, const char *filename, 
     // Do this only if we are in the game that was launched by our method
     if (*(volatile unsigned int*)0xEFE00000 == RPX_CHECK_NAME && (GAME_LAUNCHED == 1))
     {
-        s_rpx_rpl *rpl_struct = (s_rpx_rpl*)(RPX_RPL_ARRAY);
+        s_rpx_rpl *rpl_struct = rpxRplTableGet();
 
         do
         {
@@ -989,27 +975,7 @@ DECL(int, LiWaitOneChunk, unsigned int * iRemainingBytes, const char *filename, 
                     // truncate size
                     remaining_bytes = 0x400000;
 
-                s_mem_area *mem_area    = rpl_struct->area;
-                int mem_area_addr_start = mem_area->address;
-                int mem_area_addr_end   = mem_area_addr_start + mem_area->size;
-                int mem_area_offset     = rpl_struct->offset;
-
-                // Replace rpx/rpl data
-                for (int i = 0; i < (remaining_bytes / 4); i++)
-                {
-                    if ((mem_area_addr_start + mem_area_offset) >= mem_area_addr_end) // TODO: maybe >, not >=
-                    {
-                        mem_area            = mem_area->next;
-                        mem_area_addr_start = mem_area->address;
-                        mem_area_addr_end   = mem_area_addr_start + mem_area->size;
-                        mem_area_offset     = 0;
-                    }
-                    *(volatile unsigned int *)(load_address + (i * 4)) = *(volatile unsigned int *)(mem_area_addr_start + mem_area_offset);
-                    mem_area_offset += 4;
-                }
-
-                rpl_struct->area = mem_area;
-                rpl_struct->offset = mem_area_offset;
+                rpxRplCopyDataFromMem(rpl_struct, loader_globals->sgFileOffset, (unsigned char*)load_address, remaining_bytes);
                 // set result to 0 -> "everything OK"
                 result = 0;
                 break;
@@ -1260,6 +1226,9 @@ void PatchMethodHooks(void)
 
     OsSpecifics *OsSpecificFunctions = OS_SPECIFICS;
 
+    bat_table_t table;
+    KernelSetDBATs(&table);
+
     /* Patch branches to it. */
     volatile unsigned int *space = &fs_method_calls[0];
 
@@ -1291,7 +1260,8 @@ void PatchMethodHooks(void)
         restore->instr_count++;
 
         // set pointer to the real function
-        *(volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + call_addr) = (unsigned int)(space) - CODE_RW_BASE_OFFSET;
+        *(volatile unsigned int *)(call_addr) = (unsigned int)(space) - CODE_RW_BASE_OFFSET;
+        DCFlushRange((void*)(call_addr), 4);
 
         // fill the instruction of the real function
         *space = *(volatile unsigned int*)(LIB_CODE_RW_BASE_OFFSET + real_addr);
@@ -1308,4 +1278,5 @@ void PatchMethodHooks(void)
         DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + real_addr), 4);
         ICInvalidateRange((void*)(real_addr), 4);
     }
+    KernelRestoreDBATs(&table);
 }
