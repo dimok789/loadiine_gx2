@@ -106,7 +106,7 @@ extern void* (* OSEffectiveToPhysical)(const void*);
 extern int (* __os_snprintf)(char* s, int n, const char * format, ...);
 
 typedef unsigned char (*exception_callback)(void * interruptedContext);
-extern void (* OSSetExceptionCallbackEx)(u8 exceptionMode, u8 exceptionType, exception_callback newCallback);
+extern void (* OSSetExceptionCallback)(u8 exceptionType, exception_callback newCallback);
 
 extern int (* LiWaitIopComplete)(int unknown_syscall_arg_r3, int * remaining_bytes);
 extern int (* LiWaitIopCompleteWithInterrupts)(int unknown_syscall_arg_r3, int * remaining_bytes);

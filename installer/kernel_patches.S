@@ -1,28 +1,36 @@
 #if ((VER == 532) || (VER == 540))
-#ifdef USE_SD_LOADER
-#define BAT_SETUP_HOOK_ENTRY	0x00800000
+#define BAT_SETUP_HOOK_ADDR         0xFFF1D638
+#define PREP_TITLE_HOOK_ADDR        0xFFF18558
+#define BAT_SET_NOP_ADDR_1          0xFFF06A14
+#define BAT_SET_NOP_ADDR_2          0xFFF06AA0
+#define BAT_SET_NOP_ADDR_3          0xFFF003C8
+#define BAT_SET_NOP_ADDR_4          0xFFF003CC
+#elif ((VER == 500) || (VER == 510))
+    #define BAT_SETUP_HOOK_ADDR	0xFFF1D518
+    #define PREP_TITLE_HOOK_ADDR    0xFFF18534
+#elif VER == 410
+    #define BAT_SETUP_HOOK_ADDR	0xFFF1AD00
+    #define PREP_TITLE_HOOK_ADDR    0xFFF166DC
 #else
-#define BAT_SETUP_HOOK_ENTRY	(0x00800000 + 0x2000)
-#endif
-#define BAT_SETUP_HOOK_ADDR		0xFFF1D638
-#define PREP_TITLE_HOOK_ENTRY	(BAT_SETUP_HOOK_ENTRY + 0x48)
-#define PREP_TITLE_HOOK_ADDR	0xFFF18558
-#define BAT4U_VAL				0x008000FF
-#define BAT4L_VAL				0x30800012
-#define BAT_SET_NOP_ADDR_1      0xFFF06A14
-#define BAT_SET_NOP_ADDR_2      0xFFF06AA0
-#define BAT_SET_NOP_ADDR_3      0xFFF003C8
-#define BAT_SET_NOP_ADDR_4      0xFFF003CC
-#else
-#error Please define valid values for kernel setup.
+    #error Please define valid values for kernel setup.
 #endif
 
-#define SET_R4_TO_ADDR(addr)				\
-	lis r3, addr@h						;	\
-    ori r3, r3, addr@l					;	\
-    stw r4, 0(r3)						;	\
-    dcbf 0, r3							;	\
-    icbi 0, r3							;
+#ifdef USE_SD_LOADER
+    #define BAT_SETUP_HOOK_ENTRY    0x00800000
+#else
+    #define BAT_SETUP_HOOK_ENTRY    (0x00800000 + 0x2000)
+#endif
+
+#define PREP_TITLE_HOOK_ENTRY       (BAT_SETUP_HOOK_ENTRY + 0x38)
+#define BAT4U_VAL                   0x008000FF
+#define BAT4L_VAL                   0x30800013
+
+#define SET_R4_TO_ADDR(addr)        \
+    lis r3, addr@h              ;   \
+    ori r3, r3, addr@l          ;   \
+    stw r4, 0(r3)               ;   \
+    dcbf 0, r3                  ;   \
+    icbi 0, r3                  ;
 
      .globl Syscall_0x36
 Syscall_0x36:
@@ -112,7 +120,7 @@ KernelPatches:
     ori r3, r3, ((BAT_SETUP_HOOK_ADDR + 0x20) & ~31)@l
     dcbf 0, r3
     icbi 0, r3
-	sync
+    sync
 
     # setup IBAT4 for core 1 at this position (not really required but wont hurt)
     # IBATL 4
@@ -132,15 +140,15 @@ KernelPatches:
     # Now lets hook the kernel function for result printing of PrepareTitle add jump to our function
     lis r4, (PREP_TITLE_HOOK_ENTRY | 0x48000003)@h
     ori r4, r4, (PREP_TITLE_HOOK_ENTRY | 0x48000003)@l
-	SET_R4_TO_ADDR(PREP_TITLE_HOOK_ADDR)
+    SET_R4_TO_ADDR(PREP_TITLE_HOOK_ADDR)
 
     # write "nop" to some positions
     lis r4, 0x6000
     # nop on IBATU 4 and DBAT 5 set/reset
-	SET_R4_TO_ADDR(BAT_SET_NOP_ADDR_1)
-	SET_R4_TO_ADDR(BAT_SET_NOP_ADDR_2)
-	SET_R4_TO_ADDR(BAT_SET_NOP_ADDR_3)
-	SET_R4_TO_ADDR(BAT_SET_NOP_ADDR_4)
+    SET_R4_TO_ADDR(BAT_SET_NOP_ADDR_1)
+    SET_R4_TO_ADDR(BAT_SET_NOP_ADDR_2)
+    SET_R4_TO_ADDR(BAT_SET_NOP_ADDR_3)
+    SET_R4_TO_ADDR(BAT_SET_NOP_ADDR_4)
 
     # memory barrier
     eieio

@@ -52,7 +52,6 @@ EXPORT_DECL(void, GX2InitColorBufferRegs, GX2ColorBuffer *colorBuffer);
 EXPORT_DECL(void, GX2CalcColorBufferAuxInfo, GX2ColorBuffer *colorBuffer, u32 *size, u32 *align);
 EXPORT_DECL(void, GX2CalcDepthBufferHiZInfo, GX2DepthBuffer *depthBuffer, u32 *size, u32 *align);
 EXPORT_DECL(void, GX2InitDepthBufferHiZEnable, GX2DepthBuffer *depthBuffer, s32 hiZ_enable);
-EXPORT_DECL(void, GX2SetSpecialState, s32 special_state, s32 enable);
 EXPORT_DECL(void, GX2SetupContextStateEx, GX2ContextState* state, s32 enable_profiling);
 EXPORT_DECL(void, GX2SetColorBuffer, const GX2ColorBuffer *colorBuffer, s32 target);
 EXPORT_DECL(void, GX2SetDepthBuffer, const GX2DepthBuffer *depthBuffer);
@@ -71,8 +70,6 @@ EXPORT_DECL(void, GX2SetVertexSampler, const GX2Sampler *sampler, u32 sampler_hw
 EXPORT_DECL(void, GX2SetPixelShader, const GX2PixelShader* pixelShader);
 EXPORT_DECL(void, GX2SetVertexShader, const GX2VertexShader* vertexShader);
 EXPORT_DECL(void, GX2InitSamplerZMFilter, GX2Sampler *sampler, s32 z_filter, s32 mip_filter);
-EXPORT_DECL(void, GX2SetClearDepth, GX2DepthBuffer *depthBuffer, f32 depth_value);
-EXPORT_DECL(void, GX2SetClearStencil, GX2DepthBuffer *depthBuffer, u8 stencil_value);
 EXPORT_DECL(void, GX2SetColorControl, s32 lop, u8 blend_enable_mask, s32 enable_multi_write, s32 enable_color_buffer);
 EXPORT_DECL(void, GX2SetDepthOnlyControl, s32 enable_depth, s32 enable_depth_write, s32 depth_comp_function);
 EXPORT_DECL(void, GX2SetBlendControl, s32 target, s32 color_src_blend, s32 color_dst_blend, s32 color_combine, s32 separate_alpha_blend, s32 alpha_src_blend, s32 alpha_dst_blend, s32 alpha_combine);
@@ -127,7 +124,6 @@ void InitGX2FunctionPointers(void)
     OS_FIND_EXPORT(gx2_handle, GX2CalcColorBufferAuxInfo);
     OS_FIND_EXPORT(gx2_handle, GX2CalcDepthBufferHiZInfo);
     OS_FIND_EXPORT(gx2_handle, GX2InitDepthBufferHiZEnable);
-    OS_FIND_EXPORT(gx2_handle, GX2SetSpecialState);
     OS_FIND_EXPORT(gx2_handle, GX2SetupContextStateEx);
     OS_FIND_EXPORT(gx2_handle, GX2SetColorBuffer);
     OS_FIND_EXPORT(gx2_handle, GX2SetDepthBuffer);
@@ -146,8 +142,6 @@ void InitGX2FunctionPointers(void)
     OS_FIND_EXPORT(gx2_handle, GX2SetPixelShader);
     OS_FIND_EXPORT(gx2_handle, GX2SetVertexShader);
     OS_FIND_EXPORT(gx2_handle, GX2InitSamplerZMFilter);
-    OS_FIND_EXPORT(gx2_handle, GX2SetClearDepth);
-    OS_FIND_EXPORT(gx2_handle, GX2SetClearStencil);
     OS_FIND_EXPORT(gx2_handle, GX2SetColorControl);
     OS_FIND_EXPORT(gx2_handle, GX2SetDepthOnlyControl);
     OS_FIND_EXPORT(gx2_handle, GX2SetBlendControl);

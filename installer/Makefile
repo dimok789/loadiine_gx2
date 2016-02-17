@@ -2,7 +2,7 @@ PATH := $(DEVKITPPC)/bin:$(PATH)
 CC=powerpc-eabi-gcc
 AS=powerpc-eabi-gcc
 CFLAGS=-std=gnu99 -Os -nostdinc -fno-builtin
-ASFLAGS=-mregnames -x assembler-with-cpp 
+ASFLAGS=-mregnames -x assembler-with-cpp
 LD=powerpc-eabi-ld
 LDFLAGS=-Ttext 1800000 --oformat binary -L$(DEVKITPPC)/lib/gcc/powerpc-eabi/4.8.2 -lgcc
 OBJDUMP ?= $(PREFIX)objdump
@@ -12,8 +12,8 @@ build	:=	 $(root)/bin
 www_loadiine :=$(root)/../../www/loadiine
 framework:=$(root)/../../../framework
 
-#CFLAGS += -DUSE_SD_LOADER 
-#ASFLAGS += -DUSE_SD_LOADER 
+#CFLAGS += -DUSE_SD_LOADER
+#ASFLAGS += -DUSE_SD_LOADER
 
 all: clean setup main532
 
@@ -22,13 +22,13 @@ setup:
 
 main540:
 	make main FIRMWARE=532
-	
+
 main532:
 	make main FIRMWARE=532
 
 main500:
 	make main FIRMWARE=500
-	
+
 main410:
 	make main FIRMWARE=410
 
