@@ -1012,7 +1012,7 @@ int unmount_sd_fat(const char *path)
         free(pClient);
         free(pCmd);
         free(mountPath);
-        FSShutdown();
+        //FSShutdown();
     }
     return result;
 }

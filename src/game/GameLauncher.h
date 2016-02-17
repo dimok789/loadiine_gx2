@@ -5,6 +5,8 @@
 #include <string>
 #include <gctypes.h>
 #include "common/common.h"
+#include "rpx_rpl_table.h"
+#include "memory_area_table.h"
 #include "GameList.h"
 #include "system/CThread.h"
 #include "gui/sigslot.h"
@@ -27,7 +29,6 @@ public:
 
     static CThread * loadGameToMemoryAsync(const discHeader *hdr, sigslot::signal2<const discHeader *, int> * asyncLoadFinished);
 private:
-    static void Add_RPX_RPL_Entry(const char *name, int offset, int size, int is_rpx, int entry_index, s_mem_area* area);
     static int LoadRpxRplToMem(const std::string & path, const std::string & name, bool isRPX, int entryIndex, const std::vector<std::string> & rplImportList);
     static void GetRpxImports(s_rpx_rpl * rpxArray, std::vector<std::string> & rplImports);
 

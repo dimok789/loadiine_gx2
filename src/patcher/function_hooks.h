@@ -15,6 +15,8 @@ struct bss_t {
     volatile int lock;
     char mount_base[255];
     char save_base[255];
+    char save_dir_common[7];
+    char save_dir_user[9];
 };
 
 #define bss_ptr (*(struct bss_t **)0x100000e4)

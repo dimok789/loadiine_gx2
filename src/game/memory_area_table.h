@@ -14,29 +14,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
-#ifndef __MEMORY_H_
-#define __MEMORY_H_
+#ifndef _MEMORY_AREA_TABLE_H_
+#define _MEMORY_AREA_TABLE_H_
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include <malloc.h>
+/* Struct used to organize empty memory areas */
+typedef struct _s_mem_area
+{
+    unsigned int        address;
+    unsigned int        size;
+    struct _s_mem_area* next;
+} s_mem_area;
 
-void memoryInitialize(void);
-void memoryRelease(void);
+void memoryInitAreaTable();
+s_mem_area * memoryGetAreaTable(void);
 
-void * MEM2_alloc(unsigned int size, unsigned int align);
-void MEM2_free(void *ptr);
-
-void * MEM1_alloc(unsigned int size, unsigned int align);
-void MEM1_free(void *ptr);
-
-void * MEMBucket_alloc(unsigned int size, unsigned int align);
-void MEMBucket_free(void *ptr);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif // __MEMORY_H_
+#endif // _MEMORY_AREA_TABLE_H_

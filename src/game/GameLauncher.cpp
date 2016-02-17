@@ -9,6 +9,7 @@
 #include "GameLauncher.h"
 #include "fs/CFile.hpp"
 #include "fs/DirList.h"
+#include "kernel/kernel_functions.h"
 #include "utils/logger.h"
 #include "utils/xml.h"
 
@@ -22,6 +23,8 @@
 #define RPX_SHDR_SIZE_OFFSET            0x14
 
 #define RPX_SHDR_ZLIB_FLAG              0x08000000
+
+game_paths_t gamePathStruct;
 
 /* global variable for CosAppXml struct that is forced to data section */
 extern ReducedCosAppXmlInfo cosAppXmlInfoStruct;
@@ -65,9 +68,9 @@ int GameLauncher::loadGameToMemory(const discHeader *header)
     if(!header)
         return INVALID_INPUT;
 
-    //! initialize the RPL/RPX table first entry to zero + 1 byte for name zero termination
-    //! just in case no RPL/RPX are found, though it wont boot then anyway
-    memset(RPX_RPL_ARRAY, 0, sizeof(s_rpx_rpl) + 1);
+    //! initialize our tables required for the games
+    memoryInitAreaTable();
+    rpxRplTableInit();
 
 	DirList rpxList(header->gamepath + RPX_RPL_PATH, ".rpx", DirList::Files);
 
@@ -98,7 +101,7 @@ int GameLauncher::loadGameToMemory(const discHeader *header)
     rpxName = rpxList.GetFilename(0);
 
     //! get all imports from the RPX
-    GetRpxImports((s_rpx_rpl *)(RPX_RPL_ARRAY), rplImportList);
+    GetRpxImports(rpxRplTableGet(), rplImportList);
 
     for(int i = 0; i < rplList.GetFilecount(); i++)
     {
@@ -163,14 +166,7 @@ int GameLauncher::loadGameToMemory(const discHeader *header)
     if(pos != std::string::npos)
         tempPath = std::string(CAFE_OS_SD_PATH) + tempPath.substr(pos);
 
-    game_paths_t *game_paths = (game_paths_t *)GAME_PATH_STRUCT;
-
-    //! set pointer to firth path and copy it
-    game_paths->os_game_path_base = (char*)(game_paths + 1);
-    strcpy(game_paths->os_game_path_base, tempPath.c_str());
-
-    //! set pointer to next path and copy it
-    game_paths->os_save_path_base = game_paths->os_game_path_base + tempPath.size() + 1;
+    strlcpy(gamePathStruct.os_game_path_base, tempPath.c_str(), sizeof(gamePathStruct.os_game_path_base));
 
     tempPath = CSettings::getValueAsString(CSettings::GameSavePath);
     //! remove "sd:" and replace with "/vol/external01"
@@ -178,25 +174,16 @@ int GameLauncher::loadGameToMemory(const discHeader *header)
     if(pos != std::string::npos)
         tempPath = std::string(CAFE_OS_SD_PATH) + tempPath.substr(pos);
 
-    strcpy(game_paths->os_save_path_base, tempPath.c_str());
+    strlcpy(gamePathStruct.os_save_path_base, tempPath.c_str(), sizeof(gamePathStruct.os_save_path_base));
+    strlcpy(gamePathStruct.game_dir, game_dir.c_str(), sizeof(gamePathStruct.game_dir));
+    strlcpy(gamePathStruct.save_dir_common, saveGamePathCommon.c_str(), sizeof(gamePathStruct.save_dir_common));
+    strlcpy(gamePathStruct.save_dir_user, saveGamePathUser.c_str(), sizeof(gamePathStruct.save_dir_user));
 
-    //! set pointer to next path and copy it
-    game_paths->game_dir = game_paths->os_save_path_base + tempPath.size() + 1;
-    strcpy(game_paths->game_dir, game_dir.c_str());
-
-    //! set pointer to next path and copy it
-    game_paths->save_dir_common = game_paths->game_dir + game_dir.size() + 1;
-    strcpy(game_paths->save_dir_common, saveGamePathCommon.c_str());
-
-    //! set pointer to next path and copy it
-    game_paths->save_dir_user = game_paths->save_dir_common + saveGamePathCommon.size() + 1;
-    strcpy(game_paths->save_dir_user, saveGamePathUser.c_str());
-
-    log_printf("game_paths->os_game_path_base: %s\n", game_paths->os_game_path_base);
-    log_printf("game_paths->os_save_path_base: %s\n", game_paths->os_save_path_base);
-    log_printf("game_paths->game_dir:          %s\n", game_paths->game_dir);
-    log_printf("game_paths->save_dir_common:   %s\n", game_paths->save_dir_common);
-    log_printf("game_paths->save_dir_user:     %s\n", game_paths->save_dir_user);
+    log_printf("gamePathStruct.os_game_path_base: %s\n", gamePathStruct.os_game_path_base);
+    log_printf("gamePathStruct.os_save_path_base: %s\n", gamePathStruct.os_save_path_base);
+    log_printf("gamePathStruct.game_dir:          %s\n", gamePathStruct.game_dir);
+    log_printf("gamePathStruct.save_dir_common:   %s\n", gamePathStruct.save_dir_common);
+    log_printf("gamePathStruct.save_dir_user:     %s\n", gamePathStruct.save_dir_user);
 
     LoadXmlParameters(&cosAppXmlInfoStruct, rpxName.c_str(), (header->gamepath + RPX_RPL_PATH).c_str());
 
@@ -221,33 +208,6 @@ int GameLauncher::loadGameToMemory(const discHeader *header)
     return 0;
 }
 
-void GameLauncher::Add_RPX_RPL_Entry(const char *name, int offset, int size, int is_rpx, int entry_index, s_mem_area* area)
-{
-    // fill rpx/rpl entry
-    s_rpx_rpl * rpx_rpl_data = (s_rpx_rpl *)(RPX_RPL_ARRAY);
-    // get to last entry
-    while(rpx_rpl_data->next) {
-        rpx_rpl_data = rpx_rpl_data->next;
-    }
-
-    // setup next entry on the previous one (only if it is not the first entry)
-    if(entry_index > 0) {
-        rpx_rpl_data->next = (s_rpx_rpl *)( ((unsigned int)rpx_rpl_data) + sizeof(s_rpx_rpl) + strlen(rpx_rpl_data->name) + 1 );
-        rpx_rpl_data = rpx_rpl_data->next;
-    }
-
-    // setup current entry
-    rpx_rpl_data->area = area;
-    rpx_rpl_data->size = size;
-    rpx_rpl_data->offset = offset;
-    rpx_rpl_data->is_rpx = is_rpx;
-    rpx_rpl_data->next = 0;
-    strcpy(rpx_rpl_data->name, name);
-
-    log_printf("%s: loaded into 0x%08X, offset: 0x%08X, size: 0x%08X\n", name, area->address, offset, size);
-}
-
-
 int GameLauncher::LoadRpxRplToMem(const std::string & path, const std::string & name, bool isRPX, int entryIndex, const std::vector<std::string> & rplImportList)
 {
     // For RPLs :
@@ -268,7 +228,7 @@ int GameLauncher::LoadRpxRplToMem(const std::string & path, const std::string & 
         if(!preload)
         {
             // fill rpl entry
-            Add_RPX_RPL_Entry(name.c_str(), 0, 0, isRPX, entryIndex, (s_mem_area*)(MEM_AREA_ARRAY));
+            rpxRplTableAddEntry(name.c_str(), 0, 0, isRPX, entryIndex, memoryGetAreaTable());
             return 1;
         }
         log_printf("Pre-loading RPL %s because its in the fimport section\n", name.c_str());
@@ -281,58 +241,34 @@ int GameLauncher::LoadRpxRplToMem(const std::string & path, const std::string & 
     u32 fileSize = file.size();
 
     // this is the initial area
-    s_mem_area* mem_area    = (s_mem_area*)(MEM_AREA_ARRAY);
-    int mem_area_addr_start = mem_area->address;
-    int mem_area_addr_end   = mem_area->address + mem_area->size;
-    int mem_area_offset     = 0;
+    s_mem_area* mem_area    = memoryGetAreaTable();
+    unsigned int mem_area_addr_start = mem_area->address;
+    unsigned int mem_area_addr_end   = mem_area->address + mem_area->size;
+    unsigned int mem_area_offset     = 0;
 
     // on RPLs we need to find the free area we can store data to (at least RPX was already loaded by this point)
     if(!isRPX)
+        mem_area = rpxRplTableGetNextFreeMemArea(&mem_area_addr_start, &mem_area_addr_end, &mem_area_offset);
+
+    if(!mem_area)
     {
-        s_rpx_rpl *rpl_struct = (s_rpx_rpl*)(RPX_RPL_ARRAY);
-        while(rpl_struct != 0)
-        {
-            // check if this entry was loaded into memory
-            if(rpl_struct->size == 0) {
-                // see if we find entries behind this one that was pre-loaded
-                rpl_struct = rpl_struct->next;
-                // entry was not loaded into memory -> skip it
-                continue;
-            }
-
-            // this entry has been loaded to memory, remember it's area
-            mem_area = rpl_struct->area;
-
-            int rpl_size = rpl_struct->size;
-            int rpl_offset = rpl_struct->offset;
-            // find the end of the entry and switch between areas if needed
-            while((u32)(rpl_offset + rpl_size) >= mem_area->size)
-            {
-                rpl_size -= mem_area->size - rpl_offset;
-                rpl_offset = 0;
-                mem_area = mem_area->next;
-            }
-
-            // set new start, end and memory area offset
-            mem_area_addr_start = mem_area->address;
-            mem_area_addr_end   = mem_area->address + mem_area->size;
-            mem_area_offset     = rpl_offset + rpl_size;
-
-            // see if we find entries behind this one that was pre-loaded
-            rpl_struct = rpl_struct->next;
-        }
+        log_printf("Not enough memory for file %s\n", path.c_str());
+        return NOT_ENOUGH_MEMORY;
     }
 
     // malloc mem for read file
     std::string strBuffer;
-    strBuffer.resize(0x1000);
+    strBuffer.resize(0x10000);
     unsigned char *pBuffer = (unsigned char*)&strBuffer[0];
 
-    // Get current memory area limits
-    s_mem_area* mem_area_rpl_start = mem_area;
-    int mem_area_offset_rpl_start = mem_area_offset;
-
+    // fill rpx entry
     u32 bytesRead = 0;
+    s_rpx_rpl* rpx_rpl_struct = rpxRplTableAddEntry(name.c_str(), mem_area_offset, 0, isRPX, entryIndex, mem_area);
+    if(!rpx_rpl_struct)
+    {
+        log_printf("Not enough memory for file %s\n", path.c_str());
+        return NOT_ENOUGH_MEMORY;
+    }
 
     // Copy rpl in memory
     while(bytesRead < fileSize)
@@ -348,25 +284,13 @@ int GameLauncher::LoadRpxRplToMem(const std::string & path, const std::string & 
             break;
         }
 
-        // Copy in memory and save offset
-        for (int j = 0; j < ret; j++)
+        int copiedData = rpxRplCopyDataToMem(rpx_rpl_struct, bytesRead, pBuffer, ret);
+        if(copiedData != ret)
         {
-            if ((mem_area_addr_start + mem_area_offset) >= mem_area_addr_end)
-            {
-                // Set next memory area
-                mem_area            = mem_area->next;
-                if(!mem_area)
-                {
-                    log_printf("Not enough memory for file %s\n", path.c_str());
-                    return NOT_ENOUGH_MEMORY;
-                }
-                mem_area_addr_start = mem_area->address;
-                mem_area_addr_end   = mem_area->address + mem_area->size;
-                mem_area_offset     = 0;
-            }
-            *(volatile unsigned char*)(mem_area_addr_start + mem_area_offset) = pBuffer[j];
-            mem_area_offset++;
+            log_printf("Not enough memory for file %s. Could not copy all data %i != %i.\n", rpx_rpl_struct->name, copiedData, ret);
+            return NOT_ENOUGH_MEMORY;
         }
+        rpx_rpl_struct->size += ret;
         bytesRead += ret;
     }
 
@@ -381,45 +305,7 @@ int GameLauncher::LoadRpxRplToMem(const std::string & path, const std::string & 
         RPX_CHECK_NAME = *(unsigned int*)name.c_str();
     }
 
-    // fill rpx entry
-    Add_RPX_RPL_Entry(name.c_str(), mem_area_offset_rpl_start, fileSize, isRPX, entryIndex, mem_area_rpl_start);
-
     // return okay
-    return 0;
-}
-
-static int GetMemorySegment(s_rpx_rpl * rpx_data, unsigned int offset, unsigned int size, unsigned char *buffer)
-{
-    s_mem_area *mem_area = rpx_data->area;
-    int mem_area_addr_start = mem_area->address;
-    int mem_area_addr_end   = mem_area_addr_start + mem_area->size;
-    int mem_area_offset     = rpx_data->offset;
-
-    unsigned int buffer_position = 0;
-
-    // Replace rpx/rpl data
-    for (unsigned int position = 0; position < rpx_data->size; position++)
-    {
-        if ((mem_area_addr_start + mem_area_offset) >= mem_area_addr_end) // TODO: maybe >, not >=
-        {
-            mem_area            = mem_area->next;
-            if(!mem_area) {
-                return buffer_position;
-            }
-            mem_area_addr_start = mem_area->address;
-            mem_area_addr_end   = mem_area_addr_start + mem_area->size;
-            mem_area_offset     = 0;
-        }
-        if(position >= offset) {
-            buffer[buffer_position] = *(unsigned char *)(mem_area_addr_start + mem_area_offset);
-            buffer_position++;
-        }
-        if(buffer_position >= size) {
-            return buffer_position;
-        }
-        mem_area_offset++;
-    }
-
     return 0;
 }
 
@@ -429,7 +315,7 @@ void GameLauncher::GetRpxImports(s_rpx_rpl *rpx_data, std::vector<std::string> &
     strBuffer.resize(0x1000);
 
     // get the header information of the RPX
-    if(!GetMemorySegment(rpx_data, 0, 0x1000, (unsigned char *)&strBuffer[0]))
+    if(!rpxRplCopyDataFromMem(rpx_data, 0, (unsigned char *)&strBuffer[0], 0x1000))
         return;
 
     // Who needs error checks...
@@ -451,7 +337,7 @@ void GameLauncher::GetRpxImports(s_rpx_rpl *rpx_data, std::vector<std::string> &
     section_data.resize(section_size_aligned);
 
     // get the header information of the RPX
-    if(!GetMemorySegment(rpx_data, section_offset_aligned, section_size_aligned, (unsigned char *)&section_data[0]))
+    if(!rpxRplCopyDataFromMem(rpx_data, section_offset_aligned, (unsigned char *)&section_data[0], section_size_aligned))
         return;
 
     //Check if inflate is needed (ZLIB flag)

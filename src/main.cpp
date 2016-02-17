@@ -43,18 +43,21 @@ extern "C" int Menu_Main(void)
     log_print("Function exports loaded\n");
 
     //!*******************************************************************
+    //!                Initialize our kernel variables                   *
+    //!*******************************************************************
+    log_printf("Setup kernel variables\n");
+    SetupKernelCallback();
+    //!*******************************************************************
     //!                    Initialize heap memory                        *
     //!*******************************************************************
     log_print("Initialize memory management\n");
     memoryInitialize();
-    GenerateMemoryAreaTable();
 
     //!*******************************************************************
     //!                       Patch Functions                            *
     //!*******************************************************************
     log_printf("Patch FS and loader functions\n");
     PatchMethodHooks();
-    SetupKernelCallback();
 
     //!*******************************************************************
     //!                        Initialize FS                             *
@@ -65,6 +68,7 @@ extern "C" int Menu_Main(void)
     //!*******************************************************************
     //!                    Setup exception handler                       *
     //!*******************************************************************
+    log_printf("Setup exception handler\n");
     setup_os_exceptions();
 
     //!*******************************************************************
@@ -81,6 +85,7 @@ extern "C" int Menu_Main(void)
     log_printf("Release memory\n");
     memoryRelease();
     log_printf("Loadiine peace out...\n");
+    log_deinit();
 
     return 0;
 }

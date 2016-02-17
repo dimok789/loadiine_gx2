@@ -5,10 +5,14 @@
 #define BAT_SETUP_HOOK_ENTRY	(0x00800000 + 0x2000)
 #endif
 #define BAT_SETUP_HOOK_ADDR		0xFFF1D638
-#define PREP_TITLE_HOOK_ENTRY	(BAT_SETUP_HOOK_ENTRY + 0x38)
+#define PREP_TITLE_HOOK_ENTRY	(BAT_SETUP_HOOK_ENTRY + 0x48)
 #define PREP_TITLE_HOOK_ADDR	0xFFF18558
 #define BAT4U_VAL				0x008000FF
-#define BAT4L_VAL				0x30800013
+#define BAT4L_VAL				0x30800012
+#define BAT_SET_NOP_ADDR_1      0xFFF06A14
+#define BAT_SET_NOP_ADDR_2      0xFFF06AA0
+#define BAT_SET_NOP_ADDR_3      0xFFF003C8
+#define BAT_SET_NOP_ADDR_4      0xFFF003CC
 #else
 #error Please define valid values for kernel setup.
 #endif
@@ -110,16 +114,6 @@ KernelPatches:
     icbi 0, r3
 	sync
 
-    # TODO: remove this since its not required anymore
-    # write "nop" to some positions
-    # lis r4, 0x6000
-    # nop on IBATU 4 set/reset
-	# SET_R4_TO_ADDR(BAT_SET_NOP_ADDR_1)
-	# SET_R4_TO_ADDR(BAT_SET_NOP_ADDR_2)
-	# SET_R4_TO_ADDR(BAT_SET_NOP_ADDR_3)
-	# SET_R4_TO_ADDR(BAT_SET_NOP_ADDR_4)
-	# SET_R4_TO_ADDR(BAT_SET_NOP_ADDR_5)
-
     # setup IBAT4 for core 1 at this position (not really required but wont hurt)
     # IBATL 4
     lis r3, BAT4L_VAL@h
@@ -139,6 +133,18 @@ KernelPatches:
     lis r4, (PREP_TITLE_HOOK_ENTRY | 0x48000003)@h
     ori r4, r4, (PREP_TITLE_HOOK_ENTRY | 0x48000003)@l
 	SET_R4_TO_ADDR(PREP_TITLE_HOOK_ADDR)
+
+    # write "nop" to some positions
+    lis r4, 0x6000
+    # nop on IBATU 4 and DBAT 5 set/reset
+	SET_R4_TO_ADDR(BAT_SET_NOP_ADDR_1)
+	SET_R4_TO_ADDR(BAT_SET_NOP_ADDR_2)
+	SET_R4_TO_ADDR(BAT_SET_NOP_ADDR_3)
+	SET_R4_TO_ADDR(BAT_SET_NOP_ADDR_4)
+
+    # memory barrier
+    eieio
+    isync
 
     # restore DBAT 0 and return from interrupt
     mtdbatu 0, r30

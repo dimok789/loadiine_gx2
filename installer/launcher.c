@@ -2,6 +2,8 @@
 #include "elf_abi.h"
 #include "kexploit.h"
 #include "structs.h"
+
+#define MEM_BASE                (0xC0800000)
 #include "../src/common/common.h"
 #include "../src/common/os_defs.h"
 #include "../../libwiiu/src/coreinit.h"
@@ -9,7 +11,7 @@
 //! this shouldnt depend on OS
 #define LIB_CODE_RW_BASE_OFFSET                         0xC1000000
 #define CODE_RW_BASE_OFFSET                             0xC0000000
-#define DATA_RW_BASE_OFFSET                             0
+#define DATA_RW_BASE_OFFSET                             0xC0000000
 
 #if VER == 532
     #define ADDRESS_OSTitle_main_entry_ptr              0x1005d180
@@ -17,6 +19,12 @@
     #define ADDRESS_LiWaitOneChunk                      0x010007EC
     #define ADDRESS_LiWaitIopComplete                   0x0100FFA4
     #define ADDRESS_LiWaitIopCompleteWithInterrupts     0x0100FE90
+
+    #define KERN_SYSCALL_TBL_1                          0xFFE84C70 // unknown
+    #define KERN_SYSCALL_TBL_2                          0xFFE85070 // works with games
+    #define KERN_SYSCALL_TBL_3                          0xFFE85470 // works with loader
+    #define KERN_SYSCALL_TBL_4                          0xFFEA9CE0 // works with home menu
+    #define KERN_SYSCALL_TBL_5                          0xFFEAA0E0 // works with browser (previously KERN_SYSCALL_TBL)
 #endif // VER
 
 /* Install functions */
@@ -121,7 +129,7 @@ void __main(void)
 
     // the thread stack is too small on current thread, switch to an own created thread
     // create a detached thread with priority 0 and use core 1
-    int ret = OSCreateThread(thread, curl_thread_callback, 1, (void*)&private_data, (unsigned int)stack+0x2000, 0x2000, 0, 0x1A);
+    int ret = OSCreateThread(thread, curl_thread_callback, 1, (void*)&private_data, (unsigned int)stack+0x4000, 0x4000, 0, 0x1A);
     if (ret == 0)
         ExitFailure(&private_data, "Failed to create thread. Exit and re-enter browser.");
 
@@ -157,6 +165,10 @@ void __main(void)
     /* Free thread memory and stack */
     private_data.MEMFreeToDefaultHeap(thread);
     private_data.MEMFreeToDefaultHeap(stack);
+
+    /* restore kernel memory table to original state */
+    kern_write((void*)(KERN_ADDRESS_TBL + (0x12 * 4)), 0);
+	kern_write((void*)(KERN_ADDRESS_TBL + (0x13 * 4)), 0x14000000);
 
     //! we are done -> exit browser now
     private_data._Exit();
@@ -218,12 +230,21 @@ void ExitFailure(private_data_t *private_data, const char *failure)
 /* *****************************************************************************
  * Base functions
  * ****************************************************************************/
-#define KERN_SYSCALL_TBL_5          0xFFEAA0E0 // works with browser
-
 static void SetupKernelSyscall(unsigned int address)
 {
     // Add syscall #0x36
     kern_write((void*)(KERN_SYSCALL_TBL_5 + (0x36 * 4)), address);
+
+    // make kern_read/kern_write available in all places
+    kern_write((void*)(KERN_SYSCALL_TBL_1 + (0x34 * 4)), KERN_CODE_READ);
+    kern_write((void*)(KERN_SYSCALL_TBL_2 + (0x34 * 4)), KERN_CODE_READ);
+    kern_write((void*)(KERN_SYSCALL_TBL_3 + (0x34 * 4)), KERN_CODE_READ);
+    kern_write((void*)(KERN_SYSCALL_TBL_4 + (0x34 * 4)), KERN_CODE_READ);
+
+    kern_write((void*)(KERN_SYSCALL_TBL_1 + (0x35 * 4)), KERN_CODE_WRITE);
+    kern_write((void*)(KERN_SYSCALL_TBL_2 + (0x35 * 4)), KERN_CODE_WRITE);
+    kern_write((void*)(KERN_SYSCALL_TBL_3 + (0x35 * 4)), KERN_CODE_WRITE);
+    kern_write((void*)(KERN_SYSCALL_TBL_4 + (0x35 * 4)), KERN_CODE_WRITE);
 }
 
 /* libcurl data write callback */
@@ -522,13 +543,15 @@ static void InstallPatches(private_data_t *private_data)
     PREP_TITLE_CALLBACK = 0;
     LOADIINE_MODE = LOADIINE_MODE_SMASH_BROS;
 
-    game_paths_t *game_paths = (game_paths_t *)GAME_PATH_STRUCT;
-    private_data->memset(game_paths, 0, sizeof(game_paths_t));
-
     unsigned int jump_main_hook = 0;
     osSpecificFunctions->addr_OSDynLoad_Acquire = (unsigned int)OSDynLoad_Acquire;
     osSpecificFunctions->addr_OSDynLoad_FindExport = (unsigned int)OSDynLoad_FindExport;
 
+    osSpecificFunctions->addr_KernSyscallTbl1 = KERN_SYSCALL_TBL_1;
+    osSpecificFunctions->addr_KernSyscallTbl2 = KERN_SYSCALL_TBL_2;
+    osSpecificFunctions->addr_KernSyscallTbl3 = KERN_SYSCALL_TBL_3;
+    osSpecificFunctions->addr_KernSyscallTbl4 = KERN_SYSCALL_TBL_4;
+    osSpecificFunctions->addr_KernSyscallTbl5 = KERN_SYSCALL_TBL_5;
     osSpecificFunctions->addr_LiWaitOneChunk = ADDRESS_LiWaitOneChunk;
     osSpecificFunctions->addr_LiWaitIopComplete = ADDRESS_LiWaitIopComplete;
     osSpecificFunctions->addr_LiWaitIopCompleteWithInterrupts = ADDRESS_LiWaitIopCompleteWithInterrupts;

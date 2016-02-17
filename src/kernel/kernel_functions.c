@@ -1,13 +1,14 @@
 #include <string.h>
 #include "common/common.h"
 #include "common/kernel_defs.h"
+#include "kernel/kernel_functions.h"
+#include "kernel/syscalls.h"
 
 /* replacement pointer to keep SD loader and browser loader equal */
 const volatile unsigned int *my_PrepareTitleCallbackPtr = &PREP_TITLE_CALLBACK;
 
-/* our BSS struct */
+/* our retain data */
 ReducedCosAppXmlInfo cosAppXmlInfoStruct __attribute__((section(".data")));
-
 /*
  *  This function is a kernel hook function. It is called directly from kernel code at position 0xFFF18558.
  */
@@ -47,8 +48,37 @@ void my_PrepareTitle(CosAppXmlInfo *xmlKernelInfo)
     }
 }
 
-
 void SetupKernelCallback(void)
 {
     PREP_TITLE_CALLBACK = (u32)my_PrepareTitle;
+    KernelSetupSyscalls();
+}
+
+void KernelSetDBATs(bat_table_t * table)
+{
+    SC0x36_KernelReadDBATs(table);
+    bat_table_t bat_table_copy = *table;
+
+    // try to use a free slot
+    int iUse;
+    for(iUse = 0; iUse < 7; iUse++)
+    {
+        // skip position 5 as it is our main DBAT for our code data
+        if(iUse == 5)
+            continue;
+
+        if(bat_table_copy.bat[iUse].h == 0 || bat_table_copy.bat[iUse].l == 0)
+        {
+            break;
+        }
+    }
+
+    bat_table_copy.bat[iUse].h = 0xC0001FFF;
+    bat_table_copy.bat[iUse].l = 0x30000012;
+    SC0x37_KernelWriteDBATs(&bat_table_copy);
+}
+
+void KernelRestoreDBATs(bat_table_t * table)
+{
+    SC0x37_KernelWriteDBATs(table);
 }

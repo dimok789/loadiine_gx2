@@ -36,6 +36,15 @@ void log_init(void)
 	}
 }
 
+void log_deinit(void)
+{
+    if(log_socket > 0)
+    {
+        socketclose(log_socket);
+        log_socket = -1;
+    }
+}
+
 void log_print(const char *str)
 {
     // socket is always 0 initially as it is in the BSS
