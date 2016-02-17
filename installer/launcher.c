@@ -485,7 +485,7 @@ static void InstallMain(private_data_t *private_data)
     // get the .rodata section
     unsigned int main_rodata_addr = 0;
     unsigned int main_rodata_len = 0;
-    section_offset = get_section(private_data, private_data->data_elf, ".rodata", &main_rodata_len, &main_rodata_addr, 0);
+    section_offset = get_section(private_data, private_data->data_elf, ".rodata", &main_rodata_len, &main_rodata_addr, 1);
     if(section_offset > 0)
     {
         unsigned char *main_rodata = private_data->data_elf + section_offset;
@@ -498,7 +498,7 @@ static void InstallMain(private_data_t *private_data)
     // get the .data section
     unsigned int main_data_addr = 0;
     unsigned int main_data_len = 0;
-    section_offset = get_section(private_data, private_data->data_elf, ".data", &main_data_len, &main_data_addr, 0);
+    section_offset = get_section(private_data, private_data->data_elf, ".data", &main_data_len, &main_data_addr, 1);
     if(section_offset > 0)
     {
         unsigned char *main_data = private_data->data_elf + section_offset;
@@ -511,7 +511,7 @@ static void InstallMain(private_data_t *private_data)
     // get the .bss section
     unsigned int main_bss_addr = 0;
     unsigned int main_bss_len = 0;
-    section_offset = get_section(private_data, private_data->data_elf, ".bss", &main_bss_len, &main_bss_addr, 0);
+    section_offset = get_section(private_data, private_data->data_elf, ".bss", &main_bss_len, &main_bss_addr, 1);
     if(section_offset > 0)
     {
         /* Copy main data to memory */
@@ -555,6 +555,14 @@ static void InstallPatches(private_data_t *private_data)
 
     //! at this point we dont need to check header and stuff as it is sure to be OK
     Elf32_Ehdr *ehdr = (Elf32_Ehdr *) private_data->data_elf;
+    
+    if (!IS_ELF (*ehdr)
+        || (ehdr->e_type != ET_EXEC)
+        || (ehdr->e_machine != EM_PPC))
+    {
+        ExitFailure(private_data, "Download is Invalid elf file");
+    }
+    
     unsigned int mainEntryPoint = ehdr->e_entry;
 
     //! Install our entry point hook
@@ -563,7 +571,7 @@ static void InstallPatches(private_data_t *private_data)
     *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + repl_addr)) = 0x48000003 | jump_addr;
     // flush caches and invalidate instruction cache
     private_data->DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + repl_addr), 4);
-    private_data->ICInvalidateRange((void*)(LIB_CODE_RW_BASE_OFFSET + repl_addr), 4);
+    private_data->ICInvalidateRange((void*)(repl_addr), 4);
 
     //! TODO: Not sure if this is still needed at all after changing the SDK version in the xml struct, check that
 #if ((VER == 532) || (VER == 540))
