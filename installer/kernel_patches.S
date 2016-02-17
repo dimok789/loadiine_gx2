@@ -23,7 +23,7 @@
 
 #define PREP_TITLE_HOOK_ENTRY       (BAT_SETUP_HOOK_ENTRY + 0x38)
 #define BAT4U_VAL                   0x008000FF
-#define BAT4L_VAL                   0x30800013
+#define BAT4L_VAL                   0x30800012
 
 #define SET_R4_TO_ADDR(addr)        \
     lis r3, addr@h              ;   \
