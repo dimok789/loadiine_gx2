@@ -21,7 +21,7 @@
     #define BAT_SETUP_HOOK_ENTRY    (0x00800000 + 0x2000)
 #endif
 
-#define PREP_TITLE_HOOK_ENTRY       (BAT_SETUP_HOOK_ENTRY + 0x38)
+#define PREP_TITLE_HOOK_ENTRY       (BAT_SETUP_HOOK_ENTRY + 0x48)
 #define BAT4U_VAL                   0x008000FF
 #define BAT4L_VAL                   0x30800012
 
