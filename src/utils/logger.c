@@ -8,13 +8,11 @@
 #include "dynamic_libs/socket_functions.h"
 #include "logger.h"
 
-#define LOADIINE_LOGGER_IP  "192.168.178.3"
-
 static int log_socket = 0;
 static volatile int log_lock = 0;
 
 
-void log_init(void)
+void log_init(const char * ipString)
 {
     if(log_socket > 0)
         return;
@@ -27,7 +25,7 @@ void log_init(void)
 	memset(&connect_addr, 0, sizeof(connect_addr));
 	connect_addr.sin_family = AF_INET;
 	connect_addr.sin_port = 4405;
-	inet_aton(LOADIINE_LOGGER_IP, &connect_addr.sin_addr);
+	inet_aton(ipString, &connect_addr.sin_addr);
 
 	if(connect(log_socket, (struct sockaddr*)&connect_addr, sizeof(connect_addr)) < 0)
 	{
@@ -49,10 +47,7 @@ void log_print(const char *str)
 {
     // socket is always 0 initially as it is in the BSS
     if(log_socket <= 0) {
-        log_init();
-        if(log_socket <= 0) {
-            return;
-        }
+        return;
     }
 
     while(log_lock)
@@ -77,7 +72,6 @@ void log_print(const char *str)
 void log_printf(const char *format, ...)
 {
     if(log_socket <= 0) {
-        log_init();
         return;
     }
 

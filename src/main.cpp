@@ -30,7 +30,7 @@ extern "C" int Menu_Main(void)
     InitOSFunctionPointers();
     InitSocketFunctionPointers();
 
-    log_init();
+    log_init(LOADIINE_LOGGER_IP);
     log_print("Starting Loadiine GX2 " LOADIINE_VERSION "\n");
 
     InitFSFunctionPointers();

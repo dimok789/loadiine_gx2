@@ -76,6 +76,7 @@ public:
         BgMusicPath,
         GameCover3DPath,
         ConsoleRegionCode,
+        DebugLoggerIP,
         MAX_VALUE
     };
 

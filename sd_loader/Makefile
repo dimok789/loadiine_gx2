@@ -29,8 +29,8 @@ TARGET		:=	sd_loader
 BUILD		:=	build
 BUILD_DBG	:=	$(TARGET)_dbg
 SOURCES		:=	src
-DATA		:=	
-INCLUDES	:=  
+DATA		:=
+INCLUDES	:=
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -56,7 +56,7 @@ LIBS	:=
 LIBDIRS	:=	$(CURDIR)	\
 			$(DEVKITPPC)/lib  \
 			$(DEVKITPPC)/lib/gcc/powerpc-eabi/4.8.2
-		  
+
 
 #---------------------------------------------------------------------------------
 # no real need to edit anything past this point unless you need to add additional
@@ -150,7 +150,7 @@ $(OUTPUT).elf: $(OFILES)
 %.o: %.cpp
 	@echo $(notdir $<)
 	@$(CXX) -MMD -MP -MF $(DEPSDIR)/$*.d $(CXXFLAGS) -c $< -o $@ $(ERROR_FILTER)
-	
+
 #---------------------------------------------------------------------------------
 %.o: %.c
 	@echo $(notdir $<)
@@ -170,7 +170,7 @@ $(OUTPUT).elf: $(OFILES)
 %.ttf.o : %.ttf
 	@echo $(notdir $<)
 	@bin2s -a 32 $< | $(AS) -o $(@)
-	
+
 -include $(DEPENDS)
 
 #---------------------------------------------------------------------------------

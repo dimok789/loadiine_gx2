@@ -1,6 +1,10 @@
 #include "common/os_defs.h"
+#include "common/kernel_defs.h"
 #include "common/common.h"
+#include "utils/utils.h"
 #include "syscalls.h"
+
+extern void my_PrepareTitle_hook(void);
 
 static void KernelCopyData(unsigned int addr, unsigned int src, unsigned int len)
 {
@@ -13,11 +17,32 @@ static void KernelCopyData(unsigned int addr, unsigned int src, unsigned int len
     asm volatile("mfdbatl %0, 0" : "=r" (dbatl0));
     asm volatile("mfdbatu %0, 1" : "=r" (dbatu1));
     asm volatile("mfdbatl %0, 1" : "=r" (dbatl1));
+
     // write our own DBATs into the array
-    asm volatile("mtdbatu 0, %0" : : "r" (0xC0001FFF));
-    asm volatile("mtdbatl 0, %0" : : "r" (0x30000012));
-    asm volatile("mtdbatu 1, %0" : : "r" (0xB0801FFF));
-    asm volatile("mtdbatl 1, %0" : : "r" (0x20800012));
+    if( ((addr & 0xFF000000) == 0xFF000000) || ((src & 0xFF000000) == 0xFF000000) )
+    {
+        // setup kernel code access
+        unsigned int dbatu = (addr & 0xFFF00000) | 0x02;
+        unsigned int dbatl = (addr & 0xFFF00000) | 0x32;
+
+        if( ((addr & 0xFF000000) != (dbatu0 & 0xFF000000)) && ((src & 0xFF000000) != (dbatu0 & 0xFF000000)) )
+        {
+            asm volatile("mtdbatu 0, %0" : : "r" (dbatu));
+            asm volatile("mtdbatl 0, %0" : : "r" (dbatl));
+        }
+        else
+        {
+            asm volatile("mtdbatu 1, %0" : : "r" (dbatu));
+            asm volatile("mtdbatl 1, %0" : : "r" (dbatl));
+        }
+    }
+    else
+    {
+        asm volatile("mtdbatu 0, %0" : : "r" (0xC0001FFF));
+        asm volatile("mtdbatl 0, %0" : : "r" (0x30000012));
+        asm volatile("mtdbatu 1, %0" : : "r" (0xB0801FFF));
+        asm volatile("mtdbatl 1, %0" : : "r" (0x20800012));
+    }
     asm volatile("eieio; isync");
 
 
@@ -155,4 +180,8 @@ void KernelSetupSyscalls(void)
     kern_write((void*)(OS_SPECIFICS->addr_KernSyscallTbl3 + (0x25 * 4)), (unsigned int)KernelCopyData);
     kern_write((void*)(OS_SPECIFICS->addr_KernSyscallTbl4 + (0x25 * 4)), (unsigned int)KernelCopyData);
     kern_write((void*)(OS_SPECIFICS->addr_KernSyscallTbl5 + (0x25 * 4)), (unsigned int)KernelCopyData);
+
+    //! write our hook to the
+    u32 addr_my_PrepareTitle_hook = ((u32)my_PrepareTitle_hook) | 0x48000003;
+    SC0x25_KernelCopyData(OS_SPECIFICS->addr_PrepareTitleHook, (u32)&addr_my_PrepareTitle_hook, 4);
 }

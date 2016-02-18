@@ -4,9 +4,6 @@
 #include "kernel/kernel_functions.h"
 #include "kernel/syscalls.h"
 
-/* replacement pointer to keep SD loader and browser loader equal */
-const volatile unsigned int *my_PrepareTitleCallbackPtr = &PREP_TITLE_CALLBACK;
-
 /* our retain data */
 ReducedCosAppXmlInfo cosAppXmlInfoStruct __attribute__((section(".data")));
 /*
@@ -50,7 +47,6 @@ void my_PrepareTitle(CosAppXmlInfo *xmlKernelInfo)
 
 void SetupKernelCallback(void)
 {
-    PREP_TITLE_CALLBACK = (u32)my_PrepareTitle;
     KernelSetupSyscalls();
 }
 

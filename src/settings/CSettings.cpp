@@ -104,6 +104,10 @@ void CSettings::SetDefault()
     settingsNames[ConsoleRegionCode] = "ConsoleRegionCode";
     settingsValues[ConsoleRegionCode].dataType = TypeString;
     settingsValues[ConsoleRegionCode].strValue = new std::string("EN");
+
+    settingsNames[DebugLoggerIP] = "DebugLoggerIP";
+    settingsValues[DebugLoggerIP].dataType = TypeString;
+    settingsValues[DebugLoggerIP].strValue = new std::string("192.168.178.3");
 }
 
 bool CSettings::Load()
