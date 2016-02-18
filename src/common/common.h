@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-#define LOADIINE_VERSION        "v0.1"
+#define LOADIINE_VERSION        "v0.2"
 #define IS_USING_MII_MAKER      1
 
 /* Loadiine common paths */
