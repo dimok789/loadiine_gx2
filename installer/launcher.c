@@ -3,7 +3,7 @@
 #include "kexploit.h"
 #include "structs.h"
 
-#define MEM_BASE                (0xC0800000)
+#define MEM_BASE                                        0xC0800000
 #include "../src/common/common.h"
 #include "../src/common/os_defs.h"
 #include "../../libwiiu/src/coreinit.h"
@@ -13,7 +13,7 @@
 #define CODE_RW_BASE_OFFSET                             0xC0000000
 #define DATA_RW_BASE_OFFSET                             0xC0000000
 
-#if VER == 532
+#if ( (VER == 532) || (VER == 540) )
     #define ADDRESS_OSTitle_main_entry_ptr              0x1005d180
     #define ADDRESS_main_entry_hook                     0x0101c55c
     #define ADDRESS_LiWaitOneChunk                      0x010007EC
@@ -25,20 +25,28 @@
     #define KERN_SYSCALL_TBL_3                          0xFFE85470 // works with loader
     #define KERN_SYSCALL_TBL_4                          0xFFEA9CE0 // works with home menu
     #define KERN_SYSCALL_TBL_5                          0xFFEAA0E0 // works with browser (previously KERN_SYSCALL_TBL)
-#elif VER == 500
+
+    #define PREP_TITLE_HOOK_ADDR                        0xFFF18558
+#elif ( (VER == 500) || (VER == 510) )
     #define ADDRESS_OSTitle_main_entry_ptr              0x1005CB00
     #define ADDRESS_main_entry_hook                     0x0101C15C
     #define ADDRESS_LiWaitOneChunk                      0x010007EC
     #define ADDRESS_LiWaitIopComplete                   0x0100FBC4
     #define ADDRESS_LiWaitIopCompleteWithInterrupts     0x0100FAB0
+
     #define KERN_SYSCALL_TBL_5                          0xFFEA9520 // works with browser
-#elif VER == 410
+
+    #define PREP_TITLE_HOOK_ADDR                        0xFFF18534
+#elif ( (VER == 400) || (VER == 410) )
     #define ADDRESS_OSTitle_main_entry_ptr              0x1005A8C0
     #define ADDRESS_main_entry_hook                     0x0101BD4C
     #define ADDRESS_LiWaitOneChunk                      0x010007F8
     #define ADDRESS_LiWaitIopComplete                   0x0100F78C
     #define ADDRESS_LiWaitIopCompleteWithInterrupts     0x0100F678
+
     #define KERN_SYSCALL_TBL_5                          0xFFE85890 // works with browser
+
+    #define PREP_TITLE_HOOK_ADDR                        0xFFF166DC
 #endif // VER
 
 /* Install functions */
@@ -566,6 +574,8 @@ static void InstallPatches(private_data_t *private_data)
     osSpecificFunctions->addr_KernSyscallTbl3 = KERN_SYSCALL_TBL_3;
     osSpecificFunctions->addr_KernSyscallTbl4 = KERN_SYSCALL_TBL_4;
     osSpecificFunctions->addr_KernSyscallTbl5 = KERN_SYSCALL_TBL_5;
+    osSpecificFunctions->addr_PrepareTitleHook = PREP_TITLE_HOOK_ADDR;
+
     osSpecificFunctions->addr_LiWaitOneChunk = ADDRESS_LiWaitOneChunk;
     osSpecificFunctions->addr_LiWaitIopComplete = ADDRESS_LiWaitIopComplete;
     osSpecificFunctions->addr_LiWaitIopCompleteWithInterrupts = ADDRESS_LiWaitIopCompleteWithInterrupts;

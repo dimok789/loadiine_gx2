@@ -20,6 +20,8 @@ typedef struct _OsSpecifics
     unsigned int addr_KernSyscallTbl3;
     unsigned int addr_KernSyscallTbl4;
     unsigned int addr_KernSyscallTbl5;
+
+    unsigned int addr_PrepareTitleHook;
 } OsSpecifics;
 
 #ifdef __cplusplus

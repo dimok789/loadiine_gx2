@@ -28,8 +28,7 @@ SaveAndResetDataBATs_And_SRs_hook:
     # jump back to the position in kernel after our patch (from LR)
     bctr
 
-.extern my_PrepareTitleCallbackPtr
-.section ".kernel_code"
+.extern my_PrepareTitle
     .globl my_PrepareTitle_hook
 my_PrepareTitle_hook:
     # store all registers on stack to avoid issues with the call to C functions
@@ -86,17 +85,7 @@ my_PrepareTitle_hook:
     # e.g. 0xFFF16130 and r27 points to this structure
     addi r3, r11, 0x68
 
-    lis r30, my_PrepareTitleCallbackPtr@h
-    lwz r30, my_PrepareTitleCallbackPtr@l(r30)
-    lwz r30, 0(r30)
-
-    cmpwi r30, 0
-    beq skip_callback
-
-    mtspr CTR, r30
-    bctrl
-
-skip_callback:
+    bl my_PrepareTitle
 
     # restore original DBAT registers
     mtdbatu 0, r28

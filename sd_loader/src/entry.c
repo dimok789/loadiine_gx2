@@ -11,8 +11,6 @@
 
 #define OS_FIND_EXPORT(handle, func)                    OSDynLoad_FindExport(handle, 0, # func, &func)
 
-const volatile unsigned int *my_PrepareTitleCallbackPtr __attribute__((section(".data"))) = &PREP_TITLE_CALLBACK;
-
 EXPORT_DECL(int, OSDynLoad_Acquire, const char* rpl, u32 *handle);
 EXPORT_DECL(int, OSDynLoad_FindExport, u32 handle, int isdata, const char *symbol, void *address);
 
