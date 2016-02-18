@@ -14,7 +14,13 @@
 #define CODE_RW_BASE_OFFSET                             0xC0000000
 #define DATA_RW_BASE_OFFSET                             0xC0000000
 
-#if VER == 532
+#if VER == 550
+    #define KERN_SYSCALL_TBL_1		0xFFE84C70
+    #define KERN_SYSCALL_TBL_2		0xFFE85070
+    #define KERN_SYSCALL_TBL_3		0xFFE85470
+    #define KERN_SYSCALL_TBL_4		0xFFEAAA60
+    #define KERN_SYSCALL_TBL_5		0xFFEAAE60
+#elif VER == 532
     #define ADDRESS_OSTitle_main_entry_ptr              0x1005d180
     #define ADDRESS_main_entry_hook                     0x0101c55c
     #define ADDRESS_LiWaitOneChunk                      0x010007EC
@@ -32,7 +38,11 @@
     #define ADDRESS_LiWaitOneChunk                      0x010007EC
     #define ADDRESS_LiWaitIopComplete                   0x0100FBC4
     #define ADDRESS_LiWaitIopCompleteWithInterrupts     0x0100FAB0
-    #define KERN_SYSCALL_TBL_5                          0xFFEA9520 // works with browser
+    #define KERN_SYSCALL_TBL_1                          0xFFEA9520  //0xFFE84C70 // unknown
+    #define KERN_SYSCALL_TBL_2                          0xFFEA9520  //0xFFE85070 // works with games
+    #define KERN_SYSCALL_TBL_3                          0xFFEA9520  //0xFFE85470 // works with loader
+    #define KERN_SYSCALL_TBL_4                          0xFFEA9520  //0xFFEA9CE0 // works with home menu
+    #define KERN_SYSCALL_TBL_5                          0xFFEA9520 // works with browser (previously KERN_SYSCALL_TBL)
 #elif VER == 410
     #define ADDRESS_OSTitle_main_entry_ptr              0x1005A8C0
     #define ADDRESS_main_entry_hook                     0x0101BD4C

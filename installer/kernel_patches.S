@@ -1,16 +1,20 @@
 #if ((VER == 532) || (VER == 540))
-#define BAT_SETUP_HOOK_ADDR         0xFFF1D638
-#define PREP_TITLE_HOOK_ADDR        0xFFF18558
-#define BAT_SET_NOP_ADDR_1          0xFFF06A14
-#define BAT_SET_NOP_ADDR_2          0xFFF06AA0
-#define BAT_SET_NOP_ADDR_3          0xFFF003C8
-#define BAT_SET_NOP_ADDR_4          0xFFF003CC
+    #define BAT_SETUP_HOOK_ADDR         0xFFF1D638
+    #define PREP_TITLE_HOOK_ADDR        0xFFF18558
+    #define BAT_SET_NOP_ADDR_1          0xFFF06A14
+    #define BAT_SET_NOP_ADDR_2          0xFFF06AA0
+    #define BAT_SET_NOP_ADDR_3          0xFFF003C8
+    #define BAT_SET_NOP_ADDR_4          0xFFF003CC
 #elif ((VER == 500) || (VER == 510))
-    #define BAT_SETUP_HOOK_ADDR	0xFFF1D518
-    #define PREP_TITLE_HOOK_ADDR    0xFFF18534
+    #define BAT_SETUP_HOOK_ADDR         0xFFF1D518
+    #define PREP_TITLE_HOOK_ADDR        0xFFF18534
+    #define BAT_SET_NOP_ADDR_1          0xFFF0697C // diff to 5.3.2: -0x98
+    #define BAT_SET_NOP_ADDR_2          0xFFF06A08 // diff to 5.3.2: -0x98
+    #define BAT_SET_NOP_ADDR_3          0xFFF00330 // calculator
+    #define BAT_SET_NOP_ADDR_4          0xFFF00334 // calculator
 #elif VER == 410
-    #define BAT_SETUP_HOOK_ADDR	0xFFF1AD00
-    #define PREP_TITLE_HOOK_ADDR    0xFFF166DC
+    #define BAT_SETUP_HOOK_ADDR         0xFFF1AD00
+    #define PREP_TITLE_HOOK_ADDR        0xFFF166DC
 #else
     #error Please define valid values for kernel setup.
 #endif
