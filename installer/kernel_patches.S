@@ -1,9 +1,19 @@
 #if ((VER == 532) || (VER == 540))
     #define BAT_SETUP_HOOK_ADDR         0xFFF1D638
+
+    # not all of those NOP address are required for every firmware
+    # mainly these should stop the kernel from removing our IBAT4 and DBAT5
     #define BAT_SET_NOP_ADDR_1          0xFFF06A14
     #define BAT_SET_NOP_ADDR_2          0xFFF06AA0
     #define BAT_SET_NOP_ADDR_3          0xFFF003C8
     #define BAT_SET_NOP_ADDR_4          0xFFF003CC
+    #define BAT_SET_NOP_ADDR_5          0xFFF1D720
+    #define BAT_SET_NOP_ADDR_6          0xFFF1D73C
+    #define BAT_SET_NOP_ADDR_7          0xFFF1D840
+
+    #define BAT_SET_NOP_ADDR_8          0xFFEE10B8
+    #define BAT_SET_NOP_ADDR_9          0xFFEE10BC
+
 #elif ((VER == 500) || (VER == 510))
     #define BAT_SETUP_HOOK_ADDR         0xFFF1D518
 #elif ( (VER == 400) || (VER == 410) )
@@ -136,10 +146,50 @@ KernelPatches:
     # write "nop" to some positions
     lis r4, 0x6000
     # nop on IBATU 4 and DBAT 5 set/reset
+#ifdef BAT_SET_NOP_ADDR_1
     SET_R4_TO_ADDR(BAT_SET_NOP_ADDR_1)
+#endif
+#ifdef BAT_SET_NOP_ADDR_2
     SET_R4_TO_ADDR(BAT_SET_NOP_ADDR_2)
+#endif
+#ifdef BAT_SET_NOP_ADDR_3
     SET_R4_TO_ADDR(BAT_SET_NOP_ADDR_3)
+#endif
+#ifdef BAT_SET_NOP_ADDR_4
     SET_R4_TO_ADDR(BAT_SET_NOP_ADDR_4)
+#endif
+#ifdef BAT_SET_NOP_ADDR_5
+    SET_R4_TO_ADDR(BAT_SET_NOP_ADDR_5)
+#endif
+#ifdef BAT_SET_NOP_ADDR_6
+    SET_R4_TO_ADDR(BAT_SET_NOP_ADDR_6)
+#endif
+#ifdef BAT_SET_NOP_ADDR_7
+    SET_R4_TO_ADDR(BAT_SET_NOP_ADDR_7)
+#endif
+
+#if (defined(BAT_SET_NOP_ADDR_8) && defined(BAT_SET_NOP_ADDR_9))
+    # memory barrier
+    eieio
+    isync
+
+    # setup DBAT0 for access to kernel code memory
+    lis r3, 0xFFEE
+    ori r3, r3, 0x0002
+    mtdbatu 0, r3
+    lis r3, 0xFFEE
+    ori r3, r3, 0x0032
+    mtdbatl 0, r3
+
+    # memory barrier
+    eieio
+    isync
+
+    # write "nop" to some positions
+    lis r4, 0x6000
+    SET_R4_TO_ADDR(BAT_SET_NOP_ADDR_8)
+    SET_R4_TO_ADDR(BAT_SET_NOP_ADDR_9)
+#endif
 
     # memory barrier
     eieio
