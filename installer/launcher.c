@@ -20,32 +20,41 @@
     #define KERN_SYSCALL_TBL_3		0xFFE85470
     #define KERN_SYSCALL_TBL_4		0xFFEAAA60
     #define KERN_SYSCALL_TBL_5		0xFFEAAE60
-#if ( (VER == 532) || (VER == 540) )    #define ADDRESS_OSTitle_main_entry_ptr              0x1005d180
+#elif ( (VER == 532) || (VER == 540) )
+    #define ADDRESS_OSTitle_main_entry_ptr              0x1005d180
     #define ADDRESS_main_entry_hook                     0x0101c55c
     #define ADDRESS_LiWaitOneChunk                      0x010007EC
     #define ADDRESS_LiWaitIopComplete                   0x0100FFA4
     #define ADDRESS_LiWaitIopCompleteWithInterrupts     0x0100FE90
 
-    #define KERN_SYSCALL_TBL_1                          0xFFE84C70 // unknown
-    #define KERN_SYSCALL_TBL_2                          0xFFE85070 // works with games
-    #define KERN_SYSCALL_TBL_3                          0xFFE85470 // works with loader
-    #define KERN_SYSCALL_TBL_4                          0xFFEA9CE0 // works with home menu
-    #define KERN_SYSCALL_TBL_5                          0xFFEAA0E0 // works with browser (previously KERN_SYSCALL_TBL)
+    #define KERN_SYSCALL_TBL_1                          0xFFE84C70 //v:0xFFF0AE9C // unknown ## 84C70
+    #define KERN_SYSCALL_TBL_2                          0xFFE85070 //v:0xFFF0AE9C // works with games ## 85070
+    #define KERN_SYSCALL_TBL_3                          0xFFE85470 //v:0xFFF0AF5C // works with loader ## 85470
+    #define KERN_SYSCALL_TBL_4                          0xFFEA9CE0 //v:0xFFF0AE9C // works with home menu ## A9CE0
+    #define KERN_SYSCALL_TBL_5                          0xFFEAA0E0 //v:0xFFF0AE9C // works with browser (previously KERN_SYSCALL_TBL) ## AA0E0
 
-    #define PREP_TITLE_HOOK_ADDR                        0xFFF18558
+    #define PREP_TITLE_HOOK_ADDR                        0xFFF18558 //0xffe00000 118558
+    //.data:00118558                 clrlwi    r7, r12, 0
+    //.data:0011855C                 bl        sub_101890
+    
 #elif ( (VER == 500) || (VER == 510) )
     #define ADDRESS_OSTitle_main_entry_ptr              0x1005CB00
     #define ADDRESS_main_entry_hook                     0x0101C15C
     #define ADDRESS_LiWaitOneChunk                      0x010007EC
     #define ADDRESS_LiWaitIopComplete                   0x0100FBC4
     #define ADDRESS_LiWaitIopCompleteWithInterrupts     0x0100FAB0
-    #define KERN_SYSCALL_TBL_1                          0xFFEA9520  //0xFFE84C70 // unknown
-    #define KERN_SYSCALL_TBL_2                          0xFFEA9520  //0xFFE85070 // works with games
-    #define KERN_SYSCALL_TBL_3                          0xFFEA9520  //0xFFE85470 // works with loader
-    #define KERN_SYSCALL_TBL_4                          0xFFEA9520  //0xFFEA9CE0 // works with home menu
-    #define KERN_SYSCALL_TBL_5                          0xFFEA9520 // works with browser (previously KERN_SYSCALL_TBL)
+    
+    #define KERN_SYSCALL_TBL_1                          0xFFE84C70  //ok v:0xFFF0ACE8 //0xFFE84C70 // unknown
+    #define KERN_SYSCALL_TBL_2                          0xFFE85070  //ok v:0xFFF0ACE8 //0xFFE85070 // works with games
+    #define KERN_SYSCALL_TBL_3                          0xFFE85470  //ok v:0xFFF0ADA4 //0xFFE85470 // works with loader
+    #define KERN_SYSCALL_TBL_4                          0xFFEA9120  //ok v:0xFFF0ACE8 //0xFFEA9CE0 // works with home menu
+    #define KERN_SYSCALL_TBL_5                          0xFFEA9520  //ok v:0xFFF0ACE8 // works with browser (previously KERN_SYSCALL_TBL) ## A9520
 
-    #define PREP_TITLE_HOOK_ADDR                        0xFFF18534
+    #define PREP_TITLE_HOOK_ADDR                        0xFFF18534 //0xffe00000 118534
+    //.data:00118534                 clrlwi    r7, r12, 0
+    //.data:00118538                 crclr     4*cr1+eq         // so 0xFFF18538 possible nop
+    //.data:0011853C                 bl        sub_10A8E0
+    
 #elif ( (VER == 400) || (VER == 410) )
     #define ADDRESS_OSTitle_main_entry_ptr              0x1005A8C0
     #define ADDRESS_main_entry_hook                     0x0101BD4C

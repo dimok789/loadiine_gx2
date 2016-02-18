@@ -1,11 +1,15 @@
 #if ((VER == 532) || (VER == 540))
-    #define BAT_SETUP_HOOK_ADDR         0xFFF1D638
-    #define BAT_SET_NOP_ADDR_1          0xFFF06A14
-    #define BAT_SET_NOP_ADDR_2          0xFFF06AA0
-    #define BAT_SET_NOP_ADDR_3          0xFFF003C8
-    #define BAT_SET_NOP_ADDR_4          0xFFF003CC
+    #define BAT_SETUP_HOOK_ADDR         0xFFF1D638 //0xffe00000 11D638
+    #define BAT_SET_NOP_ADDR_1          0xFFF06A14 //0xffe00000 106A14
+    #define BAT_SET_NOP_ADDR_2          0xFFF06AA0 //0xffe00000 106AA0
+    #define BAT_SET_NOP_ADDR_3          0xFFF003C8 //0xffe00000 1003C8
+    #define BAT_SET_NOP_ADDR_4          0xFFF003CC //0xffe00000 1003CC
 #elif ((VER == 500) || (VER == 510))
-    #define BAT_SETUP_HOOK_ADDR         0xFFF1D518
+    #define BAT_SETUP_HOOK_ADDR         0xFFF1D518 //0xffe00000 11D518 ok
+    #define BAT_SET_NOP_ADDR_1          0xFFF0697C // diff to 5.3.2: -0x98 ## 10697C ok
+    #define BAT_SET_NOP_ADDR_2          0xFFF06A08 // diff to 5.3.2: -0x98 ## 106A08 ok
+    #define BAT_SET_NOP_ADDR_3          0xFFF003C8 // calculator ## 100330 false - right is 1003C8 
+    #define BAT_SET_NOP_ADDR_4          0xFFF003CC // calculator ## 100334 false - right is 1003CC
 #elif ( (VER == 400) || (VER == 410) )
     #define BAT_SETUP_HOOK_ADDR         0xFFF1AD00
 #else
