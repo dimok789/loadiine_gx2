@@ -115,7 +115,7 @@ int rpxRplCopyDataToMem(s_rpx_rpl *rpx_rpl_struct, u32 fileOffset, const u8 *dat
     u32 copiedBytes = 0;
     while(copiedBytes < dataSize)
     {
-        u32 blockSize = dataSize;
+        u32 blockSize = dataSize - copiedBytes;
         u32 mem_area_addr_dest = mem_area_addr_start + mem_area_offset;
 
         if((mem_area_addr_dest + blockSize) > mem_area_addr_end)
@@ -175,7 +175,7 @@ int rpxRplCopyDataFromMem(s_rpx_rpl *rpx_rpl_struct, u32 fileOffset, u8 *data, u
     u32 copiedBytes = 0;
     while(copiedBytes < dataSize)
     {
-        u32 blockSize = dataSize;
+        u32 blockSize = dataSize - copiedBytes;
         u32 mem_area_addr_dest = mem_area_addr_start + mem_area_offset;
 
         if((mem_area_addr_dest + blockSize) > mem_area_addr_end)

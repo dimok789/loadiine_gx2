@@ -34,6 +34,12 @@ Application::Application()
     , mainWindow(NULL)
 {
     CSettings::instance()->Load();
+
+    //! reload logger to change IP to settings IP
+    log_deinit();
+    log_init(CSettings::getValueAsString(CSettings::DebugLoggerIP).c_str());
+
+    //! load resources
     Resources::LoadFiles("sd:/wiiu/apps/loadiine_gx2/resources");
 
     //! create bgMusic
