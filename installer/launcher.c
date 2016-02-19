@@ -21,8 +21,10 @@
     #define KERN_SYSCALL_TBL_4		0xFFEAAA60
     #define KERN_SYSCALL_TBL_5		0xFFEAAE60
 #elif ( (VER == 532) || (VER == 540) )
+    /* Patch coreinit - on 5.3.2 coreinit.rpl starts at 0x101c400 */
+    //{ Menu_Main, 0x0101c55c, 0x48000003 },           // bla Branch Link Adres
     #define ADDRESS_OSTitle_main_entry_ptr              0x1005d180
-    #define ADDRESS_main_entry_hook                     0x0101c55c
+    #define ADDRESS_main_entry_hook                     0x0101c55c // 15C
     #define ADDRESS_LiWaitOneChunk                      0x010007EC
     #define ADDRESS_LiWaitIopComplete                   0x0100FFA4
     #define ADDRESS_LiWaitIopCompleteWithInterrupts     0x0100FE90
@@ -38,8 +40,10 @@
     //.data:0011855C                 bl        sub_101890
     
 #elif ( (VER == 500) || (VER == 510) )
+    /* Patch coreinit - on 5.1.0 coreinit.rpl starts at 0x101c000 */
+    //{ Menu_Main, 0x0101c15c, 0x48000003 },           // bla Branch Link Adress
     #define ADDRESS_OSTitle_main_entry_ptr              0x1005CB00
-    #define ADDRESS_main_entry_hook                     0x0101C15C
+    #define ADDRESS_main_entry_hook                     0x0101C15C // 15C
     #define ADDRESS_LiWaitOneChunk                      0x010007EC
     #define ADDRESS_LiWaitIopComplete                   0x0100FBC4
     #define ADDRESS_LiWaitIopCompleteWithInterrupts     0x0100FAB0
