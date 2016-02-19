@@ -52,7 +52,7 @@
 
     #define PREP_TITLE_HOOK_ADDR                        0xFFF18534 //0xffe00000 118534
     //.data:00118534                 clrlwi    r7, r12, 0
-    //.data:00118538                 crclr     4*cr1+eq         // so 0xFFF18538 possible nop
+    //.data:00118538                 crclr     4*cr1+eq
     //.data:0011853C                 bl        sub_10A8E0
     
 #elif ( (VER == 400) || (VER == 410) )
@@ -62,9 +62,16 @@
     #define ADDRESS_LiWaitIopComplete                   0x0100F78C
     #define ADDRESS_LiWaitIopCompleteWithInterrupts     0x0100F678
 
-    #define KERN_SYSCALL_TBL_5                          0xFFE85890 // works with browser
+    #define KERN_SYSCALL_TBL_1                          0xFFE84C90  //ok v:0xFFF0A02C //0xFFE84C70 // unknown
+    #define KERN_SYSCALL_TBL_2                          0xFFE85090  //ok v:0xFFF0A02C //0xFFE85070 // works with games
+    #define KERN_SYSCALL_TBL_3                          0xFFE85490  //ok v:0xFFF0A02C //0xFFE85470 // works with loader
+    //#define KERN_SYSCALL_TBL_4                          0xFFE85C90  //ok v:0xFFF0A08C //0xFFEA9CE0 // works with home menu //!! strange this is behind tbl5 but actually good for the real tbl5
+    #define KERN_SYSCALL_TBL_5                          0xFFE85890 //v:0xFFF0A02C works with browser //!! this could be tbl4 for actually
 
-    #define PREP_TITLE_HOOK_ADDR                        0xFFF166DC
+    #define PREP_TITLE_HOOK_ADDR                        0xFFF166DC // 1166DC
+    //.data:001166DC                 clrlwi    r7, r12, 0
+    //.data:001166E0                 crclr     4*cr1+eq
+    //.data:001166E4                 bl        sub_109E38    
 #endif // VER
 
 /* Install functions */
