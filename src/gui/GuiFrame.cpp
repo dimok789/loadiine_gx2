@@ -154,7 +154,7 @@ int GuiFrame::getSelected()
 	int found = -1;
 	for (u32 i = 0; i < elements.size(); ++i)
 	{
-		if(elements[i]->isStateSet(STATE_SELECTED))
+		if(elements[i]->isStateSet(STATE_SELECTED | STATE_OVER))
 		{
 			found = i;
 			break;
