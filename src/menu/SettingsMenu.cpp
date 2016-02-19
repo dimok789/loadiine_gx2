@@ -48,7 +48,9 @@ static const ValueString ValueGameSaveModes[] =
 static ValueString ValueLaunchMode[] =
 {
     { LOADIINE_MODE_MII_MAKER, "Mii Maker Mode" },
-    { LOADIINE_MODE_SMASH_BROS, "Smash Bros Mode" }
+    { LOADIINE_MODE_SMASH_BROS, "Smash Bros Mode" },
+    { LOADIINE_MODE_KARAOKE, "Karaoke Mode" },
+    { LOADIINE_MODE_ART_ATELIER, "Art Atelier Mode" }
 };
 
 static const struct
@@ -81,7 +83,7 @@ static const SettingType LoaderSettings[] =
 
 static const SettingType GameSettings[] =
 {
-    { "Launch Mode", ValueLaunchMode, Type2Buttons, CSettings::GameLaunchMethod },
+    { "Launch Mode", ValueLaunchMode, Type4Buttons, CSettings::GameLaunchMethod },
     { "Log Server Control", ValueOnOff, Type2Buttons, CSettings::GameLogServer },
     { "Log Server IP", 0, TypeIP, CSettings::GameLogServerIp }
 };

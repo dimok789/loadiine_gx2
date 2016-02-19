@@ -30,6 +30,8 @@ extern "C" {
 /* Loadiine Modes */
 #define LOADIINE_MODE_MII_MAKER     0
 #define LOADIINE_MODE_SMASH_BROS    1
+#define LOADIINE_MODE_KARAOKE       2
+#define LOADIINE_MODE_ART_ATELIER   3
 
 /* RPX Address : where the rpx is copied or retrieve, depends if we dump or replace */
 /* Note : from phys 0x30789C5D to 0x31E20000, memory seems empty (space reserved for root.rpx) which let us approximatly 22.5mB of memory free to put the rpx and additional rpls */
