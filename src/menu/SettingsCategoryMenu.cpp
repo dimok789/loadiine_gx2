@@ -116,8 +116,9 @@ void SettingsCategoryMenu::OnSettingButtonClick(GuiButton *button, const GuiCont
                     break;
                 }
                 case Type2Buttons:
-                case Type3Buttons: {
-                    int buttonCount = (categorySettings[i].type == Type3Buttons) ? 3 : 2; // TODO: change this
+                case Type3Buttons:
+                case Type4Buttons: {
+                    int buttonCount = Type2Buttons + (categorySettings[i].type - Type2Buttons + 1);
                     int buttonSelected = 0;
 
                     switch(CSettings::getDataType(categorySettings[i].index))

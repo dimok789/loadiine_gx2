@@ -15,7 +15,11 @@ void my_PrepareTitle(CosAppXmlInfo *xmlKernelInfo)
      *  DBAT for access to our data region is setup at this point for the 0xC0000000 area.
      */
     // check for Mii Maker RPX or Smash Bros RPX when we started (region independent check)
-    if(GAME_LAUNCHED && ((strncasecmp("ffl_app.rpx", xmlKernelInfo->rpx_name, FS_MAX_ENTNAME_SIZE) == 0) || (strncasecmp("cross_f.rpx", xmlKernelInfo->rpx_name, FS_MAX_ENTNAME_SIZE) == 0)))
+    if(GAME_LAUNCHED &&
+       (   ((strncasecmp("ffl_app.rpx", xmlKernelInfo->rpx_name, FS_MAX_ENTNAME_SIZE) == 0) && (LOADIINE_MODE == LOADIINE_MODE_MII_MAKER))
+        || ((strncasecmp("cross_f.rpx", xmlKernelInfo->rpx_name, FS_MAX_ENTNAME_SIZE) == 0) && (LOADIINE_MODE == LOADIINE_MODE_SMASH_BROS))
+        || ((strncasecmp("app.rpx", xmlKernelInfo->rpx_name, FS_MAX_ENTNAME_SIZE) == 0) && (LOADIINE_MODE == LOADIINE_MODE_KARAOKE))
+        || ((strncasecmp("Treasure.rpx", xmlKernelInfo->rpx_name, FS_MAX_ENTNAME_SIZE) == 0) && (LOADIINE_MODE == LOADIINE_MODE_ART_ATELIER))))
     {
         //! Copy all data from the parsed XML info
         strncpy(xmlKernelInfo->rpx_name, cosAppXmlInfoStruct.rpx_name, FS_MAX_ENTNAME_SIZE);

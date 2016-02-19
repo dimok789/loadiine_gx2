@@ -88,6 +88,8 @@ class GuiButton : public GuiElement
 
 		sigslot::signal2<GuiButton *, const GuiController *> selected;
 		sigslot::signal2<GuiButton *, const GuiController *> deSelected;
+		sigslot::signal2<GuiButton *, const GuiController *> pointedOn;
+		sigslot::signal2<GuiButton *, const GuiController *> pointedOff;
 		sigslot::signal3<GuiButton *, const GuiController *, GuiTrigger *> clicked;
 		sigslot::signal3<GuiButton *, const GuiController *, GuiTrigger *> held;
 		sigslot::signal3<GuiButton *, const GuiController *, GuiTrigger *> released;

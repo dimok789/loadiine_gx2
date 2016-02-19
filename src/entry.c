@@ -73,12 +73,13 @@ int __entry_menu(int argc, char **argv)
             strcpy(buf_vol_odd, "/vol/storage_odd03");
             _SYSLaunchTitleByPathFromLauncher(buf_vol_odd, 18, 0);
         }
-        else
+        else if(LOADIINE_MODE == LOADIINE_MODE_MII_MAKER)
         {
             // Restart mii maker
             SYSRelaunchTitle(0, 0);
             __Exit();
         }
+        //! TODO: add auto launch with SYSLaunchTitle for Karaoke and Art Atelier Modes
     }
 
     //! *******************************************************************

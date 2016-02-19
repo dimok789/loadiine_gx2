@@ -159,12 +159,12 @@ void GuiButton::draw(CVideo *v)
 		return;
 
 	// draw image
-	if(isStateSet(STATE_SELECTED | STATE_CLICKED | STATE_HELD) && imageOver)
+	if(isStateSet(STATE_OVER | STATE_SELECTED | STATE_CLICKED | STATE_HELD) && imageOver)
 		imageOver->draw(v);
 	else if(image)
 		image->draw(v);
 
-	if(isStateSet(STATE_SELECTED | STATE_CLICKED | STATE_HELD) && iconOver)
+	if(isStateSet(STATE_OVER | STATE_SELECTED | STATE_CLICKED | STATE_HELD) && iconOver)
 		iconOver->draw(v);
 	else if(icon)
 		icon->draw(v);
@@ -172,7 +172,7 @@ void GuiButton::draw(CVideo *v)
 	// draw text
 	for(int i = 0; i < 4; i++)
 	{
-		if(isStateSet(STATE_SELECTED | STATE_CLICKED | STATE_HELD) && labelOver[i])
+		if(isStateSet(STATE_OVER | STATE_SELECTED | STATE_CLICKED | STATE_HELD) && labelOver[i])
 			labelOver[i]->draw(v);
 		else if(label[i])
 			label[i]->draw(v);
@@ -190,9 +190,9 @@ void GuiButton::update(GuiController * c)
     {
 		if(!c->vpad.tpdata.invalid && this->isInside(c->vpadTvX, c->vpadTvY))
 		{
-			if(!isStateSet(STATE_SELECTED, c->chan))
+			if(!isStateSet(STATE_OVER, c->chan))
 			{
-			    setState(STATE_SELECTED, c->chan);
+			    setState(STATE_OVER, c->chan);
 
 				//if(this->isRumbleActive())
 				//	this->rumble(t->chan);
@@ -208,15 +208,15 @@ void GuiButton::update(GuiController * c)
 					effectTarget = effectTargetOver;
 				}
 
-                selected(this, c);
+                pointedOn(this, c);
 			}
 		}
 		else
         {
-			if(isStateSet(STATE_SELECTED, c->chan))
+			if(isStateSet(STATE_OVER, c->chan))
             {
-				this->clearState(STATE_SELECTED);
-                deSelected(this, c);
+				this->clearState(STATE_OVER);
+                pointedOff(this, c);
             }
 
 			if(effectTarget == effectTargetOver && effectAmount == effectAmountOver)
@@ -240,7 +240,7 @@ void GuiButton::update(GuiController * c)
             bool isClicked = trigger[i]->clicked(c);
 
             if(   !clickedTrigger && isClicked
-               && (trigger[i]->isClickEverywhere() || (isStateSet(STATE_SELECTED, c->chan) && trigger[i]->isSelectionClickEverywhere()) || this->isInside(c->vpadTvX, c->vpadTvY)))
+               && (trigger[i]->isClickEverywhere() || (isStateSet(STATE_SELECTED | STATE_OVER, c->chan) && trigger[i]->isSelectionClickEverywhere()) || this->isInside(c->vpadTvX, c->vpadTvY)))
             {
                 if(soundClick)
                     soundClick->Play();
@@ -265,7 +265,7 @@ void GuiButton::update(GuiController * c)
             bool isHeld = trigger[i]->held(c);
 
             if(   (!heldTrigger || heldTrigger == trigger[i]) && isHeld
-               && (trigger[i]->isHoldEverywhere() || (isStateSet(STATE_SELECTED, c->chan) && trigger[i]->isSelectionClickEverywhere()) || this->isInside(c->vpadTvX, c->vpadTvY)))
+               && (trigger[i]->isHoldEverywhere() || (isStateSet(STATE_SELECTED | STATE_OVER, c->chan) && trigger[i]->isSelectionClickEverywhere()) || this->isInside(c->vpadTvX, c->vpadTvY)))
             {
                 heldTrigger = trigger[i];
 
