@@ -35,6 +35,8 @@ private:
     void OnCategoryRightClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
     void OnCategoryClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
 
+    void OnDPADClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
+
     void OnQuitButtonClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
     {
         settingsQuitClicked(this);
@@ -82,6 +84,12 @@ private:
     GuiButton quitButton;
 
     GuiTrigger touchTrigger;
+    GuiTrigger buttonATrigger;
+    GuiTrigger buttonBTrigger;
+    GuiTrigger buttonLTrigger;
+    GuiTrigger buttonRTrigger;
+    GuiTrigger buttonLeftTrigger;
+    GuiTrigger buttonRightTrigger;
 
     GuiImageData *leftArrowImageData;
     GuiImageData *rightArrowImageData;
@@ -89,13 +97,16 @@ private:
     GuiImage rightArrowImage;
     GuiButton leftArrowButton;
     GuiButton rightArrowButton;
+    GuiButton DPADButtons;
+
+
 
     int selectedCategory;
     int currentPosition;
     int targetPosition;
     int animationSpeed;
     bool bUpdatePositions;
-
+    bool moving;
 };
 
 #endif //_SETTINGS_WINDOW_H_

@@ -26,16 +26,26 @@ ButtonChoiceMenu::ButtonChoiceMenu(int w, int h, const std::string & title, cons
     , backButton(backImage.getWidth(), backImage.getHeight())
     , okImageData(Resources::GetImageData("emptyRoundButton.png"))
     , okImage(okImageData)
+    , okSelectedImageData(Resources::GetImageData("emptyRoundButtonSelected.png"))
+    , okSelectedImage(okSelectedImageData)
     , okButton(okImage.getWidth(), okImage.getHeight())
     , okText("O.K.", 46, glm::vec4(0.1f, 0.1f, 0.1f, 1.0f))
     , titleImageData(Resources::GetImageData("settingsTitle.png"))
     , titleImage(titleImageData)
     , touchTrigger(GuiTrigger::CHANNEL_1, GuiTrigger::VPAD_TOUCH)
+    , buttonATrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_A, true)
+    , buttonBTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_B, true)
+    , buttonUpTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_UP, true)
+    , buttonDownTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_DOWN, true)
+    , buttonLeftTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_LEFT, true)
+    , buttonRightTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_RIGHT, true)
     , buttonImageData(Resources::GetImageData("choiceUncheckedSquare.png"))
     , buttonCheckedImageData(Resources::GetImageData("choiceCheckedSquare.png"))
-    , buttonCheckedImage(buttonCheckedImageData)
+    , buttonHighlightedImageData(Resources::GetImageData("choiceHighlightedSquare.png"))
+    , DPADButtons(w,h)   
 {
     selectedButton = selected;
+    selectedButtonDPAD = -1;
 
     backButton.setImage(&backImage);
     backButton.setAlignment(ALIGN_BOTTOM | ALIGN_LEFT);
@@ -48,6 +58,7 @@ ButtonChoiceMenu::ButtonChoiceMenu(int w, int h, const std::string & title, cons
     okText.setPosition(10, -10);
     okButton.setLabel(&okText);
     okButton.setImage(&okImage);
+	okButton.setIconOver(&okSelectedImage);
     okButton.setAlignment(ALIGN_BOTTOM | ALIGN_RIGHT);
     okButton.clicked.connect(this, &ButtonChoiceMenu::OnOkButtonClick);
     okButton.setTrigger(&touchTrigger);
@@ -70,22 +81,34 @@ ButtonChoiceMenu::ButtonChoiceMenu(int w, int h, const std::string & title, cons
     f32 posY;
     f32 imgScale = 1.0f;
 
-    for(u32 i = 0; i < buttonNames.size(); i++)
-    {
-        GuiText *text = new GuiText(buttonNames[i].c_str(), 42, glm::vec4(0.9f, 0.9f, 0.9f, 1.0f));
-        GuiImage *image = new GuiImage(buttonImageData);
-        GuiButton *button = new GuiButton(image->getWidth() * imgScale, image->getHeight() * imgScale);
+    buttonCount = buttonNames.size();
 
-        text->setMaxWidth(image->getWidth() * imgScale - 20.0f, GuiText::WRAP);
-        text->setPosition(0, 10);
-        image->setScale(imgScale);
-        button->setLabel(text);
-        button->setSoundClick(buttonClickSound);
+    choiceButtons.resize(buttonCount);
+
+    for(u32 i = 0; i < buttonNames.size(); i++)
+    {      
+        choiceButtons[i].choiceButtonImg = new GuiImage(buttonImageData);
+        choiceButtons[i].choiceButtonCheckedImg = new GuiImage(buttonCheckedImageData);
+        choiceButtons[i].choiceButtonHighlightedImg = new GuiImage(buttonHighlightedImageData);
+        choiceButtons[i].choiceButton = new GuiButton(choiceButtons[i].choiceButtonImg->getWidth() * imgScale, choiceButtons[i].choiceButtonImg->getHeight() * imgScale);
+        choiceButtons[i].choiceButtonText = new GuiText(buttonNames[i].c_str(), 42, glm::vec4(0.9f, 0.9f, 0.9f, 1.0f));
+
+
+        choiceButtons[i].choiceButtonText->setMaxWidth(choiceButtons[i].choiceButtonImg->getWidth() * imgScale - 20.0f, GuiText::WRAP);
+        choiceButtons[i].choiceButtonText->setPosition(0, 10);
+
+        choiceButtons[i].choiceButtonImg->setScale(imgScale);
+        choiceButtons[i].choiceButtonCheckedImg->setScale(imgScale);
+		
+		choiceButtons[i].choiceButton->setIconOver(choiceButtons[i].choiceButtonHighlightedImg);
+		
+        choiceButtons[i].choiceButton->setLabel(choiceButtons[i].choiceButtonText);
+        choiceButtons[i].choiceButton->setSoundClick(buttonClickSound);
 
         if(selectedButton == (int)i)
-            button->setImage(&buttonCheckedImage);
+            choiceButtons[i].choiceButton->setImage(choiceButtons[i].choiceButtonCheckedImg);
         else
-            button->setImage(image);
+            choiceButtons[i].choiceButton->setImage(choiceButtons[i].choiceButtonImg);
 
         if(!(i & 0x01))
         {
@@ -113,47 +136,120 @@ ButtonChoiceMenu::ButtonChoiceMenu(int w, int h, const std::string & title, cons
             posY = -(buttonImageData->getHeight() * imgScale * 0.5f + 20.0f);
         }
 
-        button->setPosition(posX, -50.0f + posY);
-        button->setEffectGrow();
-        button->setTrigger(&touchTrigger);
-        button->clicked.connect(this, &ButtonChoiceMenu::OnChoiceButtonClick);
-        append(button);
-
-        choiceButtonText.push_back(text);
-        choiceButtonImg.push_back(image);
-        choiceButton.push_back(button);
+        choiceButtons[i].choiceButton->setPosition(posX, -50.0f + posY);
+        choiceButtons[i].choiceButton->setEffectGrow();
+        choiceButtons[i].choiceButton->setTrigger(&touchTrigger);
+        choiceButtons[i].choiceButton->clicked.connect(this, &ButtonChoiceMenu::OnChoiceButtonClick);
+        append(choiceButtons[i].choiceButton);
     }
 
+    DPADButtons.setTrigger(&buttonATrigger);
+    DPADButtons.setTrigger(&buttonBTrigger);
+    DPADButtons.setTrigger(&buttonUpTrigger);
+    DPADButtons.setTrigger(&buttonDownTrigger);
+    DPADButtons.setTrigger(&buttonLeftTrigger);
+    DPADButtons.setTrigger(&buttonRightTrigger);
+    DPADButtons.clicked.connect(this, &ButtonChoiceMenu::OnDPADClick);
+    append(&DPADButtons);
 
 }
 
 ButtonChoiceMenu::~ButtonChoiceMenu()
 {
-    for(u32 i = 0; i < choiceButton.size(); ++i)
+    for(u32 i = 0; i < choiceButtons.size(); ++i)
     {
-        delete choiceButton[i];
-        delete choiceButtonImg[i];
-        delete choiceButtonText[i];
+        delete choiceButtons[i].choiceButtonImg;
+        delete choiceButtons[i].choiceButtonCheckedImg;
+        delete choiceButtons[i].choiceButtonHighlightedImg;
+        delete choiceButtons[i].choiceButton;
+        delete choiceButtons[i].choiceButtonText;
     }
+   
     Resources::RemoveImageData(backImageData);
     Resources::RemoveImageData(okImageData);
+    Resources::RemoveImageData(okSelectedImageData);
     Resources::RemoveImageData(titleImageData);
     Resources::RemoveImageData(buttonImageData);
     Resources::RemoveImageData(buttonCheckedImageData);
     Resources::RemoveSound(buttonClickSound);
 }
 
+void ButtonChoiceMenu::UpdateChoiceButtons(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
+{
+    for(int i = 0; i < buttonCount; i++)
+    {
+		if(i == selectedButtonDPAD){
+			choiceButtons[i].choiceButton->setState(STATE_SELECTED);
+		}else{
+			choiceButtons[i].choiceButton->clearState(STATE_SELECTED);
+		}
+		
+        if(i == selectedButton){   
+			choiceButtons[i].choiceButton->setImage(choiceButtons[i].choiceButtonCheckedImg);
+        }else{
+			choiceButtons[i].choiceButton->setImage(choiceButtons[i].choiceButtonImg);
+        }            
+    }
+  
+    if(selectedButtonDPAD == buttonCount){ // OK
+        okButton.setState(STATE_SELECTED);
+    }else{
+        okButton.clearState(STATE_SELECTED);
+    }
+}
+
+
+
 void ButtonChoiceMenu::OnChoiceButtonClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
-    for(u32 i = 0; i < choiceButton.size(); i++)
+    for(u32 i = 0; i < choiceButtons.size(); i++)
     {
-        if(choiceButton[i] == button)
+        if(choiceButtons[i].choiceButton == button)
         {
             selectedButton = i;
-            choiceButton[i]->setImage(&buttonCheckedImage);
+            selectedButtonDPAD = i;
+            UpdateChoiceButtons(button,controller,trigger);
         }
-        else
-            choiceButton[i]->setImage(choiceButtonImg[i]);
     }
+}
+
+void ButtonChoiceMenu::OnDPADClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
+{
+	if(trigger == &buttonATrigger){
+		if(selectedButtonDPAD >= 0 && selectedButtonDPAD <= buttonCount-1){
+			selectedButton = selectedButtonDPAD;
+			
+		}else if(selectedButtonDPAD == buttonCount || selectedButtonDPAD == -2){
+			OnOkButtonClick(button,controller,trigger);
+		}            
+	}else if(trigger == &buttonBTrigger){
+		OnBackButtonClick(button,controller,trigger);
+	}else if(trigger == &buttonUpTrigger){
+		if(buttonCount > 2){
+			selectedButtonDPAD -= 2;
+			if(selectedButtonDPAD < 0){
+				selectedButtonDPAD = 0;
+			}
+		}
+
+	}else if(trigger == &buttonDownTrigger){
+		if(buttonCount > 2 || selectedButtonDPAD != buttonCount){
+			selectedButtonDPAD += 2;
+			if(selectedButtonDPAD >= buttonCount){
+				selectedButtonDPAD = buttonCount-1;
+			}
+		}
+	}else if(trigger == &buttonRightTrigger){
+		selectedButtonDPAD++;
+		if(selectedButtonDPAD >= buttonCount){
+			selectedButtonDPAD = buttonCount;
+		}
+	}else if(trigger == &buttonLeftTrigger){
+		selectedButtonDPAD--;
+		if(selectedButtonDPAD < 0){
+			selectedButtonDPAD = 0;
+		}
+	}
+	UpdateChoiceButtons(button,controller,trigger);
 }
 

@@ -41,8 +41,11 @@ protected:
     void OnTouchClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
     void OnTouchHold(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
     void OnTouchRelease(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
+    void OnDPADClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
     void OnLeftClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
     void OnRightClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
+    void OnLeftSkipClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
+    void OnRightSkipClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
 
     void OnLaunchClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger) {
         gameLaunchClicked(this, getSelectedGame());
@@ -81,14 +84,14 @@ protected:
 
     GuiText gameTitle;
     GuiTrigger touchTrigger;
-    GuiTrigger leftTrigger;
-    GuiTrigger rightTrigger;
     GuiTrigger buttonATrigger;
+    GuiTrigger buttonLTrigger;
+    GuiTrigger buttonRTrigger;
+    GuiTrigger buttonLeftTrigger;
+    GuiTrigger buttonRightTrigger;
     GuiButton touchButton;
-    GuiButton leftButton;
-    GuiButton rightButton;
-    GuiButton launchButton;
-
+    GuiButton DPADButtons;
+    
     GuiParticleImage particleBgImage;
 
     GuiImageAsync *bgUsedImageDataAsync;

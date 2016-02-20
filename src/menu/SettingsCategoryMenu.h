@@ -26,6 +26,8 @@ public:
     SettingsCategoryMenu(int w, int h, const std::string & titleText, const SettingType * categorySettings, int settingsCount);
     virtual ~SettingsCategoryMenu();
 
+     void update(GuiController *c);
+
     sigslot::signal1<GuiElement *> settingsBackClicked;
 private:
     void OnSettingButtonClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
@@ -37,6 +39,10 @@ private:
     void OnSubMenuCloseClicked(GuiElement *element);
     void OnSubMenuOpenEffectFinish(GuiElement *element);
     void OnSubMenuCloseEffectFinish(GuiElement *element);
+
+    void OnDPADClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
+   
+
     void OnKeyPadOkClicked(GuiElement *element, const std::string & newValue);
     void OnButtonChoiceOkClicked(GuiElement *element, int selectedButton);
 
@@ -54,10 +60,12 @@ private:
     GuiImage titleImage;
 
     GuiImageData *settingImageData;
+    GuiImageData *settingSelectedImageData;
 
     typedef struct
     {
         GuiImage *settingImage;
+        GuiImage *settingImageSelected;
         GuiButton *settingButton;
         GuiText *settingLabel;
     } CategorySetting;
@@ -65,7 +73,17 @@ private:
     std::vector<CategorySetting> settings;
 
     GuiTrigger touchTrigger;
+    GuiTrigger buttonATrigger;
+    GuiTrigger buttonBTrigger;
+    GuiTrigger buttonUpTrigger;
+    GuiTrigger buttonDownTrigger;
+
+    GuiButton DPADButtons;
+
+    bool updateButtons = false;;
+
     int currentSettingsIdx;
+	int selectedButtonDPAD;
 };
 
 #endif //_SETTINGS_WINDOW_H_
