@@ -14,8 +14,15 @@ export LIBOGC_INC	:=	$(DEVKITPRO)/libogc/include
 export LIBOGC_LIB	:=	$(DEVKITPRO)/libogc/lib/wii
 export PORTLIBS		:=	$(DEVKITPRO)/portlibs/ppc
 
-FIRMWARE	:=	500
 PREFIX	:=	powerpc-eabi-
+
+FIRMWARE	:=	500
+
+SETUP_FLAGS := -DVER=$(FIRMWARE)
+
+ifeq ($(shell test $(FIRMWARE) -gt 510; echo $$?),0) #if (VER > 510)
+    SETUP_FLAGS += -DLOADIINE_USE_AUTOCONNECT
+endif
 
 export AS	:=	$(PREFIX)as
 export CC	:=	$(PREFIX)gcc
@@ -61,9 +68,9 @@ INCLUDES	:=  src \
 # options for code generation
 #---------------------------------------------------------------------------------
 CFLAGS	:=  -std=gnu11 -mrvl -mcpu=750 -meabi -mhard-float -ffast-math \
-		    -O3 -Wall -Wextra -Wno-unused-parameter -Wno-strict-aliasing -DVER=$(FIRMWARE) $(INCLUDE)
+		    -O3 -Wall -Wextra -Wno-unused-parameter -Wno-strict-aliasing $(SETUP_FLAGS) $(INCLUDE)
 CXXFLAGS := -std=gnu++11 -mrvl -mcpu=750 -meabi -mhard-float -ffast-math \
-		    -O3 -Wall -Wextra -Wno-unused-parameter -Wno-strict-aliasing -DVER=$(FIRMWARE) $(INCLUDE)
+		    -O3 -Wall -Wextra -Wno-unused-parameter -Wno-strict-aliasing $(SETUP_FLAGS) $(INCLUDE)
 ASFLAGS	:= -mregnames
 LDFLAGS	:= -nostartfiles -Wl,-Map,$(notdir $@).map,-wrap,malloc,-wrap,free,-wrap,memalign,-wrap,calloc,-wrap,realloc,-wrap,malloc_usable_size,-wrap,_malloc_r,-wrap,_free_r,-wrap,_realloc_r,-wrap,_calloc_r,-wrap,_memalign_r,-wrap,_malloc_usable_size_r,-wrap,valloc,-wrap,_valloc_r,-wrap,_pvalloc_r,--gc-sections
 

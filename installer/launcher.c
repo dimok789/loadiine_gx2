@@ -23,11 +23,11 @@
 #elif ( (VER == 532) || (VER == 540) )
     /* Patch coreinit - on 5.3.2 coreinit.rpl starts at 0x101c400 */
     //{ Menu_Main, 0x0101c55c, 0x48000003 },           // bla Branch Link Adres
-    #define ADDRESS_OSTitle_main_entry_ptr              0x1005d180
-    #define ADDRESS_main_entry_hook                     0x0101c55c // 15C
-    #define ADDRESS_LiWaitOneChunk                      0x010007EC
-    #define ADDRESS_LiWaitIopComplete                   0x0100FFA4
-    #define ADDRESS_LiWaitIopCompleteWithInterrupts     0x0100FE90
+    #define ADDRESS_OSTitle_main_entry_ptr              0x1005d180 // MiiMaker_main
+    #define ADDRESS_main_entry_hook                     0x0101c55c // coreinit.rpl + 15C
+    #define ADDRESS_LiWaitOneChunk                      0x010007EC // loader.elf
+    #define ADDRESS_LiWaitIopComplete                   0x0100FFA4 // loader.elf
+    #define ADDRESS_LiWaitIopCompleteWithInterrupts     0x0100FE90 // loader.elf
 
     #define KERN_SYSCALL_TBL_1                          0xFFE84C70 //v:0xFFF0AE9C // unknown ## 84C70
     #define KERN_SYSCALL_TBL_2                          0xFFE85070 //v:0xFFF0AE9C // works with games ## 85070
@@ -42,17 +42,17 @@
 #elif ( (VER == 500) || (VER == 510) )
     /* Patch coreinit - on 5.1.0 coreinit.rpl starts at 0x101c000 */
     //{ Menu_Main, 0x0101c15c, 0x48000003 },           // bla Branch Link Adress
-    #define ADDRESS_OSTitle_main_entry_ptr              0x1005CB00
-    #define ADDRESS_main_entry_hook                     0x0101C15C // 15C
-    #define ADDRESS_LiWaitOneChunk                      0x010007EC
-    #define ADDRESS_LiWaitIopComplete                   0x0100FBC4
-    #define ADDRESS_LiWaitIopCompleteWithInterrupts     0x0100FAB0
+    #define ADDRESS_OSTitle_main_entry_ptr              0x1005CB00 // MiiMaker_main
+    #define ADDRESS_main_entry_hook                     0x0101C15C // coreinit.rpl + 15C
+    #define ADDRESS_LiWaitOneChunk                      0x010007EC // loader.elf
+    #define ADDRESS_LiWaitIopComplete                   0x0100FBC4 // loader.elf
+    #define ADDRESS_LiWaitIopCompleteWithInterrupts     0x0100FAB0 // loader.elf
     
     #define KERN_SYSCALL_TBL_1                          0xFFE84C70  //ok v:0xFFF0ACE8 //0xFFE84C70 // unknown
     #define KERN_SYSCALL_TBL_2                          0xFFE85070  //ok v:0xFFF0ACE8 //0xFFE85070 // works with games
     #define KERN_SYSCALL_TBL_3                          0xFFE85470  //ok v:0xFFF0ADA4 //0xFFE85470 // works with loader
     #define KERN_SYSCALL_TBL_4                          0xFFEA9120  //ok v:0xFFF0ACE8 //0xFFEA9CE0 // works with home menu
-    #define KERN_SYSCALL_TBL_5                          0xFFEA9520  //ok v:0xFFF0ACE8 // works with browser (previously KERN_SYSCALL_TBL) ## A9520
+    #define KERN_SYSCALL_TBL_5                          0xFFEA9520  //ok v:0xFFF0ACE8 //0xFFEAA0E0 // works with browser (previously KERN_SYSCALL_TBL) ## A9520
 
     #define PREP_TITLE_HOOK_ADDR                        0xFFF18534 //0xffe00000 118534
     //.data:00118534                 clrlwi    r7, r12, 0
