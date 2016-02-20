@@ -143,7 +143,7 @@ export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib) \
 					-L$(LIBOGC_LIB) -L$(PORTLIBS)/lib
 
 export OUTPUT	:=	$(CURDIR)/$(TARGET)
-.PHONY: $(BUILD) clean install
+.PHONY: $(BUILD) clean print install
 
 #---------------------------------------------------------------------------------
 $(BUILD):
@@ -154,6 +154,12 @@ $(BUILD):
 clean:
 	@echo clean ...
 	@rm -fr $(BUILD) $(OUTPUT).elf $(OUTPUT).bin $(BUILD_DBG).elf
+
+#---------------------------------------------------------------------------------
+print:
+	@echo "SETUP_FLAGS   = $(SETUP_FLAGS)"
+#	@echo "CFLAGS   = $(CFLAGS)"
+#	@echo "CXXFLAGS = $(CXXFLAGS)"
 
 #---------------------------------------------------------------------------------
 else
