@@ -390,20 +390,15 @@ void MainWindow::OnGameLaunch(GuiGameBrowser *element, int gameIdx)
 
     log_printf("Loading game %s\n", gameHdr->name.c_str());
 
-    asyncLoadFinished.connect(this, &MainWindow::OnGameLoadFinish);
-
-    CThread *thread = GameLauncher::loadGameToMemoryAsync(gameHdr, &asyncLoadFinished);
-
-    //! TODO: implement asynchron loading with progress bar
-    //! Wait here until loading is finished
-    thread->shutdownThread();
-    delete thread;
+    GameLauncher *launcher = GameLauncher::loadGameToMemoryAsync(gameHdr);
+    launcher->setEffect(EFFECT_FADE, 15, 255);
+    launcher->effectFinished.connect(this, &MainWindow::OnOpenEffectFinish);
+    launcher->asyncLoadFinished.connect(this, &MainWindow::OnGameLoadFinish);
+    append(launcher);
 }
 
-void MainWindow::OnGameLoadFinish(const discHeader *diskHeader, int result)
+void MainWindow::OnGameLoadFinish(GameLauncher * launcher, const discHeader *header, int result)
 {
-    asyncLoadFinished.disconnect(this);
-
     log_printf("game loading result %i\n", result);
 
     if(result == GameLauncher::SUCCESS)
@@ -426,6 +421,16 @@ void MainWindow::OnGameLoadFinish(const discHeader *diskHeader, int result)
 
         Application::instance()->quit();
     }
+
+    mainSwitchButtonFrame->resetState();
+    if(currentTvFrame)
+        currentTvFrame->resetState();
+    if(currentDrcFrame)
+        currentDrcFrame->resetState();
+
+    launcher->setState(GuiElement::STATE_DISABLED);
+    launcher->setEffect(EFFECT_FADE, -15, 0);
+    launcher->effectFinished.connect(this, &MainWindow::OnCloseEffectFinish);
 }
 
 void MainWindow::OnGameSelectionChange(GuiGameBrowser *element, int selectedIdx)

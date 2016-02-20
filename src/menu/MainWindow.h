@@ -24,6 +24,7 @@
 #include "game/GameList.h"
 #include "MainDrcButtonsFrame.h"
 #include "network/GameImageDownloader.h"
+#include "game/GameLauncher.h"
 
 class CVideo;
 
@@ -131,7 +132,7 @@ private:
     void OnSettingsButtonClicked(GuiElement *element);
     void OnSettingsQuit(GuiElement *element);
 
-    void OnGameLoadFinish(const discHeader *diskHeader, int result);
+    void OnGameLoadFinish(GameLauncher*, const discHeader *header, int result);
 
     void OnImageDownloadClicked(GuiElement *element);
     void OnImageDownloadFinish(GameImageDownloader *downloader, int fileLeft);
@@ -146,8 +147,6 @@ private:
 
     GuiGameBrowser * currentTvFrame;
     GuiGameBrowser * currentDrcFrame;
-
-    sigslot::signal2<const discHeader *, int> asyncLoadFinished;
 
     GuiImageData *pointerImgData[4];
     GuiImage *pointerImg[4];
