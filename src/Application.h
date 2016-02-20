@@ -66,7 +66,7 @@ private:
     GuiSound *bgMusic;
     CVideo *video;
     MainWindow *mainWindow;
-    GuiController controller;
+    GuiController *controller[5];
 };
 
 #endif //_APPLICATION_H

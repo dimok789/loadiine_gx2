@@ -33,6 +33,7 @@ ButtonChoiceMenu::ButtonChoiceMenu(int w, int h, const std::string & title, cons
     , titleImageData(Resources::GetImageData("settingsTitle.png"))
     , titleImage(titleImageData)
     , touchTrigger(GuiTrigger::CHANNEL_1, GuiTrigger::VPAD_TOUCH)
+    , wpadTouchTrigger(GuiTrigger::CHANNEL_2 | GuiTrigger::CHANNEL_3 | GuiTrigger::CHANNEL_4 | GuiTrigger::CHANNEL_5, GuiTrigger::BUTTON_A)
     , buttonATrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_A, true)
     , buttonBTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_B, true)
     , buttonUpTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_UP, true)
@@ -51,6 +52,7 @@ ButtonChoiceMenu::ButtonChoiceMenu(int w, int h, const std::string & title, cons
     backButton.setAlignment(ALIGN_BOTTOM | ALIGN_LEFT);
     backButton.clicked.connect(this, &ButtonChoiceMenu::OnBackButtonClick);
     backButton.setTrigger(&touchTrigger);
+    backButton.setTrigger(&wpadTouchTrigger);
     backButton.setSoundClick(buttonClickSound);
     backButton.setEffectGrow();
     append(&backButton);
@@ -62,6 +64,7 @@ ButtonChoiceMenu::ButtonChoiceMenu(int w, int h, const std::string & title, cons
     okButton.setAlignment(ALIGN_BOTTOM | ALIGN_RIGHT);
     okButton.clicked.connect(this, &ButtonChoiceMenu::OnOkButtonClick);
     okButton.setTrigger(&touchTrigger);
+    okButton.setTrigger(&wpadTouchTrigger);
     okButton.setSoundClick(buttonClickSound);
     okButton.setEffectGrow();
     append(&okButton);
@@ -139,6 +142,7 @@ ButtonChoiceMenu::ButtonChoiceMenu(int w, int h, const std::string & title, cons
         choiceButtons[i].choiceButton->setPosition(posX, -50.0f + posY);
         choiceButtons[i].choiceButton->setEffectGrow();
         choiceButtons[i].choiceButton->setTrigger(&touchTrigger);
+        choiceButtons[i].choiceButton->setTrigger(&wpadTouchTrigger);
         choiceButtons[i].choiceButton->clicked.connect(this, &ButtonChoiceMenu::OnChoiceButtonClick);
         append(choiceButtons[i].choiceButton);
     }
@@ -215,16 +219,29 @@ void ButtonChoiceMenu::OnChoiceButtonClick(GuiButton *button, const GuiControlle
 
 void ButtonChoiceMenu::OnDPADClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
-	if(trigger == &buttonATrigger){
-		if(selectedButtonDPAD >= 0 && selectedButtonDPAD <= buttonCount-1){
+	if(trigger == &buttonATrigger)
+	{
+        //! do not auto launch when wiimote is pointing to screen and presses A
+        if((controller->chan & (GuiTrigger::CHANNEL_2 | GuiTrigger::CHANNEL_3 | GuiTrigger::CHANNEL_4 | GuiTrigger::CHANNEL_5)) && controller->data.validPointer)
+        {
+            return;
+        }
+		if(selectedButtonDPAD >= 0 && selectedButtonDPAD <= buttonCount-1)
+		{
 			selectedButton = selectedButtonDPAD;
 			
-		}else if(selectedButtonDPAD == buttonCount || selectedButtonDPAD == -2){
+		}
+		else if(selectedButtonDPAD == buttonCount || selectedButtonDPAD == -2)
+		{
 			OnOkButtonClick(button,controller,trigger);
 		}            
-	}else if(trigger == &buttonBTrigger){
+	}
+	else if(trigger == &buttonBTrigger)
+	{
 		OnBackButtonClick(button,controller,trigger);
-	}else if(trigger == &buttonUpTrigger){
+	}
+	else if(trigger == &buttonUpTrigger)
+	{
 		if(buttonCount > 2){
 			selectedButtonDPAD -= 2;
 			if(selectedButtonDPAD < 0){
@@ -232,19 +249,22 @@ void ButtonChoiceMenu::OnDPADClick(GuiButton *button, const GuiController *contr
 			}
 		}
 
-	}else if(trigger == &buttonDownTrigger){
+	}
+	else if(trigger == &buttonDownTrigger){
 		if(buttonCount > 2 || selectedButtonDPAD != buttonCount){
 			selectedButtonDPAD += 2;
 			if(selectedButtonDPAD >= buttonCount){
 				selectedButtonDPAD = buttonCount-1;
 			}
 		}
-	}else if(trigger == &buttonRightTrigger){
+	}
+	else if(trigger == &buttonRightTrigger){
 		selectedButtonDPAD++;
 		if(selectedButtonDPAD >= buttonCount){
 			selectedButtonDPAD = buttonCount;
 		}
-	}else if(trigger == &buttonLeftTrigger){
+	}
+	else if(trigger == &buttonLeftTrigger){
 		selectedButtonDPAD--;
 		if(selectedButtonDPAD < 0){
 			selectedButtonDPAD = 0;

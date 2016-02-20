@@ -29,15 +29,20 @@ public:
         CHANNEL_2       = 0x02,
         CHANNEL_3       = 0x04,
         CHANNEL_4       = 0x08,
-        CHANNEL_ALL     = 0x0F
+        CHANNEL_5       = 0x10,
+        CHANNEL_ALL     = 0xFF
     };
     enum eButtons {
         BUTTON_NONE     = 0x0000,
         VPAD_TOUCH      = 0x80000000,
+        BUTTON_Z        = 0x20000,
+        BUTTON_C        = 0x10000,
         BUTTON_A        = 0x8000,
         BUTTON_B        = 0x4000,
         BUTTON_X        = 0x2000,
         BUTTON_Y        = 0x1000,
+        BUTTON_1        = BUTTON_Y,
+        BUTTON_2        = BUTTON_X,
         BUTTON_LEFT     = 0x0800,
         BUTTON_RIGHT    = 0x0400,
         BUTTON_UP       = 0x0200,

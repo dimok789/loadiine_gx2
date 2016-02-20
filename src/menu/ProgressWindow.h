@@ -36,6 +36,7 @@ private:
     GuiImage progressImageColored;
 
     GuiTrigger touchTrigger;
+    GuiTrigger wpadTouchTrigger;
 };
 
 #endif //_PROGRESS_WINDOW_H_

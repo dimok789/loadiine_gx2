@@ -27,6 +27,7 @@ CreditsMenu::CreditsMenu(int w, int h, const std::string & title)
     , titleImageData(Resources::GetImageData("settingsTitle.png"))
     , titleImage(titleImageData)
     , touchTrigger(GuiTrigger::CHANNEL_1, GuiTrigger::VPAD_TOUCH)
+    , wpadTouchTrigger(GuiTrigger::CHANNEL_2 | GuiTrigger::CHANNEL_3 | GuiTrigger::CHANNEL_4 | GuiTrigger::CHANNEL_5, GuiTrigger::BUTTON_A)
 	, buttonBTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_B, true)
 {
     Application::instance()->getBgMusic()->Pause();
@@ -50,6 +51,7 @@ CreditsMenu::CreditsMenu(int w, int h, const std::string & title)
     backButton.setAlignment(ALIGN_BOTTOM | ALIGN_LEFT);
     backButton.clicked.connect(this, &CreditsMenu::OnBackButtonClick);
     backButton.setTrigger(&touchTrigger);
+    backButton.setTrigger(&wpadTouchTrigger);
 	backButton.setTrigger(&buttonBTrigger);
     backButton.setSoundClick(buttonClickSound);
     backButton.setEffectGrow();

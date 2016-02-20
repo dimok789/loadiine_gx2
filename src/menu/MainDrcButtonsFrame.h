@@ -35,11 +35,16 @@ public:
         , settingsButton(settingsIcon.getWidth(), settingsIcon.getHeight())
         , gameImageDownloadButton(w, h)
         , touchTrigger(GuiTrigger::CHANNEL_1, GuiTrigger::VPAD_TOUCH)
+        , wpadTouchTrigger(GuiTrigger::CHANNEL_2 | GuiTrigger::CHANNEL_3 | GuiTrigger::CHANNEL_4 | GuiTrigger::CHANNEL_5, GuiTrigger::BUTTON_A)
+        , settingsTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_ZL, true)
+        , switchLayoutTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_ZR, true)
         , plusTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_PLUS, true)
     {
         settingsButton.setClickable(true);
         settingsButton.setImage(&settingsIcon);
         settingsButton.setTrigger(&touchTrigger);
+        settingsButton.setTrigger(&wpadTouchTrigger);
+        settingsButton.setTrigger(&settingsTrigger);
         settingsButton.setAlignment(ALIGN_LEFT | ALIGN_BOTTOM);
         settingsButton.setSoundClick(buttonClickSound);
         settingsButton.setEffectGrow();
@@ -49,6 +54,8 @@ public:
         switchLayoutButton.setClickable(true);
         switchLayoutButton.setImage(&switchIcon);
         switchLayoutButton.setTrigger(&touchTrigger);
+        switchLayoutButton.setTrigger(&wpadTouchTrigger);
+        switchLayoutButton.setTrigger(&switchLayoutTrigger);
         switchLayoutButton.setAlignment(ALIGN_RIGHT | ALIGN_BOTTOM);
         switchLayoutButton.setSoundClick(screenSwitchSound);
         switchLayoutButton.setEffectGrow();
@@ -95,6 +102,9 @@ private:
     GuiButton gameImageDownloadButton;
 
     GuiTrigger touchTrigger;
+    GuiTrigger wpadTouchTrigger;
+    GuiTrigger settingsTrigger;
+    GuiTrigger switchLayoutTrigger;
     GuiTrigger plusTrigger;
 };
 

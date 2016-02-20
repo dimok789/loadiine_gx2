@@ -47,9 +47,7 @@ private:
     void OnDownClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
     void OnUpClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
 
-    void OnLaunchClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger) {
-        gameLaunchClicked(this, getSelectedGame());
-    }
+    void OnLaunchClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
 
     void updateButtonPositions();
 
@@ -63,6 +61,7 @@ private:
     GuiParticleImage particleBgImage;
 
     GuiTrigger touchTrigger;
+    GuiTrigger wpadTouchTrigger;
     GuiTrigger leftTrigger;
     GuiTrigger rightTrigger;
     GuiTrigger downTrigger;

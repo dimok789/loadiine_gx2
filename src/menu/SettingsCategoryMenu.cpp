@@ -35,6 +35,7 @@ SettingsCategoryMenu::SettingsCategoryMenu(int w, int h, const std::string & tit
     , settingImageData(Resources::GetImageData("settingButton.png"))
     , settingSelectedImageData(Resources::GetImageData("settingSelectedButton.png"))
     , touchTrigger(GuiTrigger::CHANNEL_1, GuiTrigger::VPAD_TOUCH)
+    , wpadTouchTrigger(GuiTrigger::CHANNEL_2 | GuiTrigger::CHANNEL_3 | GuiTrigger::CHANNEL_4 | GuiTrigger::CHANNEL_5, GuiTrigger::BUTTON_A)
     , buttonATrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_A, true)
     , buttonBTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_B, true)
     , buttonUpTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_UP, true)
@@ -49,6 +50,7 @@ SettingsCategoryMenu::SettingsCategoryMenu(int w, int h, const std::string & tit
     backButton.setAlignment(ALIGN_BOTTOM | ALIGN_LEFT);
     backButton.clicked.connect(this, &SettingsCategoryMenu::OnBackButtonClick);
     backButton.setTrigger(&touchTrigger);
+    backButton.setTrigger(&wpadTouchTrigger);
     backButton.setSoundClick(buttonClickSound);
     backButton.setEffectGrow();
     categoryFrame.append(&backButton);
@@ -79,6 +81,7 @@ SettingsCategoryMenu::SettingsCategoryMenu(int w, int h, const std::string & tit
 		
         settings[i].settingButton->setPosition(0, 150 - (settings[i].settingImage->getHeight() + 30) * i);
         settings[i].settingButton->setTrigger(&touchTrigger);
+        settings[i].settingButton->setTrigger(&wpadTouchTrigger);
         settings[i].settingButton->setEffectGrow();
         settings[i].settingButton->setSoundClick(buttonClickSound);
         settings[i].settingButton->clicked.connect(this, &SettingsCategoryMenu::OnSettingButtonClick);
@@ -246,16 +249,29 @@ void SettingsCategoryMenu::OnButtonChoiceOkClicked(GuiElement *element, int sele
 
 void SettingsCategoryMenu::OnDPADClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
-    
-	if(trigger == &buttonATrigger){
+	if(trigger == &buttonATrigger)
+	{
+        //! do not auto launch when wiimote is pointing to screen and presses A
+        if((controller->chan & (GuiTrigger::CHANNEL_2 | GuiTrigger::CHANNEL_3 | GuiTrigger::CHANNEL_4 | GuiTrigger::CHANNEL_5)) && controller->data.validPointer)
+        {
+            return;
+        }
 		OnSettingButtonClick(button,controller,trigger);
-	}else if(trigger == &buttonBTrigger){
+	}
+	else if(trigger == &buttonBTrigger)
+	{
 		OnBackButtonClick(button,controller,trigger);
-	}else if(trigger == &buttonUpTrigger || trigger == &buttonDownTrigger){			
-		if(selectedButtonDPAD == -1){
+	}
+	else if(trigger == &buttonUpTrigger || trigger == &buttonDownTrigger)
+	{			
+		if(selectedButtonDPAD == -1)
+		{
 			selectedButtonDPAD = currentSettingsIdx;
-		}else{				
-			if(trigger == &buttonUpTrigger){
+		}
+		else
+		{				
+			if(trigger == &buttonUpTrigger)
+			{
 				if(currentSettingsIdx > 0){
 					currentSettingsIdx--;
 				}else{

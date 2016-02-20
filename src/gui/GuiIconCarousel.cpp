@@ -40,6 +40,7 @@ GuiIconCarousel::GuiIconCarousel(int w, int h)
     , bgFadingImageDataAsync(NULL)
     , gameTitle((char*)NULL, 52, glm::vec4(1.0f))
     , touchTrigger(GuiTrigger::CHANNEL_1, GuiTrigger::VPAD_TOUCH)
+    , wpadTouchTrigger(GuiTrigger::CHANNEL_2 | GuiTrigger::CHANNEL_3 | GuiTrigger::CHANNEL_4 | GuiTrigger::CHANNEL_5, GuiTrigger::BUTTON_A)
     , buttonATrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_A, true)
     , buttonLTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_L, true)
     , buttonRTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_R, true)
@@ -71,6 +72,7 @@ GuiIconCarousel::GuiIconCarousel(int w, int h)
     touchButton.setClickable(true);
     touchButton.setHoldable(true);
     touchButton.setTrigger(&touchTrigger);
+    touchButton.setTrigger(&wpadTouchTrigger);
     touchButton.clicked.connect(this, &GuiIconCarousel::OnTouchClick);
     touchButton.held.connect(this, &GuiIconCarousel::OnTouchHold);
     touchButton.released.connect(this, &GuiIconCarousel::OnTouchRelease);
@@ -83,7 +85,7 @@ GuiIconCarousel::GuiIconCarousel(int w, int h)
     DPADButtons.setTrigger(&buttonRightTrigger);
     DPADButtons.clicked.connect(this, &GuiIconCarousel::OnDPADClick);
     append(&DPADButtons);
-  
+
     for(int i = 0; i < GameList::instance()->size(); i++)
     {
 		std::string filepath = GameList::instance()->at(i)->gamepath + META_PATH + "/iconTex.tga";
@@ -157,17 +159,20 @@ void GuiIconCarousel::setSelectedGame(int selectedIdx)
 
 void GuiIconCarousel::OnTouchClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
+    if(!controller->data.validPointer)
+        return;
+
     bWasDragging = false;
     selectedGameOnDragStart = getSelectedGame();
-    lastPosition.x = controller->vpad.tpdata.x;
-    lastPosition.y = controller->vpad.tpdata.y;
+    lastPosition.x = controller->data.x;
+    lastPosition.y = controller->data.y;
 
     //! calculate ray origin and direction
     glm::vec3 rayOrigin;
     glm::vec3 rayDir;
 
     CVideo *video = Application::instance()->getVideo();
-    video->screenPosToWorldRay(controller->vpadTvX, controller->vpadTvY, rayOrigin, rayDir);
+    video->screenPosToWorldRay(controller->data.x, controller->data.y, rayOrigin, rayDir);
 
     glm::vec3 rayDirFrac((rayDir.x != 0.0f) ? (1.0f / rayDir.x) : 0.0f, (rayDir.y != 0.0f) ? (1.0f / rayDir.y) : 0.0f, (rayDir.z != 0.0f) ? (1.0f / rayDir.z) : 0.0f);
 
@@ -201,8 +206,11 @@ void GuiIconCarousel::OnTouchClick(GuiButton *button, const GuiController *contr
 
 void GuiIconCarousel::OnTouchHold(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
-    lastTouchDifference = ((int)controller->vpad.tpdata.x - (int)lastPosition.x);
-    f32 degreeAdd = lastTouchDifference * 0.04f;
+    if(!controller->data.validPointer)
+        return;
+
+    lastTouchDifference = ((int)controller->data.x - (int)lastPosition.x);
+    f32 degreeAdd = lastTouchDifference * 0.128f;
     if(touchClickDelay || fabsf(degreeAdd) < 0.5f) {
         return;
     }
@@ -210,14 +218,17 @@ void GuiIconCarousel::OnTouchHold(GuiButton *button, const GuiController *contro
     circlePosition -= degreeAdd;
     circleTargetPosition = circlePosition;
 
-    lastPosition.x = controller->vpad.tpdata.x;
-    lastPosition.y = controller->vpad.tpdata.y;
+    lastPosition.x = controller->data.x;
+    lastPosition.y = controller->data.y;
     bUpdateMap = true;
     bWasDragging = true;
 }
 
 void GuiIconCarousel::OnTouchRelease(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
+    if(!controller->lastData.validPointer)
+        return;
+
     for(size_t i = 0; i < gameIcons.size(); ++i)
     {
         if(gameIcons[i]->isStateSet(STATE_CLICKED))
@@ -227,7 +238,7 @@ void GuiIconCarousel::OnTouchRelease(GuiButton *button, const GuiController *con
         }
     }
 
-    f32 degreeAdd = lastTouchDifference * 0.04f;
+    f32 degreeAdd = lastTouchDifference * 0.128f;
     if(touchClickDelay || fabsf(degreeAdd) < 2.0f)
     {
         updateDrawMap();
@@ -273,14 +284,23 @@ void GuiIconCarousel::OnTouchRelease(GuiButton *button, const GuiController *con
 void GuiIconCarousel::OnDPADClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
     if(trigger == &buttonATrigger){
+        //! do not auto launch when wiimote is pointing to screen and presses A
+        if((controller->chan & (GuiTrigger::CHANNEL_2 | GuiTrigger::CHANNEL_3 | GuiTrigger::CHANNEL_4 | GuiTrigger::CHANNEL_5)) && controller->data.validPointer)
+        {
+            return;
+        }
         OnLaunchClick(button,controller,trigger);
-    }else if(trigger == &buttonLTrigger){
+    }
+    else if(trigger == &buttonLTrigger){
         OnLeftSkipClick(button,controller,trigger);
-    }else if(trigger == &buttonRTrigger){
+    }
+    else if(trigger == &buttonRTrigger){
         OnRightSkipClick(button,controller,trigger);
-    }else if(trigger == &buttonLeftTrigger){
+    }
+    else if(trigger == &buttonLeftTrigger){
         OnLeftClick(button,controller,trigger);
-    }else if(trigger == &buttonRightTrigger){
+    }
+    else if(trigger == &buttonRightTrigger){
         OnRightClick(button,controller,trigger);
     }
 }
@@ -307,7 +327,7 @@ void GuiIconCarousel::OnRightClick(GuiButton *button, const GuiController *contr
 
 void GuiIconCarousel::OnLeftSkipClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
-	if((int)GameList::instance()->size() > 5){	
+	if((int)GameList::instance()->size() > 5){
 		int sel = getSelectedGame() + 5;
 		if(sel >= (int)GameList::instance()->size())
 			sel -= (int)GameList::instance()->size();
@@ -319,7 +339,7 @@ void GuiIconCarousel::OnLeftSkipClick(GuiButton *button, const GuiController *co
 
 void GuiIconCarousel::OnRightSkipClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
-	if((int)GameList::instance()->size() > 5){	
+	if((int)GameList::instance()->size() > 5){
 		int sel = getSelectedGame() - 5;
 		if(sel < 0 && (GameList::instance()->size() > 5))
 			sel += GameList::instance()->size();

@@ -99,6 +99,7 @@ SettingsMenu::SettingsMenu(int w, int h)
     , quitImage(quitImageData)
     , quitButton(quitImage.getWidth(), quitImage.getHeight())
     , touchTrigger(GuiTrigger::CHANNEL_1, GuiTrigger::VPAD_TOUCH)
+    , wpadTouchTrigger(GuiTrigger::CHANNEL_2 | GuiTrigger::CHANNEL_3 | GuiTrigger::CHANNEL_4 | GuiTrigger::CHANNEL_5, GuiTrigger::BUTTON_A)
     , buttonATrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_A, true)
     , buttonBTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_B, true)
     , buttonLTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_L, true)
@@ -123,6 +124,7 @@ SettingsMenu::SettingsMenu(int w, int h)
     quitButton.setAlignment(ALIGN_BOTTOM | ALIGN_LEFT);
     quitButton.clicked.connect(this, &SettingsMenu::OnQuitButtonClick);
     quitButton.setTrigger(&touchTrigger);
+    quitButton.setTrigger(&wpadTouchTrigger);
     quitButton.setEffectGrow();
     quitButton.setSoundClick(buttonClickSound);
     categorySelectionFrame.append(&quitButton);
@@ -166,6 +168,7 @@ SettingsMenu::SettingsMenu(int w, int h)
         category.categoryButton->setIcon(category.categoryIcon);
         category.categoryButton->setIconOver(category.categoryIconGlow);
         category.categoryButton->setTrigger(&touchTrigger);
+        category.categoryButton->setTrigger(&wpadTouchTrigger);
         category.categoryButton->setSoundClick(buttonClickSound);
         category.categoryButton->setEffectGrow();
         category.categoryButton->clicked.connect(this, &SettingsMenu::OnCategoryClick);
@@ -194,6 +197,7 @@ SettingsMenu::SettingsMenu(int w, int h)
         smallIconButton->setImage(smallIcon);
         smallIconButton->setEffectGrow();
         smallIconButton->setTrigger(&touchTrigger);
+        smallIconButton->setTrigger(&wpadTouchTrigger);
         smallIconButton->setSoundClick(buttonClickSound);
         smallIconButton->clicked.connect(this, &SettingsMenu::OnSmallIconClick);
         categorySelectionFrame.append(smallIconButton);
@@ -208,6 +212,7 @@ SettingsMenu::SettingsMenu(int w, int h)
     leftArrowButton.setPosition(40, 0);
     leftArrowButton.setAlignment(ALIGN_LEFT | ALIGN_MIDDLE);
     leftArrowButton.setTrigger(&touchTrigger);
+    leftArrowButton.setTrigger(&wpadTouchTrigger);
 
     leftArrowButton.setSoundClick(buttonClickSound);
     leftArrowButton.clicked.connect(this, &SettingsMenu::OnCategoryLeftClick);
@@ -218,6 +223,7 @@ SettingsMenu::SettingsMenu(int w, int h)
     rightArrowButton.setPosition(-40, 0);
     rightArrowButton.setAlignment(ALIGN_RIGHT | ALIGN_MIDDLE);
     rightArrowButton.setTrigger(&touchTrigger);
+    rightArrowButton.setTrigger(&wpadTouchTrigger);
     rightArrowButton.setSoundClick(buttonClickSound);
     rightArrowButton.clicked.connect(this, &SettingsMenu::OnCategoryRightClick);
     categorySelectionFrame.append(&rightArrowButton);
@@ -350,7 +356,7 @@ void SettingsMenu::OnCategoryClick(GuiButton *button, const GuiController *contr
             }
         }
         if(indexClicked == -1) indexClicked = selectedCategory;
-        
+
         const SettingType * categorySettings = NULL;
         int categorySettingsCount = 0;
 
@@ -410,8 +416,8 @@ void SettingsMenu::OnSmallIconClick(GuiButton *button, const GuiController *cont
     {
         if(button == categorySmallButtons[i])
         {
-            setTargetPosition(i);            
-            animationSpeed = 100;
+            setTargetPosition(i);
+            animationSpeed = 70;
             break;
         }
     }
@@ -439,17 +445,28 @@ void SettingsMenu::OnCategoryLeftClick(GuiButton *button, const GuiController *c
 
 void SettingsMenu::OnDPADClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
-	if(trigger == &buttonATrigger){
+	if(trigger == &buttonATrigger)
+	{
+        //! do not auto launch when wiimote is pointing to screen and presses A
+        if((controller->chan & (GuiTrigger::CHANNEL_2 | GuiTrigger::CHANNEL_3 | GuiTrigger::CHANNEL_4 | GuiTrigger::CHANNEL_5)) && controller->data.validPointer)
+        {
+            return;
+        }
 		OnCategoryClick(button,controller,trigger);
-	}else if(trigger == &buttonBTrigger){
+	}
+	else if(trigger == &buttonBTrigger){
 		OnQuitButtonClick(button,controller,trigger);
-	}else if(trigger == &buttonLTrigger){
+	}
+	else if(trigger == &buttonLTrigger){
 		OnCategoryLeftClick(button,controller,trigger);
-	}else if(trigger == &buttonRTrigger){
-		OnCategoryRightClick(button,controller,trigger);        
-	}else if(trigger == &buttonLeftTrigger){
+	}
+	else if(trigger == &buttonRTrigger){
+		OnCategoryRightClick(button,controller,trigger);
+	}
+	else if(trigger == &buttonLeftTrigger){
 		OnCategoryLeftClick(button,controller,trigger);
-	}else if(trigger == &buttonRightTrigger){
+	}
+	else if(trigger == &buttonRightTrigger){
 		OnCategoryRightClick(button,controller,trigger);
 	}
 }
@@ -460,22 +477,24 @@ void SettingsMenu::update(GuiController *c)
     if(currentPosition < targetPosition)
     {
         currentPosition += animationSpeed;
-        if(currentPosition >= targetPosition){
+        if(currentPosition >= targetPosition)
+		{
             currentPosition = targetPosition;
             moving = false;
         }
-            
+
 
         bUpdatePositions = true;
     }
     else if(currentPosition > targetPosition)
     {
         currentPosition -= animationSpeed;
-        if(currentPosition <= targetPosition){
+        if(currentPosition <= targetPosition)
+		{
             currentPosition = targetPosition;
             moving = false;
         }
-            
+
 
         bUpdatePositions = true;
     }

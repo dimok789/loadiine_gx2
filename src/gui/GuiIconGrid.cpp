@@ -28,6 +28,7 @@ GuiIconGrid::GuiIconGrid(int w, int h)
     , emptyIcon(Resources::GetFile("iconEmpty.jpg"), Resources::GetFileSize("iconEmpty.jpg"), GX2_TEX_CLAMP_MIRROR)
     , particleBgImage(w, h, 50)
     , touchTrigger(GuiTrigger::CHANNEL_1, GuiTrigger::VPAD_TOUCH)
+    , wpadTouchTrigger(GuiTrigger::CHANNEL_2 | GuiTrigger::CHANNEL_3 | GuiTrigger::CHANNEL_4 | GuiTrigger::CHANNEL_5, GuiTrigger::BUTTON_A)
     , leftTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_LEFT, true)
     , rightTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_RIGHT, true)
     , downTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_DOWN, true)
@@ -100,6 +101,7 @@ GuiIconGrid::GuiIconGrid(int w, int h)
         button->setPosition(0, 0);
         button->setEffectGrow();
         button->setTrigger(&touchTrigger);
+        button->setTrigger(&wpadTouchTrigger);
         button->setSoundClick(buttonClickSound);
         button->setClickable( (idx < GameList::instance()->size()) );
         button->setSelectable( (idx < GameList::instance()->size()) );
@@ -119,6 +121,7 @@ GuiIconGrid::GuiIconGrid(int w, int h)
         arrowLeftButton.setPosition(40, 0);
         arrowLeftButton.setAlignment(ALIGN_LEFT | ALIGN_MIDDLE);
         arrowLeftButton.setTrigger(&touchTrigger, 0);
+        arrowLeftButton.setTrigger(&wpadTouchTrigger, 0);
         arrowLeftButton.setTrigger(&buttonLTrigger, 1);
         arrowLeftButton.clicked.connect(this, &GuiIconGrid::OnLeftArrowClick);
 
@@ -127,6 +130,7 @@ GuiIconGrid::GuiIconGrid(int w, int h)
         arrowRightButton.setPosition(-40, 0);
         arrowRightButton.setAlignment(ALIGN_RIGHT | ALIGN_MIDDLE);
         arrowRightButton.setTrigger(&touchTrigger, 0);
+        arrowRightButton.setTrigger(&wpadTouchTrigger, 0);
         arrowRightButton.setTrigger(&buttonRTrigger, 1);
         arrowRightButton.clicked.connect(this, &GuiIconGrid::OnRightArrowClick);
         append(&arrowRightButton);
@@ -340,6 +344,16 @@ void GuiIconGrid::OnUpClick(GuiButton *button, const GuiController *controller, 
         setSelectedGame(sel);
         gameSelectionChanged(this, sel);
     }
+}
+
+void GuiIconGrid::OnLaunchClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
+{
+    //! do not auto launch when wiimote is pointing to screen and presses A
+    if((trigger == &buttonATrigger) && (controller->chan & (GuiTrigger::CHANNEL_2 | GuiTrigger::CHANNEL_3 | GuiTrigger::CHANNEL_4 | GuiTrigger::CHANNEL_5)) && controller->data.validPointer)
+    {
+        return;
+    }
+    gameLaunchClicked(this, getSelectedGame());
 }
 
 void GuiIconGrid::OnGameButtonClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)

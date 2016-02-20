@@ -73,6 +73,7 @@ private:
     std::vector<CategorySetting> settings;
 
     GuiTrigger touchTrigger;
+    GuiTrigger wpadTouchTrigger;
     GuiTrigger buttonATrigger;
     GuiTrigger buttonBTrigger;
     GuiTrigger buttonUpTrigger;

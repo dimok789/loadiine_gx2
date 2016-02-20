@@ -27,7 +27,6 @@
 //!Display, manage, and manipulate buttons in the GUI. Buttons can have images, icons, text, and sound set (all of which are optional)
 class GuiButton : public GuiElement
 {
-	static const int TRIGGER_SIZE = 7;
 	public:
 		//!Constructor
 		//!\param w Width
@@ -95,6 +94,8 @@ class GuiButton : public GuiElement
 		sigslot::signal3<GuiButton *, const GuiController *, GuiTrigger *> held;
 		sigslot::signal3<GuiButton *, const GuiController *, GuiTrigger *> released;
 	protected:
+        static const int iMaxGuiTriggers = 7;
+
 		GuiImage * image; //!< Button image (default)
 		GuiImage * imageOver; //!< Button image for STATE_SELECTED
 		GuiImage * imageHold; //!< Button image for STATE_HELD
@@ -108,7 +109,7 @@ class GuiButton : public GuiElement
 		GuiSound * soundOver; //!< Sound to play for STATE_SELECTED
 		GuiSound * soundHold; //!< Sound to play for STATE_HELD
 		GuiSound * soundClick; //!< Sound to play for STATE_CLICKED
-		GuiTrigger * trigger[TRIGGER_SIZE]; //!< GuiTriggers (input actions) that this element responds to
+		GuiTrigger * trigger[iMaxGuiTriggers]; //!< GuiTriggers (input actions) that this element responds to
 		GuiTrigger * clickedTrigger;
 		GuiTrigger * heldTrigger;
 };
