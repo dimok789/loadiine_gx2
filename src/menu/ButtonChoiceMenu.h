@@ -40,13 +40,18 @@ private:
         settingsOkClicked(this, selectedButton);
     }
 
+    void OnDPADClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
+    void UpdateChoiceButtons(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
+
     GuiSound *buttonClickSound;
     GuiImageData *backImageData;
-    GuiImage backImage;
+    GuiImage backImage;   
     GuiButton backButton;
 
     GuiImageData *okImageData;
     GuiImage okImage;
+    GuiImageData *okSelectedImageData;
+    GuiImage okSelectedImage;
     GuiButton okButton;
     GuiText okText;
 
@@ -55,17 +60,35 @@ private:
     GuiImage titleImage;
 
     GuiTrigger touchTrigger;
+    GuiTrigger buttonATrigger;
+    GuiTrigger buttonBTrigger;
+
+    GuiTrigger buttonUpTrigger;
+    GuiTrigger buttonDownTrigger;
+    GuiTrigger buttonLeftTrigger;
+    GuiTrigger buttonRightTrigger;
 
     GuiImageData *buttonImageData;
     GuiImageData *buttonCheckedImageData;
+    GuiImageData *buttonHighlightedImageData;
 
-    GuiImage buttonCheckedImage;
+    GuiButton DPADButtons;
 
-    std::vector<GuiButton *> choiceButton;
-    std::vector<GuiImage *> choiceButtonImg;
-    std::vector<GuiText *> choiceButtonText;
+    typedef struct
+    {
+        GuiImage *choiceButtonImg;
+        GuiImage *choiceButtonCheckedImg;
+        GuiImage *choiceButtonHighlightedImg;
+        GuiButton *choiceButton;
+        GuiText *choiceButtonText;
+    } ChoiceButton;
 
+    std::vector<ChoiceButton> choiceButtons;
+
+    int buttonCount;
     int selectedButton;
+    int selectedButtonDPAD;
+   
 };
 
 #endif //_BUTTON_CHOICE_MENU_H_

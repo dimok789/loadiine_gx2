@@ -63,7 +63,7 @@ static const struct
 stSettingsCategories[] =
 {
     { "GUI",     "guiSettingsIcon.png",    "guiSettingsIconGlow.png",    "Game View Selection\n" "Background customizations" },
-    { "Loader",  "loaderSettingsIcon.png", "loaderSettingsIconGlow.png", "Customize games path\nCustomize save path" },
+    { "Loader",  "loaderSettingsIcon.png", "loaderSettingsIconGlow.png", "Customize games path\nCustomize save path\nSet save mode" },
     { "Game",    "gameSettingsIcon.png",   "gameSettingsIconGlow.png",   "Launch method selection\n" "Log server control\n" "Adjust log server IP and port" },
     { "Credits", "creditsIcon.png",        "creditsIconGlow.png",        "Credits to all contributors" }
 };
@@ -99,12 +99,19 @@ SettingsMenu::SettingsMenu(int w, int h)
     , quitImage(quitImageData)
     , quitButton(quitImage.getWidth(), quitImage.getHeight())
     , touchTrigger(GuiTrigger::CHANNEL_1, GuiTrigger::VPAD_TOUCH)
+    , buttonATrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_A, true)
+    , buttonBTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_B, true)
+    , buttonLTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_L, true)
+    , buttonRTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_R, true)
+    , buttonLeftTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_LEFT, true)
+    , buttonRightTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_RIGHT, true)
     , leftArrowImageData(Resources::GetImageData("leftArrow.png"))
     , rightArrowImageData(Resources::GetImageData("rightArrow.png"))
     , leftArrowImage(leftArrowImageData)
     , rightArrowImage(rightArrowImageData)
     , leftArrowButton(leftArrowImage.getWidth(), leftArrowImage.getHeight())
     , rightArrowButton(rightArrowImage.getWidth(), rightArrowImage.getHeight())
+    , DPADButtons(w,h)
 {
     currentPosition = 0;
     targetPosition = 0;
@@ -128,6 +135,8 @@ SettingsMenu::SettingsMenu(int w, int h)
     categorySelectionFrame.append(&versionText);
 
     const u32 cuCategoriesCount = sizeof(stSettingsCategories) / sizeof(stSettingsCategories[0]);
+
+    if(cuCategoriesCount > 0) selectedCategory = 0;
 
     for(u32 idx = 0; idx < cuCategoriesCount; idx++)
     {
@@ -199,6 +208,7 @@ SettingsMenu::SettingsMenu(int w, int h)
     leftArrowButton.setPosition(40, 0);
     leftArrowButton.setAlignment(ALIGN_LEFT | ALIGN_MIDDLE);
     leftArrowButton.setTrigger(&touchTrigger);
+
     leftArrowButton.setSoundClick(buttonClickSound);
     leftArrowButton.clicked.connect(this, &SettingsMenu::OnCategoryLeftClick);
     categorySelectionFrame.append(&leftArrowButton);
@@ -212,7 +222,19 @@ SettingsMenu::SettingsMenu(int w, int h)
     rightArrowButton.clicked.connect(this, &SettingsMenu::OnCategoryRightClick);
     categorySelectionFrame.append(&rightArrowButton);
 
+
+
+    DPADButtons.setTrigger(&buttonATrigger);
+    DPADButtons.setTrigger(&buttonBTrigger);
+    DPADButtons.setTrigger(&buttonLTrigger);
+    DPADButtons.setTrigger(&buttonRTrigger);
+    DPADButtons.setTrigger(&buttonLeftTrigger);
+    DPADButtons.setTrigger(&buttonRightTrigger);
+    DPADButtons.clicked.connect(this, &SettingsMenu::OnDPADClick);
+    append(&DPADButtons);
+	categorySelectionFrame.append(&DPADButtons);
     setTargetPosition(0);
+    moving = false;
 
     //! the particle BG is always appended in all sub menus
     append(&particleBgImage);
@@ -252,7 +274,7 @@ void SettingsMenu::setTargetPosition(int selectedIdx)
 {
     if(selectedIdx < 0 || selectedIdx >= (int)settingsCategories.size())
         return;
-
+    moving = true;
     selectedCategory = selectedIdx;
     targetPosition = (settingsCategories[selectedCategory].categoryBgImage->getWidth() + 40) * -selectedCategory;
 
@@ -315,38 +337,59 @@ void SettingsMenu::OnSubMenuCloseEffectFinish(GuiElement *element)
 
 void SettingsMenu::OnCategoryClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
-    int indexClicked = -1;
+    if(!moving){
 
-    for(u32 i = 0; i < settingsCategories.size(); ++i)
-    {
-        if(button == settingsCategories[i].categoryButton)
+        int indexClicked = -1;
+
+        for(u32 i = 0; i < settingsCategories.size(); ++i)
         {
-            indexClicked = i;
-            break;
+            if(button == settingsCategories[i].categoryButton)
+            {
+                indexClicked = i;
+                break;
+            }
         }
-    }
+        if(indexClicked == -1) indexClicked = selectedCategory;
+        
+        const SettingType * categorySettings = NULL;
+        int categorySettingsCount = 0;
 
+        switch(indexClicked)
+        {
+        case 0:
+            categorySettings = GuiSettings;
+            categorySettingsCount = sizeof(GuiSettings) / sizeof(SettingType);
+            break;
+        case 1:
+            categorySettings = LoaderSettings;
+            categorySettingsCount = sizeof(LoaderSettings) / sizeof(SettingType);
+            break;
+        case 2:
+            categorySettings = GameSettings;
+            categorySettingsCount = sizeof(GameSettings) / sizeof(SettingType);
+            break;
+        case 3:
+        {
+            CreditsMenu * menu = new CreditsMenu(getWidth(), getHeight(), stSettingsCategories[indexClicked].name);
+            menu->setEffect(EFFECT_FADE, 10, 255);
+            menu->setState(STATE_DISABLED);
+            menu->effectFinished.connect(this, &SettingsMenu::OnSubMenuOpenEffectFinish);
+            menu->settingsBackClicked.connect(this, &SettingsMenu::OnSubMenuCloseClicked);
 
-    const SettingType * categorySettings = NULL;
-    int categorySettingsCount = 0;
+            //! disable all current elements and fade them out with fading in new menu
+            categorySelectionFrame.setState(STATE_DISABLED);
+            categorySelectionFrame.setEffect(EFFECT_FADE, -10, 0);
 
-    switch(indexClicked)
-    {
-    case 0:
-        categorySettings = GuiSettings;
-        categorySettingsCount = sizeof(GuiSettings) / sizeof(SettingType);
-        break;
-    case 1:
-        categorySettings = LoaderSettings;
-        categorySettingsCount = sizeof(LoaderSettings) / sizeof(SettingType);
-        break;
-    case 2:
-        categorySettings = GameSettings;
-        categorySettingsCount = sizeof(GameSettings) / sizeof(SettingType);
-        break;
-    case 3:
-    {
-        CreditsMenu * menu = new CreditsMenu(getWidth(), getHeight(), stSettingsCategories[indexClicked].name);
+            //! now append new menu
+            append(menu);
+
+            return;
+        }
+        default:
+            return;
+        }
+
+        SettingsCategoryMenu *menu = new SettingsCategoryMenu(getWidth(), getHeight(), stSettingsCategories[indexClicked].name, categorySettings, categorySettingsCount);
         menu->setEffect(EFFECT_FADE, 10, 255);
         menu->setState(STATE_DISABLED);
         menu->effectFinished.connect(this, &SettingsMenu::OnSubMenuOpenEffectFinish);
@@ -358,24 +401,7 @@ void SettingsMenu::OnCategoryClick(GuiButton *button, const GuiController *contr
 
         //! now append new menu
         append(menu);
-        return;
     }
-    default:
-        return;
-    }
-
-    SettingsCategoryMenu *menu = new SettingsCategoryMenu(getWidth(), getHeight(), stSettingsCategories[indexClicked].name, categorySettings, categorySettingsCount);
-    menu->setEffect(EFFECT_FADE, 10, 255);
-    menu->setState(STATE_DISABLED);
-    menu->effectFinished.connect(this, &SettingsMenu::OnSubMenuOpenEffectFinish);
-    menu->settingsBackClicked.connect(this, &SettingsMenu::OnSubMenuCloseClicked);
-
-    //! disable all current elements and fade them out with fading in new menu
-    categorySelectionFrame.setState(STATE_DISABLED);
-    categorySelectionFrame.setEffect(EFFECT_FADE, -10, 0);
-
-    //! now append new menu
-    append(menu);
 }
 
 void SettingsMenu::OnSmallIconClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
@@ -384,8 +410,8 @@ void SettingsMenu::OnSmallIconClick(GuiButton *button, const GuiController *cont
     {
         if(button == categorySmallButtons[i])
         {
-            setTargetPosition(i);
-            animationSpeed = 35;
+            setTargetPosition(i);            
+            animationSpeed = 100;
             break;
         }
     }
@@ -411,22 +437,45 @@ void SettingsMenu::OnCategoryLeftClick(GuiButton *button, const GuiController *c
     }
 }
 
+void SettingsMenu::OnDPADClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
+{
+	if(trigger == &buttonATrigger){
+		OnCategoryClick(button,controller,trigger);
+	}else if(trigger == &buttonBTrigger){
+		OnQuitButtonClick(button,controller,trigger);
+	}else if(trigger == &buttonLTrigger){
+		OnCategoryLeftClick(button,controller,trigger);
+	}else if(trigger == &buttonRTrigger){
+		OnCategoryRightClick(button,controller,trigger);        
+	}else if(trigger == &buttonLeftTrigger){
+		OnCategoryLeftClick(button,controller,trigger);
+	}else if(trigger == &buttonRightTrigger){
+		OnCategoryRightClick(button,controller,trigger);
+	}
+}
+
 
 void SettingsMenu::update(GuiController *c)
 {
     if(currentPosition < targetPosition)
     {
         currentPosition += animationSpeed;
-        if(currentPosition > targetPosition)
+        if(currentPosition >= targetPosition){
             currentPosition = targetPosition;
+            moving = false;
+        }
+            
 
         bUpdatePositions = true;
     }
     else if(currentPosition > targetPosition)
     {
         currentPosition -= animationSpeed;
-        if(currentPosition < targetPosition)
+        if(currentPosition <= targetPosition){
             currentPosition = targetPosition;
+            moving = false;
+        }
+            
 
         bUpdatePositions = true;
     }
@@ -455,7 +504,6 @@ void SettingsMenu::update(GuiController *c)
             settingsCategories[i].categoryBgImage->setPosition(currentPosition + (settingsCategories[selectedCategory].categoryBgImage->getWidth() + 40) * i, 0.0f);
 
         }
-
     }
 
     GuiFrame::update(c);

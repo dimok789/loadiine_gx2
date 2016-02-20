@@ -45,6 +45,7 @@ private:
     GuiImage titleImage;
 
     GuiTrigger touchTrigger;
+    GuiTrigger buttonBTrigger;
 };
 
 #endif //_SETTINGS_WINDOW_H_

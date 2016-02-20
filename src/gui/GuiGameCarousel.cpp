@@ -45,13 +45,13 @@ GuiGameCarousel::GuiGameCarousel(int w, int h, int offset)
     , noCover(Resources::GetFile("noCover.png"), Resources::GetFileSize("noCover.png"))
     , gameTitle((char*)NULL, 52, glm::vec4(1.0f))
     , touchTrigger(GuiTrigger::CHANNEL_1, GuiTrigger::VPAD_TOUCH)
-    , leftTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_LEFT, true)
-    , rightTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_RIGHT, true)
     , buttonATrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_A, true)
+    , buttonLTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_L, true)
+    , buttonRTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_R, true)
+    , buttonLeftTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_LEFT, true)
+    , buttonRightTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_RIGHT, true)
     , touchButton(w, h)
-    , leftButton(w, h)
-    , rightButton(w, h)
-    , launchButton(w, h)
+    , DPADButtons(w, h)
     , particleBgImage(w, h, 100)
     , bgUsedImageDataAsync(NULL)
     , bgNewImageDataAsync(NULL)
@@ -90,17 +90,13 @@ GuiGameCarousel::GuiGameCarousel(int w, int h, int offset)
     touchButton.released.connect(this, &GuiGameCarousel::OnTouchRelease);
     this->append(&touchButton);
 
-    leftButton.setTrigger(&leftTrigger);
-    leftButton.clicked.connect(this, &GuiGameCarousel::OnLeftClick);
-    this->append(&leftButton);
-
-    rightButton.setTrigger(&rightTrigger);
-    rightButton.clicked.connect(this, &GuiGameCarousel::OnRightClick);
-    this->append(&rightButton);
-
-    launchButton.setTrigger(&buttonATrigger);
-    launchButton.clicked.connect(this, &GuiGameCarousel::OnLaunchClick);
-    this->append(&launchButton);
+    DPADButtons.setTrigger(&buttonATrigger);
+    DPADButtons.setTrigger(&buttonLTrigger);
+    DPADButtons.setTrigger(&buttonRTrigger);
+    DPADButtons.setTrigger(&buttonLeftTrigger);
+    DPADButtons.setTrigger(&buttonRightTrigger);
+    DPADButtons.clicked.connect(this, &GuiGameCarousel::OnDPADClick);
+    append(&DPADButtons);
 
     gameTitle.setPosition(0, -320);
     gameTitle.setBlurGlowColor(5.0f, glm::vec4(0.109804, 0.6549, 1.0f, 1.0f));
@@ -299,6 +295,21 @@ void GuiGameCarousel::OnTouchRelease(GuiButton *button, const GuiController *con
     refreshDrawMap = true;
 }
 
+void GuiGameCarousel::OnDPADClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
+{
+    if(trigger == &buttonATrigger){
+        OnLaunchClick(button,controller,trigger);
+    }else if(trigger == &buttonLTrigger){
+        OnLeftSkipClick(button,controller,trigger);
+    }else if(trigger == &buttonRTrigger){
+        OnRightSkipClick(button,controller,trigger);
+    }else if(trigger == &buttonLeftTrigger){
+        OnLeftClick(button,controller,trigger);
+    }else if(trigger == &buttonRightTrigger){
+        OnRightClick(button,controller,trigger);
+    }
+}
+
 void GuiGameCarousel::OnLeftClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
     int sel = getSelectedGame() - 1;
@@ -317,6 +328,30 @@ void GuiGameCarousel::OnRightClick(GuiButton *button, const GuiController *contr
 
     setSelectedGame(sel);
     gameSelectionChanged(this, sel);
+}
+
+void GuiGameCarousel::OnRightSkipClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
+{
+    if((int)GameList::instance()->size() > 5){  
+        int sel = getSelectedGame() + 5;
+        if(sel >= (int)GameList::instance()->size())
+            sel -= (int)GameList::instance()->size();
+
+        setSelectedGame(sel);
+        gameSelectionChanged(this, sel);
+    }
+}
+
+void GuiGameCarousel::OnLeftSkipClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
+{
+    if((int)GameList::instance()->size() > 5){  
+        int sel = getSelectedGame() - 5;
+        if(sel < 0 && (GameList::instance()->size() > 5))
+            sel += GameList::instance()->size();
+
+        setSelectedGame(sel);
+        gameSelectionChanged(this, sel);
+    }
 }
 
 void GuiGameCarousel::loadBgImage(int idx)

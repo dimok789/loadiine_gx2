@@ -44,6 +44,8 @@ private:
         settingsOkClicked(this, currentText);
     }
 
+    void OnDPADClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
+
     GuiSound *buttonClickSound;
     GuiImageData *backImageData;
     GuiImage backImage;
@@ -55,6 +57,8 @@ private:
     GuiText okText;
 
     GuiTrigger touchTrigger;
+    GuiTrigger buttonATrigger;
+    GuiTrigger buttonBTrigger;
 
     GuiText titleText;
     GuiImageData *keyPadBgImageData;
@@ -72,6 +76,7 @@ private:
     GuiImage deleteButtonImgClick;
     GuiButton deleteButton;
 
+    GuiButton DPADButtons;
     std::vector<GuiText *> textFieldText;
     std::vector<GuiImage *> textFieldImg;
     std::vector<GuiButton *> textFieldBtn;

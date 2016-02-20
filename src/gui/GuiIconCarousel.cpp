@@ -40,13 +40,13 @@ GuiIconCarousel::GuiIconCarousel(int w, int h)
     , bgFadingImageDataAsync(NULL)
     , gameTitle((char*)NULL, 52, glm::vec4(1.0f))
     , touchTrigger(GuiTrigger::CHANNEL_1, GuiTrigger::VPAD_TOUCH)
-    , leftTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_LEFT, true)
-    , rightTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_RIGHT, true)
     , buttonATrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_A, true)
+    , buttonLTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_L, true)
+    , buttonRTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_R, true)
+    , buttonLeftTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_LEFT, true)
+    , buttonRightTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_RIGHT, true)
     , touchButton(w, h)
-    , leftButton(w, h)
-    , rightButton(w, h)
-    , launchButton(w, h)
+    , DPADButtons(w, h)
 {
     m_modelView = glm::mat4(1.0f);
     circlePosition = 0.0f;
@@ -76,19 +76,14 @@ GuiIconCarousel::GuiIconCarousel(int w, int h)
     touchButton.released.connect(this, &GuiIconCarousel::OnTouchRelease);
     append(&touchButton);
 
-    leftButton.setTrigger(&leftTrigger);
-    leftButton.clicked.connect(this, &GuiIconCarousel::OnLeftClick);
-    append(&leftButton);
-
-    rightButton.setTrigger(&rightTrigger);
-    rightButton.clicked.connect(this, &GuiIconCarousel::OnRightClick);
-    append(&rightButton);
-
-    launchButton.setTrigger(&buttonATrigger);
-    launchButton.clicked.connect(this, &GuiIconCarousel::OnLaunchClick);
-    append(&launchButton);
-
-
+    DPADButtons.setTrigger(&buttonATrigger);
+    DPADButtons.setTrigger(&buttonLTrigger);
+    DPADButtons.setTrigger(&buttonRTrigger);
+    DPADButtons.setTrigger(&buttonLeftTrigger);
+    DPADButtons.setTrigger(&buttonRightTrigger);
+    DPADButtons.clicked.connect(this, &GuiIconCarousel::OnDPADClick);
+    append(&DPADButtons);
+  
     for(int i = 0; i < GameList::instance()->size(); i++)
     {
 		std::string filepath = GameList::instance()->at(i)->gamepath + META_PATH + "/iconTex.tga";
@@ -275,6 +270,21 @@ void GuiIconCarousel::OnTouchRelease(GuiButton *button, const GuiController *con
     gameSelectionChanged(this, selectedGame);
 }
 
+void GuiIconCarousel::OnDPADClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
+{
+    if(trigger == &buttonATrigger){
+        OnLaunchClick(button,controller,trigger);
+    }else if(trigger == &buttonLTrigger){
+        OnLeftSkipClick(button,controller,trigger);
+    }else if(trigger == &buttonRTrigger){
+        OnRightSkipClick(button,controller,trigger);
+    }else if(trigger == &buttonLeftTrigger){
+        OnLeftClick(button,controller,trigger);
+    }else if(trigger == &buttonRightTrigger){
+        OnRightClick(button,controller,trigger);
+    }
+}
+
 void GuiIconCarousel::OnLeftClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
     int sel = getSelectedGame() + 1;
@@ -293,6 +303,30 @@ void GuiIconCarousel::OnRightClick(GuiButton *button, const GuiController *contr
 
     setSelectedGame(sel);
     gameSelectionChanged(this, sel);
+}
+
+void GuiIconCarousel::OnLeftSkipClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
+{
+	if((int)GameList::instance()->size() > 5){	
+		int sel = getSelectedGame() + 5;
+		if(sel >= (int)GameList::instance()->size())
+			sel -= (int)GameList::instance()->size();
+
+		setSelectedGame(sel);
+		gameSelectionChanged(this, sel);
+	}
+}
+
+void GuiIconCarousel::OnRightSkipClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
+{
+	if((int)GameList::instance()->size() > 5){	
+		int sel = getSelectedGame() - 5;
+		if(sel < 0 && (GameList::instance()->size() > 5))
+			sel += GameList::instance()->size();
+
+		setSelectedGame(sel);
+		gameSelectionChanged(this, sel);
+	}
 }
 
 void GuiIconCarousel::updateDrawMap(void)

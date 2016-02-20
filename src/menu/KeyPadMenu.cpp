@@ -38,6 +38,8 @@ KeyPadMenu::KeyPadMenu(int w, int h, const std::string & strTitle, const std::st
     , okButton(okImage.getWidth(), okImage.getHeight())
     , okText("O.K.", 46, glm::vec4(0.8f, 0.8f, 0.8f, 1.0f))
     , touchTrigger(GuiTrigger::CHANNEL_1, GuiTrigger::VPAD_TOUCH)
+    , buttonATrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_A, true)
+    , buttonBTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_B, true)
     , keyPadBgImageData(Resources::GetImageData("keyPadBg.png"))
     , keyPadButtonImgData(Resources::GetImageData("keyPadButton.png"))
     , keyPadButtonClickImgData(Resources::GetImageData("keyPadButtonClicked.png"))
@@ -50,6 +52,7 @@ KeyPadMenu::KeyPadMenu(int w, int h, const std::string & strTitle, const std::st
     , deleteButtonImg(deleteButtonImgData)
     , deleteButtonImgClick(deleteButtonClickImgData)
     , deleteButton(deleteButtonImgData->getWidth(), deleteButtonImgData->getHeight())
+    , DPADButtons(w,h)
 {
     lastFrameCount = 0;
     currentText = prefil;
@@ -164,6 +167,11 @@ KeyPadMenu::KeyPadMenu(int w, int h, const std::string & strTitle, const std::st
         }
     }
 
+    DPADButtons.setTrigger(&buttonATrigger);
+    DPADButtons.setTrigger(&buttonBTrigger);
+    DPADButtons.clicked.connect(this, &KeyPadMenu::OnDPADClick);
+    append(&DPADButtons);
+
     UpdateTextFields();
 }
 
@@ -260,6 +268,15 @@ void KeyPadMenu::OnDeleteButtonClick(GuiButton *button, const GuiController *con
 
         textFieldBtn[textPosition]->setIcon(&fieldBlinkerImg);
     }
+}
+
+void KeyPadMenu::OnDPADClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
+{
+	if(trigger == &buttonATrigger){
+		OnOkButtonClick(button,controller,trigger);
+	}else if(trigger == &buttonBTrigger){
+		OnBackButtonClick(button,controller,trigger);
+	}
 }
 
 void KeyPadMenu::draw(CVideo *video)

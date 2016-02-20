@@ -33,7 +33,15 @@ SettingsCategoryMenu::SettingsCategoryMenu(int w, int h, const std::string & tit
     , titleImageData(Resources::GetImageData("settingsTitle.png"))
     , titleImage(titleImageData)
     , settingImageData(Resources::GetImageData("settingButton.png"))
+    , settingSelectedImageData(Resources::GetImageData("settingSelectedButton.png"))
     , touchTrigger(GuiTrigger::CHANNEL_1, GuiTrigger::VPAD_TOUCH)
+    , buttonATrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_A, true)
+    , buttonBTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_B, true)
+    , buttonUpTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_UP, true)
+    , buttonDownTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_DOWN, true)
+    , DPADButtons(w,h)   
+    , updateButtons(false)
+	, selectedButtonDPAD(-1)
 {
     currentSettingsIdx = 0;
 
@@ -61,11 +69,14 @@ SettingsCategoryMenu::SettingsCategoryMenu(int w, int h, const std::string & tit
     for(int i = 0; i < categorySettingsCount; i++)
     {
         settings[i].settingImage = new GuiImage(settingImageData);
+        settings[i].settingImageSelected = new GuiImage(settingSelectedImageData);
         settings[i].settingButton = new GuiButton(settingImageData->getWidth(), settingImageData->getHeight());
         settings[i].settingLabel = new GuiText(categorySettings[i].name, 46, glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));
 
-        settings[i].settingButton->setImage(settings[i].settingImage);
+        settings[i].settingButton->setIconOver(settings[i].settingImageSelected);
+		settings[i].settingButton->setImage(settings[i].settingImage);
         settings[i].settingButton->setLabel(settings[i].settingLabel);
+		
         settings[i].settingButton->setPosition(0, 150 - (settings[i].settingImage->getHeight() + 30) * i);
         settings[i].settingButton->setTrigger(&touchTrigger);
         settings[i].settingButton->setEffectGrow();
@@ -73,6 +84,15 @@ SettingsCategoryMenu::SettingsCategoryMenu(int w, int h, const std::string & tit
         settings[i].settingButton->clicked.connect(this, &SettingsCategoryMenu::OnSettingButtonClick);
         categoryFrame.append(settings[i].settingButton);
     }
+
+    DPADButtons.setTrigger(&buttonBTrigger);
+    DPADButtons.setTrigger(&buttonATrigger);    
+    DPADButtons.setTrigger(&buttonDownTrigger);
+    DPADButtons.setTrigger(&buttonUpTrigger);
+    DPADButtons.clicked.connect(this, &SettingsCategoryMenu::OnDPADClick);    
+    append(&DPADButtons);
+	
+	categoryFrame.append(&DPADButtons);
 
     append(&categoryFrame);
 }
@@ -82,96 +102,100 @@ SettingsCategoryMenu::~SettingsCategoryMenu()
     for(u32 i = 0; i < settings.size(); ++i)
     {
         delete settings[i].settingImage;
+        delete settings[i].settingImageSelected;
         delete settings[i].settingButton;
         delete settings[i].settingLabel;
     }
     Resources::RemoveImageData(backImageData);
     Resources::RemoveImageData(titleImageData);
-    Resources::RemoveImageData(settingImageData);
+    Resources::RemoveImageData(settingImageData);    
+    Resources::RemoveImageData(settingSelectedImageData);
     Resources::RemoveSound(buttonClickSound);
 }
 
 void SettingsCategoryMenu::OnSettingButtonClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
-    for(u32 i = 0; i < settings.size(); i++)
+    for(u32 i = 0; i < settings.size(); i++) // Touch overrides selection 
     {
         if(button == settings[i].settingButton)
         {
-            GuiFrame *menu = NULL;
             currentSettingsIdx = i;
-
-            switch(categorySettings[i].type)
-            {
-                default:
-                    return;
-
-                case TypeIP: {
-                    if(CSettings::getDataType(categorySettings[i].index) != CSettings::TypeString)
-                        return;
-
-                    KeyPadMenu *keyMenu = new KeyPadMenu(width, height, categorySettings[i].name, CSettings::getValueAsString(categorySettings[i].index));
-                    keyMenu->settingsBackClicked.connect(this, &SettingsCategoryMenu::OnSubMenuCloseClicked);
-                    keyMenu->settingsOkClicked.connect(this, &SettingsCategoryMenu::OnKeyPadOkClicked);
-                    menu = keyMenu;
-                    break;
-                }
-                case Type2Buttons:
-                case Type3Buttons:
-                case Type4Buttons: {
-                    int buttonCount = Type2Buttons + (categorySettings[i].type - Type2Buttons + 1);
-                    int buttonSelected = 0;
-
-                    switch(CSettings::getDataType(categorySettings[i].index))
-                    {
-                    default:
-                        return;
-
-                    case CSettings::TypeBool:
-                        buttonSelected = CSettings::getValueAsBool(categorySettings[i].index);
-                        break;
-                    case CSettings::TypeS8:
-                        buttonSelected = CSettings::getValueAsS8(categorySettings[i].index);
-                        break;
-                    case CSettings::TypeU8:
-                        buttonSelected = CSettings::getValueAsU8(categorySettings[i].index);
-                        break;
-                    case CSettings::TypeS16:
-                        buttonSelected = CSettings::getValueAsS16(categorySettings[i].index);
-                        break;
-                    case CSettings::TypeU16:
-                        buttonSelected = CSettings::getValueAsU16(categorySettings[i].index);
-                        break;
-                    case CSettings::TypeS32:
-                        buttonSelected = CSettings::getValueAsS32(categorySettings[i].index);
-                        break;
-                    case CSettings::TypeU32:
-                        buttonSelected = CSettings::getValueAsU32(categorySettings[i].index);
-                        break;
-                    }
-
-                    std::vector<std::string> buttonNames;
-                    for(int n = 0; n < buttonCount; n++)
-                        buttonNames.push_back(categorySettings[i].valueStrings[n].name);
-
-                    ButtonChoiceMenu *buttonMenu = new ButtonChoiceMenu(width, height, categorySettings[i].name, buttonNames, buttonSelected);
-                    buttonMenu->settingsBackClicked.connect(this, &SettingsCategoryMenu::OnSubMenuCloseClicked);
-                    buttonMenu->settingsOkClicked.connect(this, &SettingsCategoryMenu::OnButtonChoiceOkClicked);
-                    menu = buttonMenu;
-                    break;
-                }
-            }
-
-            menu->setEffect(EFFECT_FADE, 10, 255);
-            menu->setState(STATE_DISABLED);
-            menu->effectFinished.connect(this, &SettingsCategoryMenu::OnSubMenuOpenEffectFinish);
-            append(menu);
-
-            //! disable all current elements and fade them out with fading in new menu
-            categoryFrame.setState(STATE_DISABLED);
-            categoryFrame.setEffect(EFFECT_FADE, -10, 0);
             break;
         }
     }
+    u32 i = currentSettingsIdx;
+    
+    GuiFrame *menu = NULL;
+    switch(categorySettings[i].type)
+    {
+        default:
+            return;
+
+        case TypeIP: {
+            if(CSettings::getDataType(categorySettings[i].index) != CSettings::TypeString)
+                return;
+
+            KeyPadMenu *keyMenu = new KeyPadMenu(width, height, categorySettings[i].name, CSettings::getValueAsString(categorySettings[i].index));
+            keyMenu->settingsBackClicked.connect(this, &SettingsCategoryMenu::OnSubMenuCloseClicked);
+            keyMenu->settingsOkClicked.connect(this, &SettingsCategoryMenu::OnKeyPadOkClicked);
+            menu = keyMenu;
+            break;
+        }
+        case Type2Buttons:
+        case Type3Buttons: 
+		case Type4Buttons: {
+            int buttonCount = Type2Buttons + (categorySettings[i].type - Type2Buttons + 1);
+            int buttonSelected = 0;
+
+            switch(CSettings::getDataType(categorySettings[i].index))
+            {
+            default:
+                return;
+
+            case CSettings::TypeBool:
+                buttonSelected = CSettings::getValueAsBool(categorySettings[i].index);
+                break;
+            case CSettings::TypeS8:
+                buttonSelected = CSettings::getValueAsS8(categorySettings[i].index);
+                break;
+            case CSettings::TypeU8:
+                buttonSelected = CSettings::getValueAsU8(categorySettings[i].index);
+                break;
+            case CSettings::TypeS16:
+                buttonSelected = CSettings::getValueAsS16(categorySettings[i].index);
+                break;
+            case CSettings::TypeU16:
+                buttonSelected = CSettings::getValueAsU16(categorySettings[i].index);
+                break;
+            case CSettings::TypeS32:
+                buttonSelected = CSettings::getValueAsS32(categorySettings[i].index);
+                break;
+            case CSettings::TypeU32:
+                buttonSelected = CSettings::getValueAsU32(categorySettings[i].index);
+                break;
+            }
+
+            std::vector<std::string> buttonNames;
+            for(int n = 0; n < buttonCount; n++)
+                buttonNames.push_back(categorySettings[i].valueStrings[n].name);
+
+            ButtonChoiceMenu *buttonMenu = new ButtonChoiceMenu(width, height, categorySettings[i].name, buttonNames, buttonSelected);
+            buttonMenu->settingsBackClicked.connect(this, &SettingsCategoryMenu::OnSubMenuCloseClicked);
+            buttonMenu->settingsOkClicked.connect(this, &SettingsCategoryMenu::OnButtonChoiceOkClicked);
+            menu = buttonMenu;
+            break;
+        }
+    }
+
+    menu->setEffect(EFFECT_FADE, 10, 255);
+    menu->setState(STATE_DISABLED);
+    menu->effectFinished.connect(this, &SettingsCategoryMenu::OnSubMenuOpenEffectFinish);
+
+    append(menu);
+
+    //! disable all current elements and fade them out with fading in new menu
+    categoryFrame.setState(STATE_DISABLED);
+    categoryFrame.setEffect(EFFECT_FADE, -10, 0);
 }
 
 void SettingsCategoryMenu::OnButtonChoiceOkClicked(GuiElement *element, int selectedButton)
@@ -216,8 +240,40 @@ void SettingsCategoryMenu::OnButtonChoiceOkClicked(GuiElement *element, int sele
 
     //! fade in category selection
     categoryFrame.setEffect(EFFECT_FADE, 10, 255);
+
     append(&categoryFrame);
 }
+
+void SettingsCategoryMenu::OnDPADClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
+{
+    
+	if(trigger == &buttonATrigger){
+		OnSettingButtonClick(button,controller,trigger);
+	}else if(trigger == &buttonBTrigger){
+		OnBackButtonClick(button,controller,trigger);
+	}else if(trigger == &buttonUpTrigger || trigger == &buttonDownTrigger){			
+		if(selectedButtonDPAD == -1){
+			selectedButtonDPAD = currentSettingsIdx;
+		}else{				
+			if(trigger == &buttonUpTrigger){
+				if(currentSettingsIdx > 0){
+					currentSettingsIdx--;
+				}else{
+					currentSettingsIdx = categorySettingsCount-1;
+				}
+			}else if(trigger == &buttonDownTrigger){
+				if(currentSettingsIdx < categorySettingsCount-1){
+					currentSettingsIdx++;
+				}else{
+					currentSettingsIdx = 0;
+				}
+			}
+			selectedButtonDPAD = currentSettingsIdx;
+		}
+		updateButtons = true;
+	}  
+}
+
 
 void SettingsCategoryMenu::OnKeyPadOkClicked(GuiElement *element, const std::string & newValue)
 {
@@ -262,4 +318,19 @@ void SettingsCategoryMenu::OnSubMenuCloseEffectFinish(GuiElement *element)
 
     //! enable all elements again
     categoryFrame.clearState(GuiElement::STATE_DISABLED);
+}
+
+void SettingsCategoryMenu::update(GuiController *c)
+{
+    if(updateButtons){
+        for(int i = 0; i < categorySettingsCount; i++){
+            if(i == selectedButtonDPAD){
+                settings[i].settingButton->setState(STATE_SELECTED);
+            }else{
+                settings[i].settingButton->clearState(STATE_SELECTED);
+            }
+        }
+        updateButtons = false;
+    }
+    GuiFrame::update(c);
 }
