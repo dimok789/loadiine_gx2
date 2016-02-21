@@ -64,7 +64,7 @@ bool GuiTrigger::left(const GuiController *controller) const
     if((controller->chan & chan) == 0) {
         return false;
     }
-	if((controller->vpad.btns_h | controller->vpad.btns_d) & VPAD_BUTTON_LEFT)
+	if((controller->data.buttons_h | controller->data.buttons_d) & BUTTON_LEFT)
 	{
 	    return true;
 	}
@@ -76,7 +76,7 @@ bool GuiTrigger::right(const GuiController *controller) const
     if((controller->chan & chan) == 0) {
         return false;
     }
-	if((controller->vpad.btns_h | controller->vpad.btns_d) & VPAD_BUTTON_RIGHT)
+	if((controller->data.buttons_h | controller->data.buttons_d) & BUTTON_RIGHT)
 	{
 	    return true;
 	}
@@ -88,7 +88,7 @@ bool GuiTrigger::up(const GuiController *controller) const
     if((controller->chan & chan) == 0) {
         return false;
     }
-	if((controller->vpad.btns_h | controller->vpad.btns_d) & VPAD_BUTTON_UP)
+	if((controller->data.buttons_h | controller->data.buttons_d) & BUTTON_UP)
 	{
 	    return true;
 	}
@@ -100,7 +100,7 @@ bool GuiTrigger::down(const GuiController *controller) const
     if((controller->chan & chan) == 0) {
         return false;
     }
-	if((controller->vpad.btns_h | controller->vpad.btns_d) & VPAD_BUTTON_DOWN)
+	if((controller->data.buttons_h | controller->data.buttons_d) & BUTTON_DOWN)
 	{
 	    return true;
 	}
@@ -115,12 +115,12 @@ bool GuiTrigger::clicked(const GuiController *controller) const
 
     bool bResult = false;
 
-    if(controller->vpad.tpdata.touched && (btns & VPAD_TOUCH) && !controller->vpad.tpdata.invalid && !controller->vpadLast.tpdata.touched && !controller->vpad.tpdata.invalid)
+    if(controller->data.touched && controller->data.validPointer && (btns & VPAD_TOUCH) && !controller->lastData.touched)
     {
         bResult = true;
     }
 
-	if(controller->vpad.btns_d & btns)
+	if(controller->data.buttons_d & btns)
 	{
 	    bResult = true;
 	}
@@ -135,12 +135,12 @@ bool GuiTrigger::held(const GuiController *controller) const
 
     bool bResult = false;
 
-    if(controller->vpad.tpdata.touched && (btns & VPAD_TOUCH) && !controller->vpad.tpdata.invalid && controller->vpadLast.tpdata.touched && !controller->vpadLast.tpdata.invalid)
+    if(controller->data.touched && (btns & VPAD_TOUCH) && controller->data.validPointer && controller->lastData.touched && controller->lastData.validPointer)
     {
         bResult = true;
     }
 
-	if(controller->vpad.btns_h & btns)
+	if(controller->data.buttons_h & btns)
 	{
 	    bResult = true;
 	}
@@ -159,12 +159,12 @@ bool GuiTrigger::released(const GuiController *controller) const
 
     bool bResult = false;
 
-    if(!controller->vpad.tpdata.touched && (btns & VPAD_TOUCH) && controller->vpadLast.tpdata.touched && !controller->vpadLast.tpdata.invalid)
+    if(!controller->data.touched && (btns & VPAD_TOUCH) && controller->lastData.touched && controller->lastData.validPointer)
     {
         bResult = true;
     }
 
-	if(controller->vpad.btns_r & btns)
+	if(controller->data.buttons_r & btns)
 	{
 	    bResult = true;
 	}

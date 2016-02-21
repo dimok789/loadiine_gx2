@@ -10,6 +10,7 @@
 #include "fs/CFile.hpp"
 #include "fs/DirList.h"
 #include "kernel/kernel_functions.h"
+#include "utils/StringTools.h"
 #include "utils/logger.h"
 #include "utils/xml.h"
 
@@ -29,38 +30,18 @@ game_paths_t gamePathStruct;
 /* global variable for CosAppXml struct that is forced to data section */
 extern ReducedCosAppXmlInfo cosAppXmlInfoStruct;
 
-typedef struct _asynch_params_t
-{
-    const discHeader *hdr;
-    sigslot::signal2<const discHeader *, int> * asyncLoadFinished;
-} asynch_params_t;
 
-CThread * GameLauncher::loadGameToMemoryAsync(const discHeader *header, sigslot::signal2<const discHeader *, int> * asyncLoadFinished)
+GameLauncher * GameLauncher::loadGameToMemoryAsync(const discHeader *hdr)
 {
-    asynch_params_t *params = new asynch_params_t;
-    params->hdr = header;
-    params->asyncLoadFinished = asyncLoadFinished;
-
-    CThread * thread = CThread::create(gameLoadCallback, (void*)params, CThread::eAttributeAffCore1);
-    thread->resumeThread();
-    return thread;
+    GameLauncher * launcher = new GameLauncher(hdr);
+    launcher->resumeThread();
+    return launcher;
 }
 
-void GameLauncher::gameLoadCallback(CThread *thread, void *arg)
+void GameLauncher::executeThread()
 {
-    asynch_params_t *params = (asynch_params_t*)arg;
-
-    const discHeader *header = params->hdr;
-    int result = loadGameToMemory(header);
-
-    //! emit signal and disconnected all connected listener
-    if(params->asyncLoadFinished)
-    {
-        sigslot::signal2<const discHeader *, int> & asyncLoadFinished = *params->asyncLoadFinished;
-        asyncLoadFinished(header, result);
-    }
-
-    delete params;
+    int result = loadGameToMemory(discHdr);
+    asyncLoadFinished(this, discHdr, result);
 }
 
 int GameLauncher::loadGameToMemory(const discHeader *header)
@@ -270,9 +251,13 @@ int GameLauncher::LoadRpxRplToMem(const std::string & path, const std::string & 
         return NOT_ENOUGH_MEMORY;
     }
 
+    progressWindow.setTitle(strfmt("Loading file %s", name.c_str()));
+
     // Copy rpl in memory
     while(bytesRead < fileSize)
     {
+        progressWindow.setProgress(100.0f * (f32)bytesRead / (f32)fileSize);
+
         u32 blockSize = strBuffer.size();
         if(blockSize > (fileSize - bytesRead))
             blockSize = fileSize - bytesRead;
@@ -293,6 +278,8 @@ int GameLauncher::LoadRpxRplToMem(const std::string & path, const std::string & 
         rpx_rpl_struct->size += ret;
         bytesRead += ret;
     }
+
+    progressWindow.setProgress((f32)bytesRead / (f32)fileSize);
 
     if(bytesRead != fileSize)
     {

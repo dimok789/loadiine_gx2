@@ -5,6 +5,7 @@
 #include "dynamic_libs/gx2_functions.h"
 #include "dynamic_libs/sys_functions.h"
 #include "dynamic_libs/vpad_functions.h"
+#include "dynamic_libs/padscore_functions.h"
 #include "dynamic_libs/socket_functions.h"
 #include "dynamic_libs/curl_functions.h"
 #include "dynamic_libs/ax_functions.h"
@@ -37,6 +38,7 @@ extern "C" int Menu_Main(void)
     InitGX2FunctionPointers();
     InitSysFunctionPointers();
     InitVPadFunctionPointers();
+    InitPadScoreFunctionPointers();
     InitAXFunctionPointers();
     InitCurlFunctionPointers();
 

@@ -84,6 +84,7 @@ private:
     GuiButton quitButton;
 
     GuiTrigger touchTrigger;
+    GuiTrigger wpadTouchTrigger;
     GuiTrigger buttonATrigger;
     GuiTrigger buttonBTrigger;
     GuiTrigger buttonLTrigger;

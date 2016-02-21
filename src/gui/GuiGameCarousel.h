@@ -84,6 +84,7 @@ protected:
 
     GuiText gameTitle;
     GuiTrigger touchTrigger;
+    GuiTrigger wpadTouchTrigger;
     GuiTrigger buttonATrigger;
     GuiTrigger buttonLTrigger;
     GuiTrigger buttonRTrigger;
@@ -91,7 +92,7 @@ protected:
     GuiTrigger buttonRightTrigger;
     GuiButton touchButton;
     GuiButton DPADButtons;
-    
+
     GuiParticleImage particleBgImage;
 
     GuiImageAsync *bgUsedImageDataAsync;

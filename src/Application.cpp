@@ -17,6 +17,8 @@
 #include "Application.h"
 #include "dynamic_libs/os_functions.h"
 #include "gui/FreeTypeGX.h"
+#include "gui/VPadController.h"
+#include "gui/WPadController.h"
 #include "game/GameList.h"
 #include "resources/Resources.h"
 #include "settings/CSettings.h"
@@ -33,6 +35,12 @@ Application::Application()
 	, video(NULL)
     , mainWindow(NULL)
 {
+    controller[0] = new VPadController(GuiTrigger::CHANNEL_1);
+    controller[1] = new WPadController(GuiTrigger::CHANNEL_2);
+    controller[2] = new WPadController(GuiTrigger::CHANNEL_3);
+    controller[3] = new WPadController(GuiTrigger::CHANNEL_4);
+    controller[4] = new WPadController(GuiTrigger::CHANNEL_5);
+
     CSettings::instance()->Load();
 
     //! reload logger to change IP to settings IP
@@ -66,6 +74,9 @@ Application::~Application()
     CSettings::destroyInstance();
 
     delete bgMusic;
+
+    for(int i = 0; i < 5; i++)
+        delete controller[i];
 
 	AsyncDeleter::destroyInstance();
     Resources::Clear();
@@ -159,13 +170,17 @@ void Application::executeThread(void)
 	while(!exitApplication)
 	{
 	    //! Read out inputs
-	    controller.update(video->getTvWidth(), video->getTvHeight(), video->getDrcWidth(), video->getDrcHeight());
+	    for(int i = 0; i < 5; i++)
+        {
+            if(controller[i]->update(video->getTvWidth(), video->getTvHeight()) == false)
+                continue;
 
-        if(controller.vpad.btns_d & VPAD_BUTTON_HOME)
-            exitApplication = true;
+            if(controller[i]->data.buttons_d & VPAD_BUTTON_HOME)
+                exitApplication = true;
 
-        //! update controller states
-        mainWindow->update(&controller);
+            //! update controller states
+            mainWindow->update(controller[i]);
+        }
 
         //! start rendering DRC
 	    video->prepareDrcRendering();

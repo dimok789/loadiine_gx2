@@ -57,6 +57,7 @@ private:
     GuiText okText;
 
     GuiTrigger touchTrigger;
+    GuiTrigger wpadTouchTrigger;
     GuiTrigger buttonATrigger;
     GuiTrigger buttonBTrigger;
 

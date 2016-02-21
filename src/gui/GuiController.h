@@ -18,47 +18,61 @@
 #define GUI_CONTROLLER_H_
 
 #include <string.h>
-#include "dynamic_libs/vpad_functions.h"
+#include "GuiTrigger.h"
 
 class GuiController
 {
 public:
     //!Constructor
-    GuiController()
-        : chan(0)
-        , vpadError(0)
-        , vpadErrorLast(0)
-        , vpadDrcX(0), vpadDrcY(0)
-        , vpadTvX(0), vpadTvY(0)
+    GuiController(int channel)
+        : chan(channel)
     {
-        memset(&vpad, 0, sizeof(vpad));
-        memset(&vpadLast, 0, sizeof(vpadLast));
+        memset(&lastData, 0, sizeof(lastData));
+        memset(&data, 0, sizeof(data));
+
+        switch(chan)
+        {
+        default:
+        case GuiTrigger::CHANNEL_1:
+            chanIdx = 0;
+            break;
+        case GuiTrigger::CHANNEL_2:
+            chanIdx = 1;
+            break;
+        case GuiTrigger::CHANNEL_3:
+            chanIdx = 2;
+            break;
+        case GuiTrigger::CHANNEL_4:
+            chanIdx = 3;
+            break;
+        case GuiTrigger::CHANNEL_5:
+            chanIdx = 4;
+            break;
+        }
     }
 
     //!Destructor
     virtual ~GuiController()  {}
 
-    void update(int tvWidth, int tvHeight, int drcWidth, int drcHeight)
+    virtual bool update(int width, int height) = 0;
+
+    typedef struct
     {
-        memcpy(&vpadLast, &vpad, sizeof(VPADData));
-        chan = 1;
-        VPADRead(0, &vpad, 1, &vpadError);
-        //! calculate the screen offsets
-        vpadDrcX = -(drcWidth >> 1) + (int)((vpad.tpdata1.x * drcWidth) >> 12);
-        vpadDrcY = (drcHeight >> 1) - (int)(drcHeight - ((vpad.tpdata1.y * drcHeight) >> 12));
-        vpadTvX = -(tvWidth >> 1) + (int)((vpad.tpdata1.x * tvWidth) >> 12);
-        vpadTvY = (tvHeight >> 1) - (int)(tvHeight - ((vpad.tpdata1.y * tvHeight) >> 12));
-    }
+        unsigned int buttons_h;
+        unsigned int buttons_d;
+        unsigned int buttons_r;
+        bool validPointer;
+        bool touched;
+        float pointerAngle;
+        int x;
+        int y;
+    } PadData;
 
     int chan;
-    int vpadError;
-    int vpadErrorLast;
-    int vpadDrcX;
-    int vpadDrcY;
-    int vpadTvX;
-    int vpadTvY;
-    VPADData vpad;
-    VPADData vpadLast;
+    int chanIdx;
+    PadData data;
+    PadData lastData;
+
 };
 
 #endif

@@ -45,6 +45,7 @@ private:
     GuiImage titleImage;
 
     GuiTrigger touchTrigger;
+    GuiTrigger wpadTouchTrigger;
     GuiTrigger buttonBTrigger;
 };
 

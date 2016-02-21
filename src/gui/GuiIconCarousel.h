@@ -51,7 +51,7 @@ private:
     void OnRightClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
 	void OnLeftSkipClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
     void OnRightSkipClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
-	
+
     void OnLaunchClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger) {
         gameLaunchClicked(this, getSelectedGame());
     }
@@ -86,6 +86,7 @@ private:
     GuiText gameTitle;
 
     GuiTrigger touchTrigger;
+    GuiTrigger wpadTouchTrigger;
 
     GuiTrigger buttonATrigger;
 	GuiTrigger buttonLTrigger;

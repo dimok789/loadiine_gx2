@@ -38,6 +38,7 @@ KeyPadMenu::KeyPadMenu(int w, int h, const std::string & strTitle, const std::st
     , okButton(okImage.getWidth(), okImage.getHeight())
     , okText("O.K.", 46, glm::vec4(0.8f, 0.8f, 0.8f, 1.0f))
     , touchTrigger(GuiTrigger::CHANNEL_1, GuiTrigger::VPAD_TOUCH)
+    , wpadTouchTrigger(GuiTrigger::CHANNEL_2 | GuiTrigger::CHANNEL_3 | GuiTrigger::CHANNEL_4 | GuiTrigger::CHANNEL_5, GuiTrigger::BUTTON_A)
     , buttonATrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_A, true)
     , buttonBTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_B, true)
     , keyPadBgImageData(Resources::GetImageData("keyPadBg.png"))
@@ -68,6 +69,7 @@ KeyPadMenu::KeyPadMenu(int w, int h, const std::string & strTitle, const std::st
     backButton.setAlignment(ALIGN_BOTTOM | ALIGN_LEFT);
     backButton.clicked.connect(this, &KeyPadMenu::OnBackButtonClick);
     backButton.setTrigger(&touchTrigger);
+    backButton.setTrigger(&wpadTouchTrigger);
     backButton.setSoundClick(buttonClickSound);
     backButton.setEffectGrow();
     append(&backButton);
@@ -78,6 +80,7 @@ KeyPadMenu::KeyPadMenu(int w, int h, const std::string & strTitle, const std::st
     okButton.setAlignment(ALIGN_BOTTOM | ALIGN_RIGHT);
     okButton.clicked.connect(this, &KeyPadMenu::OnOkButtonClick);
     okButton.setTrigger(&touchTrigger);
+    okButton.setTrigger(&wpadTouchTrigger);
     okButton.setSoundClick(buttonClickSound);
     okButton.setEffectGrow();
     append(&okButton);
@@ -92,6 +95,7 @@ KeyPadMenu::KeyPadMenu(int w, int h, const std::string & strTitle, const std::st
     deleteButton.setImage(&deleteButtonImg);
     deleteButton.setImageOver(&deleteButtonImgClick);
     deleteButton.setTrigger(&touchTrigger);
+    deleteButton.setTrigger(&wpadTouchTrigger);
     deleteButton.setSoundClick(buttonClickSound);
     deleteButton.setPosition(-(keyPadButtonImgData->getWidth() + 5) * (MAX_COLS - 1) * 0.5f + (keyPadButtonImgData->getWidth() + 5) * MAX_COLS, -60);
     deleteButton.setEffectGrow();
@@ -112,6 +116,7 @@ KeyPadMenu::KeyPadMenu(int w, int h, const std::string & strTitle, const std::st
         button->setLabel(text);
         button->setPosition(-(image->getWidth() + 8) * (MAX_FIELDS - 1) * 0.5f + (image->getWidth() + 8) * i, 120);
         button->setTrigger(&touchTrigger);
+        button->setTrigger(&wpadTouchTrigger);
         button->setSoundClick(buttonClickSound);
         button->clicked.connect(this, &KeyPadMenu::OnTextPositionChange);
         append(button);
@@ -148,6 +153,7 @@ KeyPadMenu::KeyPadMenu(int w, int h, const std::string & strTitle, const std::st
         button->setLabel(text);
         button->setPosition(-(image->getWidth() + 5) * (MAX_COLS - 1) * 0.5f + (image->getWidth() + 5) * column, -60 - (image->getHeight() + 5) * row);
         button->setTrigger(&touchTrigger);
+        button->setTrigger(&wpadTouchTrigger);
         button->setSoundClick(buttonClickSound);
         button->setEffectGrow();
         button->clicked.connect(this, &KeyPadMenu::OnKeyPadButtonClick);
@@ -272,9 +278,17 @@ void KeyPadMenu::OnDeleteButtonClick(GuiButton *button, const GuiController *con
 
 void KeyPadMenu::OnDPADClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
-	if(trigger == &buttonATrigger){
+	if(trigger == &buttonATrigger)
+	{
+        //! do not auto launch when wiimote is pointing to screen and presses A
+        if((controller->chan & (GuiTrigger::CHANNEL_2 | GuiTrigger::CHANNEL_3 | GuiTrigger::CHANNEL_4 | GuiTrigger::CHANNEL_5)) && controller->data.validPointer)
+        {
+            return;
+        }
 		OnOkButtonClick(button,controller,trigger);
-	}else if(trigger == &buttonBTrigger){
+	}
+	else if(trigger == &buttonBTrigger)
+	{
 		OnBackButtonClick(button,controller,trigger);
 	}
 }

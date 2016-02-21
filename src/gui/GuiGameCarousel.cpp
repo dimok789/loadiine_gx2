@@ -45,6 +45,7 @@ GuiGameCarousel::GuiGameCarousel(int w, int h, int offset)
     , noCover(Resources::GetFile("noCover.png"), Resources::GetFileSize("noCover.png"))
     , gameTitle((char*)NULL, 52, glm::vec4(1.0f))
     , touchTrigger(GuiTrigger::CHANNEL_1, GuiTrigger::VPAD_TOUCH)
+    , wpadTouchTrigger(GuiTrigger::CHANNEL_2 | GuiTrigger::CHANNEL_3 | GuiTrigger::CHANNEL_4 | GuiTrigger::CHANNEL_5, GuiTrigger::BUTTON_A)
     , buttonATrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_A, true)
     , buttonLTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_L, true)
     , buttonRTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_R, true)
@@ -83,6 +84,7 @@ GuiGameCarousel::GuiGameCarousel(int w, int h, int offset)
 
     touchButton.setAlignment(ALIGN_LEFT | ALIGN_TOP);
     touchButton.setTrigger(&touchTrigger);
+    touchButton.setTrigger(&wpadTouchTrigger);
     touchButton.setClickable(true);
     touchButton.setHoldable(true);
     touchButton.clicked.connect(this, &GuiGameCarousel::OnTouchClick);
@@ -186,6 +188,7 @@ void GuiGameCarousel::refresh()
 		game[i]->setImage(coverImg[i]);
 		game[i]->setParent(this);
 		game[i]->setTrigger(&touchTrigger);
+        game[i]->setTrigger(&wpadTouchTrigger);
 		game[i]->setSoundClick(buttonClickSound);
 		game[i]->setEffectGrow();
 		game[i]->clicked.connect(this, &GuiGameCarousel::OnGameButtonClick);
@@ -223,16 +226,22 @@ void GuiGameCarousel::OnGameButtonClick(GuiButton *button, const GuiController *
 
 void GuiGameCarousel::OnTouchClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
+    if(!controller->data.validPointer)
+        return;
+
     bWasDragging = false;
     selectedGameOnDragStart = getSelectedGame();
-    lastPosition.x = controller->vpad.tpdata.x;
-    lastPosition.y = controller->vpad.tpdata.y;
+    lastPosition.x = controller->data.x;
+    lastPosition.y = controller->data.y;
 }
 
 void GuiGameCarousel::OnTouchHold(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
-    lastTouchDifference = (controller->vpad.tpdata.x - lastPosition.x);
-    f32 degreeAdd = lastTouchDifference * 0.03f;
+    if(!controller->data.validPointer)
+        return;
+
+    lastTouchDifference = (controller->data.x - lastPosition.x);
+    f32 degreeAdd = lastTouchDifference * 0.096f;
     if(touchClickDelay || fabs(degreeAdd) < 0.5f) {
         return;
     }
@@ -240,15 +249,18 @@ void GuiGameCarousel::OnTouchHold(GuiButton *button, const GuiController *contro
     currDegree -= degreeAdd;
     destDegree = currDegree;
 
-    lastPosition.x = controller->vpad.tpdata.x;
-    lastPosition.y = controller->vpad.tpdata.y;
+    lastPosition.x = controller->data.x;
+    lastPosition.y = controller->data.y;
     refreshDrawMap = true;
     bWasDragging = true;
 }
 
 void GuiGameCarousel::OnTouchRelease(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
-    f32 degreeAdd = lastTouchDifference * 0.04f;
+    if(!controller->lastData.validPointer)
+        return;
+
+    f32 degreeAdd = lastTouchDifference * 0.128f;
     if(touchClickDelay || fabsf(degreeAdd) < 2.0f)
     {
         updateDrawMap();
@@ -297,15 +309,26 @@ void GuiGameCarousel::OnTouchRelease(GuiButton *button, const GuiController *con
 
 void GuiGameCarousel::OnDPADClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
-    if(trigger == &buttonATrigger){
+    if(trigger == &buttonATrigger)
+    {
+        //! do not auto launch when wiimote is pointing to screen and presses A
+        if((controller->chan & (GuiTrigger::CHANNEL_2 | GuiTrigger::CHANNEL_3 | GuiTrigger::CHANNEL_4 | GuiTrigger::CHANNEL_5)) && controller->data.validPointer)
+        {
+            return;
+        }
+
         OnLaunchClick(button,controller,trigger);
-    }else if(trigger == &buttonLTrigger){
+    }
+    else if(trigger == &buttonLTrigger){
         OnLeftSkipClick(button,controller,trigger);
-    }else if(trigger == &buttonRTrigger){
+    }
+    else if(trigger == &buttonRTrigger){
         OnRightSkipClick(button,controller,trigger);
-    }else if(trigger == &buttonLeftTrigger){
+    }
+    else if(trigger == &buttonLeftTrigger){
         OnLeftClick(button,controller,trigger);
-    }else if(trigger == &buttonRightTrigger){
+    }
+    else if(trigger == &buttonRightTrigger){
         OnRightClick(button,controller,trigger);
     }
 }
@@ -332,7 +355,7 @@ void GuiGameCarousel::OnRightClick(GuiButton *button, const GuiController *contr
 
 void GuiGameCarousel::OnRightSkipClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
-    if((int)GameList::instance()->size() > 5){  
+    if((int)GameList::instance()->size() > 5){
         int sel = getSelectedGame() + 5;
         if(sel >= (int)GameList::instance()->size())
             sel -= (int)GameList::instance()->size();
@@ -344,7 +367,7 @@ void GuiGameCarousel::OnRightSkipClick(GuiButton *button, const GuiController *c
 
 void GuiGameCarousel::OnLeftSkipClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
-    if((int)GameList::instance()->size() > 5){  
+    if((int)GameList::instance()->size() > 5){
         int sel = getSelectedGame() - 5;
         if(sel < 0 && (GameList::instance()->size() > 5))
             sel += GameList::instance()->size();

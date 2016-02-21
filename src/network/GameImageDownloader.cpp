@@ -145,7 +145,7 @@ int GameImageDownloader::DownloadProcess(int TotalDownloadCount)
         char progressMsg[100];
         snprintf(progressMsg, sizeof(progressMsg), "http://gametdb.com : %s.png - %i files left", MissingImages[i].gameID.c_str(), TotalDownloadCount - pos);
         progressWindow.setTitle(progressMsg);
-        progressWindow.setProgress((f32)pos / (f32)TotalDownloadCount);
+        progressWindow.setProgress(100.0f * (f32)pos / (f32)TotalDownloadCount);
 
         std::string imageData;
 

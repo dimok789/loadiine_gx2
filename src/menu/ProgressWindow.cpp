@@ -63,5 +63,5 @@ void ProgressWindow::setTitle(const std::string & title)
 
 void ProgressWindow::setProgress(f32 percent)
 {
-    progressImageColored.setSize(percent * progressImageBlack.getWidth(), progressImageColored.getHeight());
+    progressImageColored.setSize(percent * 0.01f * progressImageBlack.getWidth(), progressImageColored.getHeight());
 }

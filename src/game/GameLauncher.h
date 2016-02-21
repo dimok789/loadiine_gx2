@@ -5,13 +5,14 @@
 #include <string>
 #include <gctypes.h>
 #include "common/common.h"
+#include "menu/ProgressWindow.h"
 #include "rpx_rpl_table.h"
 #include "memory_area_table.h"
 #include "GameList.h"
 #include "system/CThread.h"
 #include "gui/sigslot.h"
 
-class GameLauncher
+class GameLauncher : public GuiFrame, public CThread
 {
 public:
     enum eLoadResults
@@ -25,14 +26,33 @@ public:
         NOT_ENOUGH_MEMORY = -6,
     };
 
-    static int loadGameToMemory(const discHeader *hdr);
 
-    static CThread * loadGameToMemoryAsync(const discHeader *hdr, sigslot::signal2<const discHeader *, int> * asyncLoadFinished);
+    static GameLauncher * loadGameToMemoryAsync(const discHeader *hdr);
+    sigslot::signal3<GameLauncher *, const discHeader *, int> asyncLoadFinished;
 private:
-    static int LoadRpxRplToMem(const std::string & path, const std::string & name, bool isRPX, int entryIndex, const std::vector<std::string> & rplImportList);
-    static void GetRpxImports(s_rpx_rpl * rpxArray, std::vector<std::string> & rplImports);
+
+    GameLauncher(const discHeader *hdr)
+        : GuiFrame(0, 0)
+        , CThread(CThread::eAttributeAffCore0 | CThread::eAttributePinnedAff)
+        , discHdr(hdr)
+        , progressWindow("Loading game...")
+	{
+	    append(&progressWindow);
+
+	    width = progressWindow.getWidth();
+	    height = progressWindow.getHeight();
+	}
+    void executeThread();
+
+    int loadGameToMemory(const discHeader *hdr);
+
+    int LoadRpxRplToMem(const std::string & path, const std::string & name, bool isRPX, int entryIndex, const std::vector<std::string> & rplImportList);
+    void GetRpxImports(s_rpx_rpl * rpxArray, std::vector<std::string> & rplImports);
 
     static void gameLoadCallback(CThread *thread, void *arg);
+
+    const discHeader *discHdr;
+    ProgressWindow progressWindow;
 };
 
 
