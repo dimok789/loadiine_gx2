@@ -51,7 +51,8 @@ extern void (* AXRegisterFrameCallback)(void * callback);
 extern u32 (* AXGetVoiceLoopCount)(void * v);
 extern void (* AXSetVoiceEndOffset)(void * v, u32 offset);
 extern void (* AXSetVoiceLoopOffset)(void * v, u32 offset);
-
+extern BOOL (* AXVoiceIsProtected)(void *v);
+extern BOOL (* AXIsVoiceRunning)(void *v);
 #ifdef __cplusplus
 }
 #endif
