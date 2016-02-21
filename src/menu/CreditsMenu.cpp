@@ -92,7 +92,7 @@ CreditsMenu::CreditsMenu(int w, int h, const std::string & title)
     creditsText.push_back(text);
     append(text);
 
-    text = new GuiText("Dimok", fontSize, textColor);
+    text = new GuiText("Dimok / Maschell", fontSize, textColor);
     text->setPosition(positionX2, positionY);
     text->setAlignment(ALIGN_LEFT | ALIGN_MIDDLE);
     creditsText.push_back(text);

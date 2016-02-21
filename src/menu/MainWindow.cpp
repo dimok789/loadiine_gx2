@@ -243,8 +243,11 @@ void MainWindow::SetupMainView()
     currentTvFrame->gameLaunchClicked.disconnect(this);
     currentDrcFrame->gameLaunchClicked.disconnect(this);
 
-    currentTvFrame->gameSelectionChanged.connect(this, &MainWindow::OnGameSelectionChange);
-    currentTvFrame->gameLaunchClicked.connect(this, &MainWindow::OnGameLaunch);
+    if(currentTvFrame != currentDrcFrame) // Only connected when they are the same!
+    {
+        currentTvFrame->gameSelectionChanged.connect(this, &MainWindow::OnGameSelectionChange);
+        currentTvFrame->gameLaunchClicked.connect(this, &MainWindow::OnGameLaunch);
+    }
     currentDrcFrame->gameSelectionChanged.connect(this, &MainWindow::OnGameSelectionChange);
     currentDrcFrame->gameLaunchClicked.connect(this, &MainWindow::OnGameLaunch);
 
