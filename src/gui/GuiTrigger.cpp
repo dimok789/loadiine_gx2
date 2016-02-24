@@ -64,7 +64,7 @@ bool GuiTrigger::left(const GuiController *controller) const
     if((controller->chan & chan) == 0) {
         return false;
     }
-	if((controller->data.buttons_h | controller->data.buttons_d) & BUTTON_LEFT || (controller->data.buttons_h | controller->data.buttons_d) & STICK_L_LEFT)
+    if((controller->data.buttons_h | controller->data.buttons_d) & (BUTTON_LEFT | STICK_L_LEFT))
 	{
 	    return true;
 	}
@@ -76,7 +76,7 @@ bool GuiTrigger::right(const GuiController *controller) const
     if((controller->chan & chan) == 0) {
         return false;
     }
-	if((controller->data.buttons_h | controller->data.buttons_d) & BUTTON_RIGHT || (controller->data.buttons_h | controller->data.buttons_d) & STICK_L_RIGHT)
+    if((controller->data.buttons_h | controller->data.buttons_d) & (BUTTON_RIGHT | STICK_L_RIGHT))
 	{
 	    return true;
 	}
@@ -88,7 +88,7 @@ bool GuiTrigger::up(const GuiController *controller) const
     if((controller->chan & chan) == 0) {
         return false;
     }
-	if((controller->data.buttons_h | controller->data.buttons_d) & BUTTON_UP || (controller->data.buttons_h | controller->data.buttons_d) & STICK_L_UP)
+    if((controller->data.buttons_h | controller->data.buttons_d) & (BUTTON_UP | STICK_L_UP))
 	{
 	    return true;
 	}
@@ -100,7 +100,7 @@ bool GuiTrigger::down(const GuiController *controller) const
     if((controller->chan & chan) == 0) {
         return false;
     }
-	if((controller->data.buttons_h | controller->data.buttons_d) & BUTTON_DOWN || (controller->data.buttons_h | controller->data.buttons_d) & STICK_L_DOWN)
+    if((controller->data.buttons_h | controller->data.buttons_d) & (BUTTON_DOWN | STICK_L_DOWN))
 	{
 	    return true;
 	}
