@@ -120,18 +120,20 @@ GuiIconGrid::GuiIconGrid(int w, int h)
         arrowLeftButton.setEffectGrow();
         arrowLeftButton.setPosition(40, 0);
         arrowLeftButton.setAlignment(ALIGN_LEFT | ALIGN_MIDDLE);
-        arrowLeftButton.setTrigger(&touchTrigger, 0);
-        arrowLeftButton.setTrigger(&wpadTouchTrigger, 0);
-        arrowLeftButton.setTrigger(&buttonLTrigger, 1);
+        arrowLeftButton.setTrigger(&touchTrigger);
+        arrowLeftButton.setTrigger(&wpadTouchTrigger);
+        arrowLeftButton.setTrigger(&buttonLTrigger);
+        arrowLeftButton.setSoundClick(buttonClickSound);
         arrowLeftButton.clicked.connect(this, &GuiIconGrid::OnLeftArrowClick);
 
         arrowRightButton.setImage(&arrowRightImage);
         arrowRightButton.setEffectGrow();
         arrowRightButton.setPosition(-40, 0);
         arrowRightButton.setAlignment(ALIGN_RIGHT | ALIGN_MIDDLE);
-        arrowRightButton.setTrigger(&touchTrigger, 0);
-        arrowRightButton.setTrigger(&wpadTouchTrigger, 0);
-        arrowRightButton.setTrigger(&buttonRTrigger, 1);
+        arrowRightButton.setTrigger(&touchTrigger);
+        arrowRightButton.setTrigger(&wpadTouchTrigger);
+        arrowRightButton.setTrigger(&buttonRTrigger);
+        arrowRightButton.setSoundClick(buttonClickSound);
         arrowRightButton.clicked.connect(this, &GuiIconGrid::OnRightArrowClick);
         append(&arrowRightButton);
     }
@@ -276,6 +278,7 @@ void GuiIconGrid::OnRightClick(GuiButton *button, const GuiController *controlle
 {
     int sel = getSelectedGame();
     int col = sel % MAX_COLS;
+    int page = listOffset + 1;
 
     if(col == (MAX_COLS - 1))
     {
@@ -292,13 +295,16 @@ void GuiIconGrid::OnRightClick(GuiButton *button, const GuiController *controlle
             append(&arrowLeftButton);
         }
     }
-    else
+    else if(sel + 1 != GameList::instance()->size())
     {
         sel++;
     }
 
-    if(sel > (GameList::instance()->size() - 1))
-        sel = (GameList::instance()->size() - 1);
+    if(sel > GameList::instance()->size() - 1)
+    {
+        int m = (((GameList::instance()->size() % (MAX_ROWS * MAX_COLS)) % MAX_COLS) == 0) ? 0 : 1;
+        sel = page * MAX_ROWS * MAX_COLS + ((GameList::instance()->size() % (MAX_ROWS * MAX_COLS)) / MAX_COLS + m - 1) * MAX_COLS;
+    }
 
     if(sel != getSelectedGame())
     {
@@ -312,13 +318,10 @@ void GuiIconGrid::OnDownClick(GuiButton *button, const GuiController *controller
     int sel = getSelectedGame();
     int row = (sel % (MAX_ROWS * MAX_COLS)) / MAX_COLS;
 
-    if(row < (MAX_ROWS - 1))
+    if(row < (MAX_ROWS - 1) && (sel + MAX_COLS) < (GameList::instance()->size()))
     {
         sel += MAX_COLS;
     }
-
-    if(sel > (GameList::instance()->size() - 1))
-        sel = (GameList::instance()->size() - 1);
 
     if(sel != getSelectedGame())
     {
