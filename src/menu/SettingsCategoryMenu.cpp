@@ -38,9 +38,9 @@ SettingsCategoryMenu::SettingsCategoryMenu(int w, int h, const std::string & tit
     , wpadTouchTrigger(GuiTrigger::CHANNEL_2 | GuiTrigger::CHANNEL_3 | GuiTrigger::CHANNEL_4 | GuiTrigger::CHANNEL_5, GuiTrigger::BUTTON_A)
     , buttonATrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_A, true)
     , buttonBTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_B, true)
-    , buttonUpTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_UP, true)
-    , buttonDownTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_DOWN, true)
-    , DPADButtons(w,h)
+    , buttonUpTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_UP | GuiTrigger::STICK_L_UP, true)
+    , buttonDownTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_DOWN | GuiTrigger::STICK_L_DOWN, true)
+    , DPADButtons(w,h)   
     , updateButtons(false)
 	, selectedButtonDPAD(-1)
 {
@@ -78,7 +78,7 @@ SettingsCategoryMenu::SettingsCategoryMenu(int w, int h, const std::string & tit
         settings[i].settingButton->setIconOver(settings[i].settingImageSelected);
 		settings[i].settingButton->setImage(settings[i].settingImage);
         settings[i].settingButton->setLabel(settings[i].settingLabel);
-
+		
         settings[i].settingButton->setPosition(0, 150 - (settings[i].settingImage->getHeight() + 30) * i);
         settings[i].settingButton->setTrigger(&touchTrigger);
         settings[i].settingButton->setTrigger(&wpadTouchTrigger);
@@ -89,12 +89,12 @@ SettingsCategoryMenu::SettingsCategoryMenu(int w, int h, const std::string & tit
     }
 
     DPADButtons.setTrigger(&buttonBTrigger);
-    DPADButtons.setTrigger(&buttonATrigger);
+    DPADButtons.setTrigger(&buttonATrigger);    
     DPADButtons.setTrigger(&buttonDownTrigger);
     DPADButtons.setTrigger(&buttonUpTrigger);
-    DPADButtons.clicked.connect(this, &SettingsCategoryMenu::OnDPADClick);
+    DPADButtons.clicked.connect(this, &SettingsCategoryMenu::OnDPADClick);    
     append(&DPADButtons);
-
+	
 	categoryFrame.append(&DPADButtons);
 
     append(&categoryFrame);
@@ -111,14 +111,14 @@ SettingsCategoryMenu::~SettingsCategoryMenu()
     }
     Resources::RemoveImageData(backImageData);
     Resources::RemoveImageData(titleImageData);
-    Resources::RemoveImageData(settingImageData);
+    Resources::RemoveImageData(settingImageData);    
     Resources::RemoveImageData(settingSelectedImageData);
     Resources::RemoveSound(buttonClickSound);
 }
 
 void SettingsCategoryMenu::OnSettingButtonClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
-    for(u32 i = 0; i < settings.size(); i++) // Touch overrides selection
+    for(u32 i = 0; i < settings.size(); i++) // Touch overrides selection 
     {
         if(button == settings[i].settingButton)
         {
@@ -127,7 +127,7 @@ void SettingsCategoryMenu::OnSettingButtonClick(GuiButton *button, const GuiCont
         }
     }
     u32 i = currentSettingsIdx;
-
+    
     GuiFrame *menu = NULL;
     switch(categorySettings[i].type)
     {
@@ -145,7 +145,7 @@ void SettingsCategoryMenu::OnSettingButtonClick(GuiButton *button, const GuiCont
             break;
         }
         case Type2Buttons:
-        case Type3Buttons:
+        case Type3Buttons: 
 		case Type4Buttons: {
             int buttonCount = Type2Buttons + (categorySettings[i].type - Type2Buttons + 1);
             int buttonSelected = 0;
@@ -249,7 +249,6 @@ void SettingsCategoryMenu::OnButtonChoiceOkClicked(GuiElement *element, int sele
 
 void SettingsCategoryMenu::OnDPADClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
-    log_print("SettingsCategoryMenu::OnDPADClick");
 	if(trigger == &buttonATrigger)
 	{
         //! do not auto launch when wiimote is pointing to screen and presses A
@@ -264,13 +263,13 @@ void SettingsCategoryMenu::OnDPADClick(GuiButton *button, const GuiController *c
 		OnBackButtonClick(button,controller,trigger);
 	}
 	else if(trigger == &buttonUpTrigger || trigger == &buttonDownTrigger)
-	{
+	{			
 		if(selectedButtonDPAD == -1)
 		{
 			selectedButtonDPAD = currentSettingsIdx;
 		}
 		else
-		{
+		{				
 			if(trigger == &buttonUpTrigger)
 			{
 				if(currentSettingsIdx > 0){
@@ -288,7 +287,7 @@ void SettingsCategoryMenu::OnDPADClick(GuiButton *button, const GuiController *c
 			selectedButtonDPAD = currentSettingsIdx;
 		}
 		updateButtons = true;
-	}
+	}  
 }
 
 
