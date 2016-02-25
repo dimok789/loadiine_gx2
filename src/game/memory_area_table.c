@@ -1410,8 +1410,8 @@ static const memory_values_t mem_vals_500[] =
 //		{ 0xBCA35AF0, 0xBCA36764 }, // 3192 Byte
 //		{ 0xBCA36774, 0xBCA4662C }, // 65212 Byte
 //		{ 0xBCA48AB0, 0xBCAE0FFC }, // 623952 Byte
-//		{ 0xBCAE7864, 0xBD207DB4 }, // 7472468 Byte
-//		{ 0xBD3B966C, 0xBD8943C0 }, // 5090648 Byte
+		{ 0xBCAE7864, 0xBD207DB4 }, // 7472468 Byte // 7297 kB
+		{ 0xBD3B966C, 0xBD8943C0 }, // 5090648 Byte // 4971 kB
 //		{ 0xBD894770, 0xBD8A037C }, // 48144 Byte
 //		{ 0xBD8A1F88, 0xBD8A2D7C }, // 3576 Byte
 //		{ 0xBD8A63F4, 0xBD8AD3C4 }, // 28628 Byte
@@ -1443,7 +1443,7 @@ static const memory_values_t mem_vals_500[] =
 //		{ 0xBE5CFF70, 0xBE5D7FBC }, // 32848 Byte
 //		{ 0xBE5DE9D8, 0xBE5E0F8C }, // 9656 Byte
 //		{ 0xBE5E12B0, 0xBE60507C }, // 146896 Byte
-//		{ 0xBE605CBC, 0xBFF849BC }, // 26733828 Byte
+		{ 0xBE605CBC, 0xBFF849BC }, // 26733828 Byte // 26107 kB
 //		{ 0xBFF869BC, 0xBFF8CA3C }, // 24708 Byte
 //		{ 0xBFF8DA24, 0xBFF8E600 }, // 3040 Byte
     {0, 0}
