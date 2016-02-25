@@ -1447,7 +1447,7 @@ static const memory_values_t mem_vals_500[] =
 //		{ 0xBFF869BC, 0xBFF8CA3C }, // 24708 Byte
 //		{ 0xBFF8DA24, 0xBFF8E600 }, // 3040 Byte
     {0, 0}
-}
+};
 
 static const memory_values_t mem_vals_532[] =
 {
