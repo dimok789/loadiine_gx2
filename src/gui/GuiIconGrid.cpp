@@ -21,8 +21,8 @@
 #include "video/CVideo.h"
 #include "game/GameList.h"
 
-GuiIconGrid::GuiIconGrid(int w, int h)
-    : GuiGameBrowser(w, h)
+GuiIconGrid::GuiIconGrid(int w, int h, int GameIndex)
+    : GuiGameBrowser(w, h, GameIndex)
     , buttonClickSound(Resources::GetSound("button_click.mp3"))
     , noIcon(Resources::GetFile("noGameIcon.png"), Resources::GetFileSize("noGameIcon.png"), GX2_TEX_CLAMP_MIRROR)
     , emptyIcon(Resources::GetFile("iconEmpty.jpg"), Resources::GetFileSize("iconEmpty.jpg"), GX2_TEX_CLAMP_MIRROR)
@@ -50,7 +50,7 @@ GuiIconGrid::GuiIconGrid(int w, int h)
 {
     listOffset = 0;
     gameLaunchTimer = 0;
-    selectedGame = 0;
+    selectedGame = GameIndex;
     currentLeftPosition = 0;
     targetLeftPosition = 0;
 
