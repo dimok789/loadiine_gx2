@@ -27,6 +27,7 @@ GuiIconGrid::GuiIconGrid(int w, int h)
     , noIcon(Resources::GetFile("noGameIcon.png"), Resources::GetFileSize("noGameIcon.png"), GX2_TEX_CLAMP_MIRROR)
     , emptyIcon(Resources::GetFile("iconEmpty.jpg"), Resources::GetFileSize("iconEmpty.jpg"), GX2_TEX_CLAMP_MIRROR)
     , particleBgImage(w, h, 50)
+    , gameTitle((char*)NULL, 52, glm::vec4(1.0f))
     , touchTrigger(GuiTrigger::CHANNEL_1, GuiTrigger::VPAD_TOUCH)
     , wpadTouchTrigger(GuiTrigger::CHANNEL_2 | GuiTrigger::CHANNEL_3 | GuiTrigger::CHANNEL_4 | GuiTrigger::CHANNEL_5, GuiTrigger::BUTTON_A)
     , leftTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_LEFT | GuiTrigger::STICK_L_LEFT, true)
@@ -137,6 +138,12 @@ GuiIconGrid::GuiIconGrid(int w, int h)
         arrowRightButton.clicked.connect(this, &GuiIconGrid::OnRightArrowClick);
         append(&arrowRightButton);
     }
+
+    gameTitle.setPosition(0, -320);
+    gameTitle.setBlurGlowColor(5.0f, glm::vec4(0.109804, 0.6549, 1.0f, 1.0f));
+    gameTitle.setMaxWidth(900, GuiText::DOTTED);
+    gameTitle.setText(GameList::instance()->at(selectedGame)->name.c_str());
+    append(&gameTitle);
 }
 
 GuiIconGrid::~GuiIconGrid()
@@ -159,6 +166,8 @@ void GuiIconGrid::setSelectedGame(int idx)
         if(i == (u32)idx)
         {
             selectedGame = idx;
+
+            gameTitle.setText(GameList::instance()->at(selectedGame)->name.c_str());
 
             while(selectedGame > listOffset * MAX_COLS * MAX_ROWS)
                 listOffset++;
