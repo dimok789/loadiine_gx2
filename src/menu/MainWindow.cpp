@@ -388,10 +388,7 @@ void MainWindow::OnLayoutSwitchClicked(GuiElement *element)
 
 void MainWindow::OnGameLaunch(GuiGameBrowser *element, int gameIdx)
 {
-		
-    CSettings::setValueAsU16(CSettings::GameStartIndex,currentDrcFrame->getSelectedGame());    
-    log_printf ("OnGameLaunch setValueAsU16: %d\n",CSettings::getValueAsU16(CSettings::GameStartIndex));
-			
+    CSettings::setValueAsU16(CSettings::GameStartIndex,gameIdx);    
 
     if(gameClickSound)
         gameClickSound->Play();
