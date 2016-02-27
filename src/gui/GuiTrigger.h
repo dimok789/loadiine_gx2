@@ -54,7 +54,15 @@ public:
         BUTTON_PLUS     = 0x0008,
         BUTTON_MINUS    = 0x0004,
         BUTTON_HOME     = 0x0002,
-        BUTTON_SYNC     = 0x0001
+        BUTTON_SYNC     = 0x0001,
+        STICK_R_LEFT    = 0x04000000,
+        STICK_R_RIGHT   = 0x02000000,
+        STICK_R_UP      = 0x01000000,
+        STICK_R_DOWN    = 0x00800000,
+        STICK_L_LEFT    = 0x40000000,
+        STICK_L_RIGHT   = 0x20000000,
+        STICK_L_UP      = 0x10000000,
+        STICK_L_DOWN    = 0x08000000
     };
 
     //!Constructor

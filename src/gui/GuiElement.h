@@ -206,7 +206,7 @@ class GuiElement : public AsyncDeleter::Element
 		}
 		//!Checks whether or not the element is visible
 		//!\return true if visible, false otherwise
-		virtual bool isVisible() const { return visible; };
+		virtual bool isVisible() const { return !isStateSet(STATE_HIDDEN) && visible; };
 		//!Checks whether or not the element is selectable
 		//!\return true if selectable, false otherwise
 		virtual bool isSelectable()
@@ -459,6 +459,7 @@ class GuiElement : public AsyncDeleter::Element
             STATE_CLICKED = 0x02,
             STATE_HELD = 0x04,
             STATE_OVER = 0x08,
+            STATE_HIDDEN = 0x10,
             STATE_DISABLED = 0x80
         };
 
