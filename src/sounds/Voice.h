@@ -68,11 +68,7 @@ public:
     {
         if(voice)
         {
-    log_printf("file: %s line: %d function: %s\n", __FILE__, __LINE__, __FUNCTION__);
-            while (AXVoiceIsProtected(voice) || AXIsVoiceRunning(voice));
-    log_printf("file: %s line: %d function: %s\n", __FILE__, __LINE__, __FUNCTION__);
             AXFreeVoice(voice);
-    log_printf("file: %s line: %d function: %s\n", __FILE__, __LINE__, __FUNCTION__);
         }
     }
 

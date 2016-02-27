@@ -80,10 +80,8 @@ Application::~Application()
 
 	AsyncDeleter::destroyInstance();
     Resources::Clear();
-    log_printf("file: %s line: %d function: %s\n", __FILE__, __LINE__, __FUNCTION__);
 
 	SoundHandler::DestroyInstance();
-    log_printf("file: %s line: %d function: %s\n", __FILE__, __LINE__, __FUNCTION__);
 }
 
 void Application::exec()
