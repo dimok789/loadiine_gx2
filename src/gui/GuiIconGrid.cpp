@@ -142,7 +142,7 @@ GuiIconGrid::GuiIconGrid(int w, int h)
     gameTitle.setPosition(0, -320);
     gameTitle.setBlurGlowColor(5.0f, glm::vec4(0.109804, 0.6549, 1.0f, 1.0f));
     gameTitle.setMaxWidth(900, GuiText::DOTTED);
-    gameTitle.setText(GameList::instance()->at(selectedGame)->name.c_str());
+    gameTitle.setText((GameList::instance()->size() > selectedGame) ? GameList::instance()->at(selectedGame)->name.c_str() : "");
     append(&gameTitle);
 }
 
@@ -304,12 +304,12 @@ void GuiIconGrid::OnRightClick(GuiButton *button, const GuiController *controlle
             append(&arrowLeftButton);
         }
     }
-    else if(sel + 1 != GameList::instance()->size())
+    else if((sel + 1) < GameList::instance()->size())
     {
         sel++;
     }
 
-    if(sel > GameList::instance()->size() - 1)
+    if(sel > (GameList::instance()->size() - 1))
     {
         int m = (((GameList::instance()->size() % (MAX_ROWS * MAX_COLS)) % MAX_COLS) == 0) ? 0 : 1;
         sel = page * MAX_ROWS * MAX_COLS + ((GameList::instance()->size() % (MAX_ROWS * MAX_COLS)) / MAX_COLS + m - 1) * MAX_COLS;
