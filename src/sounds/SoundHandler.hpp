@@ -32,7 +32,7 @@
 #include "SoundDecoder.hpp"
 #include "Voice.h"
 
-#define MAX_DECODERS	1  // can be increased up to 96
+#define MAX_DECODERS	16  // can be increased up to 96
 
 class SoundHandler : public CThread
 {
