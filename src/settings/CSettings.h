@@ -77,6 +77,7 @@ public:
         GameCover3DPath,
         ConsoleRegionCode,
         DebugLoggerIP,
+        GameStartIndex,
         MAX_VALUE
     };
 

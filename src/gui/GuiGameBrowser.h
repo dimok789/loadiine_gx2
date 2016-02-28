@@ -23,7 +23,7 @@
 class GuiGameBrowser : public GuiFrame
 {
 public:
-    GuiGameBrowser(int w, int h) : GuiFrame(w, h) {}
+    GuiGameBrowser(int w, int h, int GameIndex) : GuiFrame(w, h) {}
     virtual ~GuiGameBrowser() {}
 
     virtual void setSelectedGame(int idx) = 0;

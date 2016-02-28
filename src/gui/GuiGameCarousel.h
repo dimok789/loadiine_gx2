@@ -27,7 +27,7 @@
 class GuiGameCarousel : public GuiGameBrowser, public sigslot::has_slots<>
 {
 public:
-    GuiGameCarousel(int w, int h, int listOffset = 0);
+    GuiGameCarousel(int w, int h, int GameIndex);
     virtual ~GuiGameCarousel();
 
     void setSelectedGame(int idx);

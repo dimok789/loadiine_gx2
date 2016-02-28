@@ -30,7 +30,7 @@
 class GuiIconGrid : public GuiGameBrowser, public sigslot::has_slots<>
 {
 public:
-    GuiIconGrid(int w, int h);
+    GuiIconGrid(int w, int h, int GameIndex);
     virtual ~GuiIconGrid();
 
     void setSelectedGame(int idx);
