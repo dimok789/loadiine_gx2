@@ -23,7 +23,6 @@
 #elif ( (VER == 532) || (VER == 540) )
     /* Patch coreinit - on 5.3.2 coreinit.rpl starts at 0x101c400 */
     //{ Menu_Main, 0x0101c55c, 0x48000003 },           // bla Branch Link Address
-    #define ADDRESS_OSDynLoad_Acquire                   (unsigned int)OSDynLoad_Acquire  // take the one from libwiiu
     #define ADDRESS_OSTitle_main_entry_ptr              0x1005d180 // MiiMaker_main
     #define ADDRESS_main_entry_hook                     0x0101c55c // coreinit.rpl + 15C
     #define ADDRESS_LiWaitOneChunk                      0x010007EC // loader.elf
@@ -43,7 +42,6 @@
 #elif ( (VER == 500) || (VER == 510) )
     /* Patch coreinit - on 5.1.0 coreinit.rpl starts at 0x101c000 */
     //{ Menu_Main, 0x0101c15c, 0x48000003 },           // bla Branch Link Address
-    #define ADDRESS_OSDynLoad_Acquire                   0x01029F70 // the defined address in libwiiu always loads sndcore2 with result -1 this one here loads snd_core and works
     #define ADDRESS_OSTitle_main_entry_ptr              0x1005CB00 // MiiMaker_main
     #define ADDRESS_main_entry_hook                     0x0101C15C // coreinit.rpl + 15C
     #define ADDRESS_LiWaitOneChunk                      0x010007EC // loader.elf
@@ -62,7 +60,6 @@
     //.data:0011853C                 bl        sub_10A8E0
     
 #elif ( (VER == 400) || (VER == 410) )
-    #define ADDRESS_OSDynLoad_Acquire                   (unsigned int)OSDynLoad_Acquire  // take the one from libwiiu - seems to be fine here
     #define ADDRESS_OSTitle_main_entry_ptr              0x1005A8C0
     #define ADDRESS_main_entry_hook                     0x0101BD4C
     #define ADDRESS_LiWaitOneChunk                      0x010007F8
@@ -601,7 +598,7 @@ static void InstallPatches(private_data_t *private_data)
     LOADIINE_MODE = LOADIINE_MODE_SMASH_BROS;
 
     unsigned int jump_main_hook = 0;
-    osSpecificFunctions->addr_OSDynLoad_Acquire = ADDRESS_OSDynLoad_Acquire;
+    osSpecificFunctions->addr_OSDynLoad_Acquire = (unsigned int)OSDynLoad_Acquire;
     osSpecificFunctions->addr_OSDynLoad_FindExport = (unsigned int)OSDynLoad_FindExport;
 
     osSpecificFunctions->addr_KernSyscallTbl1 = KERN_SYSCALL_TBL_1;
