@@ -187,16 +187,16 @@ void MainWindow::SetupMainView()
     switch(CSettings::getValueAsU8(CSettings::GameViewModeTv))
     {
         case VIEW_ICON_GRID: {
-            currentTvFrame = new GuiIconGrid(width, height);
+            currentTvFrame = new GuiIconGrid(width, height,(int)CSettings::getValueAsU16(CSettings::GameStartIndex));
             break;
         }
         default:
         case VIEW_ICON_CAROUSEL: {
-            currentTvFrame = new GuiIconCarousel(width, height);
+            currentTvFrame = new GuiIconCarousel(width, height,(int)CSettings::getValueAsU16(CSettings::GameStartIndex));
             break;
         }
         case VIEW_COVER_CAROUSEL: {
-            currentTvFrame = new GuiGameCarousel(width, height);
+            currentTvFrame = new GuiGameCarousel(width, height,(int)CSettings::getValueAsU16(CSettings::GameStartIndex));
             break;
         }
     }
@@ -216,15 +216,15 @@ void MainWindow::SetupMainView()
         {
             default:
             case VIEW_ICON_GRID: {
-                currentDrcFrame = new GuiIconGrid(width, height);
+                currentDrcFrame = new GuiIconGrid(width, height,(int)CSettings::getValueAsU16(CSettings::GameStartIndex));
                 break;
             }
             case VIEW_ICON_CAROUSEL: {
-                currentDrcFrame = new GuiIconCarousel(width, height);
+                currentDrcFrame = new GuiIconCarousel(width, height,(int)CSettings::getValueAsU16(CSettings::GameStartIndex));
                 break;
             }
             case VIEW_COVER_CAROUSEL: {
-                currentDrcFrame = new GuiGameCarousel(width, height);
+                currentDrcFrame = new GuiGameCarousel(width, height,(int)CSettings::getValueAsU16(CSettings::GameStartIndex));
                 break;
             }
         }
@@ -280,6 +280,8 @@ void MainWindow::OnCloseEffectFinish(GuiElement *element)
 
 void MainWindow::OnSettingsButtonClicked(GuiElement *element)
 {
+    CSettings::setValueAsU16(CSettings::GameStartIndex,currentDrcFrame->getSelectedGame());    
+	
     //! disable element for triggering buttons again
     mainSwitchButtonFrame->setState(GuiElement::STATE_DISABLED);
     mainSwitchButtonFrame->setEffect(EFFECT_FADE, -10, 0);
@@ -386,6 +388,8 @@ void MainWindow::OnLayoutSwitchClicked(GuiElement *element)
 
 void MainWindow::OnGameLaunch(GuiGameBrowser *element, int gameIdx)
 {
+    CSettings::setValueAsU16(CSettings::GameStartIndex,gameIdx);    
+
     if(gameClickSound)
         gameClickSound->Play();
 

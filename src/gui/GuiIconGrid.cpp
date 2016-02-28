@@ -21,12 +21,13 @@
 #include "video/CVideo.h"
 #include "game/GameList.h"
 
-GuiIconGrid::GuiIconGrid(int w, int h)
-    : GuiGameBrowser(w, h)
+GuiIconGrid::GuiIconGrid(int w, int h, int GameIndex)
+    : GuiGameBrowser(w, h, GameIndex)
     , buttonClickSound(Resources::GetSound("button_click.mp3"))
     , noIcon(Resources::GetFile("noGameIcon.png"), Resources::GetFileSize("noGameIcon.png"), GX2_TEX_CLAMP_MIRROR)
     , emptyIcon(Resources::GetFile("iconEmpty.jpg"), Resources::GetFileSize("iconEmpty.jpg"), GX2_TEX_CLAMP_MIRROR)
     , particleBgImage(w, h, 50)
+    , gameTitle((char*)NULL, 52, glm::vec4(1.0f))
     , touchTrigger(GuiTrigger::CHANNEL_1, GuiTrigger::VPAD_TOUCH)
     , wpadTouchTrigger(GuiTrigger::CHANNEL_2 | GuiTrigger::CHANNEL_3 | GuiTrigger::CHANNEL_4 | GuiTrigger::CHANNEL_5, GuiTrigger::BUTTON_A)
     , leftTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_LEFT | GuiTrigger::STICK_L_LEFT, true)
@@ -50,7 +51,7 @@ GuiIconGrid::GuiIconGrid(int w, int h)
 {
     listOffset = 0;
     gameLaunchTimer = 0;
-    selectedGame = 0;
+    selectedGame = GameIndex;
     currentLeftPosition = 0;
     targetLeftPosition = 0;
 
@@ -137,6 +138,12 @@ GuiIconGrid::GuiIconGrid(int w, int h)
         arrowRightButton.clicked.connect(this, &GuiIconGrid::OnRightArrowClick);
         append(&arrowRightButton);
     }
+
+    gameTitle.setPosition(0, -320);
+    gameTitle.setBlurGlowColor(5.0f, glm::vec4(0.109804, 0.6549, 1.0f, 1.0f));
+    gameTitle.setMaxWidth(900, GuiText::DOTTED);
+    gameTitle.setText((GameList::instance()->size() > selectedGame) ? GameList::instance()->at(selectedGame)->name.c_str() : "");
+    append(&gameTitle);
 }
 
 GuiIconGrid::~GuiIconGrid()
@@ -159,6 +166,8 @@ void GuiIconGrid::setSelectedGame(int idx)
         if(i == (u32)idx)
         {
             selectedGame = idx;
+
+            gameTitle.setText(GameList::instance()->at(selectedGame)->name.c_str());
 
             while(selectedGame > listOffset * MAX_COLS * MAX_ROWS)
                 listOffset++;
@@ -295,12 +304,12 @@ void GuiIconGrid::OnRightClick(GuiButton *button, const GuiController *controlle
             append(&arrowLeftButton);
         }
     }
-    else if(sel + 1 != GameList::instance()->size())
+    else if((sel + 1) < GameList::instance()->size())
     {
         sel++;
     }
 
-    if(sel > GameList::instance()->size() - 1)
+    if(sel > (GameList::instance()->size() - 1))
     {
         int m = (((GameList::instance()->size() % (MAX_ROWS * MAX_COLS)) % MAX_COLS) == 0) ? 0 : 1;
         sel = page * MAX_ROWS * MAX_COLS + ((GameList::instance()->size() % (MAX_ROWS * MAX_COLS)) / MAX_COLS + m - 1) * MAX_COLS;

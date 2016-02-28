@@ -25,11 +25,12 @@
 #include "GameBgImage.h"
 #include "GridBackground.h"
 #include "GuiParticleImage.h"
+#include "GuiText.h"
 
 class GuiIconGrid : public GuiGameBrowser, public sigslot::has_slots<>
 {
 public:
-    GuiIconGrid(int w, int h);
+    GuiIconGrid(int w, int h, int GameIndex);
     virtual ~GuiIconGrid();
 
     void setSelectedGame(int idx);
@@ -60,6 +61,7 @@ private:
 
     GuiParticleImage particleBgImage;
 
+    GuiText gameTitle;
     GuiTrigger touchTrigger;
     GuiTrigger wpadTouchTrigger;
     GuiTrigger leftTrigger;

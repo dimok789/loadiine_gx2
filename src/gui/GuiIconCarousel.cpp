@@ -29,8 +29,8 @@ static const float cam_X_rot = 25.0f;
 static const float fIconRgbDrop = 0.395f;
 static const float fOpacy = 1.0f;
 
-GuiIconCarousel::GuiIconCarousel(int w, int h)
-    : GuiGameBrowser(w, h)
+GuiIconCarousel::GuiIconCarousel(int w, int h, int GameIndex)
+    : GuiGameBrowser(w, h, GameIndex)
     , buttonClickSound(Resources::GetSound("button_click.mp3"))
     , bgGridData(Resources::GetFile("bgGridTile.png"), Resources::GetFileSize("bgGridTile.png"), GX2_TEX_CLAMP_WRAP)
     , bgGrid(&bgGridData)
@@ -54,7 +54,7 @@ GuiIconCarousel::GuiIconCarousel(int w, int h)
     bUpdateMap = true;
     gameLaunchTimer = 60;
     touchClickDelay = 0;
-    selectedGame = 0;
+    selectedGame = GameIndex;
     selectedGameOnDragStart = 0;
     bWasDragging = false;
     circleRadius = RADIUS * GameList::instance()->size() / 12.0f;
@@ -102,6 +102,10 @@ GuiIconCarousel::GuiIconCarousel(int w, int h)
     gameTitle.setBlurGlowColor(16.0f, glm::vec4(0.109804, 0.6549, 1.0f, 1.0f));
     gameTitle.setMaxWidth(900, GuiText::DOTTED);
     append(&gameTitle);
+    
+    circleTargetPosition = 360.0f - GameIndex * 360.0f / (radiusScale * gameIcons.size());
+    circlePosition = circleTargetPosition;
+    setSelectedGame(selectedGame);
 }
 
 GuiIconCarousel::~GuiIconCarousel()
