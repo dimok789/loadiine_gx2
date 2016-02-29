@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<app version="1">
+  <name>Loadiine GX2</name>
+  <coder>Dimok</coder>
+  <version>0.2</version>
+  <release_date>20160228120000</release_date>
+  <short_description>WiiU game loader</short_description>
+  <long_description>Loads games from SD card.
+
+  Compatibility list:
+  http://wiki.gbatemp.net/wiki/Loadiine_compatibility_list
+
+  Sources:
+  https://github.com/dimok789/loadiine_gx2
+  </long_description>
+
+</app>

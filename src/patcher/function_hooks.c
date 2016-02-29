@@ -1224,8 +1224,6 @@ void PatchMethodHooks(void)
     restore->magic = RESTORE_INSTR_MAGIC;
     restore->instr_count = 0;
 
-    OsSpecifics *OsSpecificFunctions = OS_SPECIFICS;
-
     bat_table_t table;
     KernelSetDBATs(&table);
 
@@ -1247,7 +1245,7 @@ void PatchMethodHooks(void)
         }
         else if(strcmp(method_hooks[i].functionName, "LiWaitOneChunk") == 0)
         {
-            memcpy(&real_addr, (void*)&OsSpecificFunctions->addr_LiWaitOneChunk, 4);
+            memcpy(&real_addr, &addr_LiWaitOneChunk, 4);
         }
         else
         {
@@ -1278,5 +1276,64 @@ void PatchMethodHooks(void)
         DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + real_addr), 4);
         ICInvalidateRange((void*)(real_addr), 4);
     }
+
+    //! TODO: Not sure if this is still needed at all after changing the SDK version in the xml struct, check that
+    if((OS_FIRMWARE == 532) || (OS_FIRMWARE == 540))
+    {
+        /* Patch to bypass SDK version tests */
+        *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x010095b4)) = 0x480000a0; // ble loc_1009654    (0x408100a0) => b loc_1009654      (0x480000a0)
+        *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x01009658)) = 0x480000e8; // bge loc_1009740    (0x408100a0) => b loc_1009740      (0x480000e8)
+        DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x010095b4), 4);
+        ICInvalidateRange((void*)(0x010095b4), 4);
+        DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x01009658), 4);
+        ICInvalidateRange((void*)(0x01009658), 4);
+    }
+    else if((OS_FIRMWARE == 500) || (OS_FIRMWARE == 510))
+    {
+        /* Patch to bypass SDK version tests */
+        *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x010091CC)) = 0x480000a0; // ble loc_1009654    (0x408100a0) => b loc_1009654      (0x480000a0)
+        *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x01009270)) = 0x480000e8; // bge loc_1009740    (0x408100a0) => b loc_1009740      (0x480000e8)
+        DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x010091CC), 4);
+        ICInvalidateRange((void*)(0x010091CC), 4);
+        DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x01009270), 4);
+        ICInvalidateRange((void*)(0x01009270), 4);
+    }
+    else if ((OS_FIRMWARE == 400) || (OS_FIRMWARE == 410))
+    {
+        /* Patch to bypass SDK version tests */
+        *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x01008DAC)) = 0x480000a0; // ble loc_1009654    (0x408100a0) => b loc_1009654      (0x480000a0)
+        *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x01008E50)) = 0x480000e8; // bge loc_1009740    (0x408100a0) => b loc_1009740      (0x480000e8)
+        DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x01008DAC), 4);
+        ICInvalidateRange((void*)(0x01008DAC), 4);
+        DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x01008E50), 4);
+        ICInvalidateRange((void*)(0x01008E50), 4);
+    }
+
     KernelRestoreDBATs(&table);
+}
+
+/* ****************************************************************** */
+/*                  RESTORE ORIGINAL INSTRUCTIONS                     */
+/* ****************************************************************** */
+void RestoreInstructions(void)
+{
+    bat_table_t table;
+    KernelSetDBATs(&table);
+
+    restore_instructions_t * restore = (restore_instructions_t *)(RESTORE_INSTR_ADDR);
+    if(restore->magic == RESTORE_INSTR_MAGIC)
+    {
+        for(unsigned int i = 0; i < restore->instr_count; i++)
+        {
+            *(volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + restore->data[i].addr) = restore->data[i].instr;
+            DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + restore->data[i].addr), 4);
+            ICInvalidateRange((void*)restore->data[i].addr, 4);
+        }
+
+    }
+    restore->magic = 0;
+    restore->instr_count = 0;
+
+    KernelRestoreDBATs(&table);
+    KernelRestoreInstructions();
 }

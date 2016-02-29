@@ -13,69 +13,34 @@
 #define CODE_RW_BASE_OFFSET                             0xC0000000
 #define DATA_RW_BASE_OFFSET                             0xC0000000
 
-#if VER == 550
-    #define KERN_SYSCALL_TBL_1		0xFFE84C70
-    #define KERN_SYSCALL_TBL_2		0xFFE85070
-    #define KERN_SYSCALL_TBL_3		0xFFE85470
-    #define KERN_SYSCALL_TBL_4		0xFFEAAA60
-    #define KERN_SYSCALL_TBL_5		0xFFEAAE60
-#elif ( (VER == 532) || (VER == 540) )
-    /* Patch coreinit - on 5.3.2 coreinit.rpl starts at 0x101c400 */
-    //{ Menu_Main, 0x0101c55c, 0x48000003 },           // bla Branch Link Address
-    #define ADDRESS_OSTitle_main_entry_ptr              0x1005d180 // MiiMaker_main
-    #define ADDRESS_main_entry_hook                     0x0101c55c // coreinit.rpl + 15C
-    #define ADDRESS_LiWaitOneChunk                      0x010007EC // loader.elf
-    #define ADDRESS_LiWaitIopComplete                   0x0100FFA4 // loader.elf
-    #define ADDRESS_LiWaitIopCompleteWithInterrupts     0x0100FE90 // loader.elf
+#if ( (VER == 532) || (VER == 540) )
+    #define ADDRESS_OSTitle_main_entry_ptr              0x1005D180
+    #define ADDRESS_main_entry_hook                     0x0101C55C
 
-    #define KERN_SYSCALL_TBL_1                          0xFFE84C70 //v:0xFFF0AE9C // unknown ## 84C70
-    #define KERN_SYSCALL_TBL_2                          0xFFE85070 //v:0xFFF0AE9C // works with games ## 85070
-    #define KERN_SYSCALL_TBL_3                          0xFFE85470 //v:0xFFF0AF5C // works with loader ## 85470
-    #define KERN_SYSCALL_TBL_4                          0xFFEA9CE0 //v:0xFFF0AE9C // works with home menu ## A9CE0
-    #define KERN_SYSCALL_TBL_5                          0xFFEAA0E0 //v:0xFFF0AE9C // works with browser (previously KERN_SYSCALL_TBL) ## AA0E0
+    #define KERN_SYSCALL_TBL_1                          0xFFE84C70 // unknown
+    #define KERN_SYSCALL_TBL_2                          0xFFE85070 // works with games
+    #define KERN_SYSCALL_TBL_3                          0xFFE85470 // works with loader
+    #define KERN_SYSCALL_TBL_4                          0xFFEA9CE0 // works with home menu
+    #define KERN_SYSCALL_TBL_5                          0xFFEAA0E0 // works with browser (previously KERN_SYSCALL_TBL)
 
-    #define PREP_TITLE_HOOK_ADDR                        0xFFF18558 //0xffe00000 118558
-    //.data:00118558                 clrlwi    r7, r12, 0
-    //.data:0011855C                 bl        sub_101890
-    
 #elif ( (VER == 500) || (VER == 510) )
-    /* Patch coreinit - on 5.1.0 coreinit.rpl starts at 0x101c000 */
-    //{ Menu_Main, 0x0101c15c, 0x48000003 },           // bla Branch Link Address
-    #define ADDRESS_OSTitle_main_entry_ptr              0x1005CB00 // MiiMaker_main
-    #define ADDRESS_main_entry_hook                     0x0101C15C // coreinit.rpl + 15C
-    #define ADDRESS_LiWaitOneChunk                      0x010007EC // loader.elf
-    #define ADDRESS_LiWaitIopComplete                   0x0100FBC4 // loader.elf
-    #define ADDRESS_LiWaitIopCompleteWithInterrupts     0x0100FAB0 // loader.elf
-    
-    #define KERN_SYSCALL_TBL_1                          0xFFE84C70  //ok v:0xFFF0ACE8 //0xFFE84C70 // unknown
-    #define KERN_SYSCALL_TBL_2                          0xFFE85070  //ok v:0xFFF0ACE8 //0xFFE85070 // works with games
-    #define KERN_SYSCALL_TBL_3                          0xFFE85470  //ok v:0xFFF0ADA4 //0xFFE85470 // works with loader
-    #define KERN_SYSCALL_TBL_4                          0xFFEA9120  //ok v:0xFFF0ACE8 //0xFFEA9CE0 // works with home menu
-    #define KERN_SYSCALL_TBL_5                          0xFFEA9520  //ok v:0xFFF0ACE8 //0xFFEAA0E0 // works with browser (previously KERN_SYSCALL_TBL) ## A9520
+    #define ADDRESS_OSTitle_main_entry_ptr              0x1005CB00
+    #define ADDRESS_main_entry_hook                     0x0101C15C
 
-    #define PREP_TITLE_HOOK_ADDR                        0xFFF18534 //0xffe00000 118534
-    //.data:00118534                 clrlwi    r7, r12, 0
-    //.data:00118538                 crclr     4*cr1+eq
-    //.data:0011853C                 bl        sub_10A8E0
+    #define KERN_SYSCALL_TBL_1                          0xFFE84C70 // unknown
+    #define KERN_SYSCALL_TBL_2                          0xFFE85070 // works with games
+    #define KERN_SYSCALL_TBL_3                          0xFFE85470 // works with loader
+    #define KERN_SYSCALL_TBL_4                          0xFFEA9120 // works with home menu
+    #define KERN_SYSCALL_TBL_5                          0xFFEA9520 // works with browser (previously KERN_SYSCALL_TBL)
     
 #elif ( (VER == 400) || (VER == 410) )
     #define ADDRESS_OSTitle_main_entry_ptr              0x1005A8C0
     #define ADDRESS_main_entry_hook                     0x0101BD4C
-    #define ADDRESS_LiWaitOneChunk                      0x010007F8
-    #define ADDRESS_LiWaitIopComplete                   0x0100F78C
-    #define ADDRESS_LiWaitIopCompleteWithInterrupts     0x0100F678
 
-    #define KERN_SYSCALL_TBL_1                          0xFFE84C90  //ok v:0xFFF0A02C //0xFFE84C70 // unknown
-    #define KERN_SYSCALL_TBL_2                          0xFFE85090  //ok v:0xFFF0A02C //0xFFE85070 // works with games
-    #define KERN_SYSCALL_TBL_3                          0xFFE85490  //ok v:0xFFF0A02C //0xFFE85470 // works with loader
-    //#define KERN_SYSCALL_TBL_4                          0xFFE85C90  //ok v:0xFFF0A08C //0xFFEA9CE0 // works with home menu //!! strange this is behind tbl5 but actually good for the real tbl5
-    #define KERN_SYSCALL_TBL_5                          0xFFE85890 //v:0xFFF0A02C works with browser //!! this could be tbl4 for actually
-
-    #define PREP_TITLE_HOOK_ADDR                        0xFFF166DC // 1166DC
-    //.data:001166DC                 clrlwi    r7, r12, 0
-    //.data:001166E0                 crclr     4*cr1+eq
-    //.data:001166E4                 bl        sub_109E38    
+    #define KERN_SYSCALL_TBL_5                          0xFFE85890 // works with browser
 #endif // VER
+
+    
 
 /* Install functions */
 static void InstallMain(private_data_t *private_data);
@@ -629,33 +594,4 @@ static void InstallPatches(private_data_t *private_data)
     // flush caches and invalidate instruction cache
     private_data->DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + repl_addr), 4);
     private_data->ICInvalidateRange((void*)(repl_addr), 4);
-
-    //! TODO: Not sure if this is still needed at all after changing the SDK version in the xml struct, check that
-#if ((VER == 532) || (VER == 540))
-    /* Patch to bypass SDK version tests */
-    *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x010095b4)) = 0x480000a0; // ble loc_1009654    (0x408100a0) => b loc_1009654      (0x480000a0)
-    *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x01009658)) = 0x480000e8; // bge loc_1009740    (0x408100a0) => b loc_1009740      (0x480000e8)
-    private_data->DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x010095b4), 4);
-    private_data->ICInvalidateRange((void*)(0x010095b4), 4);
-    private_data->DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x01009658), 4);
-    private_data->ICInvalidateRange((void*)(0x01009658), 4);
-#elif ((VER == 500) || (VER == 510))
-    /* Patch to bypass SDK version tests */
-    *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x010091CC)) = 0x480000a0; // ble loc_1009654    (0x408100a0) => b loc_1009654      (0x480000a0)
-    *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x01009270)) = 0x480000e8; // bge loc_1009740    (0x408100a0) => b loc_1009740      (0x480000e8)
-    private_data->DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x010091CC), 4);
-    private_data->ICInvalidateRange((void*)(0x010091CC), 4);
-    private_data->DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x01009270), 4);
-    private_data->ICInvalidateRange((void*)(0x01009270), 4);
-#elif ((VER == 400) || (VER == 410))
-    /* Patch to bypass SDK version tests */
-    *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x01008DAC)) = 0x480000a0; // ble loc_1009654    (0x408100a0) => b loc_1009654      (0x480000a0)
-    *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x01008E50)) = 0x480000e8; // bge loc_1009740    (0x408100a0) => b loc_1009740      (0x480000e8)
-    private_data->DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x01008DAC), 4);
-    private_data->ICInvalidateRange((void*)(0x01008DAC), 4);
-    private_data->DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x01008E50), 4);
-    private_data->ICInvalidateRange((void*)(0x01008E50), 4);
-#else
-    #ERROR  Please define an SDK check address.
-#endif
 }

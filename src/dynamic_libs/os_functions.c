@@ -86,6 +86,12 @@ EXPORT_DECL(void, MEMFreeToExpHeap, int heap, void* ptr);
 //!----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 EXPORT_DECL(int, LiWaitIopComplete, int unknown_syscall_arg_r3, int * remaining_bytes);
 EXPORT_DECL(int, LiWaitIopCompleteWithInterrupts, int unknown_syscall_arg_r3, int * remaining_bytes);
+EXPORT_DECL(void, addr_LiWaitOneChunk, void);
+
+//!----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//! Kernel function addresses
+//!----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+EXPORT_DECL(void, addr_PrepareTitle_hook, void);
 
 void InitOSFunctionPointers(void)
 {
@@ -95,9 +101,6 @@ void InitOSFunctionPointers(void)
     //!----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     EXPORT_FUNC_WRITE(OSDynLoad_Acquire, (int (*)(const char*, unsigned *))OS_SPECIFICS->addr_OSDynLoad_Acquire);
     EXPORT_FUNC_WRITE(OSDynLoad_FindExport, (int (*)(u32, int, const char *, void *))OS_SPECIFICS->addr_OSDynLoad_FindExport);
-
-    EXPORT_FUNC_WRITE(LiWaitIopComplete, (int (*)(int, int *))OS_SPECIFICS->addr_LiWaitIopComplete);
-    EXPORT_FUNC_WRITE(LiWaitIopCompleteWithInterrupts, (int (*)(int, int *))OS_SPECIFICS->addr_LiWaitIopCompleteWithInterrupts);
 
     OSDynLoad_Acquire("coreinit.rpl", &coreinit_handle);
 
@@ -147,5 +150,27 @@ void InitOSFunctionPointers(void)
     OS_FIND_EXPORT(coreinit_handle, MEMCreateExpHeapEx);
     OS_FIND_EXPORT(coreinit_handle, MEMDestroyExpHeap);
     OS_FIND_EXPORT(coreinit_handle, MEMFreeToExpHeap);
+
+    //!----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //! Special non library functions
+    //!----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    if(OS_FIRMWARE == 532 || OS_FIRMWARE == 540)
+    {
+        EXPORT_FUNC_WRITE(LiWaitIopComplete, (int (*)(int, int *))0x0100FFA4);
+        EXPORT_FUNC_WRITE(LiWaitIopCompleteWithInterrupts, (int (*)(int, int *))0x0100FE90);
+        EXPORT_FUNC_WRITE(addr_LiWaitOneChunk, (int (*)(int, int *))0x010007EC);
+        EXPORT_FUNC_WRITE(addr_PrepareTitle_hook, (int (*)(int, int *))0xFFF18558);
+    }
+    else if(OS_FIRMWARE == 500 || OS_FIRMWARE == 510)
+    {
+        EXPORT_FUNC_WRITE(LiWaitIopComplete, (int (*)(int, int *))0x0100FBC4);
+        EXPORT_FUNC_WRITE(LiWaitIopCompleteWithInterrupts, (int (*)(int, int *))0x0100FAB0);
+        EXPORT_FUNC_WRITE(addr_LiWaitOneChunk, (int (*)(int, int *))0x010007EC);
+        EXPORT_FUNC_WRITE(addr_PrepareTitle_hook, (int (*)(int, int *))0xFFF18534);
+    }
+    else
+    {
+        OSFatal("Missing all OS specific addresses.");
+    }
 }
 

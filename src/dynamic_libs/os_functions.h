@@ -108,8 +108,17 @@ extern int (* __os_snprintf)(char* s, int n, const char * format, ...);
 typedef unsigned char (*exception_callback)(void * interruptedContext);
 extern void (* OSSetExceptionCallback)(u8 exceptionType, exception_callback newCallback);
 
+//!----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//! LOADER functions
+//!----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 extern int (* LiWaitIopComplete)(int unknown_syscall_arg_r3, int * remaining_bytes);
 extern int (* LiWaitIopCompleteWithInterrupts)(int unknown_syscall_arg_r3, int * remaining_bytes);
+extern void (* addr_LiWaitOneChunk)(void);
+
+//!----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//! Kernel function addresses
+//!----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+extern void (* addr_PrepareTitle_hook)(void);
 
 
 #ifdef __cplusplus

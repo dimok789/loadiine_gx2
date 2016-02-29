@@ -14,9 +14,6 @@ static volatile int log_lock = 0;
 
 void log_init(const char * ipString)
 {
-    if(log_socket > 0)
-        return;
-
 	log_socket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 	if (log_socket < 0)
 		return;
