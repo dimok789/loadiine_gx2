@@ -474,7 +474,8 @@ static int sd_fat_stat_r (struct _reent *r, const char *path, struct stat *st)
         return -1;
     }
 
-    st->st_mode = (stats.flag & 0x80000000) ? S_IFDIR : S_IFREG;
+    // mark root also as directory
+    st->st_mode = ((stats.flag & 0x80000000) || (strlen(dev->mount_path) + 1 == strlen(real_path)))? S_IFDIR : S_IFREG;
     st->st_nlink = 1;
     st->st_size = stats.size;
     st->st_blocks = (stats.size + 511) >> 9;

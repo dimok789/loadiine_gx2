@@ -33,6 +33,12 @@ extern "C" {
 #define LOADIINE_MODE_KARAOKE       2
 #define LOADIINE_MODE_ART_ATELIER   3
 
+/* homebrew launcher return codes */
+#ifndef EXIT_SUCCESS
+#define EXIT_SUCCESS                0
+#endif
+#define EXIT_RELAUNCH_ON_LOAD       0xFFFFFFFD
+
 /* RPX Address : where the rpx is copied or retrieve, depends if we dump or replace */
 /* Note : from phys 0x30789C5D to 0x31E20000, memory seems empty (space reserved for root.rpx) which let us approximatly 22.5mB of memory free to put the rpx and additional rpls */
 #ifndef MEM_BASE

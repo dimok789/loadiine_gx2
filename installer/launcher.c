@@ -16,9 +16,6 @@
 #if ( (VER == 532) || (VER == 540) )
     #define ADDRESS_OSTitle_main_entry_ptr              0x1005d180
     #define ADDRESS_main_entry_hook                     0x0101c55c
-    #define ADDRESS_LiWaitOneChunk                      0x010007EC
-    #define ADDRESS_LiWaitIopComplete                   0x0100FFA4
-    #define ADDRESS_LiWaitIopCompleteWithInterrupts     0x0100FE90
 
     #define KERN_SYSCALL_TBL_1                          0xFFE84C70 // unknown
     #define KERN_SYSCALL_TBL_2                          0xFFE85070 // works with games
@@ -26,27 +23,16 @@
     #define KERN_SYSCALL_TBL_4                          0xFFEA9CE0 // works with home menu
     #define KERN_SYSCALL_TBL_5                          0xFFEAA0E0 // works with browser (previously KERN_SYSCALL_TBL)
 
-    #define PREP_TITLE_HOOK_ADDR                        0xFFF18558
 #elif ( (VER == 500) || (VER == 510) )
     #define ADDRESS_OSTitle_main_entry_ptr              0x1005CB00
     #define ADDRESS_main_entry_hook                     0x0101C15C
-    #define ADDRESS_LiWaitOneChunk                      0x010007EC
-    #define ADDRESS_LiWaitIopComplete                   0x0100FBC4
-    #define ADDRESS_LiWaitIopCompleteWithInterrupts     0x0100FAB0
 
     #define KERN_SYSCALL_TBL_5                          0xFFEA9520 // works with browser
-
-    #define PREP_TITLE_HOOK_ADDR                        0xFFF18534
 #elif ( (VER == 400) || (VER == 410) )
     #define ADDRESS_OSTitle_main_entry_ptr              0x1005A8C0
     #define ADDRESS_main_entry_hook                     0x0101BD4C
-    #define ADDRESS_LiWaitOneChunk                      0x010007F8
-    #define ADDRESS_LiWaitIopComplete                   0x0100F78C
-    #define ADDRESS_LiWaitIopCompleteWithInterrupts     0x0100F678
 
     #define KERN_SYSCALL_TBL_5                          0xFFE85890 // works with browser
-
-    #define PREP_TITLE_HOOK_ADDR                        0xFFF166DC
 #endif // VER
 
 /* Install functions */
@@ -594,33 +580,4 @@ static void InstallPatches(private_data_t *private_data)
     // flush caches and invalidate instruction cache
     private_data->DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + repl_addr), 4);
     private_data->ICInvalidateRange((void*)(repl_addr), 4);
-
-    //! TODO: Not sure if this is still needed at all after changing the SDK version in the xml struct, check that
-#if ((VER == 532) || (VER == 540))
-    /* Patch to bypass SDK version tests */
-    *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x010095b4)) = 0x480000a0; // ble loc_1009654    (0x408100a0) => b loc_1009654      (0x480000a0)
-    *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x01009658)) = 0x480000e8; // bge loc_1009740    (0x408100a0) => b loc_1009740      (0x480000e8)
-    private_data->DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x010095b4), 4);
-    private_data->ICInvalidateRange((void*)(0x010095b4), 4);
-    private_data->DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x01009658), 4);
-    private_data->ICInvalidateRange((void*)(0x01009658), 4);
-#elif ((VER == 500) || (VER == 510))
-    /* Patch to bypass SDK version tests */
-    *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x010091CC)) = 0x480000a0; // ble loc_1009654    (0x408100a0) => b loc_1009654      (0x480000a0)
-    *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x01009270)) = 0x480000e8; // bge loc_1009740    (0x408100a0) => b loc_1009740      (0x480000e8)
-    private_data->DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x010091CC), 4);
-    private_data->ICInvalidateRange((void*)(0x010091CC), 4);
-    private_data->DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x01009270), 4);
-    private_data->ICInvalidateRange((void*)(0x01009270), 4);
-#elif ((VER == 400) || (VER == 410))
-    /* Patch to bypass SDK version tests */
-    *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x01008DAC)) = 0x480000a0; // ble loc_1009654    (0x408100a0) => b loc_1009654      (0x480000a0)
-    *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x01008E50)) = 0x480000e8; // bge loc_1009740    (0x408100a0) => b loc_1009740      (0x480000e8)
-    private_data->DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x01008DAC), 4);
-    private_data->ICInvalidateRange((void*)(0x01008DAC), 4);
-    private_data->DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x01008E50), 4);
-    private_data->ICInvalidateRange((void*)(0x01008E50), 4);
-#else
-    #ERROR  Please define an SDK check address.
-#endif
 }
