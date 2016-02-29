@@ -149,6 +149,8 @@ void GuiIconCarousel::setSelectedGame(int selectedIdx)
 
     circleTargetPosition = 360.0f - selectedIdx * 360.0f / (radiusScale * gameIcons.size());
 
+    selectedGame = selectedIdx;
+
     f32 angleDiff = (circleTargetPosition - circlePosition);
     if(angleDiff > 180.0f)
         circleTargetPosition -= 360.0f;
@@ -219,7 +221,7 @@ void GuiIconCarousel::OnTouchHold(GuiButton *button, const GuiController *contro
         return;
     }
 
-    circlePosition -= degreeAdd;
+    circlePosition += degreeAdd;
     circleTargetPosition = circlePosition;
 
     lastPosition.x = controller->data.x;
@@ -309,7 +311,7 @@ void GuiIconCarousel::OnDPADClick(GuiButton *button, const GuiController *contro
     }
 }
 
-void GuiIconCarousel::OnLeftClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
+void GuiIconCarousel::OnRightClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
     int sel = getSelectedGame() + 1;
     if(sel >= (int)GameList::instance()->size())
@@ -319,7 +321,7 @@ void GuiIconCarousel::OnLeftClick(GuiButton *button, const GuiController *contro
     gameSelectionChanged(this, sel);
 }
 
-void GuiIconCarousel::OnRightClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
+void GuiIconCarousel::OnLeftClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
     int sel = getSelectedGame() - 1;
     if(sel < 0 && (GameList::instance()->size() > 1))
@@ -329,7 +331,7 @@ void GuiIconCarousel::OnRightClick(GuiButton *button, const GuiController *contr
     gameSelectionChanged(this, sel);
 }
 
-void GuiIconCarousel::OnLeftSkipClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
+void GuiIconCarousel::OnRightSkipClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
 	if((int)GameList::instance()->size() > 5){
 		int sel = getSelectedGame() + 5;
@@ -341,7 +343,7 @@ void GuiIconCarousel::OnLeftSkipClick(GuiButton *button, const GuiController *co
 	}
 }
 
-void GuiIconCarousel::OnRightSkipClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
+void GuiIconCarousel::OnLeftSkipClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
 	if((int)GameList::instance()->size() > 5){
 		int sel = getSelectedGame() - 5;
@@ -360,11 +362,33 @@ void GuiIconCarousel::updateDrawMap(void)
     std::multimap< float, std::pair<float, int> >::const_iterator itr;
     size_t i;
 
+    float gamecircledist = 360.0f / (radiusScale * gameIcons.size());
+
+    // angle for calculation ofselected game
+    float circleTargetSelectedPosition = 720.0f - circleTargetPosition;
+    //! normalize to postiv 360° value
+    if(circleTargetSelectedPosition < 0.0f)
+        circleTargetSelectedPosition += 360.0f;
+    circleTargetSelectedPosition = ((int)(circleTargetSelectedPosition + 0.5f)) % 360;
+
+    // calculate new index of selected game
+    int newIdx = (int)(((circleTargetSelectedPosition) / gamecircledist) + 0.5f);
+
+    // from the middle of each distance the next item is selected
+    // there is a gap in the calculation between highest index and index 0
+    // so from the middle between items with highest index and index 0 to item index 0
+    // the calculated index is equal gameIcons.size() which has to be set to 0
+    if (newIdx == (int)(gameIcons.size()))
+    {
+        newIdx = 0;
+    }
+    selectedGame = newIdx;
+
     for(i = 0; i < gameIcons.size(); i++)
     {
         int idx = i;
 
-        float currDegree = DegToRad(360.0f / (radiusScale * gameIcons.size()) * i + circlePosition + 90.0f);
+        float currDegree = DegToRad(450.0f - (gamecircledist * i + circlePosition));
         float posX = radiusScale * circleRadius * cosf(currDegree);
         float posZ = radiusScale * circleRadius * sinf(currDegree) + RADIUS - gameIcons.size() * (RADIUS / 12.0f);
         drawMap.insert(std::pair<float, std::pair<float, int> >(posZ, std::pair<float, int>(posX, i)));
@@ -382,17 +406,22 @@ void GuiIconCarousel::updateDrawMap(void)
         gameIcons[idx]->setRenderReflection(true);
         gameIcons[idx]->setRotationX(-cam_X_rot);
         gameIcons[idx]->setPosition(posX * width * 0.5f, Yoffset * height * 0.5f, posZ * width * 0.5f);
+
+        if (idx == selectedGame)
+        {
+            gameIcons[idx]->setSelected(true);
+        }
+        else
+        {
+            gameIcons[idx]->setSelected(false);
+        }
     }
 
     for(itr = drawMap.begin(), i = 0; itr != drawMap.end(); i++, itr++)
     {
         int idx = itr->second.second;
 
-        itr++;
-        bool bSelected = (itr == drawMap.end());
-        itr--;
-
-        if(!bSelected)
+        if(!gameIcons[idx]->getSelected())
         {
             float rgbReduction = 0.8f;
             glm::vec4 intensity = gameIcons[idx]->getColorIntensity();
@@ -401,7 +430,6 @@ void GuiIconCarousel::updateDrawMap(void)
         else
         {
             gameTitle.setText(GameList::instance()->at(idx)->name.c_str());
-
             if(selectedGame != idx || !bgUsedImageDataAsync)
             {
                 selectedGame = idx;
@@ -428,7 +456,6 @@ void GuiIconCarousel::updateDrawMap(void)
         }
 
         drawOrder[i] = idx;
-        gameIcons[idx]->setSelected(bSelected);
     }
 }
 
