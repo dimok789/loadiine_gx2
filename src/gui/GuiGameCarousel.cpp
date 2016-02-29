@@ -39,8 +39,8 @@
 /**
  * Constructor for the GuiGameCarousel class.
  */
-GuiGameCarousel::GuiGameCarousel(int w, int h, int offset)
-    : GuiGameBrowser(w, h)
+GuiGameCarousel::GuiGameCarousel(int w, int h, int GameIndex)
+    : GuiGameBrowser(w, h, GameIndex)
     , buttonClickSound(Resources::GetSound("button_click.mp3"))
     , noCover(Resources::GetFile("noCover.png"), Resources::GetFileSize("noCover.png"))
     , gameTitle((char*)NULL, 52, glm::vec4(1.0f))
@@ -62,48 +62,49 @@ GuiGameCarousel::GuiGameCarousel(int w, int h, int offset)
 	listOffset = 0;
 	refreshDrawMap = true;
 	selectable = true;
-	selectedGame = 0;
+	selectedGame = GameIndex;
 	selectedGameOnDragStart = 0;
 	bWasDragging = false;
+
 
 	lastTouchDifference = 0;
 	gameLaunchTimer = 0;
 	touchClickDelay = 0;
-    circleRotationSpeed = 0.0f;
-    circleSpeedLimit = 1.8f;
-    startRotationDistance = 0.0f;
-    currDegree = 0.0f;
-    destDegree = 0.0f;
+  circleRotationSpeed = 0.0f;
+  circleSpeedLimit = 1.8f;
+  startRotationDistance = 0.0f;
+  destDegree = 90.0f + selectedGame * DEG_OFFSET;
+  currDegree = destDegree;
 	speed = 0;
 
-    this->append(&particleBgImage);
+  this->append(&particleBgImage);
 
 	game.resize(pagesize);
 	drawOrder.resize(pagesize);
 	coverImg.resize(pagesize);
 
-    touchButton.setAlignment(ALIGN_LEFT | ALIGN_TOP);
-    touchButton.setTrigger(&touchTrigger);
-    touchButton.setTrigger(&wpadTouchTrigger);
-    touchButton.setClickable(true);
-    touchButton.setHoldable(true);
-    touchButton.clicked.connect(this, &GuiGameCarousel::OnTouchClick);
-    touchButton.held.connect(this, &GuiGameCarousel::OnTouchHold);
-    touchButton.released.connect(this, &GuiGameCarousel::OnTouchRelease);
-    this->append(&touchButton);
+  touchButton.setAlignment(ALIGN_LEFT | ALIGN_TOP);
+  touchButton.setTrigger(&touchTrigger);
+  touchButton.setTrigger(&wpadTouchTrigger);
+  touchButton.setClickable(true);
+  touchButton.setHoldable(true);
+  touchButton.clicked.connect(this, &GuiGameCarousel::OnTouchClick);
+  touchButton.held.connect(this, &GuiGameCarousel::OnTouchHold);
+  touchButton.released.connect(this, &GuiGameCarousel::OnTouchRelease);
+  this->append(&touchButton);
 
-    DPADButtons.setTrigger(&buttonATrigger);
-    DPADButtons.setTrigger(&buttonLTrigger);
-    DPADButtons.setTrigger(&buttonRTrigger);
-    DPADButtons.setTrigger(&buttonLeftTrigger);
-    DPADButtons.setTrigger(&buttonRightTrigger);
-    DPADButtons.clicked.connect(this, &GuiGameCarousel::OnDPADClick);
-    append(&DPADButtons);
+  DPADButtons.setTrigger(&buttonATrigger);
+  DPADButtons.setTrigger(&buttonLTrigger);
+  DPADButtons.setTrigger(&buttonRTrigger);
+  DPADButtons.setTrigger(&buttonLeftTrigger);
+  DPADButtons.setTrigger(&buttonRightTrigger);
+  DPADButtons.clicked.connect(this, &GuiGameCarousel::OnDPADClick);
+  append(&DPADButtons);
 
-    gameTitle.setPosition(0, -320);
-    gameTitle.setBlurGlowColor(5.0f, glm::vec4(0.109804, 0.6549, 1.0f, 1.0f));
-    gameTitle.setMaxWidth(900, GuiText::DOTTED);
-    append(&gameTitle);
+  gameTitle.setPosition(0, -320);
+  gameTitle.setBlurGlowColor(5.0f, glm::vec4(0.109804, 0.6549, 1.0f, 1.0f));
+  gameTitle.setMaxWidth(900, GuiText::DOTTED);
+  append(&gameTitle);
 
 	refresh();
 }
@@ -196,11 +197,12 @@ void GuiGameCarousel::refresh()
         drawOrder[i] = i;
 	}
 
-    currDegree = 270.0f + pagesize * 0.5f * DEG_OFFSET - 0.5f * DEG_OFFSET;
-    destDegree = 90.0f + pagesize * 0.5f * DEG_OFFSET - 0.5f * DEG_OFFSET;
-    selectedGame = (int)((pagesize * 0.5f) + 0.5f); // round to nearest
+//    currDegree = 270.0f + pagesize * 0.5f * DEG_OFFSET - 0.5f * DEG_OFFSET;
+//    destDegree = 90.0f + pagesize * 0.5f * DEG_OFFSET - 0.5f * DEG_OFFSET;
+//    selectedGame = (int)((pagesize * 0.5f) + 0.5f); // round to nearest
 
     loadBgImage(selectedGame);
+    setSelectedGame(selectedGame);
 }
 
 void GuiGameCarousel::OnGameButtonClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)

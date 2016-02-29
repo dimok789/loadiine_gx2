@@ -108,6 +108,11 @@ void CSettings::SetDefault()
     settingsNames[DebugLoggerIP] = "DebugLoggerIP";
     settingsValues[DebugLoggerIP].dataType = TypeString;
     settingsValues[DebugLoggerIP].strValue = new std::string("192.168.178.3");
+    	
+    settingsNames[GameStartIndex] = "GameStartIndex";
+    settingsValues[GameStartIndex].dataType = TypeU16;
+    settingsValues[GameStartIndex].uiValue = 0;
+    	
 }
 
 bool CSettings::Load()
