@@ -7,7 +7,6 @@
 #include "../src/common/common.h"
 #include "../src/common/os_defs.h"
 #include "../../libwiiu/src/coreinit.h"
-#include "logger.h"
 
 //! this shouldnt depend on OS
 #define LIB_CODE_RW_BASE_OFFSET                         0xC1000000
@@ -538,12 +537,11 @@ static void InstallMain(private_data_t *private_data)
         private_data->DCFlushRange((void*)(CODE_RW_BASE_OFFSET + main_text_addr), main_text_len);
         private_data->ICInvalidateRange((void*)(main_text_addr), main_text_len);
     }
-    else ExitFailure(private_data, "InstallMain: Error on section .text");
 
     // get the .rodata section
     unsigned int main_rodata_addr = 0;
     unsigned int main_rodata_len = 0;
-    section_offset = get_section(private_data, private_data->data_elf, ".rodata", &main_rodata_len, &main_rodata_addr, 1);
+    section_offset = get_section(private_data, private_data->data_elf, ".rodata", &main_rodata_len, &main_rodata_addr, 0);
     if(section_offset > 0)
     {
         unsigned char *main_rodata = private_data->data_elf + section_offset;
@@ -551,12 +549,11 @@ static void InstallMain(private_data_t *private_data)
         private_data->memcpy((void*)(DATA_RW_BASE_OFFSET + main_rodata_addr), main_rodata, main_rodata_len);
         private_data->DCFlushRange((void*)(DATA_RW_BASE_OFFSET + main_rodata_addr), main_rodata_len);
     }
-    else ExitFailure(private_data, "InstallMain: Error on section .rodata");
 
     // get the .data section
     unsigned int main_data_addr = 0;
     unsigned int main_data_len = 0;
-    section_offset = get_section(private_data, private_data->data_elf, ".data", &main_data_len, &main_data_addr, 1);
+    section_offset = get_section(private_data, private_data->data_elf, ".data", &main_data_len, &main_data_addr, 0);
     if(section_offset > 0)
     {
         unsigned char *main_data = private_data->data_elf + section_offset;
@@ -564,19 +561,17 @@ static void InstallMain(private_data_t *private_data)
         private_data->memcpy((void*)(DATA_RW_BASE_OFFSET + main_data_addr), main_data, main_data_len);
         private_data->DCFlushRange((void*)(DATA_RW_BASE_OFFSET + main_data_addr), main_data_len);
     }
-    else ExitFailure(private_data, "InstallMain: Error on section .data");
 
     // get the .bss section
     unsigned int main_bss_addr = 0;
     unsigned int main_bss_len = 0;
-    section_offset = get_section(private_data, private_data->data_elf, ".bss", &main_bss_len, &main_bss_addr, 1);
+    section_offset = get_section(private_data, private_data->data_elf, ".bss", &main_bss_len, &main_bss_addr, 0);
     if(section_offset > 0)
     {
         /* Copy main data to memory */
         private_data->memset((void*)(DATA_RW_BASE_OFFSET + main_bss_addr), 0, main_bss_len);
         private_data->DCFlushRange((void*)(DATA_RW_BASE_OFFSET + main_bss_addr), main_bss_len);
     }
-    else ExitFailure(private_data, "InstallMain: Error on section .bss");
 }
 
 /* ****************************************************************** */

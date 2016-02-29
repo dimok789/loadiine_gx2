@@ -17,7 +17,6 @@
 #ifndef _AXSOUND_H_
 #define _AXSOUND_H_
 
-#include "utils/logger.h"
 #include "dynamic_libs/os_functions.h"
 #include "dynamic_libs/ax_functions.h"
 
