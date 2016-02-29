@@ -53,8 +53,7 @@ DATA		:=	data \
 				data/fonts \
 				data/sounds
 
-INCLUDES	:=  src \
-				libs
+INCLUDES	:=  src
 
 #---------------------------------------------------------------------------------
 # options for code generation
