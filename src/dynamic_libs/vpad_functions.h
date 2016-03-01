@@ -90,9 +90,12 @@ typedef struct
     char unknowna4[0xac - 0xa4];
 } VPADData;
 
+extern unsigned int vpad_handle;
 void InitVPadFunctionPointers(void);
 
 extern void (* VPADRead)(int chan, VPADData *buffer, u32 buffer_size, s32 *error);
+extern int (* VPADGetLcdMode)(int padnum, int *lcdmode);
+extern int (* VPADSetLcdMode)(int padnum, int lcdmode);
 
 #ifdef __cplusplus
 }
