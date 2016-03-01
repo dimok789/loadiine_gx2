@@ -32,6 +32,13 @@
 #include "Mp3Decoder.hpp"
 #include "OggDecoder.hpp"
 
+#if (VER < 532)
+    // deleting the last voice from the decoder produced DSI errors on 5.0.0 so we skip it
+    #define VOICE_DELETE_SKIP  1
+#else
+    #define VOICE_DELETE_SKIP  0
+#endif
+
 SoundHandler * SoundHandler::handlerInstance = NULL;
 
 SoundHandler::SoundHandler()
@@ -256,7 +263,7 @@ void SoundHandler::executeThread()
     AXRegisterFrameCallback(NULL);
     AXQuit();
 
-	for(u32 i = 0; i < MAX_DECODERS; ++i)
+	for(u32 i = 0; i < MAX_DECODERS - VOICE_DELETE_SKIP; ++i)
     {
         delete voiceList[i];
         voiceList[i] = NULL;
