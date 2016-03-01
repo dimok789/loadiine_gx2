@@ -14,8 +14,8 @@
 #define DATA_RW_BASE_OFFSET                             0xC0000000
 
 #if ( (VER == 532) || (VER == 540) )
-    #define ADDRESS_OSTitle_main_entry_ptr              0x1005d180
-    #define ADDRESS_main_entry_hook                     0x0101c55c
+    #define ADDRESS_OSTitle_main_entry_ptr              0x1005D180
+    #define ADDRESS_main_entry_hook                     0x0101C55C
 
     #define KERN_SYSCALL_TBL_1                          0xFFE84C70 // unknown
     #define KERN_SYSCALL_TBL_2                          0xFFE85070 // works with games
@@ -27,7 +27,12 @@
     #define ADDRESS_OSTitle_main_entry_ptr              0x1005CB00
     #define ADDRESS_main_entry_hook                     0x0101C15C
 
-    #define KERN_SYSCALL_TBL_5                          0xFFEA9520 // works with browser
+    #define KERN_SYSCALL_TBL_1                          0xFFE84C70 // unknown
+    #define KERN_SYSCALL_TBL_2                          0xFFE85070 // works with games
+    #define KERN_SYSCALL_TBL_3                          0xFFE85470 // works with loader
+    #define KERN_SYSCALL_TBL_4                          0xFFEA9120 // works with home menu
+    #define KERN_SYSCALL_TBL_5                          0xFFEA9520 // works with browser (previously KERN_SYSCALL_TBL)
+
 #elif ( (VER == 400) || (VER == 410) )
     #define ADDRESS_OSTitle_main_entry_ptr              0x1005A8C0
     #define ADDRESS_main_entry_hook                     0x0101BD4C
@@ -40,7 +45,6 @@ static void InstallMain(private_data_t *private_data);
 static void InstallPatches(private_data_t *private_data);
 static void ExitFailure(private_data_t *private_data, const char *failure);
 
-static int show_install_menu(unsigned int coreinit_handle, unsigned int *ip_address);
 static void curl_thread_callback(int argc, void *argv);
 
 static void SetupKernelSyscall(unsigned int addr);
@@ -99,24 +103,6 @@ void __main(void)
     OSDynLoad_FindExport(coreinit_handle, 0, "OSAllocFromSystem", &OSAllocFromSystem);
     OSDynLoad_FindExport(coreinit_handle, 0, "OSFreeToSystem", &OSFreeToSystem);
 
-    /* Send restart signal to get rid of uneeded threads */
-    /* Cause the other browser threads to exit */
-    int fd = IM_Open();
-    void *mem = OSAllocFromSystem(0x100, 64);
-    if(!mem)
-        ExitFailure(&private_data, "Not enough memory. Exit and re-enter browser.");
-
-    private_data.memset(mem, 0, 0x100);
-
-    /* Sets wanted flag */
-    IM_SetDeviceState(fd, mem, 3, 0, 0);
-    IM_Close(fd);
-    OSFreeToSystem(mem);
-
-    /* Waits for thread exits */
-    unsigned int t1 = 0x1FFFFFFF;
-    while(t1--) ;
-
     /* Prepare for thread startups */
     int (*OSCreateThread)(void *thread, void *entry, int argc, void *args, unsigned int stack, unsigned int stack_size, int priority, unsigned short attr);
     int (*OSResumeThread)(void *thread);
@@ -159,6 +145,24 @@ void __main(void)
         "    nop\n"
         );
     }
+
+    /* Send restart signal to get rid of uneeded threads */
+    /* Cause the other browser threads to exit */
+    int fd = IM_Open();
+    void *mem = OSAllocFromSystem(0x100, 64);
+    if(!mem)
+        ExitFailure(&private_data, "Not enough memory. Exit and re-enter browser.");
+
+    private_data.memset(mem, 0, 0x100);
+
+    /* Sets wanted flag */
+    IM_SetDeviceState(fd, mem, 3, 0, 0);
+    IM_Close(fd);
+    OSFreeToSystem(mem);
+
+    /* Waits for thread exits */
+    unsigned int t1 = 0xFFFFFFFF;
+    while(t1--) ;
 
     /* Install our code now */
     InstallMain(&private_data);
@@ -571,9 +575,17 @@ static void InstallPatches(private_data_t *private_data)
 
     //! at this point we dont need to check header and stuff as it is sure to be OK
     Elf32_Ehdr *ehdr = (Elf32_Ehdr *) private_data->data_elf;
+    
+    if (!IS_ELF (*ehdr)
+        || (ehdr->e_type != ET_EXEC)
+        || (ehdr->e_machine != EM_PPC))
+    {
+        ExitFailure(private_data, "Download is Invalid elf file");
+    }
+    
     unsigned int mainEntryPoint = ehdr->e_entry;
 
-    //! Install out entry point hook
+    //! Install our entry point hook
     unsigned int repl_addr = ADDRESS_main_entry_hook;
     unsigned int jump_addr = mainEntryPoint & 0x03fffffc;
     *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + repl_addr)) = 0x48000003 | jump_addr;
