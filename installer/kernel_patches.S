@@ -1,21 +1,33 @@
 #if ((VER == 532) || (VER == 540))
-    #define BAT_SETUP_HOOK_ADDR         0xFFF1D638
+    #define BAT_SETUP_HOOK_ADDR         0xFFF1D638 //0xffe00000 11D638
 
     # not all of those NOP address are required for every firmware
     # mainly these should stop the kernel from removing our IBAT4 and DBAT5
-    #define BAT_SET_NOP_ADDR_1          0xFFF06A14
-    #define BAT_SET_NOP_ADDR_2          0xFFF06AA0
-    #define BAT_SET_NOP_ADDR_3          0xFFF003C8
-    #define BAT_SET_NOP_ADDR_4          0xFFF003CC
-    #define BAT_SET_NOP_ADDR_5          0xFFF1D720
-    #define BAT_SET_NOP_ADDR_6          0xFFF1D73C
-    #define BAT_SET_NOP_ADDR_7          0xFFF1D840
-
-    #define BAT_SET_NOP_ADDR_8          0xFFEE10B8
-    #define BAT_SET_NOP_ADDR_9          0xFFEE10BC
+    # note: kernel.elf memory offset 0xffe00000
+    #define BAT_SET_NOP_ADDR_1          0xFFF06A14 //106A14
+    #define BAT_SET_NOP_ADDR_2          0xFFF06AA0 //106AA0
+    #define BAT_SET_NOP_ADDR_3          0xFFF003C8 //1003C8
+    #define BAT_SET_NOP_ADDR_4          0xFFF003CC //1003CC
+    #define BAT_SET_NOP_ADDR_5          0xFFF1D720 //11D720
+    #define BAT_SET_NOP_ADDR_6          0xFFF1D73C //11D73C
+    #define BAT_SET_NOP_ADDR_7          0xFFF1D840 //11D840
+    
+    #define BAT_SET_NOP_ADDR_8          0xFFEE10B8 //E10B8
+    #define BAT_SET_NOP_ADDR_9          0xFFEE10BC //E10BC
 
 #elif ((VER == 500) || (VER == 510))
-    #define BAT_SETUP_HOOK_ADDR         0xFFF1D518
+    #define BAT_SETUP_HOOK_ADDR         0xFFF1D518 //11D518 ok 532:sub_11D50C = 500:sub_11D3EC  diff=120
+    
+    #define BAT_SET_NOP_ADDR_1          0xFFF0697C //10697C ok 532:sub_1069E0 = 500:sub_106948
+    #define BAT_SET_NOP_ADDR_2          0xFFF06A08 //106A08 ok 532:loc_106A60 = 500:loc_1069C8
+    #define BAT_SET_NOP_ADDR_3          0xFFF003C8 //1003C8 ok 532:loc_100274 = 500:loc_100274
+    #define BAT_SET_NOP_ADDR_4          0xFFF003CC //1003CC ok 532:loc_100274 = 500:loc_100274
+    #define BAT_SET_NOP_ADDR_5          0xFFF1D600 //11D600 ok 532:sub_11D688 = 500:sub_11D568 
+    #define BAT_SET_NOP_ADDR_6          0xFFF1D61C //11D61C ok 532:sub_11D688 = 500:sub_11D568
+    #define BAT_SET_NOP_ADDR_7          0xFFF1D720 //11D720 ok 532:sub_11D828 = 500:sub_11D708
+    
+    #define BAT_SET_NOP_ADDR_8          0xFFEE10B8 //E10B8 532:loc_E10B4 = 500:loc_E10B4
+    #define BAT_SET_NOP_ADDR_9          0xFFEE10BC //E10BC 532:loc_E10B4 = 500:loc_E10B4
 #elif ( (VER == 400) || (VER == 410) )
     #define BAT_SETUP_HOOK_ADDR         0xFFF1AD00
 #else
