@@ -8,6 +8,9 @@
 
 int __entry_menu(int argc, char **argv)
 {
+    //! resolve original entry to main (pointer to a function)
+    int (* OSTitle_main_entry)(int argc, char **argv) = (int (*)(int, char **))(*(volatile unsigned int*)OS_SPECIFICS->addr_OSTitle_main_entry);
+    
     //! *******************************************************************
     //! *              Check if our application is started                *
     //! *******************************************************************
@@ -16,6 +19,7 @@ int __entry_menu(int argc, char **argv)
         OSGetTitleID() != 0x000500101004A100 && // mii maker usa
         OSGetTitleID() != 0x000500101004A000)   // mii maker jpn
     {
+        OSTitle_main_entry(argc, argv);
         return EXIT_RELAUNCH_ON_LOAD;
     }
 
@@ -24,7 +28,10 @@ int __entry_menu(int argc, char **argv)
     //!*******************************************************************
     // check if game is launched, if yes continue coreinit process
     if ((GAME_LAUNCHED == 1) && (LOADIINE_MODE == LOADIINE_MODE_MII_MAKER))
+    {
+        OSTitle_main_entry(argc, argv);
         return EXIT_RELAUNCH_ON_LOAD;
+    }
 
     //! *******************************************************************
     //! *                     Setup EABI registers                        *
