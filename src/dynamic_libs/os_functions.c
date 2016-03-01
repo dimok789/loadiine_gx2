@@ -161,6 +161,13 @@ void InitOSFunctionPointers(void)
         EXPORT_FUNC_WRITE(addr_LiWaitOneChunk, (int (*)(int, int *))0x010007EC);
         EXPORT_FUNC_WRITE(addr_PrepareTitle_hook, (int (*)(int, int *))0xFFF18558);
     }
+    else if(OS_FIRMWARE == 500 || OS_FIRMWARE == 510)
+    {
+        EXPORT_FUNC_WRITE(LiWaitIopComplete, (int (*)(int, int *))0x0100FBC4);
+        EXPORT_FUNC_WRITE(LiWaitIopCompleteWithInterrupts, (int (*)(int, int *))0x0100FAB0);
+        EXPORT_FUNC_WRITE(addr_LiWaitOneChunk, (int (*)(int, int *))0x010007EC);
+        EXPORT_FUNC_WRITE(addr_PrepareTitle_hook, (int (*)(int, int *))0xFFF18534);
+    }
     else
     {
         OSFatal("Missing all OS specific addresses.");
