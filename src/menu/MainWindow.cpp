@@ -184,6 +184,9 @@ void MainWindow::drawTv(CVideo *video)
 
 void MainWindow::SetupMainView()
 {
+    if(CSettings::getValueAsU16(CSettings::GameStartIndex) > GameList::instance()->size())
+        CSettings::setValueAsU16(CSettings::GameStartIndex,0);
+
     switch(CSettings::getValueAsU8(CSettings::GameViewModeTv))
     {
         case VIEW_ICON_GRID: {
