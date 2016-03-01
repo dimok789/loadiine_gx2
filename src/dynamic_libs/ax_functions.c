@@ -44,6 +44,9 @@ EXPORT_DECL(void, AXRegisterFrameCallback, void * callback);
 EXPORT_DECL(u32, AXGetVoiceLoopCount, void *v);
 EXPORT_DECL(void, AXSetVoiceEndOffset, void *v, u32 offset);
 EXPORT_DECL(void, AXSetVoiceLoopOffset, void *v, u32 offset);
+EXPORT_DECL(BOOL, AXVoiceIsProtected, void *v);
+EXPORT_DECL(BOOL, AXIsVoiceRunning, void *v);
+
 
 void InitAXFunctionPointers(void)
 {
@@ -70,5 +73,7 @@ void InitAXFunctionPointers(void)
     OS_FIND_EXPORT(sound_handle, AXGetVoiceLoopCount);
     OS_FIND_EXPORT(sound_handle, AXSetVoiceEndOffset);
     OS_FIND_EXPORT(sound_handle, AXSetVoiceLoopOffset);
+    OS_FIND_EXPORT(sound_handle, AXVoiceIsProtected);
+    OS_FIND_EXPORT(sound_handle, AXIsVoiceRunning);
 }
 
