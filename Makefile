@@ -16,14 +16,6 @@ export PORTLIBS		:=	$(DEVKITPRO)/portlibs/ppc
 
 PREFIX	:=	powerpc-eabi-
 
-FIRMWARE	:=	532
-
-SETUP_FLAGS := -DVER=$(FIRMWARE)
-
-ifeq ($(shell test $(FIRMWARE) -gt 510; echo $$?),0) #if (VER > 510)
-    SETUP_FLAGS += -DLOADIINE_USE_AUTOCONNECT
-endif
-
 export AS	:=	$(PREFIX)as
 export CC	:=	$(PREFIX)gcc
 export CXX	:=	$(PREFIX)g++
@@ -67,9 +59,9 @@ INCLUDES	:=  src
 # options for code generation
 #---------------------------------------------------------------------------------
 CFLAGS	:=  -std=gnu11 -mrvl -mcpu=750 -meabi -mhard-float -ffast-math \
-		    -O3 -Wall -Wextra -Wno-unused-parameter -Wno-strict-aliasing $(SETUP_FLAGS) $(INCLUDE)
+		    -O3 -Wall -Wextra -Wno-unused-parameter -Wno-strict-aliasing $(INCLUDE)
 CXXFLAGS := -std=gnu++11 -mrvl -mcpu=750 -meabi -mhard-float -ffast-math \
-		    -O3 -Wall -Wextra -Wno-unused-parameter -Wno-strict-aliasing $(SETUP_FLAGS) $(INCLUDE)
+		    -O3 -Wall -Wextra -Wno-unused-parameter -Wno-strict-aliasing $(INCLUDE)
 ASFLAGS	:= -mregnames
 LDFLAGS	:= -nostartfiles -Wl,-Map,$(notdir $@).map,-wrap,malloc,-wrap,free,-wrap,memalign,-wrap,calloc,-wrap,realloc,-wrap,malloc_usable_size,-wrap,_malloc_r,-wrap,_free_r,-wrap,_realloc_r,-wrap,_calloc_r,-wrap,_memalign_r,-wrap,_malloc_usable_size_r,-wrap,valloc,-wrap,_valloc_r,-wrap,_pvalloc_r,--gc-sections
 
@@ -142,7 +134,7 @@ export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib) \
 					-L$(LIBOGC_LIB) -L$(PORTLIBS)/lib
 
 export OUTPUT	:=	$(CURDIR)/$(TARGET)
-.PHONY: $(BUILD) clean print install
+.PHONY: $(BUILD) clean install
 
 #---------------------------------------------------------------------------------
 $(BUILD):
@@ -153,12 +145,6 @@ $(BUILD):
 clean:
 	@echo clean ...
 	@rm -fr $(BUILD) $(OUTPUT).elf $(OUTPUT).bin $(BUILD_DBG).elf
-
-#---------------------------------------------------------------------------------
-print:
-	@echo "SETUP_FLAGS   = $(SETUP_FLAGS)"
-#	@echo "CFLAGS   = $(CFLAGS)"
-#	@echo "CXXFLAGS = $(CXXFLAGS)"
 
 #---------------------------------------------------------------------------------
 else

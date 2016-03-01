@@ -25,19 +25,13 @@
  ***************************************************************************/
 #include <unistd.h>
 #include <malloc.h>
+#include "common/common.h"
 #include "dynamic_libs/ax_functions.h"
 #include "fs/CFile.hpp"
 #include "SoundHandler.hpp"
 #include "WavDecoder.hpp"
 #include "Mp3Decoder.hpp"
 #include "OggDecoder.hpp"
-
-#if (VER < 532)
-    // deleting the last voice from the decoder produced DSI errors on 5.0.0 so we skip it
-    #define VOICE_DELETE_SKIP  1
-#else
-    #define VOICE_DELETE_SKIP  0
-#endif
 
 SoundHandler * SoundHandler::handlerInstance = NULL;
 
@@ -263,7 +257,15 @@ void SoundHandler::executeThread()
     AXRegisterFrameCallback(NULL);
     AXQuit();
 
-	for(u32 i = 0; i < MAX_DECODERS - VOICE_DELETE_SKIP; ++i)
+    // deleting the last voice from the decoder produced DSI errors on 5.0.0 so we skip it
+    // expecting same behaviour on every FW below 532
+    u32 delete_skip = 0;
+    if(OS_FIRMWARE < 532)
+    {
+        delete_skip = 1;
+    }
+    
+	for(u32 i = 0; i < MAX_DECODERS - delete_skip; ++i)
     {
         delete voiceList[i];
         voiceList[i] = NULL;
