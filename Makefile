@@ -16,7 +16,7 @@ export PORTLIBS		:=	$(DEVKITPRO)/portlibs/ppc
 
 PREFIX	:=	powerpc-eabi-
 
-FIRMWARE	:=	500
+FIRMWARE	:=	532
 
 SETUP_FLAGS := -DVER=$(FIRMWARE)
 
