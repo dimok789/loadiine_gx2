@@ -420,14 +420,17 @@ void MainWindow::OnGameLoadFinish(GameLauncher * launcher, const discHeader *hea
         if(CSettings::getValueAsBool(CSettings::GameLogServer))
         {
             inet_aton(CSettings::getValueAsString(CSettings::GameLogServerIp).c_str(), &ip);
+            log_printf("FS log server on %s\n", CSettings::getValueAsString(CSettings::GameLogServerIp).c_str());
+        }
+        else
+        {
+            log_printf("FS log server is off\n");
         }
 
         SERVER_IP = ip.s_addr;
         GAME_LAUNCHED = 1;
         GAME_RPX_LOADED = 0;
         LOADIINE_MODE = CSettings::getValueAsU8(CSettings::GameLaunchMethod);
-
-        log_printf("FS log server on %s\n", CSettings::getValueAsString(CSettings::GameLogServerIp).c_str());
 
         Application::instance()->quit();
     }

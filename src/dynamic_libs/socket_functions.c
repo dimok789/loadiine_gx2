@@ -44,15 +44,6 @@ void InitSocketFunctionPointers(void)
     unsigned int *funcPointer = 0;
     OSDynLoad_Acquire("nsysnet.rpl", &nsysnet_handle);
 
-    unsigned int nn_ac_handle;
-    int(*ACInitialize)();
-    int(*ACGetStartupId) (unsigned int *id);
-    int(*ACConnectWithConfigId) (unsigned int id);
-    OSDynLoad_Acquire("nn_ac.rpl", &nn_ac_handle);
-    OSDynLoad_FindExport(nn_ac_handle, 0, "ACInitialize", &ACInitialize);
-    OSDynLoad_FindExport(nn_ac_handle, 0, "ACGetStartupId", &ACGetStartupId);
-    OSDynLoad_FindExport(nn_ac_handle, 0, "ACConnectWithConfigId",&ACConnectWithConfigId);
-
     OS_FIND_EXPORT(nsysnet_handle, socket_lib_init);
     OS_FIND_EXPORT(nsysnet_handle, socket);
     OS_FIND_EXPORT(nsysnet_handle, socketclose);
@@ -63,12 +54,7 @@ void InitSocketFunctionPointers(void)
     OS_FIND_EXPORT(nsysnet_handle, setsockopt);
     OS_FIND_EXPORT(nsysnet_handle, inet_ntoa);
     OS_FIND_EXPORT(nsysnet_handle, inet_aton);
-
-    unsigned int nn_startupid;
-    ACInitialize();
-    ACGetStartupId(&nn_startupid);
-    ACConnectWithConfigId(nn_startupid);
-
+    
     socket_lib_init();
 }
 
