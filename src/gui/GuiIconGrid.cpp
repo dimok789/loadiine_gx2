@@ -49,11 +49,11 @@ GuiIconGrid::GuiIconGrid(int w, int h, int GameIndex)
     , arrowRightButton(arrowRightImage.getWidth(), arrowRightImage.getHeight())
     , arrowLeftButton(arrowLeftImage.getWidth(), arrowLeftImage.getHeight())
 {
-    listOffset = 0;
     gameLaunchTimer = 0;
     selectedGame = GameIndex;
-    currentLeftPosition = 0;
-    targetLeftPosition = 0;
+    listOffset = selectedGame / (MAX_COLS * MAX_ROWS);
+    targetLeftPosition = -listOffset * getWidth();
+    currentLeftPosition = targetLeftPosition;
 
     particleBgImage.setParent(this);
 
@@ -126,6 +126,8 @@ GuiIconGrid::GuiIconGrid(int w, int h, int GameIndex)
         arrowLeftButton.setTrigger(&buttonLTrigger);
         arrowLeftButton.setSoundClick(buttonClickSound);
         arrowLeftButton.clicked.connect(this, &GuiIconGrid::OnLeftArrowClick);
+        if(listOffset > 0)
+            append(&arrowLeftButton);
 
         arrowRightButton.setImage(&arrowRightImage);
         arrowRightButton.setEffectGrow();
@@ -136,7 +138,8 @@ GuiIconGrid::GuiIconGrid(int w, int h, int GameIndex)
         arrowRightButton.setTrigger(&buttonRTrigger);
         arrowRightButton.setSoundClick(buttonClickSound);
         arrowRightButton.clicked.connect(this, &GuiIconGrid::OnRightArrowClick);
-        append(&arrowRightButton);
+        if(listOffset < (maxPages-1))
+            append(&arrowRightButton);
     }
 
     gameTitle.setPosition(0, -320);
