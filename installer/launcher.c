@@ -564,11 +564,6 @@ static void InstallPatches(private_data_t *private_data)
     osSpecificFunctions->addr_KernSyscallTbl3 = KERN_SYSCALL_TBL_3;
     osSpecificFunctions->addr_KernSyscallTbl4 = KERN_SYSCALL_TBL_4;
     osSpecificFunctions->addr_KernSyscallTbl5 = KERN_SYSCALL_TBL_5;
-    osSpecificFunctions->addr_PrepareTitleHook = PREP_TITLE_HOOK_ADDR;
-
-    osSpecificFunctions->addr_LiWaitOneChunk = ADDRESS_LiWaitOneChunk;
-    osSpecificFunctions->addr_LiWaitIopComplete = ADDRESS_LiWaitIopComplete;
-    osSpecificFunctions->addr_LiWaitIopCompleteWithInterrupts = ADDRESS_LiWaitIopCompleteWithInterrupts;
 
     //! pointer to main entry point of a title
     osSpecificFunctions->addr_OSTitle_main_entry = ADDRESS_OSTitle_main_entry_ptr;
