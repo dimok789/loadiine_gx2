@@ -21,8 +21,8 @@
 #include "video/CVideo.h"
 #include "game/GameList.h"
 
-GuiIconGrid::GuiIconGrid(int w, int h)
-    : GuiGameBrowser(w, h)
+GuiIconGrid::GuiIconGrid(int w, int h, int GameIndex)
+    : GuiGameBrowser(w, h, GameIndex)
     , buttonClickSound(Resources::GetSound("button_click.mp3"))
     , noIcon(Resources::GetFile("noGameIcon.png"), Resources::GetFileSize("noGameIcon.png"), GX2_TEX_CLAMP_MIRROR)
     , emptyIcon(Resources::GetFile("iconEmpty.jpg"), Resources::GetFileSize("iconEmpty.jpg"), GX2_TEX_CLAMP_MIRROR)
@@ -49,11 +49,11 @@ GuiIconGrid::GuiIconGrid(int w, int h)
     , arrowRightButton(arrowRightImage.getWidth(), arrowRightImage.getHeight())
     , arrowLeftButton(arrowLeftImage.getWidth(), arrowLeftImage.getHeight())
 {
-    listOffset = 0;
     gameLaunchTimer = 0;
-    selectedGame = 0;
-    currentLeftPosition = 0;
-    targetLeftPosition = 0;
+    selectedGame = GameIndex;
+    listOffset = selectedGame / (MAX_COLS * MAX_ROWS);
+    targetLeftPosition = -listOffset * getWidth();
+    currentLeftPosition = targetLeftPosition;
 
     particleBgImage.setParent(this);
 
@@ -126,6 +126,8 @@ GuiIconGrid::GuiIconGrid(int w, int h)
         arrowLeftButton.setTrigger(&buttonLTrigger);
         arrowLeftButton.setSoundClick(buttonClickSound);
         arrowLeftButton.clicked.connect(this, &GuiIconGrid::OnLeftArrowClick);
+        if(listOffset > 0)
+            append(&arrowLeftButton);
 
         arrowRightButton.setImage(&arrowRightImage);
         arrowRightButton.setEffectGrow();
@@ -136,7 +138,8 @@ GuiIconGrid::GuiIconGrid(int w, int h)
         arrowRightButton.setTrigger(&buttonRTrigger);
         arrowRightButton.setSoundClick(buttonClickSound);
         arrowRightButton.clicked.connect(this, &GuiIconGrid::OnRightArrowClick);
-        append(&arrowRightButton);
+        if(listOffset < (maxPages-1))
+            append(&arrowRightButton);
     }
 
     gameTitle.setPosition(0, -320);

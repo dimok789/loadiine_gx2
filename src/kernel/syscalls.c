@@ -1,10 +1,13 @@
 #include "common/os_defs.h"
 #include "common/kernel_defs.h"
 #include "common/common.h"
+#include "dynamic_libs/os_functions.h"
 #include "utils/utils.h"
 #include "syscalls.h"
 
 extern void my_PrepareTitle_hook(void);
+
+static unsigned int origPrepareTitleInstr __attribute__((section(".data"))) = 0;
 
 static void KernelCopyData(unsigned int addr, unsigned int src, unsigned int len)
 {
@@ -19,13 +22,22 @@ static void KernelCopyData(unsigned int addr, unsigned int src, unsigned int len
     asm volatile("mfdbatl %0, 1" : "=r" (dbatl1));
 
     // write our own DBATs into the array
-    if( ((addr & 0xFF000000) == 0xFF000000) || ((src & 0xFF000000) == 0xFF000000) )
+    if( ((addr & 0xFFF00000) == 0xFFF00000) || ((src & 0xFFF00000) == 0xFFF00000) )
     {
         // setup kernel code access
-        unsigned int dbatu = (addr & 0xFFF00000) | 0x02;
-        unsigned int dbatl = (addr & 0xFFF00000) | 0x32;
+        unsigned int dbatu = 0;
+        unsigned int dbatl = 0;
 
-        if( ((addr & 0xFF000000) != (dbatu0 & 0xFF000000)) && ((src & 0xFF000000) != (dbatu0 & 0xFF000000)) )
+        if((src & 0xFFF00000) == 0xFFF00000) {
+            dbatu = (src & 0xFFF00000) | 0x02;
+            dbatl = (src & 0xFFF00000) | 0x32;
+        }
+        else {
+            dbatu = (addr & 0xFFF00000) | 0x02;
+            dbatl = (addr & 0xFFF00000) | 0x32;
+        }
+
+        if( ((addr & 0xFFF00000) != (dbatu0 & 0xFFF00000)) && ((src & 0xFFF00000) != (dbatu0 & 0xFFF00000)) )
         {
             asm volatile("mtdbatu 0, %0" : : "r" (dbatu));
             asm volatile("mtdbatl 0, %0" : : "r" (dbatl));
@@ -183,5 +195,14 @@ void KernelSetupSyscalls(void)
 
     //! write our hook to the
     u32 addr_my_PrepareTitle_hook = ((u32)my_PrepareTitle_hook) | 0x48000003;
-    SC0x25_KernelCopyData(OS_SPECIFICS->addr_PrepareTitleHook, (u32)&addr_my_PrepareTitle_hook, 4);
+
+    SC0x25_KernelCopyData((u32)&origPrepareTitleInstr, (u32)addr_PrepareTitle_hook, 4);
+    SC0x25_KernelCopyData((u32)addr_PrepareTitle_hook, (u32)&addr_my_PrepareTitle_hook, 4);
+}
+
+
+void KernelRestoreInstructions(void)
+{
+    if(origPrepareTitleInstr != 0)
+        SC0x25_KernelCopyData((u32)addr_PrepareTitle_hook, (u32)&origPrepareTitleInstr, 4);
 }

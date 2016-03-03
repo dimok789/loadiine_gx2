@@ -24,10 +24,9 @@ int GuiText::presetMaxWidth = 0xFFFF;
 int GuiText::presetAlignment = ALIGN_CENTER | ALIGN_MIDDLE;
 GX2ColorF32 GuiText::presetColor = (GX2ColorF32){ 1.0f, 1.0f, 1.0f, 1.0f };
 
-#define TEXT_SCROLL_DELAY			5
-#define	TEXT_SCROLL_INITIAL_DELAY	8
-#define PAGESIZE	 			    8
-#define MAX_LINES_TO_DRAW		    12
+#define TEXT_SCROLL_DELAY			6
+#define	TEXT_SCROLL_INITIAL_DELAY	10
+#define MAX_LINES_TO_DRAW		    10
 
 /**
  * Constructor for the GuiText class.
@@ -478,9 +477,14 @@ void GuiText::wrapText()
 
 		currentWidth += font->getCharWidth(text[ch], currentSize, ch > 0 ? text[ch - 1] : 0x0000);
 
-		if (currentWidth >= maxWidth)
+		if (currentWidth >= maxWidth || (text[ch] == '\n'))
 		{
-			if (lastSpace >= 0)
+            if(text[ch] == '\n')
+            {
+				lastSpace = -1;
+				lastSpaceIndex = -1;
+            }
+			else if (lastSpace >= 0)
 			{
 				textDyn[linenum][lastSpaceIndex] = 0; // discard space, and everything after
 				ch = lastSpace; // go backwards to the last space
@@ -490,6 +494,9 @@ void GuiText::wrapText()
 
 			if (linenum + 1 == linestodraw && text[ch + 1] != 0x0000)
 			{
+			    if(i < 2)
+                    i = 2;
+
 				textDyn[linenum][i - 2] = '.';
 				textDyn[linenum][i - 1] = '.';
 				textDyn[linenum][i] = '.';

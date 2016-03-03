@@ -16,6 +16,17 @@
 
 #elif ((VER == 500) || (VER == 510))
     #define BAT_SETUP_HOOK_ADDR         0xFFF1D518
+
+    #define BAT_SET_NOP_ADDR_1          0xFFF0697C
+    #define BAT_SET_NOP_ADDR_2          0xFFF06A08
+    #define BAT_SET_NOP_ADDR_3          0xFFF003C8
+    #define BAT_SET_NOP_ADDR_4          0xFFF003CC
+    #define BAT_SET_NOP_ADDR_5          0xFFF1D600
+    #define BAT_SET_NOP_ADDR_6          0xFFF1D61C
+    #define BAT_SET_NOP_ADDR_7          0xFFF1D720
+
+    #define BAT_SET_NOP_ADDR_8          0xFFEE10B8
+    #define BAT_SET_NOP_ADDR_9          0xFFEE10BC
 #elif ( (VER == 400) || (VER == 410) )
     #define BAT_SETUP_HOOK_ADDR         0xFFF1AD00
 #else

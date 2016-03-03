@@ -1,22 +1,29 @@
 PATH := $(DEVKITPPC)/bin:$(PATH)
-CC=powerpc-eabi-gcc
-AS=powerpc-eabi-gcc
-CFLAGS=-std=gnu99 -Os -nostdinc -fno-builtin
-ASFLAGS=-mregnames -x assembler-with-cpp
-LD=powerpc-eabi-ld
+PREFIX ?= powerpc-eabi-
+CC = $(PREFIX)gcc
+AS = $(PREFIX)gcc
+CFLAGS = -std=gnu99 -Os -nostdinc -fno-builtin
+ASFLAGS = -mregnames -x assembler-with-cpp
+LD = $(PREFIX)ld
 LDFLAGS=-Ttext 1800000 --oformat binary -L$(DEVKITPPC)/lib/gcc/powerpc-eabi/4.8.2 -lgcc
 OBJDUMP ?= $(PREFIX)objdump
 project	:=	.
-root:=$(CURDIR)
+root	:=	$(CURDIR)
 build	:=	 $(root)/bin
-www_loadiine :=$(root)/../../www/loadiine
-framework:=$(root)/../../../framework
 
-#CFLAGS += -DUSE_SD_LOADER
-#ASFLAGS += -DUSE_SD_LOADER
+sd_loader_elf := ../sd_loader/sd_loader.elf
 
-all: clean setup main532
+CFLAGS += -DUSE_SD_LOADER
+ASFLAGS += -DUSE_SD_LOADER
 
+all: clean setup main532 main500
+
+sd_loader.h: $(sd_loader_elf)
+	xxd -i $< | sed "s/unsigned/static const unsigned/g;s/loader/loader/g;s/build_//g" > $@
+
+$(sd_loader_elf):
+	make -C ../sd_loader
+	
 setup:
 	mkdir -p $(root)/bin/
 
@@ -47,7 +54,7 @@ main210:
 main200:
 	make main FIRMWARE=200
 
-main:
+main: sd_loader.h
 	$(CC) $(CFLAGS) -DVER=$(FIRMWARE) -c $(project)/launcher.c
 	$(CC) $(CFLAGS) -DVER=$(FIRMWARE) -c $(project)/kexploit.c
 	$(AS) $(ASFLAGS) -DVER=$(FIRMWARE) -c $(project)/kernel_patches.S
@@ -58,6 +65,7 @@ main:
 
 clean:
 	rm -rf $(build)
+	rm -rf sd_loader.h
 
 print_stats:
 	@echo

@@ -1,15 +1,13 @@
 #include <string.h>
 #include "dynamic_libs/os_functions.h"
 #include "dynamic_libs/sys_functions.h"
+#include "patcher/function_hooks.h"
 #include "common/common.h"
 #include "utils/utils.h"
 #include "main.h"
 
 int __entry_menu(int argc, char **argv)
 {
-    //! resolve original entry to main (pointer to a function)
-    int (* OSTitle_main_entry)(int argc, char **argv) = (int (*)(int, char **))(*(volatile unsigned int*)OS_SPECIFICS->addr_OSTitle_main_entry);
-
     //! *******************************************************************
     //! *              Check if our application is started                *
     //! *******************************************************************
@@ -17,14 +15,16 @@ int __entry_menu(int argc, char **argv)
         OSGetTitleID() != 0x000500101004A200 && // mii maker eur
         OSGetTitleID() != 0x000500101004A100 && // mii maker usa
         OSGetTitleID() != 0x000500101004A000)   // mii maker jpn
-        return OSTitle_main_entry(argc, argv);
+    {
+        return EXIT_RELAUNCH_ON_LOAD;
+    }
 
     //!*******************************************************************
     //!                       Check game launch                          *
     //!*******************************************************************
     // check if game is launched, if yes continue coreinit process
     if ((GAME_LAUNCHED == 1) && (LOADIINE_MODE == LOADIINE_MODE_MII_MAKER))
-        return OSTitle_main_entry(argc, argv);
+        return EXIT_RELAUNCH_ON_LOAD;
 
     //! *******************************************************************
     //! *                     Setup EABI registers                        *
@@ -80,10 +80,17 @@ int __entry_menu(int argc, char **argv)
             __Exit();
         }
         //! TODO: add auto launch with SYSLaunchTitle for Karaoke and Art Atelier Modes
+
+        //! *******************************************************************
+        //! *                 Jump to original application                    *
+        //! *******************************************************************
+        return EXIT_RELAUNCH_ON_LOAD;
     }
 
+    RestoreInstructions();
+
     //! *******************************************************************
-    //! *                 Jump to original application                    *
+    //! *                 Jump to homebrew launcher                       *
     //! *******************************************************************
-    return OSTitle_main_entry(argc, argv);
+    return EXIT_SUCCESS;
 }

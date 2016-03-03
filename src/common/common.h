@@ -11,11 +11,11 @@ extern "C" {
 /* Loadiine common paths */
 #define CAFE_OS_SD_PATH         "/vol/external01"
 #define SD_PATH                 "sd:"
-#define SD_LOADIINE_PATH        "/wiiu"
+#define WIIU_PATH                "/wiiu"
 #define GAMES_PATH               "/games"
 #define SAVES_PATH               "/saves"
-#define SD_GAMES_PATH            SD_LOADIINE_PATH GAMES_PATH
-#define SD_SAVES_PATH            SD_LOADIINE_PATH SAVES_PATH
+#define SD_GAMES_PATH            WIIU_PATH GAMES_PATH
+#define SD_SAVES_PATH            WIIU_PATH SAVES_PATH
 #define CONTENT_PATH            "/content"
 #define RPX_RPL_PATH            "/code"
 #define META_PATH               "/meta"
@@ -34,11 +34,20 @@ extern "C" {
 #define LOADIINE_MODE_KARAOKE       2
 #define LOADIINE_MODE_ART_ATELIER   3
 
+/* homebrew launcher return codes */
+#ifndef EXIT_SUCCESS
+#define EXIT_SUCCESS                0
+#endif
+#define EXIT_RELAUNCH_ON_LOAD       0xFFFFFFFD
+
 /* RPX Address : where the rpx is copied or retrieve, depends if we dump or replace */
 /* Note : from phys 0x30789C5D to 0x31E20000, memory seems empty (space reserved for root.rpx) which let us approximatly 22.5mB of memory free to put the rpx and additional rpls */
 #ifndef MEM_BASE
 #define MEM_BASE                (0x00800000)
 #endif
+
+#define ELF_DATA_ADDR           (*(volatile unsigned int*)(MEM_BASE + 0x1300 + 0x00))
+#define ELF_DATA_SIZE           (*(volatile unsigned int*)(MEM_BASE + 0x1300 + 0x04))
 #define MAIN_ENTRY_ADDR         (*(volatile unsigned int*)(MEM_BASE + 0x1400 + 0x00))
 #define OS_FIRMWARE             (*(volatile unsigned int*)(MEM_BASE + 0x1400 + 0x04))
 #define PREP_TITLE_CALLBACK     (*(volatile unsigned int*)(MEM_BASE + 0x1400 + 0x08))

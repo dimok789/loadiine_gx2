@@ -78,6 +78,9 @@ bool GuiSound::Load(const u8 * snd, s32 len)
         voice = -1;
     }
 
+    if(!snd)
+        return false;
+
     //! find next free decoder
     for(int i = 0; i < MAX_DECODERS; i++)
     {
