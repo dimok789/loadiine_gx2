@@ -36,7 +36,7 @@ CSettings::CSettings()
     memset(&nullValue, 0, sizeof(nullValue));
     nullValue.strValue = new std::string();
 
-    configPath = SD_PATH SD_LOADIINE_PATH "/apps/loadiine_gx2";
+    configPath = SD_PATH WIIU_PATH "/apps/loadiine_gx2";
 	this->SetDefault();
 }
 
@@ -99,7 +99,7 @@ void CSettings::SetDefault()
 
     settingsNames[GameCover3DPath] = "GameCover3DPath";
     settingsValues[GameCover3DPath].dataType = TypeString;
-    settingsValues[GameCover3DPath].strValue = new std::string(SD_PATH SD_LOADIINE_PATH "/apps/loadiine_gx2/covers3d");
+    settingsValues[GameCover3DPath].strValue = new std::string(SD_PATH WIIU_PATH "/apps/loadiine_gx2/covers3d");
 
     settingsNames[ConsoleRegionCode] = "ConsoleRegionCode";
     settingsValues[ConsoleRegionCode].dataType = TypeString;
@@ -108,11 +108,11 @@ void CSettings::SetDefault()
     settingsNames[DebugLoggerIP] = "DebugLoggerIP";
     settingsValues[DebugLoggerIP].dataType = TypeString;
     settingsValues[DebugLoggerIP].strValue = new std::string("192.168.178.3");
-    	
+
     settingsNames[GameStartIndex] = "GameStartIndex";
     settingsValues[GameStartIndex].dataType = TypeU16;
     settingsValues[GameStartIndex].uiValue = 0;
-    	
+
 }
 
 bool CSettings::Load()
