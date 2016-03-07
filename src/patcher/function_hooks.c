@@ -1283,10 +1283,14 @@ void PatchMethodHooks(void)
             OSDynLoad_FindExport(coreinit_handle, 0, method_hooks[i].functionName, &real_addr);
         }
 
-        // fill the restore instruction section
-        restore->data[restore->instr_count].addr = real_addr;
-        restore->data[restore->instr_count].instr = *(volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + real_addr);
-        restore->instr_count++;
+        // Don't restore patches made to vpad.rpl when exiting
+        if(method_hooks[i].library != LIB_VPAD)
+        {
+            // fill the restore instruction section
+            restore->data[restore->instr_count].addr = real_addr;
+            restore->data[restore->instr_count].instr = *(volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + real_addr);
+            restore->instr_count++;
+        }
 
         // set pointer to the real function
         *(volatile unsigned int *)(call_addr) = (unsigned int)(space) - CODE_RW_BASE_OFFSET;
