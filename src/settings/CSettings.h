@@ -78,6 +78,7 @@ public:
         ConsoleRegionCode,
         DebugLoggerIP,
         GameStartIndex,
+        PadconMode,
         MAX_VALUE
     };
 

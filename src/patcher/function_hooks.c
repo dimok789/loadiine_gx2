@@ -1239,7 +1239,7 @@ static const struct hooks_magic_t {
 //! avoid this buffer to be placed in BSS and reset on start up
 volatile unsigned int fs_method_calls[sizeof(method_hooks) / sizeof(struct hooks_magic_t) * 2] __attribute__((section(".data")));
 
-void PatchMethodHooks(void)
+void PatchMethodHooks(int padmode)
 {
     restore_instructions_t * restore = (restore_instructions_t *)(RESTORE_INSTR_ADDR);
     //! check if it is already patched
@@ -1273,7 +1273,7 @@ void PatchMethodHooks(void)
             memcpy(&real_addr, &addr_LiWaitOneChunk, 4);
         }        
 #if (WITH_PADCON == 1)
-        else if(strcmp(method_hooks[i].functionName, "VPADRead") == 0)
+        else if(strcmp(method_hooks[i].functionName, "VPADRead") == 0 && padmode == 1)
         {
             OSDynLoad_FindExport(vpad_handle, 0, method_hooks[i].functionName, &real_addr);
         }
