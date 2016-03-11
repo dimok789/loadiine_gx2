@@ -1273,9 +1273,11 @@ void PatchMethodHooks(int padmode)
             memcpy(&real_addr, &addr_LiWaitOneChunk, 4);
         }        
 #if (WITH_PADCON == 1)
-        else if(strcmp(method_hooks[i].functionName, "VPADRead") == 0 && padmode == 1)
+        else if(strcmp(method_hooks[i].functionName, "VPADRead") == 0)
         {
-            OSDynLoad_FindExport(vpad_handle, 0, method_hooks[i].functionName, &real_addr);
+            if(padmode == 1) { 
+                OSDynLoad_FindExport(vpad_handle, 0, method_hooks[i].functionName, &real_addr);   
+            }
         }
 #endif
         else

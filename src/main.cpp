@@ -97,10 +97,10 @@ extern "C" int Menu_Main(void)
     Application::instance()->exec();
     log_printf("Main application stopped\n");
 
+    Application::destroyInstance();
+    
     CSettings::instance()->Save();
     CSettings::destroyInstance();
-
-    Application::destroyInstance();
 
     log_printf("Unmount SD\n");
     unmount_sd_fat("sd");
