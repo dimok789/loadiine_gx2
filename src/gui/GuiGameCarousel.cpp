@@ -58,55 +58,55 @@ GuiGameCarousel::GuiGameCarousel(int w, int h, int GameIndex)
     , bgNewImageDataAsync(NULL)
     , bgFadingImageDataAsync(NULL)
 {
-	pagesize = GameList::instance()->size();//(GameList::instance()->size() < MAX_PAGE_SIZE) ? GameList::instance()->size() : MAX_PAGE_SIZE;
-	listOffset = 0;
-	refreshDrawMap = true;
-	selectable = true;
-	selectedGame = GameIndex;
-	selectedGameOnDragStart = 0;
-	bWasDragging = false;
+    pagesize = GameList::instance()->size();//(GameList::instance()->size() < MAX_PAGE_SIZE) ? GameList::instance()->size() : MAX_PAGE_SIZE;
+    listOffset = 0;
+    refreshDrawMap = true;
+    selectable = true;
+    selectedGame = GameIndex;
+    selectedGameOnDragStart = 0;
+    bWasDragging = false;
 
 
-	lastTouchDifference = 0;
-	gameLaunchTimer = 0;
-	touchClickDelay = 0;
-  circleRotationSpeed = 0.0f;
-  circleSpeedLimit = 1.8f;
-  startRotationDistance = 0.0f;
-  destDegree = 90.0f + selectedGame * DEG_OFFSET;
-  currDegree = destDegree;
-	speed = 0;
+    lastTouchDifference = 0;
+    gameLaunchTimer = 0;
+    touchClickDelay = 0;
+    circleRotationSpeed = 0.0f;
+    circleSpeedLimit = 1.8f;
+    startRotationDistance = 0.0f;
+    destDegree = 90.0f + selectedGame * DEG_OFFSET;
+    currDegree = destDegree;
+    speed = 0;
 
-  this->append(&particleBgImage);
+    this->append(&particleBgImage);
 
-	game.resize(pagesize);
-	drawOrder.resize(pagesize);
-	coverImg.resize(pagesize);
+    game.resize(pagesize);
+    drawOrder.resize(pagesize);
+    coverImg.resize(pagesize);
 
-  touchButton.setAlignment(ALIGN_LEFT | ALIGN_TOP);
-  touchButton.setTrigger(&touchTrigger);
-  touchButton.setTrigger(&wpadTouchTrigger);
-  touchButton.setClickable(true);
-  touchButton.setHoldable(true);
-  touchButton.clicked.connect(this, &GuiGameCarousel::OnTouchClick);
-  touchButton.held.connect(this, &GuiGameCarousel::OnTouchHold);
-  touchButton.released.connect(this, &GuiGameCarousel::OnTouchRelease);
-  this->append(&touchButton);
+    touchButton.setAlignment(ALIGN_LEFT | ALIGN_TOP);
+    touchButton.setTrigger(&touchTrigger);
+    touchButton.setTrigger(&wpadTouchTrigger);
+    touchButton.setClickable(true);
+    touchButton.setHoldable(true);
+    touchButton.clicked.connect(this, &GuiGameCarousel::OnTouchClick);
+    touchButton.held.connect(this, &GuiGameCarousel::OnTouchHold);
+    touchButton.released.connect(this, &GuiGameCarousel::OnTouchRelease);
+    this->append(&touchButton);
 
-  DPADButtons.setTrigger(&buttonATrigger);
-  DPADButtons.setTrigger(&buttonLTrigger);
-  DPADButtons.setTrigger(&buttonRTrigger);
-  DPADButtons.setTrigger(&buttonLeftTrigger);
-  DPADButtons.setTrigger(&buttonRightTrigger);
-  DPADButtons.clicked.connect(this, &GuiGameCarousel::OnDPADClick);
-  append(&DPADButtons);
+    DPADButtons.setTrigger(&buttonATrigger);
+    DPADButtons.setTrigger(&buttonLTrigger);
+    DPADButtons.setTrigger(&buttonRTrigger);
+    DPADButtons.setTrigger(&buttonLeftTrigger);
+    DPADButtons.setTrigger(&buttonRightTrigger);
+    DPADButtons.clicked.connect(this, &GuiGameCarousel::OnDPADClick);
+    append(&DPADButtons);
 
-  gameTitle.setPosition(0, -320);
-  gameTitle.setBlurGlowColor(5.0f, glm::vec4(0.109804, 0.6549, 1.0f, 1.0f));
-  gameTitle.setMaxWidth(900, GuiText::DOTTED);
-  append(&gameTitle);
+    gameTitle.setPosition(0, -320);
+    gameTitle.setBlurGlowColor(5.0f, glm::vec4(0.109804, 0.6549, 1.0f, 1.0f));
+    gameTitle.setMaxWidth(900, GuiText::DOTTED);
+    append(&gameTitle);
 
-	refresh();
+    refresh();
 }
 
 /**
@@ -118,10 +118,10 @@ GuiGameCarousel::~GuiGameCarousel()
     AsyncDeleter::pushForDelete(bgUsedImageDataAsync);
     AsyncDeleter::pushForDelete(bgNewImageDataAsync);
 
-	for (u32 i = 0; i < game.size(); ++i)
-		delete coverImg[i];
-	for (u32 i = 0; i < game.size(); ++i)
-		delete game[i];
+    for (u32 i = 0; i < game.size(); ++i)
+        delete coverImg[i];
+    for (u32 i = 0; i < game.size(); ++i)
+        delete game[i];
 
     Resources::RemoveSound(buttonClickSound);
 }
@@ -136,7 +136,7 @@ void GuiGameCarousel::setSelectedGame(int idx)
     if(idx >= pagesize)
         idx = pagesize-1;
 
-	selectedGame = idx;
+    selectedGame = idx;
     loadBgImage(selectedGame);
 
     //! normalize to 360°
@@ -164,38 +164,38 @@ int GuiGameCarousel::getSelectedGame()
 
 void GuiGameCarousel::refresh()
 {
-	for (int i = 0; i < pagesize; i++)
-	{
-		//------------------------
-		// Index
-		//------------------------
-		//gameIndex[i] = GetGameIndex( i, listOffset, GameList::instance()->size() );
+    for (int i = 0; i < pagesize; i++)
+    {
+        //------------------------
+        // Index
+        //------------------------
+        //gameIndex[i] = GetGameIndex( i, listOffset, GameList::instance()->size() );
 
-		//------------------------
-		// Image
-		//------------------------
-		delete coverImg[i];
+        //------------------------
+        // Image
+        //------------------------
+        delete coverImg[i];
 
-		std::string filepath = CSettings::getValueAsString(CSettings::GameCover3DPath) + "/" + GameList::instance()->at(i)->id + ".png";
+        std::string filepath = CSettings::getValueAsString(CSettings::GameCover3DPath) + "/" + GameList::instance()->at(i)->id + ".png";
 
-		coverImg[i] = new GuiImageAsync(filepath, &noCover);
+        coverImg[i] = new GuiImageAsync(filepath, &noCover);
 
-		//------------------------
-		// GameButton
-		//------------------------
-		delete game[i];
-		game[i] = new GuiButton(coverImg[i]->getWidth(), coverImg[i]->getHeight());
-		game[i]->setAlignment(ALIGN_CENTER | ALIGN_MIDDLE);
-		game[i]->setImage(coverImg[i]);
-		game[i]->setParent(this);
-		game[i]->setTrigger(&touchTrigger);
+        //------------------------
+        // GameButton
+        //------------------------
+        delete game[i];
+        game[i] = new GuiButton(coverImg[i]->getWidth(), coverImg[i]->getHeight());
+        game[i]->setAlignment(ALIGN_CENTER | ALIGN_MIDDLE);
+        game[i]->setImage(coverImg[i]);
+        game[i]->setParent(this);
+        game[i]->setTrigger(&touchTrigger);
         game[i]->setTrigger(&wpadTouchTrigger);
-		game[i]->setSoundClick(buttonClickSound);
-		game[i]->setEffectGrow();
-		game[i]->clicked.connect(this, &GuiGameCarousel::OnGameButtonClick);
+        game[i]->setSoundClick(buttonClickSound);
+        game[i]->setEffectGrow();
+        game[i]->clicked.connect(this, &GuiGameCarousel::OnGameButtonClick);
 
         drawOrder[i] = i;
-	}
+    }
 
 //    currDegree = 270.0f + pagesize * 0.5f * DEG_OFFSET - 0.5f * DEG_OFFSET;
 //    destDegree = 90.0f + pagesize * 0.5f * DEG_OFFSET - 0.5f * DEG_OFFSET;
@@ -528,7 +528,7 @@ void GuiGameCarousel::draw(CVideo *v)
 
 void GuiGameCarousel::update(GuiController * c)
 {
-	if (isStateSet(STATE_DISABLED) || !pagesize)
+    if (isStateSet(STATE_DISABLED) || !pagesize)
         return;
 
     GuiGameBrowser::update(c);
