@@ -24,14 +24,19 @@
 #include "os_functions.h"
 #include "vpad_functions.h"
 
+unsigned int vpad_handle = 0;
+
 EXPORT_DECL(void, VPADRead, int chan, VPADData *buffer, u32 buffer_size, s32 *error);
+EXPORT_DECL(int, VPADGetLcdMode, int padnum, int *lcdmode);
+EXPORT_DECL(int, VPADSetLcdMode, int padnum, int lcdmode);
 
 void InitVPadFunctionPointers(void)
 {
     unsigned int *funcPointer = 0;
-    unsigned int vpad_handle;
     OSDynLoad_Acquire("vpad.rpl", &vpad_handle);
 
     OS_FIND_EXPORT(vpad_handle, VPADRead);
+    OS_FIND_EXPORT(vpad_handle, VPADGetLcdMode);
+    OS_FIND_EXPORT(vpad_handle, VPADSetLcdMode);
 }
 
