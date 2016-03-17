@@ -1,0 +1,25 @@
+<html>
+	<head>
+		<script>
+			var nb = 0;
+			function handleBeforeLoad() {
+				if (++nb == 1) {
+					p.addEventListener('DOMSubtreeModified', parent.dsm, false);
+				} else if (nb == 2) {
+					p.removeChild(f);
+				}
+			}
+			
+			function documentLoaded() {
+				f = window.frameElement;
+				p = f.parentNode;
+				var o = document.createElement("object");
+				o.addEventListener('beforeload', handleBeforeLoad, false);
+				document.body.appendChild(o);
+			}
+
+			window.onload = documentLoaded;
+		</script>
+	</head>
+	<body></body>
+</html>
