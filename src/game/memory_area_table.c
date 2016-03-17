@@ -26,6 +26,176 @@ typedef struct _memory_values_t
     unsigned int end_address;
 } memory_values_t;
 
+static const memory_values_t mem_vals_410[] =
+{
+//        { 0xB8041760, 0xB8049D0C } // 33 kB
+//        { 0xB80608F4, 0xB806C97C } // 48 kB
+//        { 0xB80953C8, 0xB80A1324 } // 47 kB
+//        { 0xB80A1358, 0xB80AD388 } // 48 kB
+//        { 0xB80C9040, 0xB80D0ABC } // 30 kB
+//        { 0xB80D0AD8, 0xB8113FBC } // 269 kB
+//        { 0xB812575C, 0xB817A53C } // 339 kB
+//        { 0xB817A6A0, 0xB81BA53C } // 255 kB
+//        { 0xB81D571C, 0xB820253C } // 179 kB
+//        { 0xB8234D00, 0xB824B33C } // 89 kB
+//        { 0xB824E300, 0xB828D7BC } // 253 kB
+//        { 0xB82A8DF0, 0xB82B63FC } // 53 kB
+//        { 0xB82BC524, 0xB82C62FC } // 39 kB
+//        { 0xB835A988, 0xB8366804 } // 47 kB
+//        { 0xB836E05C, 0xB8378DBC } // 43 kB
+//        { 0xB83A735C, 0xB84D2A64 } // 1197 kB (1 MB)
+//        { 0xB84D76B0, 0xB85021FC } // 170 kB
+//        { 0xB85766A4, 0xB8583E4C } // 53 kB
+//        { 0xB8590E5C, 0xB859B248 } // 40 kB
+//        { 0xB859B288, 0xB85AE06C } // 75 kB
+//        { 0xB85B7108, 0xB85C0A7C } // 38 kB
+//        { 0xB85C38A0, 0xB85D089C } // 52 kB
+//        { 0xB85D0A84, 0xB85DC63C } // 46 kB
+//        { 0xB85E0A84, 0xB85F089C } // 63 kB
+//        { 0xB85F7FD0, 0xB86037D8 } // 46 kB
+//        { 0xB860E3E4, 0xB8621B00 } // 77 kB
+//        { 0xB86287B0, 0xB8638BC0 } // 65 kB
+//        { 0xB863F4A0, 0xB864DE00 } // 58 kB
+//        { 0xB864F1FC, 0xB8656EE0 } // 31 kB
+//        { 0xB865AF44, 0xB86635A0 } // 33 kB
+//        { 0xB866F774, 0xB867C680 } // 51 kB
+//        { 0xB867FAC0, 0xB86A2CA0 } // 140 kB
+//        { 0xB86B3540, 0xB86C1900 } // 56 kB
+//        { 0xB86C64A4, 0xB86DDB80 } // 93 kB
+//        { 0xB86E640C, 0xB86F1DC0 } // 46 kB
+//        { 0xB86F3884, 0xB870D3C0 } // 102 kB
+//        { 0xB8710824, 0xB8719D80 } // 37 kB
+//        { 0xB872A674, 0xB873B180 } // 66 kB
+//        { 0xB87402F0, 0xB8758780 } // 97 kB
+//        { 0xB87652F0, 0xB8771C00 } // 50 kB
+//        { 0xB87F878C, 0xB880A680 } // 71 kB
+//        { 0xB880F4AC, 0xB881E6E0 } // 60 kB
+//        { 0xB8821488, 0xB8829A40 } // 33 kB
+//        { 0xB882A5D0, 0xB88385BC } // 55 kB
+//        { 0xB88385D8, 0xB8854780 } // 112 kB
+//        { 0xB8857984, 0xB8864F80 } // 53 kB
+//        { 0xB8870AC0, 0xB887CAC0 } // 48 kB
+//        { 0xB887CAC8, 0xB8888CC8 } // 48 kB
+//        { 0xB8888CD0, 0xB8894ED0 } // 48 kB
+//        { 0xB8894ED8, 0xB88BE0DC } // 164 kB
+//        { 0xB88C1C70, 0xB8AD9ED4 } // 2144 kB (2 MB)
+//        { 0xB8AD9F04, 0xB8B66100 } // 560 kB
+//        { 0xB8B748A8, 0xB8B952E0 } // 130 kB
+//        { 0xB8B9AB58, 0xB8BA2480 } // 30 kB
+//        { 0xB8BA3D00, 0xB8BC21C0 } // 121 kB
+//        { 0xB8BC2F08, 0xB8BD9860 } // 90 kB
+//        { 0xB8BED09C, 0xB8BFDD00 } // 67 kB
+//        { 0xB8C068F0, 0xB8C2E220 } // 158 kB
+//        { 0xB8CC4C6C, 0xB8CF6834 } // 198 kB
+//        { 0xB8D3DD64, 0xB8D4BF8C } // 56 kB
+//        { 0xB8D83C4C, 0xB8DD0284 } // 305 kB
+//        { 0xB8DDDED4, 0xB8E84294 } // 664 kB
+//        { 0xB8E99C7C, 0xB8F382A4 } // 633 kB
+//        { 0xB8F45EF4, 0xB8FEC2B4 } // 664 kB
+//        { 0xB8FEC800, 0xB93B2A18 } // 3864 kB (3 MB)
+//        { 0xB93E187C, 0xB93EC7FC } // 43 kB
+//        { 0xB95C7240, 0xB95D523C } // 56 kB
+//        { 0xB95DA8DC, 0xB95E323C } // 34 kB
+//        { 0xB95ED6C0, 0xB95F6FDC } // 38 kB
+//        { 0xB9606340, 0xB960FC5C } // 38 kB
+//        { 0xB964F040, 0xB9657C3C } // 35 kB
+//        { 0xB96E0EBC, 0xB96EBDBC } // 43 kB
+//        { 0xB998DFB4, 0xB999DEE4 } // 63 kB
+//        { 0xB999E6A8, 0xB99BE9C4 } // 128 kB
+//        { 0xB9B8DF40, 0xB9BA09DC } // 74 kB
+//        { 0xB9BC200C, 0xB9D79B94 } // 1758 kB (1 MB)
+//        { 0xB9DA9694, 0xB9DB1694 } // 32 kB
+//        { 0xBA3D7558, 0xBA427558 } // 320 kB
+//        { 0xBA42769C, 0xBA47769C } // 320 kB
+//        { 0xBA4777E0, 0xBA4C77E0 } // 320 kB
+//        { 0xBA4C7924, 0xBA517924 } // 320 kB
+//        { 0xBA517A68, 0xBA6794B8 } // 1414 kB (1 MB)
+//        { 0xBAD17528, 0xBAD4EA24 } // 221 kB
+//        { 0xBB038C4C, 0xBB1794C8 } // 1282 kB (1 MB)
+//        { 0xBBBA990C, 0xBBBB983C } // 63 kB
+//        { 0xBBBBA160, 0xBBC82164 } // 800 kB
+//        { 0xBBD0000C, 0xBBD71638 } // 453 kB
+//        { 0xBBD7170C, 0xBBD83B0C } // 73 kB
+//        { 0xBBDBA000, 0xBBDCA028 } // 64 kB
+//        { 0xBBDCE000, 0xBBDDE028 } // 64 kB
+//        { 0xBBDE2E34, 0xBBDF2D64 } // 63 kB
+//        { 0xBBDF35E8, 0xBBE031BC } // 62 kB
+//        { 0xBBE052A4, 0xBBE151D4 } // 63 kB
+//        { 0xBBE174AC, 0xBBE27244 } // 63 kB
+//        { 0xBBE3AC80, 0xBBE48C80 } // 56 kB
+//        { 0xBBE49EDC, 0xBBE56C7C } // 51 kB
+//        { 0xBBE82F70, 0xBBE92E9C } // 63 kB
+//        { 0xBBE9ADBC, 0xBBEA8DBC } // 56 kB
+//        { 0xBBEAAB7C, 0xBBEB6DBC } // 48 kB
+//        { 0xBBEC0F3C, 0xBBECEF3C } // 56 kB
+//        { 0xBBED45DC, 0xBBEDCF3C } // 34 kB
+//        { 0xBBEE73C0, 0xBBEF0CDC } // 38 kB
+//        { 0xBBF00040, 0xBBF0995C } // 38 kB
+//        { 0xBBF48D40, 0xBBF5193C } // 35 kB
+//        { 0xBBFDABBC, 0xBBFE5ABC } // 43 kB
+//        { 0xBC03DA40, 0xBC045D7C } // 32 kB
+//        { 0xBC179450, 0xBC18937C } // 63 kB
+//        { 0xBC1DC940, 0xBC1EA93C } // 56 kB
+//        { 0xBC1EABDC, 0xBC1F893C } // 55 kB
+//        { 0xBC239A80, 0xBC243D3C } // 40 kB
+//        { 0xBCE10224, 0xBCE3683C } // 153 kB
+//        { 0xBCE374F4, 0xBCE473A4 } // 63 kB
+//        { 0xBCE49830, 0xBD3794D8 } // 5311 kB (5 MB)
+//        { 0xBD3795AC, 0xBD854300 } // 4971 kB (4 MB)
+//        { 0xBD8546B0, 0xBD8602C4 } // 47 kB
+//        { 0xBD86D318, 0xBDFFFFFC } // 7755 kB (7 MB)
+//        { 0xBE2DCD60, 0xBE2E4D7C } // 32 kB
+//        { 0xBE33F160, 0xBE365AFC } // 154 kB
+//        { 0xBE37AC40, 0xBE39BB3C } // 131 kB
+//        { 0xBE3A6EF0, 0xBE3CA2FC } // 141 kB
+//        { 0xBE3D9EE0, 0xBE400B3C } // 155 kB
+//        { 0xBE43A8F0, 0xBE442BBC } // 32 kB
+//        { 0xBE46EC90, 0xBE48E27C } // 125 kB
+//        { 0xBE497F90, 0xBE4A147C } // 37 kB
+//        { 0xBE4A5B40, 0xBE4C67BC } // 131 kB
+//        { 0xBE4FBEF0, 0xBE52697C } // 170 kB
+//        { 0xBE550750, 0xBE57333C } // 138 kB
+//        { 0xBE573F3C, 0xBFF8F07C } // 226732 kB (26 MB)
+//        { 0xC1000000, 0xC1E1FFFC } // 614464 kB (14 MB)
+//        { 0xC20A5D80, 0xC20AEA3C } // 35 kB
+//        { 0xC20E8670, 0xC210017C } // 94 kB
+//        { 0xC212609C, 0xC213187C } // 45 kB
+//        { 0xC219DF08, 0xC21B72BC } // 100 kB
+//        { 0xC300ED34, 0xC301AD3C } // 48 kB
+//        { 0xC3041760, 0xC3049D0C } // 33 kB
+//        { 0xC30608F8, 0xC306C97C } // 48 kB
+//        { 0xC3089D80, 0xC3095284 } // 45 kB
+//        { 0xC3095470, 0xC30A1324 } // 47 kB
+//        { 0xC30A1358, 0xC30ADC10 } // 50 kB
+//        { 0xC30C9040, 0xC30D0ABC } // 30 kB
+//        { 0xC30D0AD8, 0xC311F9CC } // 315 kB
+//        { 0xC312575C, 0xC320A63C } // 915 kB
+//        { 0xC3234D00, 0xC324B33C } // 89 kB
+//        { 0xC324E300, 0xC328D7BC } // 253 kB
+//        { 0xC329D134, 0xC32CA324 } // 180 kB
+//        { 0xC332B200, 0xC3340C88 } // 86 kB
+//        { 0xC335A440, 0xC35021FC } // 1695 kB (1 MB)
+//        { 0xC350A778, 0xC391680C } // 4144 kB (4 MB)
+//        { 0xC391A444, 0xC392A25C } // 63 kB
+//        { 0xC392A444, 0xC3939EB4 } // 62 kB
+//        { 0xC393A444, 0xC394A25C } // 63 kB
+//        { 0xC39587C0, 0xC3976C80 } // 121 kB
+//        { 0xC39779C8, 0xC398E320 } // 90 kB
+//        { 0xC399AE74, 0xC39A7D80 } // 51 kB
+//        { 0xC39AB1C0, 0xC39CE3A0 } // 140 kB
+//        { 0xC39CEB28, 0xC39DEC38 } // 64 kB
+//        { 0xC39DEC40, 0xC39ED000 } // 56 kB
+//        { 0xC39F1BA4, 0xC3A09280 } // 93 kB
+//        { 0xC3A0C6E4, 0xC3A15C40 } // 37 kB
+//        { 0xC3A15D64, 0xC3EBFFFC } // 4776 kB (4 MB)
+//        { 0xC3F01380, 0xC3F21FFC } // 131 kB
+//        { 0xC3F44820, 0xC3F6B1BC } // 154 kB
+//        { 0xC3F80300, 0xC3FA11FC } // 131 kB
+//        { 0xC3FA4D3C, 0xC3FEDAFC } // 291 kB
+//        { 0xC3FFFFD4, 0xC8FFFFFC } // 81920 kB (80 MB)
+    {0, 0}
+};
+
 static const memory_values_t mem_vals_500[] =
 {
     // TODO: Check which of those areas are usable
