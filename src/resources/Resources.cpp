@@ -6,7 +6,7 @@
 #include "system/AsyncDeleter.h"
 #include "fs/fs_utils.h"
 #include "gui/GuiImageAsync.h"
-#include "gui/GuiSound.h"
+//#include "gui/GuiSound.h"
 
 Resources * Resources::instance = NULL;
 
@@ -135,7 +135,7 @@ void Resources::RemoveImageData(GuiImageData * image)
     }
 }
 
-GuiSound * Resources::GetSound(const char * filename)
+/* GuiSound * Resources::GetSound(const char * filename)
 {
     if(!instance)
         instance = new Resources;
@@ -157,7 +157,7 @@ GuiSound * Resources::GetSound(const char * filename)
 			if(buff == NULL)
                 return NULL;
 
-            GuiSound * sound = new GuiSound(buff, size);
+//          GuiSound * sound = new GuiSound(buff, size);
             instance->soundDataMap[std::string(filename)].first = 1;
             instance->soundDataMap[std::string(filename)].second = sound;
 
@@ -166,9 +166,9 @@ GuiSound * Resources::GetSound(const char * filename)
 	}
 
 	return NULL;
-}
+} */
 
-void Resources::RemoveSound(GuiSound * sound)
+/* void Resources::RemoveSound(GuiSound * sound)
 {
     std::map<std::string, std::pair<unsigned int, GuiSound *> >::iterator itr;
 
@@ -180,10 +180,10 @@ void Resources::RemoveSound(GuiSound * sound)
 
             if(itr->second.first == 0)
             {
-                AsyncDeleter::pushForDelete( itr->second.second );
+//              AsyncDeleter::pushForDelete( itr->second.second );
                 instance->soundDataMap.erase(itr);
             }
             break;
         }
     }
-}
+} */

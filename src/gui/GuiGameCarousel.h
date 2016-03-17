@@ -73,7 +73,7 @@ protected:
     f32 circleSpeedLimit;
     f32 startRotationDistance;
 
-    GuiSound *buttonClickSound;
+//  GuiSound *buttonClickSound;
     GuiImageData noCover;
     std::vector<GuiButton *> game;
     std::vector<GuiImage *> coverImg;

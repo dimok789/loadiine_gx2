@@ -55,7 +55,7 @@ private:
     static const int MAX_ROWS = 3;
     static const int MAX_COLS = 5;
 
-    GuiSound *buttonClickSound;
+//  GuiSound *buttonClickSound;
     GuiImageData noIcon;
     GuiImageData emptyIcon;
 

@@ -26,7 +26,7 @@ SettingsCategoryMenu::SettingsCategoryMenu(int w, int h, const std::string & tit
     , categorySettings(catSettings)
     , categorySettingsCount(settingsCount)
     , categoryFrame(w, h)
-    , buttonClickSound(Resources::GetSound("settings_click_2.mp3"))
+//  , buttonClickSound(Resources::GetSound("settings_click_2.mp3"))
     , backImageData(Resources::GetImageData("backButton.png"))
     , backImage(backImageData)
     , backButton(backImage.getWidth(), backImage.getHeight())
@@ -51,7 +51,7 @@ SettingsCategoryMenu::SettingsCategoryMenu(int w, int h, const std::string & tit
     backButton.clicked.connect(this, &SettingsCategoryMenu::OnBackButtonClick);
     backButton.setTrigger(&touchTrigger);
     backButton.setTrigger(&wpadTouchTrigger);
-    backButton.setSoundClick(buttonClickSound);
+//  backButton.setSoundClick(buttonClickSound);
     backButton.setEffectGrow();
     categoryFrame.append(&backButton);
 
@@ -83,7 +83,7 @@ SettingsCategoryMenu::SettingsCategoryMenu(int w, int h, const std::string & tit
         settings[i].settingButton->setTrigger(&touchTrigger);
         settings[i].settingButton->setTrigger(&wpadTouchTrigger);
         settings[i].settingButton->setEffectGrow();
-        settings[i].settingButton->setSoundClick(buttonClickSound);
+//      settings[i].settingButton->setSoundClick(buttonClickSound);
         settings[i].settingButton->clicked.connect(this, &SettingsCategoryMenu::OnSettingButtonClick);
         categoryFrame.append(settings[i].settingButton);
     }
@@ -113,7 +113,7 @@ SettingsCategoryMenu::~SettingsCategoryMenu()
     Resources::RemoveImageData(titleImageData);
     Resources::RemoveImageData(settingImageData);    
     Resources::RemoveImageData(settingSelectedImageData);
-    Resources::RemoveSound(buttonClickSound);
+//  Resources::RemoveSound(buttonClickSound);
 }
 
 void SettingsCategoryMenu::OnSettingButtonClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)

@@ -73,7 +73,7 @@ private:
     f32 startRotationDistance;
     f32 lastTouchDifference;
 
-    GuiSound *buttonClickSound;
+//  GuiSound *buttonClickSound;
     GuiImageData bgGridData;
     GridBackground bgGrid;
 

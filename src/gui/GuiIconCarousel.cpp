@@ -31,7 +31,7 @@ static const float fOpacy = 1.0f;
 
 GuiIconCarousel::GuiIconCarousel(int w, int h, int GameIndex)
     : GuiGameBrowser(w, h, GameIndex)
-    , buttonClickSound(Resources::GetSound("button_click.mp3"))
+//  , buttonClickSound(Resources::GetSound("button_click.mp3"))
     , bgGridData(Resources::GetFile("bgGridTile.png"), Resources::GetFileSize("bgGridTile.png"), GX2_TEX_CLAMP_WRAP)
     , bgGrid(&bgGridData)
     , noIcon(Resources::GetFile("noGameIcon.png"), Resources::GetFileSize("noGameIcon.png"), GX2_TEX_CLAMP_MIRROR)
@@ -119,7 +119,7 @@ GuiIconCarousel::~GuiIconCarousel()
         delete gameIcons[i];
     }
 
-    Resources::RemoveSound(buttonClickSound);
+//  Resources::RemoveSound(buttonClickSound);
 }
 
 void GuiIconCarousel::OnBgEffectFinished(GuiElement *element)
@@ -186,8 +186,8 @@ void GuiIconCarousel::OnTouchClick(GuiButton *button, const GuiController *contr
 
         if(gameIcons[idx]->checkRayIntersection(rayOrigin, rayDirFrac))
         {
-            if(buttonClickSound)
-                buttonClickSound->Play();
+//          if(buttonClickSound)
+//              buttonClickSound->Play();
 
             setSelectedGame(idx);
             gameSelectionChanged(this, idx);

@@ -30,9 +30,9 @@ Application *Application::applicationInstance = NULL;
 bool Application::exitApplication = false;
 
 Application::Application()
-	: CThread(CThread::eAttributeAffCore0 | CThread::eAttributePinnedAff, 0, 0x20000)
-	, bgMusic(NULL)
-	, video(NULL)
+    : CThread(CThread::eAttributeAffCore0 | CThread::eAttributePinnedAff, 0, 0x20000)
+//  , bgMusic(NULL)
+    , video(NULL)
     , mainWindow(NULL)
 {
     controller[0] = new VPadController(GuiTrigger::CHANNEL_1);
@@ -51,7 +51,7 @@ Application::Application()
     Resources::LoadFiles("sd:/wiiu/apps/loadiine_gx2/resources");
 
     //! create bgMusic
-    if(CSettings::getValueAsString(CSettings::BgMusicPath).empty())
+/*  if(CSettings::getValueAsString(CSettings::BgMusicPath).empty())
     {
         bgMusic = new GuiSound(Resources::GetFile("bgMusic.ogg"), Resources::GetFileSize("bgMusic.ogg"));
     }
@@ -62,7 +62,7 @@ Application::Application()
     bgMusic->SetLoop(true);
     bgMusic->Play();
     bgMusic->SetVolume(50);
-
+*/
 	exitApplication = false;
 }
 
@@ -73,7 +73,7 @@ Application::~Application()
     CSettings::instance()->Save();
     CSettings::destroyInstance();
 
-    delete bgMusic;
+//  delete bgMusic;
 
     for(int i = 0; i < 5; i++)
         delete controller[i];

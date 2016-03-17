@@ -6,7 +6,7 @@
 
 //! forward declaration
 class GuiImageData;
-class GuiSound;
+//class GuiSound;
 
 class Resources
 {
@@ -19,8 +19,8 @@ public:
     static GuiImageData * GetImageData(const char * filename);
     static void RemoveImageData(GuiImageData * image);
 
-    static GuiSound * GetSound(const char * filename);
-    static void RemoveSound(GuiSound * sound);
+//  static GuiSound * GetSound(const char * filename);
+//  static void RemoveSound(GuiSound * sound);
 private:
     static Resources *instance;
 
@@ -28,7 +28,7 @@ private:
     ~Resources() {}
 
     std::map<std::string, std::pair<unsigned int, GuiImageData *> > imageDataMap;
-    std::map<std::string, std::pair<unsigned int, GuiSound *> > soundDataMap;
+//  std::map<std::string, std::pair<unsigned int, GuiSound *> > soundDataMap;
 };
 
 #endif

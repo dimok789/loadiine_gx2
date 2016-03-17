@@ -92,7 +92,7 @@ SettingsMenu::SettingsMenu(int w, int h)
     : GuiFrame(w, h)
     , categorySelectionFrame(w, h)
     , particleBgImage(w, h, 50)
-    , buttonClickSound(Resources::GetSound("settings_click_2.mp3"))
+//  , buttonClickSound(Resources::GetSound("settings_click_2.mp3"))
     , quitImageData(Resources::GetImageData("quitButton.png"))
     , categoryImageData(Resources::GetImageData("settingsCategoryButton.png"))
     , categoryBgImageData(Resources::GetImageData("settingsCategoryBg.png"))
@@ -126,7 +126,7 @@ SettingsMenu::SettingsMenu(int w, int h)
     quitButton.setTrigger(&touchTrigger);
     quitButton.setTrigger(&wpadTouchTrigger);
     quitButton.setEffectGrow();
-    quitButton.setSoundClick(buttonClickSound);
+//  quitButton.setSoundClick(buttonClickSound);
     categorySelectionFrame.append(&quitButton);
 
     versionText.setColor(glm::vec4(0.6f, 0.6f, 0.6f, 1.0f));
@@ -169,7 +169,7 @@ SettingsMenu::SettingsMenu(int w, int h)
         category.categoryButton->setIconOver(category.categoryIconGlow);
         category.categoryButton->setTrigger(&touchTrigger);
         category.categoryButton->setTrigger(&wpadTouchTrigger);
-        category.categoryButton->setSoundClick(buttonClickSound);
+//      category.categoryButton->setSoundClick(buttonClickSound);
         category.categoryButton->setEffectGrow();
         category.categoryButton->clicked.connect(this, &SettingsMenu::OnCategoryClick);
 
@@ -198,7 +198,7 @@ SettingsMenu::SettingsMenu(int w, int h)
         smallIconButton->setEffectGrow();
         smallIconButton->setTrigger(&touchTrigger);
         smallIconButton->setTrigger(&wpadTouchTrigger);
-        smallIconButton->setSoundClick(buttonClickSound);
+//      smallIconButton->setSoundClick(buttonClickSound);
         smallIconButton->clicked.connect(this, &SettingsMenu::OnSmallIconClick);
         categorySelectionFrame.append(smallIconButton);
 
@@ -214,7 +214,7 @@ SettingsMenu::SettingsMenu(int w, int h)
     leftArrowButton.setTrigger(&touchTrigger);
     leftArrowButton.setTrigger(&wpadTouchTrigger);
 
-    leftArrowButton.setSoundClick(buttonClickSound);
+//  leftArrowButton.setSoundClick(buttonClickSound);
     leftArrowButton.clicked.connect(this, &SettingsMenu::OnCategoryLeftClick);
     categorySelectionFrame.append(&leftArrowButton);
 
@@ -224,7 +224,7 @@ SettingsMenu::SettingsMenu(int w, int h)
     rightArrowButton.setAlignment(ALIGN_RIGHT | ALIGN_MIDDLE);
     rightArrowButton.setTrigger(&touchTrigger);
     rightArrowButton.setTrigger(&wpadTouchTrigger);
-    rightArrowButton.setSoundClick(buttonClickSound);
+//  rightArrowButton.setSoundClick(buttonClickSound);
     rightArrowButton.clicked.connect(this, &SettingsMenu::OnCategoryRightClick);
     categorySelectionFrame.append(&rightArrowButton);
 
@@ -273,7 +273,7 @@ SettingsMenu::~SettingsMenu()
     Resources::RemoveImageData(categoryBgImageData);
     Resources::RemoveImageData(leftArrowImageData);
     Resources::RemoveImageData(rightArrowImageData);
-    Resources::RemoveSound(buttonClickSound);
+//  Resources::RemoveSound(buttonClickSound);
 }
 
 void SettingsMenu::setTargetPosition(int selectedIdx)
