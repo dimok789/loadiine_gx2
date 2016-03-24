@@ -113,6 +113,10 @@ void CSettings::SetDefault()
     settingsValues[GameStartIndex].dataType = TypeU16;
     settingsValues[GameStartIndex].uiValue = 0;
 
+    settingsNames[LaunchPyGecko] = "LaunchPyGecko";
+    settingsValues[LaunchPyGecko].dataType = TypeU8;
+    settingsValues[LaunchPyGecko].ucValue = 0;
+
 }
 
 bool CSettings::Load()
