@@ -78,7 +78,8 @@ public:
         ConsoleRegionCode,
         DebugLoggerIP,
         GameStartIndex,
-        PadconMode,
+		PadconMode,
+        LaunchPyGecko,
         MAX_VALUE
     };
 

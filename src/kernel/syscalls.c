@@ -143,8 +143,35 @@ static void KernelWriteDBATs(bat_table_t * table)
     asm volatile("eieio; isync");
 }
 
+/* Read a 32-bit word with kernel permissions */
+uint32_t __attribute__ ((noinline)) kern_read(const void *addr)
+{
+	uint32_t result;
+	asm volatile (
+		"li 3,1\n"
+		"li 4,0\n"
+		"li 5,0\n"
+		"li 6,0\n"
+		"li 7,0\n"
+		"lis 8,1\n"
+		"mr 9,%1\n"
+		"li 0,0x3400\n"
+		"mr %0,1\n"
+		"sc\n"
+		"nop\n"
+		"mr 1,%0\n"
+		"mr %0,3\n"
+		:	"=r"(result)
+		:	"b"(addr)
+		:	"memory", "ctr", "lr", "0", "3", "4", "5", "6", "7", "8", "9", "10",
+			"11", "12"
+	);
+
+	return result;
+}
+
 /* Write a 32-bit word with kernel permissions */
-static void __attribute__ ((noinline)) kern_write(void *addr, uint32_t value)
+void __attribute__ ((noinline)) kern_write(void *addr, uint32_t value)
 {
 	asm volatile (
 		"li 3,1\n"

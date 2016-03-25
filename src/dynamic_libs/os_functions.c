@@ -64,6 +64,7 @@ EXPORT_DECL(void, DCFlushRange, const void *addr, u32 length);
 EXPORT_DECL(void, ICInvalidateRange, const void *addr, u32 length);
 EXPORT_DECL(void*, OSEffectiveToPhysical, const void*);
 EXPORT_DECL(int, __os_snprintf, char* s, int n, const char * format, ...);
+EXPORT_DECL(int *, __gh_errno_ptr, void);
 
 //!----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //! Memory functions
@@ -114,6 +115,7 @@ void InitOSFunctionPointers(void)
     OS_FIND_EXPORT(coreinit_handle, ICInvalidateRange);
     OS_FIND_EXPORT(coreinit_handle, OSEffectiveToPhysical);
     OS_FIND_EXPORT(coreinit_handle, __os_snprintf);
+    OS_FIND_EXPORT(coreinit_handle, __gh_errno_ptr);
     OSDynLoad_FindExport(coreinit_handle, 0, "_Exit", &__Exit);
     //!----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //! Thread functions
