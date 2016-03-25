@@ -1143,8 +1143,8 @@ DECL(int, FSGetVolumeState_log, void *pClient) {
 
 #endif
 
-DECL(void, VPADRead, int chan, VPADData *buffer, u32 buffer_size, s32 *error) {
-    real_VPADRead(chan, buffer, buffer_size, error);
+DECL(int, VPADRead, int chan, VPADData *buffer, u32 buffer_size, s32 *error) {
+    int result = real_VPADRead(chan, buffer, buffer_size, error);
 
     if(buffer->btns_r&VPAD_BUTTON_STICK_R) {
         int mode;
@@ -1156,6 +1156,8 @@ DECL(void, VPADRead, int chan, VPADData *buffer, u32 buffer_size, s32 *error) {
             VPADSetLcdMode(0, 0xFF);    // Turn it on
         }
     }
+
+    return result;
 }
 
 /* *****************************************************************************

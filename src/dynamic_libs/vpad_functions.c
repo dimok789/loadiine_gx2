@@ -26,7 +26,7 @@
 
 unsigned int vpad_handle = 0;
 
-EXPORT_DECL(void, VPADRead, int chan, VPADData *buffer, u32 buffer_size, s32 *error);
+EXPORT_DECL(int, VPADRead, int chan, VPADData *buffer, u32 buffer_size, s32 *error);
 EXPORT_DECL(int, VPADGetLcdMode, int padnum, int *lcdmode);
 EXPORT_DECL(int, VPADSetLcdMode, int padnum, int lcdmode);
 
