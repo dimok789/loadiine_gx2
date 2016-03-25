@@ -20,8 +20,6 @@
 
 #define USE_EXTRA_LOG_FUNCTIONS   0
 
-#define WITH_PADCON   1
-
 #define DECL(res, name, ...) \
         res (* real_ ## name)(__VA_ARGS__) __attribute__((section(".data"))); \
         res my_ ## name(__VA_ARGS__)
@@ -1145,7 +1143,6 @@ DECL(int, FSGetVolumeState_log, void *pClient) {
 
 #endif
 
-#if (WITH_PADCON == 1)
 DECL(void, VPADRead, int chan, VPADData *buffer, u32 buffer_size, s32 *error) {
     real_VPADRead(chan, buffer, buffer_size, error);
 
@@ -1161,7 +1158,6 @@ DECL(void, VPADRead, int chan, VPADData *buffer, u32 buffer_size, s32 *error) {
     }
 }
 
-#endif
 /* *****************************************************************************
  * Creates function pointer array
  * ****************************************************************************/
@@ -1229,9 +1225,7 @@ static const struct hooks_magic_t {
     MAKE_MAGIC(FSGetVolumeState_log,        LIB_CORE_INIT),
 #endif
 
-#if (WITH_PADCON == 1)
     MAKE_MAGIC(VPADRead,                    LIB_VPAD),
-#endif
 };
 
 //! buffer to store our 2 instructions needed for our replacements
@@ -1272,14 +1266,13 @@ void PatchMethodHooks(int padmode)
         {
             memcpy(&real_addr, &addr_LiWaitOneChunk, 4);
         }        
-#if (WITH_PADCON == 1)
         else if(strcmp(method_hooks[i].functionName, "VPADRead") == 0)
         {
             if(padmode == 1) { 
                 OSDynLoad_FindExport(vpad_handle, 0, method_hooks[i].functionName, &real_addr);   
             }
+            if(padmode == 0) continue;
         }
-#endif
         else
         {
             OSDynLoad_FindExport(coreinit_handle, 0, method_hooks[i].functionName, &real_addr);
