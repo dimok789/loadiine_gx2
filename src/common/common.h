@@ -24,7 +24,6 @@ extern "C" {
 #define LIB_CORE_INIT           0
 #define LIB_NSYSNET             1
 #define LIB_GX2                 2
-#define LIB_VPAD                3
 // none dynamic libs
 #define LIB_LOADER              0x1001
 
