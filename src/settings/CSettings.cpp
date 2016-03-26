@@ -113,6 +113,10 @@ void CSettings::SetDefault()
     settingsValues[GameStartIndex].dataType = TypeU16;
     settingsValues[GameStartIndex].uiValue = 0;
 
+	settingsNames[PadconMode] = "PadconMode";
+    settingsValues[PadconMode].dataType = TypeU8;
+    settingsValues[PadconMode].ucValue = PADCON_DISABLED;
+
     settingsNames[LaunchPyGecko] = "LaunchPyGecko";
     settingsValues[LaunchPyGecko].dataType = TypeU8;
     settingsValues[LaunchPyGecko].ucValue = 0;

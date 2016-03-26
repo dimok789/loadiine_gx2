@@ -8,6 +8,7 @@
 #include "game/rpx_rpl_table.h"
 #include "dynamic_libs/fs_functions.h"
 #include "dynamic_libs/os_functions.h"
+#include "dynamic_libs/vpad_functions.h"
 #include "kernel/kernel_functions.h"
 #include "system/exception_handler.h"
 #include "function_hooks.h"
@@ -1141,6 +1142,24 @@ DECL(int, FSGetVolumeState_log, void *pClient) {
 }
 
 #endif
+
+DECL(int, VPADRead, int chan, VPADData *buffer, u32 buffer_size, s32 *error) {
+    int result = real_VPADRead(chan, buffer, buffer_size, error);
+
+    if(buffer->btns_r&VPAD_BUTTON_STICK_R) {
+        int mode;
+        VPADGetLcdMode(0, &mode);       // Get current display mode
+        if(mode != 1) {
+            VPADSetLcdMode(0, 1);       // Turn it off
+        }
+        else {
+            VPADSetLcdMode(0, 0xFF);    // Turn it on
+        }
+    }
+
+    return result;
+}
+
 /* *****************************************************************************
  * Creates function pointer array
  * ****************************************************************************/
@@ -1207,6 +1226,8 @@ static const struct hooks_magic_t {
     MAKE_MAGIC(FSWriteFileWithPos_log,      LIB_CORE_INIT),
     MAKE_MAGIC(FSGetVolumeState_log,        LIB_CORE_INIT),
 #endif
+
+    MAKE_MAGIC(VPADRead,                    LIB_VPAD),
 };
 
 //! buffer to store our 2 instructions needed for our replacements
@@ -1214,7 +1235,7 @@ static const struct hooks_magic_t {
 //! avoid this buffer to be placed in BSS and reset on start up
 volatile unsigned int fs_method_calls[sizeof(method_hooks) / sizeof(struct hooks_magic_t) * 2] __attribute__((section(".data")));
 
-void PatchMethodHooks(void)
+void PatchMethodHooks(int padmode)
 {
     restore_instructions_t * restore = (restore_instructions_t *)(RESTORE_INSTR_ADDR);
     //! check if it is already patched
@@ -1246,6 +1267,13 @@ void PatchMethodHooks(void)
         else if(strcmp(method_hooks[i].functionName, "LiWaitOneChunk") == 0)
         {
             memcpy(&real_addr, &addr_LiWaitOneChunk, 4);
+        }        
+        else if(strcmp(method_hooks[i].functionName, "VPADRead") == 0)
+        {
+            if(padmode == 1) { 
+                OSDynLoad_FindExport(vpad_handle, 0, method_hooks[i].functionName, &real_addr);   
+            }
+            if(padmode == 0) continue;
         }
         else
         {

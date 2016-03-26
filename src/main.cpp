@@ -13,6 +13,7 @@
 #include "fs/fs_utils.h"
 #include "fs/sd_fat_devoptab.h"
 #include "kernel/kernel_functions.h"
+#include "settings/CSettings.h"
 #include "system/exception_handler.h"
 #include "system/memory.h"
 #include "utils/strings.h"
@@ -56,16 +57,32 @@ extern "C" int Menu_Main(void)
     memoryInitialize();
 
     //!*******************************************************************
-    //!                       Patch Functions                            *
-    //!*******************************************************************
-    log_printf("Patch FS and loader functions\n");
-    PatchMethodHooks();
-
-    //!*******************************************************************
     //!                        Initialize FS                             *
     //!*******************************************************************
     log_printf("Mount SD partition\n");
     mount_sd_fat("sd");
+
+    //!*******************************************************************
+    //!                       Patch Functions                            *
+    //!*******************************************************************
+    // We need to check if padcon should be enabled before hooking the functions
+    log_printf("Load settings\n");
+    CSettings::instance()->Load();
+
+    int padmode = 0;
+    switch(CSettings::getValueAsU8(CSettings::PadconMode))
+    {
+        case PADCON_ENABLED: {
+            padmode = 1;
+            log_printf("Padcon enabled\n");
+            break;
+        }
+        default:
+            break;
+    }
+    
+    log_printf("Patch FS and loader functions\n");
+    PatchMethodHooks(padmode);
 
     //!*******************************************************************
     //!                    Setup exception handler                       *
@@ -81,6 +98,9 @@ extern "C" int Menu_Main(void)
     log_printf("Main application stopped\n");
 
     Application::destroyInstance();
+    
+    CSettings::instance()->Save();
+    CSettings::destroyInstance();
 
     log_printf("Unmount SD\n");
     unmount_sd_fat("sd");
