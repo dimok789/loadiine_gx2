@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "common/common.h"
 #include "dynamic_libs/os_functions.h"
 #include "utils/logger.h"
 #include "exception_handler.h"
@@ -58,7 +59,7 @@ static const char *exception_names[] = {
 };
 
 static const char exception_print_formats[18][45] = {
-     "Exception type %s occurred!\n",                       // 0
+     "FW %i: Exception type %s occurred!\n",       // 0
      "GPR00 %08X GPR08 %08X GPR16 %08X GPR24 %08X\n",       // 1
      "GPR01 %08X GPR09 %08X GPR17 %08X GPR25 %08X\n",       // 2
      "GPR02 %08X GPR10 %08X GPR18 %08X GPR26 %08X\n",       // 3
@@ -86,7 +87,7 @@ static unsigned char exception_cb(void * c, unsigned char exception_type) {
     /*
      * This part is mostly from libogc. Thanks to the devs over there.
      */
-	pos += sprintf(buf + pos, exception_print_formats[0], exception_names[exception_type]);
+	pos += sprintf(buf + pos, exception_print_formats[0], OS_FIRMWARE, exception_names[exception_type]);
 	pos += sprintf(buf + pos, exception_print_formats[1], context->gpr[0], context->gpr[8], context->gpr[16], context->gpr[24]);
 	pos += sprintf(buf + pos, exception_print_formats[2], context->gpr[1], context->gpr[9], context->gpr[17], context->gpr[25]);
 	pos += sprintf(buf + pos, exception_print_formats[3], context->gpr[2], context->gpr[10], context->gpr[18], context->gpr[26]);
