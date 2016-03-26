@@ -41,8 +41,6 @@ Application::Application()
     controller[3] = new WPadController(GuiTrigger::CHANNEL_4);
     controller[4] = new WPadController(GuiTrigger::CHANNEL_5);
 
-    CSettings::instance()->Load();
-
     //! reload logger to change IP to settings IP
     log_deinit();
     log_init(CSettings::getValueAsString(CSettings::DebugLoggerIP).c_str());
@@ -69,9 +67,6 @@ Application::Application()
 Application::~Application()
 {
     GameList::destroyInstance();
-
-    CSettings::instance()->Save();
-    CSettings::destroyInstance();
 
 //  delete bgMusic;
 

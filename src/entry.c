@@ -2,12 +2,18 @@
 #include "dynamic_libs/os_functions.h"
 #include "dynamic_libs/sys_functions.h"
 #include "patcher/function_hooks.h"
+#include "patcher/pygecko.h"
 #include "common/common.h"
 #include "utils/utils.h"
 #include "main.h"
 
 int __entry_menu(int argc, char **argv)
 {
+    if (GAME_LAUNCHED && LAUNCH_PYGECKO)
+    {
+        start_pygecko();
+    }
+
     //! *******************************************************************
     //! *              Check if our application is started                *
     //! *******************************************************************
