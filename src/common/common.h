@@ -24,6 +24,7 @@ extern "C" {
 #define LIB_CORE_INIT           0
 #define LIB_NSYSNET             1
 #define LIB_GX2                 2
+#define LIB_VPAD                3
 // none dynamic libs
 #define LIB_LOADER              0x1001
 
@@ -55,6 +56,7 @@ extern "C" {
 #define GAME_RPX_LOADED         (*(volatile unsigned int*)(MEM_BASE + 0x1400 + 0x14))
 #define GAME_LAUNCHED           (*(volatile unsigned int*)(MEM_BASE + 0x1400 + 0x18))
 #define LOADIINE_MODE           (*(volatile unsigned int*)(MEM_BASE + 0x1400 + 0x1C))      // loadiine operation mode (1 = smash bros, 0 = mii maker)
+#define LAUNCH_PYGECKO          (*(volatile unsigned int*)(MEM_BASE + 0x1400 + 0x20))
 
 #define OS_SPECIFICS            ((OsSpecifics*)(MEM_BASE + 0x1500))
 

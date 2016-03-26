@@ -22,7 +22,7 @@ struct bss_t {
 #define bss_ptr (*(struct bss_t **)0x100000e4)
 #define bss (*bss_ptr)
 
-void PatchMethodHooks(void);
+void PatchMethodHooks(int padmode);
 void RestoreInstructions(void);
 
 #ifdef __cplusplus

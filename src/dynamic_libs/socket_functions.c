@@ -28,14 +28,15 @@ EXPORT_DECL(void, socket_lib_init, void);
 EXPORT_DECL(int, socket, int domain, int type, int protocol);
 EXPORT_DECL(int, socketclose, int s);
 EXPORT_DECL(int, connect, int s, void *addr, int addrlen);
+EXPORT_DECL(int, bind, s32 s,struct sockaddr *name,s32 namelen);
+EXPORT_DECL(int, listen, s32 s,u32 backlog);
+EXPORT_DECL(int, accept, s32 s,struct sockaddr *addr,s32 *addrlen);
 EXPORT_DECL(int, send, int s, const void *buffer, int size, int flags);
 EXPORT_DECL(int, recv, int s, void *buffer, int size, int flags);
 EXPORT_DECL(int, sendto, int s, const void *buffer, int size, int flags, const struct sockaddr *dest, int dest_len);
 EXPORT_DECL(int, setsockopt, int s, int level, int optname, void *optval, int optlen);
 EXPORT_DECL(char *, inet_ntoa, struct in_addr in);
 EXPORT_DECL(int, inet_aton, const char *cp, struct in_addr *inp);
-
-
 
 
 void InitSocketFunctionPointers(void)
@@ -48,6 +49,9 @@ void InitSocketFunctionPointers(void)
     OS_FIND_EXPORT(nsysnet_handle, socket);
     OS_FIND_EXPORT(nsysnet_handle, socketclose);
     OS_FIND_EXPORT(nsysnet_handle, connect);
+    OS_FIND_EXPORT(nsysnet_handle, bind);
+    OS_FIND_EXPORT(nsysnet_handle, listen);
+    OS_FIND_EXPORT(nsysnet_handle, accept);
     OS_FIND_EXPORT(nsysnet_handle, send);
     OS_FIND_EXPORT(nsysnet_handle, recv);
     OS_FIND_EXPORT(nsysnet_handle, sendto);

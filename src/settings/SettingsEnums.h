@@ -14,4 +14,10 @@ enum eGameSaveModes
     GAME_SAVES_UNIQUE
 };
 
+enum ePadconModes
+{
+	PADCON_DISABLED,
+	PADCON_ENABLED
+};
+
 #endif // SETTINGS_ENUMS_H_
