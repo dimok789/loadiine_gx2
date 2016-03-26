@@ -1,7 +1,7 @@
 /****************************************************************************
  * Loadiine resource files.
  * This file is generated automatically.
- * Includes 51 files.
+ * Includes 53 files.
  *
  * NOTE:
  * Any manual modification of this file will be overwriten by the generation.
@@ -29,6 +29,9 @@ extern const u32 bgGridTile_png_size;
 extern const u8 bgMusic_ogg[];
 extern const u32 bgMusic_ogg_size;
 
+extern const u8 button_png[];
+extern const u32 button_png_size;
+
 extern const u8 button_click_mp3[];
 extern const u32 button_click_mp3_size;
 
@@ -41,11 +44,11 @@ extern const u32 choiceHighlightedSquare_png_size;
 extern const u8 choiceUncheckedSquare_png[];
 extern const u32 choiceUncheckedSquare_png_size;
 
-extern const u8 creditsIconGlow_png[];
-extern const u32 creditsIconGlow_png_size;
-
 extern const u8 creditsIcon_png[];
 extern const u32 creditsIcon_png_size;
+
+extern const u8 creditsIconGlow_png[];
+extern const u32 creditsIconGlow_png_size;
 
 extern const u8 credits_music_ogg[];
 extern const u32 credits_music_ogg_size;
@@ -59,20 +62,20 @@ extern const u32 emptyRoundButtonSelected_png_size;
 extern const u8 font_ttf[];
 extern const u32 font_ttf_size;
 
-extern const u8 game_click_mp3[];
-extern const u32 game_click_mp3_size;
+extern const u8 gameSettingsIcon_png[];
+extern const u32 gameSettingsIcon_png_size;
 
 extern const u8 gameSettingsIconGlow_png[];
 extern const u32 gameSettingsIconGlow_png_size;
 
-extern const u8 gameSettingsIcon_png[];
-extern const u32 gameSettingsIcon_png_size;
-
-extern const u8 guiSettingsIconGlow_png[];
-extern const u32 guiSettingsIconGlow_png_size;
+extern const u8 game_click_mp3[];
+extern const u32 game_click_mp3_size;
 
 extern const u8 guiSettingsIcon_png[];
 extern const u32 guiSettingsIcon_png_size;
+
+extern const u8 guiSettingsIconGlow_png[];
+extern const u32 guiSettingsIconGlow_png_size;
 
 extern const u8 iconEmpty_jpg[];
 extern const u32 iconEmpty_jpg_size;
@@ -83,11 +86,11 @@ extern const u32 keyPadBackButton_png_size;
 extern const u8 keyPadBg_png[];
 extern const u32 keyPadBg_png_size;
 
-extern const u8 keyPadButtonClicked_png[];
-extern const u32 keyPadButtonClicked_png_size;
-
 extern const u8 keyPadButton_png[];
 extern const u32 keyPadButton_png_size;
+
+extern const u8 keyPadButtonClicked_png[];
+extern const u32 keyPadButtonClicked_png_size;
 
 extern const u8 keyPadDeleteButton_png[];
 extern const u32 keyPadDeleteButton_png_size;
@@ -95,14 +98,17 @@ extern const u32 keyPadDeleteButton_png_size;
 extern const u8 keyPadDeleteClicked_png[];
 extern const u32 keyPadDeleteClicked_png_size;
 
-extern const u8 keyPadFieldBlinker_png[];
-extern const u32 keyPadFieldBlinker_png_size;
-
 extern const u8 keyPadField_png[];
 extern const u32 keyPadField_png_size;
 
+extern const u8 keyPadFieldBlinker_png[];
+extern const u32 keyPadFieldBlinker_png_size;
+
 extern const u8 keyPadOkButton_png[];
 extern const u32 keyPadOkButton_png_size;
+
+extern const u8 launchMenuBox_png[];
+extern const u32 launchMenuBox_png_size;
 
 extern const u8 layoutSwitchButton_png[];
 extern const u32 layoutSwitchButton_png_size;
@@ -110,11 +116,11 @@ extern const u32 layoutSwitchButton_png_size;
 extern const u8 leftArrow_png[];
 extern const u32 leftArrow_png_size;
 
-extern const u8 loaderSettingsIconGlow_png[];
-extern const u32 loaderSettingsIconGlow_png_size;
-
 extern const u8 loaderSettingsIcon_png[];
 extern const u32 loaderSettingsIcon_png_size;
+
+extern const u8 loaderSettingsIconGlow_png[];
+extern const u32 loaderSettingsIconGlow_png_size;
 
 extern const u8 noCover_png[];
 extern const u32 noCover_png_size;
@@ -164,49 +170,51 @@ extern const u32 settingsCategoryBg_png_size;
 extern const u8 settingsCategoryButton_png[];
 extern const u32 settingsCategoryButton_png_size;
 
-extern const u8 settings_click_2_mp3[];
-extern const u32 settings_click_2_mp3_size;
-
 extern const u8 settingSelectedButton_png[];
 extern const u32 settingSelectedButton_png_size;
 
 extern const u8 settingsTitle_png[];
 extern const u32 settingsTitle_png_size;
 
+extern const u8 settings_click_2_mp3[];
+extern const u32 settings_click_2_mp3_size;
+
 static RecourceFile RecourceList[] =
 {
 	{"backButton.png", backButton_png, backButton_png_size, NULL, 0},
 	{"bgGridTile.png", bgGridTile_png, bgGridTile_png_size, NULL, 0},
 	{"bgMusic.ogg", bgMusic_ogg, bgMusic_ogg_size, NULL, 0},
+	{"button.png", button_png, button_png_size, NULL, 0},
 	{"button_click.mp3", button_click_mp3, button_click_mp3_size, NULL, 0},
 	{"choiceCheckedSquare.png", choiceCheckedSquare_png, choiceCheckedSquare_png_size, NULL, 0},
 	{"choiceHighlightedSquare.png", choiceHighlightedSquare_png, choiceHighlightedSquare_png_size, NULL, 0},
 	{"choiceUncheckedSquare.png", choiceUncheckedSquare_png, choiceUncheckedSquare_png_size, NULL, 0},
-	{"creditsIconGlow.png", creditsIconGlow_png, creditsIconGlow_png_size, NULL, 0},
 	{"creditsIcon.png", creditsIcon_png, creditsIcon_png_size, NULL, 0},
+	{"creditsIconGlow.png", creditsIconGlow_png, creditsIconGlow_png_size, NULL, 0},
 	{"credits_music.ogg", credits_music_ogg, credits_music_ogg_size, NULL, 0},
 	{"emptyRoundButton.png", emptyRoundButton_png, emptyRoundButton_png_size, NULL, 0},
 	{"emptyRoundButtonSelected.png", emptyRoundButtonSelected_png, emptyRoundButtonSelected_png_size, NULL, 0},
 	{"font.ttf", font_ttf, font_ttf_size, NULL, 0},
-	{"game_click.mp3", game_click_mp3, game_click_mp3_size, NULL, 0},
-	{"gameSettingsIconGlow.png", gameSettingsIconGlow_png, gameSettingsIconGlow_png_size, NULL, 0},
 	{"gameSettingsIcon.png", gameSettingsIcon_png, gameSettingsIcon_png_size, NULL, 0},
-	{"guiSettingsIconGlow.png", guiSettingsIconGlow_png, guiSettingsIconGlow_png_size, NULL, 0},
+	{"gameSettingsIconGlow.png", gameSettingsIconGlow_png, gameSettingsIconGlow_png_size, NULL, 0},
+	{"game_click.mp3", game_click_mp3, game_click_mp3_size, NULL, 0},
 	{"guiSettingsIcon.png", guiSettingsIcon_png, guiSettingsIcon_png_size, NULL, 0},
+	{"guiSettingsIconGlow.png", guiSettingsIconGlow_png, guiSettingsIconGlow_png_size, NULL, 0},
 	{"iconEmpty.jpg", iconEmpty_jpg, iconEmpty_jpg_size, NULL, 0},
 	{"keyPadBackButton.png", keyPadBackButton_png, keyPadBackButton_png_size, NULL, 0},
 	{"keyPadBg.png", keyPadBg_png, keyPadBg_png_size, NULL, 0},
-	{"keyPadButtonClicked.png", keyPadButtonClicked_png, keyPadButtonClicked_png_size, NULL, 0},
 	{"keyPadButton.png", keyPadButton_png, keyPadButton_png_size, NULL, 0},
+	{"keyPadButtonClicked.png", keyPadButtonClicked_png, keyPadButtonClicked_png_size, NULL, 0},
 	{"keyPadDeleteButton.png", keyPadDeleteButton_png, keyPadDeleteButton_png_size, NULL, 0},
 	{"keyPadDeleteClicked.png", keyPadDeleteClicked_png, keyPadDeleteClicked_png_size, NULL, 0},
-	{"keyPadFieldBlinker.png", keyPadFieldBlinker_png, keyPadFieldBlinker_png_size, NULL, 0},
 	{"keyPadField.png", keyPadField_png, keyPadField_png_size, NULL, 0},
+	{"keyPadFieldBlinker.png", keyPadFieldBlinker_png, keyPadFieldBlinker_png_size, NULL, 0},
 	{"keyPadOkButton.png", keyPadOkButton_png, keyPadOkButton_png_size, NULL, 0},
+	{"launchMenuBox.png", launchMenuBox_png, launchMenuBox_png_size, NULL, 0},
 	{"layoutSwitchButton.png", layoutSwitchButton_png, layoutSwitchButton_png_size, NULL, 0},
 	{"leftArrow.png", leftArrow_png, leftArrow_png_size, NULL, 0},
-	{"loaderSettingsIconGlow.png", loaderSettingsIconGlow_png, loaderSettingsIconGlow_png_size, NULL, 0},
 	{"loaderSettingsIcon.png", loaderSettingsIcon_png, loaderSettingsIcon_png_size, NULL, 0},
+	{"loaderSettingsIconGlow.png", loaderSettingsIconGlow_png, loaderSettingsIconGlow_png_size, NULL, 0},
 	{"noCover.png", noCover_png, noCover_png_size, NULL, 0},
 	{"noGameIcon.png", noGameIcon_png, noGameIcon_png_size, NULL, 0},
 	{"player1_point.png", player1_point_png, player1_point_png_size, NULL, 0},
@@ -223,9 +231,9 @@ static RecourceFile RecourceList[] =
 	{"settingsButton.png", settingsButton_png, settingsButton_png_size, NULL, 0},
 	{"settingsCategoryBg.png", settingsCategoryBg_png, settingsCategoryBg_png_size, NULL, 0},
 	{"settingsCategoryButton.png", settingsCategoryButton_png, settingsCategoryButton_png_size, NULL, 0},
-	{"settings_click_2.mp3", settings_click_2_mp3, settings_click_2_mp3_size, NULL, 0},
 	{"settingSelectedButton.png", settingSelectedButton_png, settingSelectedButton_png_size, NULL, 0},
 	{"settingsTitle.png", settingsTitle_png, settingsTitle_png_size, NULL, 0},
+	{"settings_click_2.mp3", settings_click_2_mp3, settings_click_2_mp3_size, NULL, 0},
 	{NULL, NULL, 0, NULL, 0}
 };
 

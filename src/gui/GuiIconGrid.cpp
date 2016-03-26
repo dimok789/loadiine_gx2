@@ -105,8 +105,10 @@ GuiIconGrid::GuiIconGrid(int w, int h, int GameIndex)
         button->setTrigger(&wpadTouchTrigger);
         button->setSoundClick(buttonClickSound);
         button->setClickable( (idx < GameList::instance()->size()) );
+        button->setHoldable( (idx < GameList::instance()->size()) );
         button->setSelectable( (idx < GameList::instance()->size()) );
         button->clicked.connect(this, &GuiIconGrid::OnGameButtonClick);
+        button->held.connect(this, &GuiIconGrid::OnGameButtonHold);
         this->append(button);
 
         gameButtons.push_back(button);
@@ -380,7 +382,9 @@ void GuiIconGrid::OnGameButtonClick(GuiButton *button, const GuiController *cont
             if(selectedGame == (int)i)
             {
                 if(gameLaunchTimer < 30)
+                {
                     OnLaunchClick(button, controller, trigger);
+                }
             }
             else
             {
@@ -391,6 +395,57 @@ void GuiIconGrid::OnGameButtonClick(GuiButton *button, const GuiController *cont
             break;
         }
     }
+}
+
+void GuiIconGrid::OnOpenEffectFinish(GuiElement *element)
+{
+    //! once the menu is open reset its state and allow it to be "clicked/hold"
+    element->effectFinished.disconnect(this);
+    element->clearState(GuiElement::STATE_DISABLED);
+}
+
+void GuiIconGrid::OnCloseEffectFinish(GuiElement *element)
+{
+    //! remove element from draw list and push to delete queue
+    remove(element);
+    AsyncDeleter::pushForDelete(element);
+    
+    for(u32 i = 0; i < gameButtons.size(); i++)
+    {
+        gameButtons[i]->clearState(GuiElement::STATE_DISABLED);
+    }    
+}
+
+void GuiIconGrid::OnLaunchBoxCloseClick(GuiElement *element)
+{
+    element->setState(GuiElement::STATE_DISABLED);
+    element->setEffect(EFFECT_FADE, -10, 0);
+    element->effectFinished.connect(this, &GuiIconGrid::OnCloseEffectFinish);
+}
+
+void GuiIconGrid::OnGameButtonHold(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
+{
+    bool disableButtons = false;
+    
+    if (gameLaunchTimer > 40)
+    {
+        GameInfoWindow * infoBox = new GameInfoWindow(this, selectedGame);
+        infoBox->setEffect(EFFECT_FADE, 10, 255);
+        infoBox->setState(GuiElement::STATE_DISABLED);
+        infoBox->setPosition(0.0f, 30.0f);
+        infoBox->effectFinished.connect(this, &GuiIconGrid::OnOpenEffectFinish);
+        infoBox->backButtonClicked.connect(this, &GuiIconGrid::OnLaunchBoxCloseClick);
+        append(infoBox);
+        disableButtons = true;
+    }
+    
+    if(disableButtons)
+    {
+        for(u32 i = 0; i < gameButtons.size(); i++)
+        {
+            gameButtons[i]->setState(GuiElement::STATE_DISABLED);
+        }
+    }    
 }
 
 void GuiIconGrid::updateButtonPositions()
