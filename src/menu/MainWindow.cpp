@@ -420,12 +420,15 @@ void MainWindow::OnGameLoadFinish(GameLauncher * launcher, const discHeader *hea
         if(CSettings::getValueAsBool(CSettings::GameLogServer))
         {
             inet_aton(CSettings::getValueAsString(CSettings::GameLogServerIp).c_str(), &ip);
-            log_printf("FS log server on %s\n", CSettings::getValueAsString(CSettings::GameLogServerIp).c_str());
+            log_printf("FS log server is enabled on %s\n", CSettings::getValueAsString(CSettings::GameLogServerIp).c_str());
         }
         else
         {
-            log_printf("FS log server is off\n");
+            log_printf("FS log server is disabled\n");
         }
+
+        log_printf("pyGecko is %s\n", CSettings::getValueAsU8(CSettings::LaunchPyGecko) ? "enabled" : "disabled");
+        log_printf("PADcon is %s\n", CSettings::getValueAsU8(CSettings::PadconMode) ? "enabled" : "disabled");
 
         SERVER_IP = ip.s_addr;
         GAME_LAUNCHED = 1;
