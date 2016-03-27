@@ -69,6 +69,7 @@ error:
         socketclose(sock);
 
     *psock = -1;
+    SERVER_IP = 0;
     return -1;
 }
 
