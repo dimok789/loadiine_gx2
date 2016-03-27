@@ -33,7 +33,11 @@
     #define KERN_SYSCALL_TBL_4                          0xFFEA9120 // located in kernel.elf
     #define KERN_SYSCALL_TBL_5                          0xFFEA9520 // located in kernel.elf
 #elif ( (VER == 400) || (VER == 410) )
-    #define ADDRESS_OSTitle_main_entry_ptr              0x1005A8C0
+    #if (VER == 400)
+        #define ADDRESS_OSTitle_main_entry_ptr          0x1005A600
+    #elif (VER == 410)
+        #define ADDRESS_OSTitle_main_entry_ptr          0x1005A8C0
+    #endif
     #define ADDRESS_main_entry_hook                     0x0101BD4C // start+14C
 
     #define KERN_SYSCALL_TBL_1                          0xFFE84C90
