@@ -46,7 +46,7 @@ private:
 
     int loadGameToMemory(const discHeader *hdr);
 
-    int LoadRpxRplToMem(const std::string & path, const std::string & name, bool isRPX, int entryIndex, const std::vector<std::string> & rplImportList);
+    int LoadRpxRplToMem(const std::string & path, const std::string & name, bool isRPX, int entryIndex, std::vector<std::string> & rplImportList);
     void GetRpxImports(s_rpx_rpl * rpxArray, std::vector<std::string> & rplImports);
 
     static void gameLoadCallback(CThread *thread, void *arg);

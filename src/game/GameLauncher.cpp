@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <set>
 #include <string>
 #include <string.h>
 #include <fcntl.h>
@@ -53,14 +54,14 @@ int GameLauncher::loadGameToMemory(const discHeader *header)
     memoryInitAreaTable();
     rpxRplTableInit();
 
-	DirList rpxList(header->gamepath + RPX_RPL_PATH, ".rpx", DirList::Files);
+    DirList rpxList(header->gamepath + RPX_RPL_PATH, ".rpx", DirList::Files);
 
-	if(rpxList.GetFilecount() == 0)
+    if(rpxList.GetFilecount() == 0)
     {
         log_printf("RPX file not found!\n");
         return RPX_NOT_FOUND;
     }
-	if(rpxList.GetFilecount() != 1)
+    if(rpxList.GetFilecount() != 1)
     {
         log_printf("Warning: Too many RPX files in the folder! Found %i files! Using first one.\n", rpxList.GetFilecount());
         //return TOO_MANY_RPX_NOT_FOUND;
@@ -69,6 +70,7 @@ int GameLauncher::loadGameToMemory(const discHeader *header)
     u32 entryIndex = 0;
     std::string rpxName;
     std::vector<std::string> rplImportList;
+    std::set<int> rplImportFileIdx;
 
     DirList rplList(header->gamepath + RPX_RPL_PATH, ".rpl", DirList::Files);
 
@@ -86,10 +88,43 @@ int GameLauncher::loadGameToMemory(const discHeader *header)
 
     for(int i = 0; i < rplList.GetFilecount(); i++)
     {
-        result = LoadRpxRplToMem(rplList.GetFilepath(i), rplList.GetFilename(i), false, entryIndex++, rplImportList);
+        rplImportFileIdx.insert(i);
+    }
+    
+    //! check for static rpls and load them
+    bool importsAdded;
+    do
+    {
+        importsAdded = false;
+        for(std::set<int>::iterator it = rplImportFileIdx.begin(); it != rplImportFileIdx.end();)
+        {
+            int num = *it;
+            if(std::find(rplImportList.begin(), rplImportList.end(), rplList.GetFilename(num)) != rplImportList.end())
+            {
+                result = LoadRpxRplToMem(rplList.GetFilepath(num), rplList.GetFilename(num), false, entryIndex++, rplImportList);
+                if(result < 0)
+                {
+                    log_printf("Failed loading RPL file %s, error %i\n", rplList.GetFilepath(num), result);
+                    return result;
+                }
+                importsAdded = true;
+                it = rplImportFileIdx.erase(it);
+            }
+            else
+            {
+                it++;
+            }
+        }
+    } while (importsAdded);
+
+    //! load dynamic rpls
+    for(std::set<int>::iterator it = rplImportFileIdx.begin(); it != rplImportFileIdx.end(); it++)
+    {
+        int num = *it;
+        result = LoadRpxRplToMem(rplList.GetFilepath(num), rplList.GetFilename(num), false, entryIndex++, rplImportList);
         if(result < 0)
         {
-            log_printf("Failed loading RPL file %s, error %i\n", rplList.GetFilepath(0), result);
+            log_printf("Failed loading RPL file %s, error %i\n", rplList.GetFilepath(num), result);
             return result;
         }
     }
@@ -189,12 +224,12 @@ int GameLauncher::loadGameToMemory(const discHeader *header)
     return 0;
 }
 
-int GameLauncher::LoadRpxRplToMem(const std::string & path, const std::string & name, bool isRPX, int entryIndex, const std::vector<std::string> & rplImportList)
+int GameLauncher::LoadRpxRplToMem(const std::string & path, const std::string & name, bool isRPX, int entryIndex, std::vector<std::string> & rplImportList)
 {
     // For RPLs :
+    int preload = 0;
     if(!isRPX)
     {
-        int preload = 0;
         u32 i;
         for(i = 0; i < rplImportList.size(); i++)
         {
@@ -292,6 +327,12 @@ int GameLauncher::LoadRpxRplToMem(const std::string & path, const std::string & 
         RPX_CHECK_NAME = *(unsigned int*)name.c_str();
     }
 
+    // Check preloaded rpls for other rpls to preload
+    if (preload)
+    {
+        GetRpxImports(rpx_rpl_struct, rplImportList);
+    }
+
     // return okay
     return 0;
 }
@@ -379,7 +420,13 @@ void GameLauncher::GetRpxImports(s_rpx_rpl *rpx_data, std::vector<std::string> &
     {
         if (strncmp(&section_data[offset+1], ".fimport_", 9) == 0)
         {
-            rplImports.push_back(std::string(&section_data[offset+1+9]));
+            std::string import = std::string(&section_data[offset+1+9]);
+            // Add file suffix for easier handling
+            if (import.find(".rpl") == std::string::npos)
+            {
+                import += ".rpl";
+            }
+            rplImports.push_back(import);
         }
         offset++;
         while (section_data[offset] != 0) {
