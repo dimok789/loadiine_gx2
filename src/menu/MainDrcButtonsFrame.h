@@ -25,8 +25,8 @@ class MainDrcButtonsFrame : public GuiFrame, public sigslot::has_slots<>
 public:
     MainDrcButtonsFrame(int w, int h)
         : GuiFrame(w, h)
-        , buttonClickSound(Resources::GetSound("settings_click_2.mp3"))
-        , screenSwitchSound(Resources::GetSound("screenSwitchSound.mp3"))
+//      , buttonClickSound(Resources::GetSound("settings_click_2.mp3"))
+//      , screenSwitchSound(Resources::GetSound("screenSwitchSound.mp3"))
         , switchIconData(Resources::GetImageData("layoutSwitchButton.png"))
         , settingsIconData(Resources::GetImageData("settingsButton.png"))
         , switchIcon(switchIconData)
@@ -46,7 +46,7 @@ public:
         settingsButton.setTrigger(&wpadTouchTrigger);
         settingsButton.setTrigger(&settingsTrigger);
         settingsButton.setAlignment(ALIGN_LEFT | ALIGN_BOTTOM);
-        settingsButton.setSoundClick(buttonClickSound);
+//      settingsButton.setSoundClick(buttonClickSound);
         settingsButton.setEffectGrow();
         settingsButton.clicked.connect(this, &MainDrcButtonsFrame::OnSettingsButtonClick);
         append(&settingsButton);
@@ -57,13 +57,13 @@ public:
         switchLayoutButton.setTrigger(&wpadTouchTrigger);
         switchLayoutButton.setTrigger(&switchLayoutTrigger);
         switchLayoutButton.setAlignment(ALIGN_RIGHT | ALIGN_BOTTOM);
-        switchLayoutButton.setSoundClick(screenSwitchSound);
+//      switchLayoutButton.setSoundClick(screenSwitchSound);
         switchLayoutButton.setEffectGrow();
         switchLayoutButton.clicked.connect(this, &MainDrcButtonsFrame::OnLayoutSwithClick);
         append(&switchLayoutButton);
 
         gameImageDownloadButton.setClickable(true);
-        gameImageDownloadButton.setSoundClick(buttonClickSound);
+//      gameImageDownloadButton.setSoundClick(buttonClickSound);
         gameImageDownloadButton.setTrigger(&plusTrigger);
         gameImageDownloadButton.clicked.connect(this, &MainDrcButtonsFrame::OnGameImageDownloadButtonClicked);
         append(&gameImageDownloadButton);
@@ -72,8 +72,8 @@ public:
     {
         Resources::RemoveImageData(switchIconData);
         Resources::RemoveImageData(settingsIconData);
-        Resources::RemoveSound(buttonClickSound);
-        Resources::RemoveSound(screenSwitchSound);
+//      Resources::RemoveSound(buttonClickSound);
+//      Resources::RemoveSound(screenSwitchSound);
     }
 
     sigslot::signal1<GuiElement *> settingsButtonClicked;
@@ -90,8 +90,8 @@ private:
         gameImageDownloadClicked(this);
     }
 
-    GuiSound *buttonClickSound;
-    GuiSound *screenSwitchSound;
+//  GuiSound *buttonClickSound;
+//  GuiSound *screenSwitchSound;
     GuiImageData *switchIconData;
     GuiImageData *settingsIconData;
     GuiImage switchIcon;

@@ -41,7 +41,7 @@
  */
 GuiGameCarousel::GuiGameCarousel(int w, int h, int GameIndex)
     : GuiGameBrowser(w, h, GameIndex)
-    , buttonClickSound(Resources::GetSound("button_click.mp3"))
+//  , buttonClickSound(Resources::GetSound("button_click.mp3"))
     , noCover(Resources::GetFile("noCover.png"), Resources::GetFileSize("noCover.png"))
     , gameTitle((char*)NULL, 52, glm::vec4(1.0f))
     , touchTrigger(GuiTrigger::CHANNEL_1, GuiTrigger::VPAD_TOUCH)
@@ -123,7 +123,7 @@ GuiGameCarousel::~GuiGameCarousel()
 	for (u32 i = 0; i < game.size(); ++i)
 		delete game[i];
 
-    Resources::RemoveSound(buttonClickSound);
+//  Resources::RemoveSound(buttonClickSound);
 }
 
 void GuiGameCarousel::setSelectedGame(int idx)
@@ -190,7 +190,7 @@ void GuiGameCarousel::refresh()
 		game[i]->setParent(this);
 		game[i]->setTrigger(&touchTrigger);
         game[i]->setTrigger(&wpadTouchTrigger);
-		game[i]->setSoundClick(buttonClickSound);
+//		game[i]->setSoundClick(buttonClickSound);
 		game[i]->setEffectGrow();
 		game[i]->clicked.connect(this, &GuiGameCarousel::OnGameButtonClick);
 

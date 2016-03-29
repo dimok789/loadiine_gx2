@@ -88,6 +88,8 @@ EXPORT_DECL(void, MEMFreeToExpHeap, int heap, void* ptr);
 EXPORT_DECL(int, LiWaitIopComplete, int unknown_syscall_arg_r3, int * remaining_bytes);
 EXPORT_DECL(int, LiWaitIopCompleteWithInterrupts, int unknown_syscall_arg_r3, int * remaining_bytes);
 EXPORT_DECL(void, addr_LiWaitOneChunk, void);
+EXPORT_DECL(void, addr_sgIsLoadingBuffer, void);
+EXPORT_DECL(void, addr_gDynloadInitialized, void);
 
 //!----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //! Kernel function addresses
@@ -158,10 +160,13 @@ void InitOSFunctionPointers(void)
     //!----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     if(OS_FIRMWARE == 532 || OS_FIRMWARE == 540)
     {
-        EXPORT_FUNC_WRITE(LiWaitIopComplete, (int (*)(int, int *))0x0100FFA4);
-        EXPORT_FUNC_WRITE(LiWaitIopCompleteWithInterrupts, (int (*)(int, int *))0x0100FE90);
-        EXPORT_FUNC_WRITE(addr_LiWaitOneChunk, (int (*)(int, int *))0x010007EC);
-        EXPORT_FUNC_WRITE(addr_PrepareTitle_hook, (int (*)(int, int *))0xFFF18558);
+        EXPORT_FUNC_WRITE(LiWaitIopComplete, (int (*)(int, int *))0x0100FFA4);                // loader.elf
+        EXPORT_FUNC_WRITE(LiWaitIopCompleteWithInterrupts, (int (*)(int, int *))0x0100FE90);  // loader.elf
+        EXPORT_FUNC_WRITE(addr_LiWaitOneChunk, (int (*)(int, int *))0x010007EC);              // loader.elf
+        EXPORT_FUNC_WRITE(addr_PrepareTitle_hook, (int (*)(int, int *))0xFFF18558);           // kernel.elf
+
+        EXPORT_FUNC_WRITE(addr_sgIsLoadingBuffer, (int (*)(int, int *))0xEFE19D00);           // loader.elf
+        EXPORT_FUNC_WRITE(addr_gDynloadInitialized, (int (*)(int, int *))0xEFE13C3C);         // loader.elf
     }
     else if(OS_FIRMWARE == 500 || OS_FIRMWARE == 510)
     {
@@ -169,10 +174,32 @@ void InitOSFunctionPointers(void)
         EXPORT_FUNC_WRITE(LiWaitIopCompleteWithInterrupts, (int (*)(int, int *))0x0100FAB0);
         EXPORT_FUNC_WRITE(addr_LiWaitOneChunk, (int (*)(int, int *))0x010007EC);
         EXPORT_FUNC_WRITE(addr_PrepareTitle_hook, (int (*)(int, int *))0xFFF18534);
+
+        EXPORT_FUNC_WRITE(addr_sgIsLoadingBuffer, (int (*)(int, int *))0xEFE19D00);
+        EXPORT_FUNC_WRITE(addr_gDynloadInitialized, (int (*)(int, int *))0xEFE13C3C);
+    }
+    else if(OS_FIRMWARE == 410)
+    {
+        EXPORT_FUNC_WRITE(LiWaitIopComplete, (int (*)(int, int *))0x0100F78C);
+        EXPORT_FUNC_WRITE(LiWaitIopCompleteWithInterrupts, (int (*)(int, int *))0x0100F678);
+        EXPORT_FUNC_WRITE(addr_LiWaitOneChunk, (int (*)(int, int *))0x010007F8);
+        EXPORT_FUNC_WRITE(addr_PrepareTitle_hook, (int (*)(int, int *))0xFFF166DC);
+
+        EXPORT_FUNC_WRITE(addr_sgIsLoadingBuffer, (int (*)(int, int *))0xEFE19CC0);
+        EXPORT_FUNC_WRITE(addr_gDynloadInitialized, (int (*)(int, int *))0xEFE13BFC);
+    }
+    else if(OS_FIRMWARE == 400) //same for 402 and 403
+    {
+        EXPORT_FUNC_WRITE(LiWaitIopComplete, (int (*)(int, int *))0x0100F78C);
+        EXPORT_FUNC_WRITE(LiWaitIopCompleteWithInterrupts, (int (*)(int, int *))0x0100F678);
+        EXPORT_FUNC_WRITE(addr_LiWaitOneChunk, (int (*)(int, int *))0x010007F8);
+        EXPORT_FUNC_WRITE(addr_PrepareTitle_hook, (int (*)(int, int *))0xFFF15E70);
+
+        EXPORT_FUNC_WRITE(addr_sgIsLoadingBuffer, (int (*)(int, int *))0xEFE19CC0);
+        EXPORT_FUNC_WRITE(addr_gDynloadInitialized, (int (*)(int, int *))0xEFE13BFC);
     }
     else
     {
         OSFatal("Missing all OS specific addresses.");
     }
 }
-

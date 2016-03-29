@@ -19,8 +19,8 @@
 
 CreditsMenu::CreditsMenu(int w, int h, const std::string & title)
     : GuiFrame(w, h)
-    , creditsMusic(Resources::GetSound("credits_music.ogg"))
-    , buttonClickSound(Resources::GetSound("settings_click_2.mp3"))
+//  , creditsMusic(Resources::GetSound("credits_music.ogg"))
+//  , buttonClickSound(Resources::GetSound("settings_click_2.mp3"))
     , backImageData(Resources::GetImageData("backButton.png"))
     , backImage(backImageData)
     , backButton(backImage.getWidth(), backImage.getHeight())
@@ -30,11 +30,11 @@ CreditsMenu::CreditsMenu(int w, int h, const std::string & title)
     , wpadTouchTrigger(GuiTrigger::CHANNEL_2 | GuiTrigger::CHANNEL_3 | GuiTrigger::CHANNEL_4 | GuiTrigger::CHANNEL_5, GuiTrigger::BUTTON_A)
 	, buttonBTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_B, true)
 {
-    Application::instance()->getBgMusic()->Pause();
+//   Application::instance()->getBgMusic()->Pause();
 
-    creditsMusic->SetLoop(true);
-    creditsMusic->Play();
-    creditsMusic->SetVolume(50);
+//  creditsMusic->SetLoop(true);
+//  creditsMusic->Play();
+//  creditsMusic->SetVolume(50);
 
     titleText.setColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
     titleText.setFontSize(46);
@@ -53,7 +53,7 @@ CreditsMenu::CreditsMenu(int w, int h, const std::string & title)
     backButton.setTrigger(&touchTrigger);
     backButton.setTrigger(&wpadTouchTrigger);
 	backButton.setTrigger(&buttonBTrigger);
-    backButton.setSoundClick(buttonClickSound);
+//  backButton.setSoundClick(buttonClickSound);
     backButton.setEffectGrow();
     append(&backButton);
 
@@ -187,7 +187,7 @@ CreditsMenu::~CreditsMenu()
     }
     Resources::RemoveImageData(backImageData);
     Resources::RemoveImageData(titleImageData);
-    Resources::RemoveSound(buttonClickSound);
-    Resources::RemoveSound(creditsMusic);
-    Application::instance()->getBgMusic()->Resume();
+//  Resources::RemoveSound(buttonClickSound);
+//  Resources::RemoveSound(creditsMusic);
+//  Application::instance()->getBgMusic()->Resume();
 }

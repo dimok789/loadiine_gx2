@@ -20,7 +20,7 @@
 
 ButtonChoiceMenu::ButtonChoiceMenu(int w, int h, const std::string & title, const std::vector<std::string> & buttonNames, int selected)
     : GuiFrame(w, h)
-    , buttonClickSound(Resources::GetSound("settings_click_2.mp3"))
+//  , buttonClickSound(Resources::GetSound("settings_click_2.mp3"))
     , backImageData(Resources::GetImageData("backButton.png"))
     , backImage(backImageData)
     , backButton(backImage.getWidth(), backImage.getHeight())
@@ -53,7 +53,7 @@ ButtonChoiceMenu::ButtonChoiceMenu(int w, int h, const std::string & title, cons
     backButton.clicked.connect(this, &ButtonChoiceMenu::OnBackButtonClick);
     backButton.setTrigger(&touchTrigger);
     backButton.setTrigger(&wpadTouchTrigger);
-    backButton.setSoundClick(buttonClickSound);
+//  backButton.setSoundClick(buttonClickSound);
     backButton.setEffectGrow();
     append(&backButton);
 
@@ -65,7 +65,7 @@ ButtonChoiceMenu::ButtonChoiceMenu(int w, int h, const std::string & title, cons
     okButton.clicked.connect(this, &ButtonChoiceMenu::OnOkButtonClick);
     okButton.setTrigger(&touchTrigger);
     okButton.setTrigger(&wpadTouchTrigger);
-    okButton.setSoundClick(buttonClickSound);
+//  okButton.setSoundClick(buttonClickSound);
     okButton.setEffectGrow();
     append(&okButton);
 
@@ -106,7 +106,7 @@ ButtonChoiceMenu::ButtonChoiceMenu(int w, int h, const std::string & title, cons
 		choiceButtons[i].choiceButton->setIconOver(choiceButtons[i].choiceButtonHighlightedImg);
 		
         choiceButtons[i].choiceButton->setLabel(choiceButtons[i].choiceButtonText);
-        choiceButtons[i].choiceButton->setSoundClick(buttonClickSound);
+//      choiceButtons[i].choiceButton->setSoundClick(buttonClickSound);
 
         if(selectedButton == (int)i)
             choiceButtons[i].choiceButton->setImage(choiceButtons[i].choiceButtonCheckedImg);
@@ -175,7 +175,7 @@ ButtonChoiceMenu::~ButtonChoiceMenu()
     Resources::RemoveImageData(titleImageData);
     Resources::RemoveImageData(buttonImageData);
     Resources::RemoveImageData(buttonCheckedImageData);
-    Resources::RemoveSound(buttonClickSound);
+//  Resources::RemoveSound(buttonClickSound);
 }
 
 void ButtonChoiceMenu::UpdateChoiceButtons(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)

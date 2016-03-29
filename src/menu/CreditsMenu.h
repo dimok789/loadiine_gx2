@@ -34,8 +34,8 @@ private:
 
     std::vector<GuiText *> creditsText;
 
-    GuiSound *creditsMusic;
-    GuiSound *buttonClickSound;
+//  GuiSound *creditsMusic;
+//  GuiSound *buttonClickSound;
     GuiImageData *backImageData;
     GuiImage backImage;
     GuiButton backButton;

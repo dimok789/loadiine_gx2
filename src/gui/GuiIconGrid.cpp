@@ -23,7 +23,7 @@
 
 GuiIconGrid::GuiIconGrid(int w, int h, int GameIndex)
     : GuiGameBrowser(w, h, GameIndex)
-    , buttonClickSound(Resources::GetSound("button_click.mp3"))
+//  , buttonClickSound(Resources::GetSound("button_click.mp3"))
     , noIcon(Resources::GetFile("noGameIcon.png"), Resources::GetFileSize("noGameIcon.png"), GX2_TEX_CLAMP_MIRROR)
     , emptyIcon(Resources::GetFile("iconEmpty.jpg"), Resources::GetFileSize("iconEmpty.jpg"), GX2_TEX_CLAMP_MIRROR)
     , particleBgImage(w, h, 50)
@@ -103,7 +103,7 @@ GuiIconGrid::GuiIconGrid(int w, int h, int GameIndex)
         button->setEffectGrow();
         button->setTrigger(&touchTrigger);
         button->setTrigger(&wpadTouchTrigger);
-        button->setSoundClick(buttonClickSound);
+//      button->setSoundClick(buttonClickSound);
         button->setClickable( (idx < GameList::instance()->size()) );
         button->setSelectable( (idx < GameList::instance()->size()) );
         button->clicked.connect(this, &GuiIconGrid::OnGameButtonClick);
@@ -124,7 +124,7 @@ GuiIconGrid::GuiIconGrid(int w, int h, int GameIndex)
         arrowLeftButton.setTrigger(&touchTrigger);
         arrowLeftButton.setTrigger(&wpadTouchTrigger);
         arrowLeftButton.setTrigger(&buttonLTrigger);
-        arrowLeftButton.setSoundClick(buttonClickSound);
+//      arrowLeftButton.setSoundClick(buttonClickSound);
         arrowLeftButton.clicked.connect(this, &GuiIconGrid::OnLeftArrowClick);
         if(listOffset > 0)
             append(&arrowLeftButton);
@@ -136,7 +136,7 @@ GuiIconGrid::GuiIconGrid(int w, int h, int GameIndex)
         arrowRightButton.setTrigger(&touchTrigger);
         arrowRightButton.setTrigger(&wpadTouchTrigger);
         arrowRightButton.setTrigger(&buttonRTrigger);
-        arrowRightButton.setSoundClick(buttonClickSound);
+//      arrowRightButton.setSoundClick(buttonClickSound);
         arrowRightButton.clicked.connect(this, &GuiIconGrid::OnRightArrowClick);
         if(listOffset < (maxPages-1))
             append(&arrowRightButton);
@@ -159,7 +159,7 @@ GuiIconGrid::~GuiIconGrid()
 
     Resources::RemoveImageData(arrowRightImageData);
     Resources::RemoveImageData(arrowLeftImageData);
-    Resources::RemoveSound(buttonClickSound);
+//  Resources::RemoveSound(buttonClickSound);
 }
 
 void GuiIconGrid::setSelectedGame(int idx)

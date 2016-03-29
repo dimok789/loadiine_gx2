@@ -141,7 +141,7 @@ private:
     std::vector<GuiElement *> drcElements;
     std::vector<GuiElement *> tvElements;
 
-    GuiSound *gameClickSound;
+//  GuiSound *gameClickSound;
 
     MainDrcButtonsFrame *mainSwitchButtonFrame;
 

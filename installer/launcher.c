@@ -15,8 +15,8 @@
 #define DATA_RW_BASE_OFFSET                             0xC0000000
 
 #if ( (VER == 532) || (VER == 540) )
-    #define ADDRESS_OSTitle_main_entry_ptr              0x1005d180
-    #define ADDRESS_main_entry_hook                     0x0101c55c
+    #define ADDRESS_OSTitle_main_entry_ptr              0x1005D180 // exit to Mii Maker
+    #define ADDRESS_main_entry_hook                     0x0101C55C // end of the coreinit_start function
 
     #define KERN_SYSCALL_TBL_1                          0xFFE84C70 // unknown
     #define KERN_SYSCALL_TBL_2                          0xFFE85070 // works with games
@@ -24,18 +24,27 @@
     #define KERN_SYSCALL_TBL_4                          0xFFEA9CE0 // works with home menu
     #define KERN_SYSCALL_TBL_5                          0xFFEAA0E0 // works with browser (previously KERN_SYSCALL_TBL)
 #elif ( (VER == 500) || (VER == 510) )
-    #define ADDRESS_OSTitle_main_entry_ptr              0x1005CB00
-    #define ADDRESS_main_entry_hook                     0x0101C15C
+    #define ADDRESS_OSTitle_main_entry_ptr              0x1005CB00 // located in coreinit.rpl
+    #define ADDRESS_main_entry_hook                     0x0101C15C // located in coreinit.rpl (start+15C)
 
-    #define KERN_SYSCALL_TBL_1                          0xFFE84C70 // unknown
-    #define KERN_SYSCALL_TBL_2                          0xFFE85070 // works with games
-    #define KERN_SYSCALL_TBL_3                          0xFFE85470 // works with loader
-    #define KERN_SYSCALL_TBL_4                          0xFFEA9120 // works with home menu
-    #define KERN_SYSCALL_TBL_5                          0xFFEA9520 // works with browser (previously KERN_SYSCALL_TBL)
+    #define KERN_SYSCALL_TBL_1                          0xFFE84C70 // located in kernel.elf
+    #define KERN_SYSCALL_TBL_2                          0xFFE85070 // located in kernel.elf
+    #define KERN_SYSCALL_TBL_3                          0xFFE85470 // located in kernel.elf
+    #define KERN_SYSCALL_TBL_4                          0xFFEA9120 // located in kernel.elf
+    #define KERN_SYSCALL_TBL_5                          0xFFEA9520 // located in kernel.elf
 #elif ( (VER == 400) || (VER == 410) )
-    #define ADDRESS_OSTitle_main_entry_ptr              0x1005A8C0
-    #define ADDRESS_main_entry_hook                     0x0101BD4C
-    #define KERN_SYSCALL_TBL_5                          0xFFE85890 // works with browser
+    #if (VER == 400)
+        #define ADDRESS_OSTitle_main_entry_ptr          0x1005A600
+    #elif (VER == 410)
+        #define ADDRESS_OSTitle_main_entry_ptr          0x1005A8C0
+    #endif
+    #define ADDRESS_main_entry_hook                     0x0101BD4C // start+14C
+
+    #define KERN_SYSCALL_TBL_1                          0xFFE84C90
+    #define KERN_SYSCALL_TBL_2                          0xFFE85090
+    #define KERN_SYSCALL_TBL_3                          0xFFE85C90 // comes after KERN_SYSCALL_TBL_5
+    #define KERN_SYSCALL_TBL_4                          0xFFE85490
+    #define KERN_SYSCALL_TBL_5                          0xFFE85890
 #endif // VER
 
 /* Install functions */

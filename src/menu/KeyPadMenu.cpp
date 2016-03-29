@@ -29,7 +29,7 @@ static const char cpKeyPadButtons[] =
 
 KeyPadMenu::KeyPadMenu(int w, int h, const std::string & strTitle, const std::string & prefil)
     : GuiFrame(w, h)
-    , buttonClickSound(Resources::GetSound("settings_click_2.mp3"))
+//  , buttonClickSound(Resources::GetSound("settings_click_2.mp3"))
     , backImageData(Resources::GetImageData("keyPadBackButton.png"))
     , backImage(backImageData)
     , backButton(backImage.getWidth(), backImage.getHeight())
@@ -70,7 +70,7 @@ KeyPadMenu::KeyPadMenu(int w, int h, const std::string & strTitle, const std::st
     backButton.clicked.connect(this, &KeyPadMenu::OnBackButtonClick);
     backButton.setTrigger(&touchTrigger);
     backButton.setTrigger(&wpadTouchTrigger);
-    backButton.setSoundClick(buttonClickSound);
+//  backButton.setSoundClick(buttonClickSound);
     backButton.setEffectGrow();
     append(&backButton);
 
@@ -81,7 +81,7 @@ KeyPadMenu::KeyPadMenu(int w, int h, const std::string & strTitle, const std::st
     okButton.clicked.connect(this, &KeyPadMenu::OnOkButtonClick);
     okButton.setTrigger(&touchTrigger);
     okButton.setTrigger(&wpadTouchTrigger);
-    okButton.setSoundClick(buttonClickSound);
+//  okButton.setSoundClick(buttonClickSound);
     okButton.setEffectGrow();
     append(&okButton);
 
@@ -96,7 +96,7 @@ KeyPadMenu::KeyPadMenu(int w, int h, const std::string & strTitle, const std::st
     deleteButton.setImageOver(&deleteButtonImgClick);
     deleteButton.setTrigger(&touchTrigger);
     deleteButton.setTrigger(&wpadTouchTrigger);
-    deleteButton.setSoundClick(buttonClickSound);
+//  deleteButton.setSoundClick(buttonClickSound);
     deleteButton.setPosition(-(keyPadButtonImgData->getWidth() + 5) * (MAX_COLS - 1) * 0.5f + (keyPadButtonImgData->getWidth() + 5) * MAX_COLS, -60);
     deleteButton.setEffectGrow();
     deleteButton.clicked.connect(this, &KeyPadMenu::OnDeleteButtonClick);
@@ -117,7 +117,7 @@ KeyPadMenu::KeyPadMenu(int w, int h, const std::string & strTitle, const std::st
         button->setPosition(-(image->getWidth() + 8) * (MAX_FIELDS - 1) * 0.5f + (image->getWidth() + 8) * i, 120);
         button->setTrigger(&touchTrigger);
         button->setTrigger(&wpadTouchTrigger);
-        button->setSoundClick(buttonClickSound);
+//      button->setSoundClick(buttonClickSound);
         button->clicked.connect(this, &KeyPadMenu::OnTextPositionChange);
         append(button);
 
@@ -154,7 +154,7 @@ KeyPadMenu::KeyPadMenu(int w, int h, const std::string & strTitle, const std::st
         button->setPosition(-(image->getWidth() + 5) * (MAX_COLS - 1) * 0.5f + (image->getWidth() + 5) * column, -60 - (image->getHeight() + 5) * row);
         button->setTrigger(&touchTrigger);
         button->setTrigger(&wpadTouchTrigger);
-        button->setSoundClick(buttonClickSound);
+//      button->setSoundClick(buttonClickSound);
         button->setEffectGrow();
         button->clicked.connect(this, &KeyPadMenu::OnKeyPadButtonClick);
         append(button);
@@ -206,7 +206,7 @@ KeyPadMenu::~KeyPadMenu()
     Resources::RemoveImageData(deleteButtonClickImgData);
     Resources::RemoveImageData(fieldImageData);
     Resources::RemoveImageData(fieldBlinkerImageData);
-    Resources::RemoveSound(buttonClickSound);
+//  Resources::RemoveSound(buttonClickSound);
 }
 
 void KeyPadMenu::UpdateTextFields()

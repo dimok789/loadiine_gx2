@@ -906,7 +906,7 @@ DECL(int, LiWaitOneChunk, unsigned int * iRemainingBytes, const char *filename, 
     register int core_id;
     int remaining_bytes = 0;
     // pointer to global variables of the loader
-    loader_globals_t *loader_globals = (loader_globals_t*)(0xEFE19D00);
+    loader_globals_t *loader_globals = (loader_globals_t*)(addr_sgIsLoadingBuffer);
 
     // get the current core
     asm volatile("mfspr %0, 0x3EF" : "=r" (core_id));
@@ -916,7 +916,7 @@ DECL(int, LiWaitOneChunk, unsigned int * iRemainingBytes, const char *filename, 
     //unsigned long long systemTime1 = Loader_GetSystemTime();
 
     // get the offset of per core global variable for dynload initialized (just a simple address + (core_id * 4))
-    unsigned int gDynloadInitialized = *(volatile unsigned int*)(0xEFE13C3C + (core_id << 2));
+    unsigned int gDynloadInitialized = *(volatile unsigned int*)(addr_gDynloadInitialized + (core_id << 2));
 
     // the data loading was started in LiBounceOneChunk() and here it waits for IOSU to finish copy the data
     if(gDynloadInitialized != 0) {

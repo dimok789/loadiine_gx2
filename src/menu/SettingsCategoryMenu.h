@@ -50,7 +50,7 @@ private:
     const int categorySettingsCount;
 
     GuiFrame categoryFrame;
-    GuiSound *buttonClickSound;
+//  GuiSound *buttonClickSound;
     GuiImageData *backImageData;
     GuiImage backImage;
     GuiButton backButton;

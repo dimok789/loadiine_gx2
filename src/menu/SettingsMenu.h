@@ -52,7 +52,7 @@ private:
     GuiParticleImage particleBgImage;
     GuiText versionText;
 
-    GuiSound *buttonClickSound;
+//  GuiSound *buttonClickSound;
 
     GuiImageData *quitImageData;
     GuiImageData *categoryImageData;

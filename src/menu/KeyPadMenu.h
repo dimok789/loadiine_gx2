@@ -46,7 +46,7 @@ private:
 
     void OnDPADClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
 
-    GuiSound *buttonClickSound;
+//  GuiSound *buttonClickSound;
     GuiImageData *backImageData;
     GuiImage backImage;
     GuiButton backButton;

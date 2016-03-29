@@ -27,8 +27,32 @@
 
     #define BAT_SET_NOP_ADDR_8          0xFFEE10B8
     #define BAT_SET_NOP_ADDR_9          0xFFEE10BC
-#elif ( (VER == 400) || (VER == 410) )
+#elif VER == 410
     #define BAT_SETUP_HOOK_ADDR         0xFFF1AD00
+
+    #define BAT_SET_NOP_ADDR_1          0xFFF06708
+    #define BAT_SET_NOP_ADDR_2          0xFFF06794
+    #define BAT_SET_NOP_ADDR_3          0xFFF003C8
+    #define BAT_SET_NOP_ADDR_4          0xFFF003CC
+    #define BAT_SET_NOP_ADDR_5          0xFFF1ADE8
+    #define BAT_SET_NOP_ADDR_6          0xFFF1AE04
+    #define BAT_SET_NOP_ADDR_7          0xFFF1AF08
+
+    #define BAT_SET_NOP_ADDR_8          0xFFEE10B8
+    #define BAT_SET_NOP_ADDR_9          0xFFEE10BC
+#elif VER == 400
+    #define BAT_SETUP_HOOK_ADDR         0xFFF1A440
+
+    #define BAT_SET_NOP_ADDR_1          0xFFF066FC
+    #define BAT_SET_NOP_ADDR_2          0xFFF06788
+    #define BAT_SET_NOP_ADDR_3          0xFFF003C8
+    #define BAT_SET_NOP_ADDR_4          0xFFF003CC
+    #define BAT_SET_NOP_ADDR_5          0xFFF1A528
+    #define BAT_SET_NOP_ADDR_6          0xFFF1A544
+//  #define BAT_SET_NOP_ADDR_7          not present in 400
+
+    #define BAT_SET_NOP_ADDR_8          0xFFEE0F50
+    #define BAT_SET_NOP_ADDR_9          0xFFEE0F54
 #else
     #error Please define valid values for kernel setup.
 #endif
