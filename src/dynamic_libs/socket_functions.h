@@ -38,8 +38,12 @@ extern "C" {
 #define IPPROTO_TCP     6
 #define IPPROTO_UDP     17
 
+#define SOL_SOCKET      -1
+
+#define SO_REUSEADDR    0x0004
 #define TCP_NODELAY     0x2004
 
+#define MSG_DONTWAIT    32
 
 struct in_addr {
     unsigned int s_addr;
@@ -64,6 +68,9 @@ extern void (*socket_lib_init)(void);
 extern int (*socket)(int domain, int type, int protocol);
 extern int (*socketclose)(int s);
 extern int (*connect)(int s, void *addr, int addrlen);
+extern int (*bind)(s32 s,struct sockaddr *name,s32 namelen);
+extern int (*listen)(s32 s,u32 backlog);
+extern int (*accept)(s32 s,struct sockaddr *addr,s32 *addrlen);
 extern int (*send)(int s, const void *buffer, int size, int flags);
 extern int (*recv)(int s, void *buffer, int size, int flags);
 extern int (*sendto)(int s, const void *buffer, int size, int flags, const struct sockaddr *dest, int dest_len);

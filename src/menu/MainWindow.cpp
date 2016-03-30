@@ -283,8 +283,8 @@ void MainWindow::OnCloseEffectFinish(GuiElement *element)
 
 void MainWindow::OnSettingsButtonClicked(GuiElement *element)
 {
-    CSettings::setValueAsU16(CSettings::GameStartIndex,currentDrcFrame->getSelectedGame());    
-	
+    CSettings::setValueAsU16(CSettings::GameStartIndex,currentDrcFrame->getSelectedGame());
+
     //! disable element for triggering buttons again
     mainSwitchButtonFrame->setState(GuiElement::STATE_DISABLED);
     mainSwitchButtonFrame->setEffect(EFFECT_FADE, -10, 0);
@@ -391,7 +391,7 @@ void MainWindow::OnLayoutSwitchClicked(GuiElement *element)
 
 void MainWindow::OnGameLaunch(GuiGameBrowser *element, int gameIdx)
 {
-    CSettings::setValueAsU16(CSettings::GameStartIndex,gameIdx);    
+    CSettings::setValueAsU16(CSettings::GameStartIndex,gameIdx);
 
     if(gameClickSound)
         gameClickSound->Play();
@@ -430,6 +430,7 @@ void MainWindow::OnGameLoadFinish(GameLauncher * launcher, const discHeader *hea
         SERVER_IP = ip.s_addr;
         GAME_LAUNCHED = 1;
         GAME_RPX_LOADED = 0;
+        LAUNCH_PYGECKO = CSettings::getValueAsU8(CSettings::LaunchPyGecko);
         LOADIINE_MODE = CSettings::getValueAsU8(CSettings::GameLaunchMethod);
 
         Application::instance()->quit();

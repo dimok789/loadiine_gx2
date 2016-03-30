@@ -106,11 +106,14 @@ int LoadXmlParameters(ReducedCosAppXmlInfo * xmlInfo, const char *rpx_name, cons
             uint32_t value = m_strtoll(xmlNodeData, 0, 10);
             xmlInfo->cmdFlags = value;
         }
-        // always use RPX name from FS
-        //if(XML_GetNodeText(xmlData, "argstr", xmlNodeData, XML_BUFFER_SIZE))
-        //{
-        //    strlcpy(xmlInfo->rpx_name, xmlNodeData, sizeof(xmlInfo->rpx_name));
-        //}
+        if(XML_GetNodeText(xmlData, "argstr", xmlNodeData, XML_BUFFER_SIZE))
+        {
+            // use arguments from xml if rpx name matches with FS
+            if (strncasecmp(xmlNodeData, rpx_name, strlen(rpx_name)) == 0)
+            {
+                strlcpy(xmlInfo->rpx_name, xmlNodeData, sizeof(xmlInfo->rpx_name));
+            }
+        }
         if(XML_GetNodeText(xmlData, "avail_size", xmlNodeData, XML_BUFFER_SIZE))
         {
             uint32_t value = m_strtoll(xmlNodeData, 0, 16);

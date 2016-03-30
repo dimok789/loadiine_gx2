@@ -24,6 +24,15 @@ void my_PrepareTitle(CosAppXmlInfo *xmlKernelInfo)
         //! Copy all data from the parsed XML info
         strncpy(xmlKernelInfo->rpx_name, cosAppXmlInfoStruct.rpx_name, FS_MAX_ENTNAME_SIZE);
 
+        // split arguments
+        for(unsigned int i = 0; i < strlen(cosAppXmlInfoStruct.rpx_name); i++)
+        {
+            if (xmlKernelInfo->rpx_name[i] == ' ')
+            {
+                xmlKernelInfo->rpx_name[i] = 0;
+            }
+        }
+
         xmlKernelInfo->version_cos_xml = cosAppXmlInfoStruct.version_cos_xml;
         xmlKernelInfo->os_version = cosAppXmlInfoStruct.os_version;
         xmlKernelInfo->title_id = cosAppXmlInfoStruct.title_id;
