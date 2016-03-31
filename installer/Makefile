@@ -16,7 +16,7 @@ sd_loader_elf := ../sd_loader/sd_loader.elf
 CFLAGS += -DUSE_SD_LOADER
 ASFLAGS += -DUSE_SD_LOADER
 
-all: clean setup main532 main500
+all: clean setup main532 main500 main550
 
 sd_loader.h: $(sd_loader_elf)
 	xxd -i $< | sed "s/unsigned/static const unsigned/g;s/loader/loader/g;s/build_//g" > $@
@@ -26,6 +26,9 @@ $(sd_loader_elf):
 	
 setup:
 	mkdir -p $(root)/bin/
+
+main550:
+	make main FIRMWARE=550
 
 main540:
 	make main FIRMWARE=532

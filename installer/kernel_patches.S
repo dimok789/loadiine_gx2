@@ -1,4 +1,19 @@
-#if ((VER == 532) || (VER == 540))
+#if (VER == 550)
+    #define BAT_SETUP_HOOK_ADDR         0xFFF1D624
+    # not all of those NOP address are required for every firmware
+    # mainly these should stop the kernel from removing our IBAT4 and DBAT5
+    #define BAT_SET_NOP_ADDR_1          0xFFF06B6C
+    #define BAT_SET_NOP_ADDR_2          0xFFF06BF8
+    #define BAT_SET_NOP_ADDR_3          0xFFF003C8
+    #define BAT_SET_NOP_ADDR_4          0xFFF003CC
+    #define BAT_SET_NOP_ADDR_5          0xFFF1D70C
+    #define BAT_SET_NOP_ADDR_6          0xFFF1D728
+    #define BAT_SET_NOP_ADDR_7          0xFFF1D82C
+
+    #define BAT_SET_NOP_ADDR_8          0xFFEE11C4
+    #define BAT_SET_NOP_ADDR_9          0xFFEE11C8
+
+#elif ((VER == 532) || (VER == 540))
     #define BAT_SETUP_HOOK_ADDR         0xFFF1D638
 
     # not all of those NOP address are required for every firmware
