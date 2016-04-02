@@ -16,6 +16,7 @@
  ****************************************************************************/
 #include "CreditsMenu.h"
 #include "Application.h"
+#include "language/gettext.h"
 
 CreditsMenu::CreditsMenu(int w, int h, const std::string & title)
     : GuiFrame(w, h)
@@ -66,112 +67,112 @@ CreditsMenu::CreditsMenu(int w, int h, const std::string & title)
     int fontSize = 40;
     glm::vec4 textColor = glm::vec4(1.0f);
 
-    text = new GuiText("Loadiine GX2", 56, textColor);
+    text = new GuiText(tr("Loadiine GX2"), 56, textColor);
     text->setPosition(0, positionY);
     text->setAlignment(ALIGN_CENTER | ALIGN_MIDDLE);
     creditsText.push_back(text);
     append(text);
     positionY -= 100;
 
-    text = new GuiText("Official Site:", fontSize, textColor);
+    text = new GuiText(tr("Official Site:"), fontSize, textColor);
     text->setPosition(positionX, positionY);
     text->setAlignment(ALIGN_LEFT | ALIGN_MIDDLE);
     creditsText.push_back(text);
     append(text);
 
-    text = new GuiText("https://gbatemp.net/threads/413823", fontSize, textColor);
+    text = new GuiText(tr("https://gbatemp.net/threads/413823"), fontSize, textColor);
     text->setPosition(positionX2, positionY);
     text->setAlignment(ALIGN_LEFT | ALIGN_MIDDLE);
     creditsText.push_back(text);
     append(text);
     positionY -= 50;
 
-    text = new GuiText("Coding:", fontSize, textColor);
+    text = new GuiText(tr("Coding:"), fontSize, textColor);
     text->setPosition(positionX, positionY);
     text->setAlignment(ALIGN_LEFT | ALIGN_MIDDLE);
     creditsText.push_back(text);
     append(text);
 
-    text = new GuiText("Dimok / dibas / Maschell / n1ghty", fontSize, textColor);
+    text = new GuiText(tr("Dimok / dibas / Maschell / n1ghty"), fontSize, textColor);
     text->setPosition(positionX2, positionY);
     text->setAlignment(ALIGN_LEFT | ALIGN_MIDDLE);
     creditsText.push_back(text);
     append(text);
     positionY -= 50;
 
-    text = new GuiText("Design:", fontSize, textColor);
+    text = new GuiText(tr("Design:"), fontSize, textColor);
     text->setPosition(positionX, positionY);
     text->setAlignment(ALIGN_LEFT | ALIGN_MIDDLE);
     creditsText.push_back(text);
     append(text);
 
-    text = new GuiText("Some guy who doesn't want to be named.", fontSize, textColor);
+    text = new GuiText(tr("Some guy who doesn't want to be named."), fontSize, textColor);
     text->setPosition(positionX2, positionY);
     text->setAlignment(ALIGN_LEFT | ALIGN_MIDDLE);
     creditsText.push_back(text);
     append(text);
     positionY -= 50;
 
-    text = new GuiText("Testing:", fontSize, textColor);
+    text = new GuiText(tr("Testing:"), fontSize, textColor);
     text->setPosition(positionX, positionY);
     text->setAlignment(ALIGN_LEFT | ALIGN_MIDDLE);
     creditsText.push_back(text);
     append(text);
 
-    text = new GuiText("Cyan / Maschell / n1ghty / OnionKnight and many more", fontSize, textColor);
+    text = new GuiText(tr("Cyan / Maschell / n1ghty / OnionKnight and many more"), fontSize, textColor);
     text->setPosition(positionX2, positionY);
     text->setAlignment(ALIGN_LEFT | ALIGN_MIDDLE);
     creditsText.push_back(text);
     append(text);
     positionY -= 50;
 
-    text = new GuiText("Social Presence:", fontSize, textColor);
+    text = new GuiText(tr("Social Presence:"), fontSize, textColor);
     text->setPosition(positionX, positionY);
     text->setAlignment(ALIGN_LEFT | ALIGN_MIDDLE);
     creditsText.push_back(text);
     append(text);
 
-    text = new GuiText("Cyan", fontSize, textColor);
+    text = new GuiText(tr("Cyan"), fontSize, textColor);
     text->setPosition(positionX2, positionY);
     text->setAlignment(ALIGN_LEFT | ALIGN_MIDDLE);
     creditsText.push_back(text);
     append(text);
     positionY -= 50;
 
-    text = new GuiText("Based on:", fontSize, textColor);
+    text = new GuiText(tr("Based on:"), fontSize, textColor);
     text->setPosition(positionX, positionY);
     text->setAlignment(ALIGN_LEFT | ALIGN_MIDDLE);
     creditsText.push_back(text);
     append(text);
 
-    text = new GuiText("Loadiine v4.0 by Golden45 and Dimok", fontSize, textColor);
+    text = new GuiText(tr("Loadiine v4.0 by Golden45 and Dimok"), fontSize, textColor);
     text->setPosition(positionX2, positionY);
     text->setAlignment(ALIGN_LEFT | ALIGN_MIDDLE);
     creditsText.push_back(text);
     append(text);
     positionY -= 50;
 
-    text = new GuiText("Big thanks to:", fontSize, textColor);
+    text = new GuiText(tr("Big thanks to:"), fontSize, textColor);
     text->setPosition(positionX, positionY);
     text->setAlignment(ALIGN_LEFT | ALIGN_MIDDLE);
     creditsText.push_back(text);
     append(text);
 
-    text = new GuiText("lustar for GameTDB and hosting covers / disc images", fontSize, textColor);
+    text = new GuiText(tr("lustar for GameTDB and hosting covers / disc images"), fontSize, textColor);
     text->setPosition(positionX2, positionY);
     text->setAlignment(ALIGN_LEFT | ALIGN_MIDDLE);
     creditsText.push_back(text);
     append(text);
     positionY -= 50;
 
-    text = new GuiText("Marionumber1 for his kernel exploit", fontSize, textColor);
+    text = new GuiText(tr("Marionumber1 for his kernel exploit"), fontSize, textColor);
     text->setPosition(positionX2, positionY);
     text->setAlignment(ALIGN_LEFT | ALIGN_MIDDLE);
     creditsText.push_back(text);
     append(text);
     positionY -= 50;
 
-    text = new GuiText("The whole libwiiu team and it's contributors.", fontSize, textColor);
+    text = new GuiText(tr("The whole libwiiu team and it's contributors."), fontSize, textColor);
     text->setPosition(positionX2, positionY);
     text->setAlignment(ALIGN_LEFT | ALIGN_MIDDLE);
     creditsText.push_back(text);
