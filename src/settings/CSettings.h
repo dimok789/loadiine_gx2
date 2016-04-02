@@ -47,6 +47,8 @@ public:
     //!Reset Settings
     bool Reset();
 
+
+
     enum DataTypes
     {
         TypeNone,
@@ -76,6 +78,7 @@ public:
         BgMusicPath,
         GameCover3DPath,
         ConsoleRegionCode,
+		AppLanguage,
         DebugLoggerIP,
         GameStartIndex,
 		PadconMode,
