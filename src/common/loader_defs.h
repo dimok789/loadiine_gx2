@@ -20,6 +20,19 @@ typedef struct _loader_globals_t
     char sgLoadName[0x1000];
 } __attribute__((packed)) loader_globals_t;
 
+typedef struct _loader_globals_550_t
+{
+    int sgFinishedLoadingBuffer;
+    int sgFileType;
+    int sgProcId;
+    int sgGotBytes;
+    int sgTotalBytes;
+    int sgFileOffset;
+    int sgBufferNumber;
+    int sgBounceError;
+    char sgLoadName[0x1000];
+} __attribute__((packed)) loader_globals_550_t;
+
 #ifdef __cplusplus
 }
 #endif
