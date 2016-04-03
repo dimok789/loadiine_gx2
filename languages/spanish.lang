@@ -1,0 +1,153 @@
+# Loadiine GX2 language source file.
+# spanish.lang - v0.3
+# don't delete/change this line (é).
+msgid ""
+msgstr ""
+"Project-Id-Version: Loadiine GX2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-04-03 11:40+0200\n"
+"PO-Revision-Date: 2016-04-02 07:28+0200\n"
+"Last-Translator: MasQchips\n"
+"Language-Team: MasQchips\n"
+"Language: Español\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Loadiine GX2"
+msgstr ""
+
+msgid "Official Site:"
+msgstr "Sitio Oficial:"
+
+msgid "Coding:"
+msgstr "Codificación:"
+
+msgid "Design:"
+msgstr "Diseño:"
+
+msgid "Some guy who doesn't want to be named."
+msgstr "Alguien que no quiso ser identificado."
+
+msgid "Testing:"
+msgstr "Pruebas:"
+
+msgid "Cyan / Maschell / n1ghty / OnionKnight and many more"
+msgstr "Cyan / Maschell / n1ghty / OnionKnight y muchos mas"
+
+msgid "Social Presence:"
+msgstr "Presencia Social:"
+
+msgid "Based on:"
+msgstr "Basado en:"
+
+msgid "Loadiine v4.0 by Golden45 and Dimok"
+msgstr "Loadiine v4.0 de Golden45 y Dimok"
+
+msgid "Big thanks to:"
+msgstr "Muchas Gracias a:"
+
+msgid "lustar for GameTDB and hosting covers / disc images"
+msgstr "lustar de GameTDB y alojamiento de caratulas"
+
+msgid "Marionumber1 for his kernel exploit"
+msgstr "Marionumber1 por su kernel exploit"
+
+msgid "The whole libwiiu team and it's contributors."
+msgstr "Todo el equipo de libwiiu y sus colaboradores."
+
+msgid "Off"
+msgstr "Apagado"
+
+msgid "On"
+msgstr "Encendido"
+
+msgid "Icon Carousel"
+msgstr "Carrusel de Iconos"
+
+msgid "Grid View"
+msgstr "Vista de Rejilla"
+
+msgid "Cover Carousel"
+msgstr "Carrusel de Caratulas"
+
+msgid "Shared Mode"
+msgstr "Modo Compartido"
+
+msgid "Unique Mode"
+msgstr "Modo Unico"
+
+msgid "Mii Maker Mode"
+msgstr "Modo Mii Maker"
+
+msgid "Smash Bros Mode"
+msgstr "Modo Smash Bros"
+
+msgid "Karaoke Mode"
+msgstr "Modo Karaoke"
+
+msgid "Art Atelier Mode"
+msgstr "Modo Art Atelier"
+
+msgid "Background customizations"
+msgstr "Personalización del fondo"
+
+msgid "GUI"
+msgstr ""
+
+msgid "Game View Selection"
+msgstr "Vista de selección del juego"
+
+msgid "Customize games path"
+msgstr "Personalizar ruta del juego"
+
+msgid "Customize save path"
+msgstr "Personalizar ruta de guardado"
+
+msgid "Loader"
+msgstr "Cargador"
+
+msgid "Set save mode"
+msgstr "Establecer modo de guardado"
+
+msgid "Adjust log server IP and port"
+msgstr "Ajustar IP y puerto del servidor"
+
+msgid "Game"
+msgstr "Juego"
+
+msgid "Launch method selection"
+msgstr "Seleccionar metodo de carga"
+
+msgid "Log server control"
+msgstr "Iniciar servidor"
+
+msgid "Credits"
+msgstr "Creditos"
+
+msgid "Credits to all contributors"
+msgstr "Créditos de los colaboladores"
+
+msgid "Game View TV"
+msgstr "Vista del Juego TV"
+
+msgid "Game View DRC"
+msgstr "Vista del Juego DRC"
+
+msgid "Game Path"
+msgstr "Ruta del Juego"
+
+msgid "Game Save Path"
+msgstr "Ruta de guardado"
+
+msgid "Game Save Mode"
+msgstr "Modo de Guardado"
+
+msgid "Launch Mode"
+msgstr "Modo de Carga"
+
+msgid "Log Server Control"
+msgstr "Control de Registros"
+
+msgid "Log Server IP"
+msgstr "IP del Servidor"

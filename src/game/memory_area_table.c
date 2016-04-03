@@ -1710,7 +1710,8 @@ void memoryInitAreaTable()
         mem_vals = mem_vals_532;
         break;
     }
-    case 540: {
+    case 540:
+	case 550: {
         mem_vals = mem_vals_540;
         break;
     }

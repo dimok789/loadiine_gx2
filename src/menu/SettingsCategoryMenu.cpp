@@ -20,6 +20,7 @@
 #include "utils/StringTools.h"
 #include "KeyPadMenu.h"
 #include "ButtonChoiceMenu.h"
+#include "language/gettext.h"
 
 SettingsCategoryMenu::SettingsCategoryMenu(int w, int h, const std::string & title, const SettingType * catSettings, int settingsCount)
     : GuiFrame(w, h)
@@ -73,7 +74,7 @@ SettingsCategoryMenu::SettingsCategoryMenu(int w, int h, const std::string & tit
         settings[i].settingImage = new GuiImage(settingImageData);
         settings[i].settingImageSelected = new GuiImage(settingSelectedImageData);
         settings[i].settingButton = new GuiButton(settingImageData->getWidth(), settingImageData->getHeight());
-        settings[i].settingLabel = new GuiText(categorySettings[i].name, 46, glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));
+        settings[i].settingLabel = new GuiText(tr(categorySettings[i].name), 46, glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));
 
         settings[i].settingButton->setIconOver(settings[i].settingImageSelected);
 		settings[i].settingButton->setImage(settings[i].settingImage);
@@ -138,7 +139,7 @@ void SettingsCategoryMenu::OnSettingButtonClick(GuiButton *button, const GuiCont
             if(CSettings::getDataType(categorySettings[i].index) != CSettings::TypeString)
                 return;
 
-            KeyPadMenu *keyMenu = new KeyPadMenu(width, height, categorySettings[i].name, CSettings::getValueAsString(categorySettings[i].index));
+            KeyPadMenu *keyMenu = new KeyPadMenu(width, height, tr(categorySettings[i].name), CSettings::getValueAsString(categorySettings[i].index));
             keyMenu->settingsBackClicked.connect(this, &SettingsCategoryMenu::OnSubMenuCloseClicked);
             keyMenu->settingsOkClicked.connect(this, &SettingsCategoryMenu::OnKeyPadOkClicked);
             menu = keyMenu;
@@ -180,9 +181,9 @@ void SettingsCategoryMenu::OnSettingButtonClick(GuiButton *button, const GuiCont
 
             std::vector<std::string> buttonNames;
             for(int n = 0; n < buttonCount; n++)
-                buttonNames.push_back(categorySettings[i].valueStrings[n].name);
+                buttonNames.push_back(tr(categorySettings[i].valueStrings[n].name));
 
-            ButtonChoiceMenu *buttonMenu = new ButtonChoiceMenu(width, height, categorySettings[i].name, buttonNames, buttonSelected);
+            ButtonChoiceMenu *buttonMenu = new ButtonChoiceMenu(width, height, tr(categorySettings[i].name), buttonNames, buttonSelected);
             buttonMenu->settingsBackClicked.connect(this, &SettingsCategoryMenu::OnSubMenuCloseClicked);
             buttonMenu->settingsOkClicked.connect(this, &SettingsCategoryMenu::OnButtonChoiceOkClicked);
             menu = buttonMenu;

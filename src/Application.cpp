@@ -61,6 +61,13 @@ Application::Application()
     bgMusic->Play();
     bgMusic->SetVolume(50);
 
+	//! load language
+    if(!CSettings::getValueAsString(CSettings::AppLanguage).empty())
+    {
+        std::string languagePath = "sd:/wiiu/apps/loadiine_gx2/language/" + CSettings::getValueAsString(CSettings::AppLanguage) + ".lang";
+		gettextLoadLanguage(languagePath.c_str());
+    }
+
 	exitApplication = false;
 }
 
@@ -77,6 +84,8 @@ Application::~Application()
     Resources::Clear();
 
 	SoundHandler::DestroyInstance();
+
+	gettextCleanUp();
 }
 
 void Application::exec()

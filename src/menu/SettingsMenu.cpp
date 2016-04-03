@@ -28,29 +28,29 @@ static const float smallIconScale = 0.4f;
 
 static const ValueString ValueOnOff[] =
 {
-    { 0, "Off" },
-    { 1, "On" }
+    { 0, trNOOP("Off") },
+    { 1, trNOOP("On") }
 };
 
 static const ValueString ValueGameViewMode[] =
 {
-    { 0, "Icon Carousel" },
-    { 1, "Grid View" },
-    { 2, "Cover Carousel" }
+    { 0, trNOOP("Icon Carousel") },
+    { 1, trNOOP("Grid View") },
+    { 2, trNOOP("Cover Carousel") }
 };
 
 static const ValueString ValueGameSaveModes[] =
 {
-    { GAME_SAVES_SHARED, "Shared Mode" },
-    { GAME_SAVES_UNIQUE, "Unique Mode" },
+    { GAME_SAVES_SHARED, trNOOP("Shared Mode") },
+    { GAME_SAVES_UNIQUE, trNOOP("Unique Mode") },
 };
 
 static ValueString ValueLaunchMode[] =
 {
-    { LOADIINE_MODE_MII_MAKER, "Mii Maker Mode" },
-    { LOADIINE_MODE_SMASH_BROS, "Smash Bros Mode" },
-    { LOADIINE_MODE_KARAOKE, "Karaoke Mode" },
-    { LOADIINE_MODE_ART_ATELIER, "Art Atelier Mode" }
+    { LOADIINE_MODE_MII_MAKER, trNOOP("Mii Maker Mode") },
+    { LOADIINE_MODE_SMASH_BROS, trNOOP("Smash Bros Mode") },
+    { LOADIINE_MODE_KARAOKE, trNOOP("Karaoke Mode") },
+    { LOADIINE_MODE_ART_ATELIER, trNOOP("Art Atelier Mode") }
 };
 
 static const struct
@@ -62,30 +62,30 @@ static const struct
 }
 stSettingsCategories[] =
 {
-    { "GUI",     "guiSettingsIcon.png",    "guiSettingsIconGlow.png",    "Game View Selection\n" "Background customizations" },
-    { "Loader",  "loaderSettingsIcon.png", "loaderSettingsIconGlow.png", "Customize games path\nCustomize save path\nSet save mode" },
-    { "Game",    "gameSettingsIcon.png",   "gameSettingsIconGlow.png",   "Launch method selection\n" "Log server control\n" "Adjust log server IP and port" },
-    { "Credits", "creditsIcon.png",        "creditsIconGlow.png",        "Credits to all contributors" }
+    { trNOOP("GUI"),     "guiSettingsIcon.png",    "guiSettingsIconGlow.png",    trNOOP("Game View Selection") "\n" trNOOP("Background customizations") },
+    { trNOOP("Loader"),  "loaderSettingsIcon.png", "loaderSettingsIconGlow.png", trNOOP("Customize games path") "\n" trNOOP("Customize save path") "\n" trNOOP("Set save mode") },
+    { trNOOP("Game"),    "gameSettingsIcon.png",   "gameSettingsIconGlow.png",   trNOOP("Launch method selection") "\n" trNOOP("Log server control") "\n" trNOOP("Adjust log server IP and port") },
+    { trNOOP("Credits"), "creditsIcon.png",        "creditsIconGlow.png",        trNOOP("Credits to all contributors") }
 };
 
 static const SettingType GuiSettings[] =
 {
-    { "Game View TV", ValueGameViewMode, Type3Buttons, CSettings::GameViewModeTv },
-    { "Game View DRC", ValueGameViewMode, Type3Buttons, CSettings::GameViewModeDrc }
+    { trNOOP("Game View TV"), ValueGameViewMode, Type3Buttons, CSettings::GameViewModeTv },
+    { trNOOP("Game View DRC"), ValueGameViewMode, Type3Buttons, CSettings::GameViewModeDrc }
 };
 
 static const SettingType LoaderSettings[] =
 {
-    { "Game Path", 0, TypeDisplayOnly, CSettings::GamePath },
-    { "Game Save Path", 0, TypeDisplayOnly, CSettings::GameSavePath },
-    { "Game Save Mode", ValueGameSaveModes, Type2Buttons, CSettings::GameSaveMode }
+    { trNOOP("Game Path"), 0, TypeDisplayOnly, CSettings::GamePath },
+    { trNOOP("Game Save Path"), 0, TypeDisplayOnly, CSettings::GameSavePath },
+    { trNOOP("Game Save Mode"), ValueGameSaveModes, Type2Buttons, CSettings::GameSaveMode }
 };
 
 static const SettingType GameSettings[] =
 {
-    { "Launch Mode", ValueLaunchMode, Type4Buttons, CSettings::GameLaunchMethod },
-    { "Log Server Control", ValueOnOff, Type2Buttons, CSettings::GameLogServer },
-    { "Log Server IP", 0, TypeIP, CSettings::GameLogServerIp }
+    { trNOOP("Launch Mode"), ValueLaunchMode, Type4Buttons, CSettings::GameLaunchMethod },
+    { trNOOP("Log Server Control"), ValueOnOff, Type2Buttons, CSettings::GameLogServer },
+    { trNOOP("Log Server IP"), 0, TypeIP, CSettings::GameLogServerIp }
 };
 
 SettingsMenu::SettingsMenu(int w, int h)
@@ -150,7 +150,7 @@ SettingsMenu::SettingsMenu(int w, int h)
         category.categoryIconData = Resources::GetImageData(stSettingsCategories[idx].icon);
         category.categoryIconGlowData = Resources::GetImageData(stSettingsCategories[idx].iconGlow);
 
-        category.categoryLabel = new GuiText(stSettingsCategories[idx].name, 46, glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));
+        category.categoryLabel = new GuiText(tr(stSettingsCategories[idx].name), 46, glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));
         category.categoryLabel->setPosition(0, -120);
 
         category.categoryBgImage = new GuiImage(categoryBgImageData);
@@ -181,7 +181,7 @@ SettingsMenu::SettingsMenu(int w, int h)
 
         for(u32 n = 0; n < splitDescriptions.size(); n++)
         {
-            GuiText * descr = new GuiText(splitDescriptions[n].c_str(), 46, glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));
+            GuiText * descr = new GuiText(tr(splitDescriptions[n].c_str()), 46, glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));
             descr->setAlignment(ALIGN_MIDDLE | ALIGN_LEFT);
             descr->setPosition(category.categoryBgImage->getWidth() * 0.5f - 50.0f, category.categoryBgImage->getHeight() * 0.5f - 100.0f - n * 60.0f);
             categorySelectionFrame.append(descr);
@@ -376,7 +376,7 @@ void SettingsMenu::OnCategoryClick(GuiButton *button, const GuiController *contr
             break;
         case 3:
         {
-            CreditsMenu * menu = new CreditsMenu(getWidth(), getHeight(), stSettingsCategories[indexClicked].name);
+            CreditsMenu * menu = new CreditsMenu(getWidth(), getHeight(), tr(stSettingsCategories[indexClicked].name));
             menu->setEffect(EFFECT_FADE, 10, 255);
             menu->setState(STATE_DISABLED);
             menu->effectFinished.connect(this, &SettingsMenu::OnSubMenuOpenEffectFinish);
@@ -395,7 +395,7 @@ void SettingsMenu::OnCategoryClick(GuiButton *button, const GuiController *contr
             return;
         }
 
-        SettingsCategoryMenu *menu = new SettingsCategoryMenu(getWidth(), getHeight(), stSettingsCategories[indexClicked].name, categorySettings, categorySettingsCount);
+        SettingsCategoryMenu *menu = new SettingsCategoryMenu(getWidth(), getHeight(), tr(stSettingsCategories[indexClicked].name), categorySettings, categorySettingsCount);
         menu->setEffect(EFFECT_FADE, 10, 255);
         menu->setState(STATE_DISABLED);
         menu->effectFinished.connect(this, &SettingsMenu::OnSubMenuOpenEffectFinish);
