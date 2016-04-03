@@ -23,6 +23,7 @@
 #include "SettingsCategoryMenu.h"
 #include "settings/SettingsDefs.h"
 #include "settings/SettingsEnums.h"
+#include "language/gettext.h"
 
 static const float smallIconScale = 0.4f;
 
@@ -150,7 +151,7 @@ SettingsMenu::SettingsMenu(int w, int h)
         category.categoryIconData = Resources::GetImageData(stSettingsCategories[idx].icon);
         category.categoryIconGlowData = Resources::GetImageData(stSettingsCategories[idx].iconGlow);
 
-        category.categoryLabel = new GuiText(stSettingsCategories[idx].name, 46, glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));
+        category.categoryLabel = new GuiText(tr(stSettingsCategories[idx].name), 46, glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));
         category.categoryLabel->setPosition(0, -120);
 
         category.categoryBgImage = new GuiImage(categoryBgImageData);
@@ -181,7 +182,7 @@ SettingsMenu::SettingsMenu(int w, int h)
 
         for(u32 n = 0; n < splitDescriptions.size(); n++)
         {
-            GuiText * descr = new GuiText(splitDescriptions[n].c_str(), 46, glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));
+            GuiText * descr = new GuiText(tr(splitDescriptions[n].c_str()), 46, glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));
             descr->setAlignment(ALIGN_MIDDLE | ALIGN_LEFT);
             descr->setPosition(category.categoryBgImage->getWidth() * 0.5f - 50.0f, category.categoryBgImage->getHeight() * 0.5f - 100.0f - n * 60.0f);
             categorySelectionFrame.append(descr);
@@ -376,7 +377,7 @@ void SettingsMenu::OnCategoryClick(GuiButton *button, const GuiController *contr
             break;
         case 3:
         {
-            CreditsMenu * menu = new CreditsMenu(getWidth(), getHeight(), stSettingsCategories[indexClicked].name);
+            CreditsMenu * menu = new CreditsMenu(getWidth(), getHeight(), tr(stSettingsCategories[indexClicked].name));
             menu->setEffect(EFFECT_FADE, 10, 255);
             menu->setState(STATE_DISABLED);
             menu->effectFinished.connect(this, &SettingsMenu::OnSubMenuOpenEffectFinish);
@@ -395,7 +396,7 @@ void SettingsMenu::OnCategoryClick(GuiButton *button, const GuiController *contr
             return;
         }
 
-        SettingsCategoryMenu *menu = new SettingsCategoryMenu(getWidth(), getHeight(), stSettingsCategories[indexClicked].name, categorySettings, categorySettingsCount);
+        SettingsCategoryMenu *menu = new SettingsCategoryMenu(getWidth(), getHeight(), tr(stSettingsCategories[indexClicked].name), categorySettings, categorySettingsCount);
         menu->setEffect(EFFECT_FADE, 10, 255);
         menu->setState(STATE_DISABLED);
         menu->effectFinished.connect(this, &SettingsMenu::OnSubMenuOpenEffectFinish);

@@ -24,6 +24,7 @@
 #include "fs/CFile.hpp"
 #include "fs/fs_utils.h"
 #include "utils/StringTools.h"
+#include "language/gettext.h"
 
 #define VERSION_LINE        "# Loadiine GX2 - Main settings file v"
 #define VALID_VERSION       1
@@ -104,6 +105,10 @@ void CSettings::SetDefault()
     settingsNames[ConsoleRegionCode] = "ConsoleRegionCode";
     settingsValues[ConsoleRegionCode].dataType = TypeString;
     settingsValues[ConsoleRegionCode].strValue = new std::string("EN");
+	
+	settingsNames[AppLanguage] = "AppLanguage";
+    settingsValues[AppLanguage].dataType = TypeString;
+    settingsValues[AppLanguage].strValue = new std::string();
 
     settingsNames[DebugLoggerIP] = "DebugLoggerIP";
     settingsValues[DebugLoggerIP].dataType = TypeString;
@@ -127,10 +132,11 @@ bool CSettings::Load()
 {
 	//! Reset default path variables to the right device
 	SetDefault();
-
+	
+	
 	std::string filepath = configPath;
 	filepath += "/loadiine_gx2.cfg";
-
+  
 	CFile file(filepath, CFile::ReadOnly);
 	if (!file.isOpen())
         return false;
@@ -247,10 +253,10 @@ bool CSettings::Save()
         return true;
 
     CreateSubfolder(configPath.c_str());
-
+	
 	std::string filepath = configPath;
 	filepath += "/loadiine_gx2.cfg";
-
+    
 	CFile file(filepath, CFile::WriteOnly);
 	if (!file.isOpen())
         return false;

@@ -37,6 +37,7 @@ SOURCES		:=	src \
 				src/game \
 				src/gui \
 				src/kernel \
+				src/language \
 				src/loader \
 				src/menu \
 				src/network \
