@@ -14,7 +14,16 @@
 #define CODE_RW_BASE_OFFSET                             0xC0000000
 #define DATA_RW_BASE_OFFSET                             0xC0000000
 
-#if ( (VER == 532) || (VER == 540) )
+#if (VER == 550)
+    #define ADDRESS_OSTitle_main_entry_ptr              0x1005E040
+    #define ADDRESS_main_entry_hook                     0x0101C56C
+
+    #define KERN_SYSCALL_TBL_1                          0xFFE84C70 // unknown
+    #define KERN_SYSCALL_TBL_2                          0xFFE85070 // works with games
+    #define KERN_SYSCALL_TBL_3                          0xFFE85470 // works with loader
+    #define KERN_SYSCALL_TBL_4                          0xFFEAAA60 // works with home menu
+    #define KERN_SYSCALL_TBL_5                          0xFFEAAE60 // works with browser (previously KERN_SYSCALL_TBL)
+#elif ( (VER == 532) || (VER == 540) )
     #define ADDRESS_OSTitle_main_entry_ptr              0x1005D180 // exit to Mii Maker
     #define ADDRESS_main_entry_hook                     0x0101C55C // end of the coreinit_start function
 
