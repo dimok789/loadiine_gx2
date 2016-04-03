@@ -98,14 +98,14 @@ export DEPSDIR	:=	$(CURDIR)/$(BUILD)
 #---------------------------------------------------------------------------------
 # automatically build a list of object files for our project
 #---------------------------------------------------------------------------------
-FILELIST	:=	$(shell bash ./filelist.sh)
-CFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
-CPPFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
-sFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.s)))
-SFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.S)))
-BINFILES	:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*)))
-TTFFILES	:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.ttf)))
-PNGFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.png)))
+FILELIST		:=	$(shell bash ./filelist.sh)
+export CFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
+export CPPFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
+sFILES			:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.s)))
+SFILES			:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.S)))
+BINFILES		:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*)))
+TTFFILES		:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.ttf)))
+PNGFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.png)))
 
 #---------------------------------------------------------------------------------
 # use CXX for linking C++ projects, CC for standard C
@@ -134,8 +134,8 @@ export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
 export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib) \
 					-L$(LIBOGC_LIB) -L$(PORTLIBS)/lib
 
-export OUTPUT	:=	$(CURDIR)/$(TARGET)
-.PHONY: $(BUILD) clean install
+export OUTPUT		:=	$(CURDIR)/$(TARGET)
+.PHONY: $(BUILD) clean install lang
 
 #---------------------------------------------------------------------------------
 $(BUILD):
@@ -148,6 +148,11 @@ clean:
 	@rm -fr $(BUILD) $(OUTPUT).elf $(OUTPUT).bin $(BUILD_DBG).elf
 
 #---------------------------------------------------------------------------------
+lang:
+	@[ -d build ] || mkdir -p build
+	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile translations
+
+#---------------------------------------------------------------------------------
 else
 
 DEPENDS	:=	$(OFILES:.o=.d)
@@ -158,6 +163,11 @@ DEPENDS	:=	$(OFILES:.o=.d)
 $(OUTPUT).elf:  $(OFILES)
 
 #---------------------------------------------------------------------------------
+# Translation files
+#---------------------------------------------------------------------------------
+translations: $(wildcard $(PROJECTDIR)/languages/*.lang)
+
+#---------------------------------------------------------------------------------
 # This rule links in binary data with the .jpg extension
 #---------------------------------------------------------------------------------
 %.elf: link.ld $(OFILES)
@@ -165,9 +175,6 @@ $(OUTPUT).elf:  $(OFILES)
 	$(Q)$(LD) -n -T $^ $(LDFLAGS) -o ../$(BUILD_DBG).elf  $(LIBPATHS) $(LIBS)
 	$(Q)$(OBJCOPY) -S -R .comment -R .gnu.attributes ../$(BUILD_DBG).elf $@
 
-../data/loader.bin:
-	$(MAKE) -C ../loader clean
-	$(MAKE) -C ../loader
 #---------------------------------------------------------------------------------
 %.a:
 #---------------------------------------------------------------------------------
@@ -224,6 +231,21 @@ $(OUTPUT).elf:  $(OFILES)
 %.ogg.o : %.ogg
 	@echo $(notdir $<)
 	@bin2s -a 32 $< | $(AS) -o $(@)
+
+
+#---------------------------------------------------------------------------------
+export PATH		:=	$(PROJECTDIR)/gettext-bin:$(PATH)
+
+%.pot: $(CFILES) $(CPPFILES)
+	@echo Updating language files ...
+	@touch $(PROJECTDIR)/languages/$(TARGET).pot
+	@xgettext -C -cTRANSLATORS --from-code=utf-8 -F --no-wrap --add-location -ktr -ktrNOOP -o$(PROJECTDIR)/languages/$(TARGET).pot -p $@ $^
+
+%.lang: $(PROJECTDIR)/languages/$(TARGET).pot
+	@msgmerge -U -N --no-wrap --no-location --backup=none -q $@ $<
+	@touch $@
+
+#---------------------------------------------------------------------------------
 
 -include $(DEPENDS)
 

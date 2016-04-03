@@ -35,6 +35,7 @@
 #include "dynamic_libs/gx2_types.h"
 #include "resources/Resources.h"
 #include "system/AsyncDeleter.h"
+#include "language/gettext.h"
 #include "utils/logger.h"
 
 enum

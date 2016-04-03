@@ -30,7 +30,7 @@ extern "C"
 	 */
 	const char *gettext(const char *msg);
 #define tr(s) gettext(s)
-#define trNOOP(s) (s)
+#define trNOOP(s)   s
 
 #ifdef __cplusplus
 }

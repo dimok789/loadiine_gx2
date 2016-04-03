@@ -1,0 +1,153 @@
+# Loadiine GX2 language source file.
+# english.lang - vx.x
+# don't delete/change this line (é).
+msgid ""
+msgstr ""
+"Project-Id-Version: Loadiine GX2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-04-03 11:40+0200\n"
+"PO-Revision-Date: 2009-10-01 01:00+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Loadiine GX2"
+msgstr ""
+
+msgid "Official Site:"
+msgstr ""
+
+msgid "Coding:"
+msgstr ""
+
+msgid "Design:"
+msgstr ""
+
+msgid "Some guy who doesn't want to be named."
+msgstr ""
+
+msgid "Testing:"
+msgstr ""
+
+msgid "Cyan / Maschell / n1ghty / OnionKnight and many more"
+msgstr ""
+
+msgid "Social Presence:"
+msgstr ""
+
+msgid "Based on:"
+msgstr ""
+
+msgid "Loadiine v4.0 by Golden45 and Dimok"
+msgstr ""
+
+msgid "Big thanks to:"
+msgstr ""
+
+msgid "lustar for GameTDB and hosting covers / disc images"
+msgstr ""
+
+msgid "Marionumber1 for his kernel exploit"
+msgstr ""
+
+msgid "The whole libwiiu team and it's contributors."
+msgstr ""
+
+msgid "Off"
+msgstr ""
+
+msgid "On"
+msgstr ""
+
+msgid "Icon Carousel"
+msgstr ""
+
+msgid "Grid View"
+msgstr ""
+
+msgid "Cover Carousel"
+msgstr ""
+
+msgid "Shared Mode"
+msgstr ""
+
+msgid "Unique Mode"
+msgstr ""
+
+msgid "Mii Maker Mode"
+msgstr ""
+
+msgid "Smash Bros Mode"
+msgstr ""
+
+msgid "Karaoke Mode"
+msgstr ""
+
+msgid "Art Atelier Mode"
+msgstr ""
+
+msgid "Background customizations"
+msgstr ""
+
+msgid "GUI"
+msgstr ""
+
+msgid "Game View Selection"
+msgstr ""
+
+msgid "Customize games path"
+msgstr ""
+
+msgid "Customize save path"
+msgstr ""
+
+msgid "Loader"
+msgstr ""
+
+msgid "Set save mode"
+msgstr ""
+
+msgid "Adjust log server IP and port"
+msgstr ""
+
+msgid "Game"
+msgstr ""
+
+msgid "Launch method selection"
+msgstr ""
+
+msgid "Log server control"
+msgstr ""
+
+msgid "Credits"
+msgstr ""
+
+msgid "Credits to all contributors"
+msgstr ""
+
+msgid "Game View TV"
+msgstr ""
+
+msgid "Game View DRC"
+msgstr ""
+
+msgid "Game Path"
+msgstr ""
+
+msgid "Game Save Path"
+msgstr ""
+
+msgid "Game Save Mode"
+msgstr ""
+
+msgid "Launch Mode"
+msgstr ""
+
+msgid "Log Server Control"
+msgstr ""
+
+msgid "Log Server IP"
+msgstr ""

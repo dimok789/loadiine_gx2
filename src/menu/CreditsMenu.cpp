@@ -16,7 +16,6 @@
  ****************************************************************************/
 #include "CreditsMenu.h"
 #include "Application.h"
-#include "language/gettext.h"
 
 CreditsMenu::CreditsMenu(int w, int h, const std::string & title)
     : GuiFrame(w, h)
@@ -80,7 +79,7 @@ CreditsMenu::CreditsMenu(int w, int h, const std::string & title)
     creditsText.push_back(text);
     append(text);
 
-    text = new GuiText(tr("https://gbatemp.net/threads/413823"), fontSize, textColor);
+    text = new GuiText("https://gbatemp.net/threads/413823", fontSize, textColor);
     text->setPosition(positionX2, positionY);
     text->setAlignment(ALIGN_LEFT | ALIGN_MIDDLE);
     creditsText.push_back(text);
@@ -93,7 +92,7 @@ CreditsMenu::CreditsMenu(int w, int h, const std::string & title)
     creditsText.push_back(text);
     append(text);
 
-    text = new GuiText(tr("Dimok / dibas / Maschell / n1ghty"), fontSize, textColor);
+    text = new GuiText("Dimok / dibas / Maschell / n1ghty", fontSize, textColor);
     text->setPosition(positionX2, positionY);
     text->setAlignment(ALIGN_LEFT | ALIGN_MIDDLE);
     creditsText.push_back(text);
@@ -132,7 +131,7 @@ CreditsMenu::CreditsMenu(int w, int h, const std::string & title)
     creditsText.push_back(text);
     append(text);
 
-    text = new GuiText(tr("Cyan"), fontSize, textColor);
+    text = new GuiText("Cyan", fontSize, textColor);
     text->setPosition(positionX2, positionY);
     text->setAlignment(ALIGN_LEFT | ALIGN_MIDDLE);
     creditsText.push_back(text);

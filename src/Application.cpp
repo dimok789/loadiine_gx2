@@ -25,7 +25,6 @@
 #include "sounds/SoundHandler.hpp"
 #include "system/exception_handler.h"
 #include "utils/logger.h"
-#include "language/gettext.h"
 
 Application *Application::applicationInstance = NULL;
 bool Application::exitApplication = false;
@@ -61,15 +60,14 @@ Application::Application()
     bgMusic->SetLoop(true);
     bgMusic->Play();
     bgMusic->SetVolume(50);
-	
+
 	//! load language
     if(!CSettings::getValueAsString(CSettings::AppLanguage).empty())
     {
-        std::string LanguagePath = "sd:/wiiu/apps/loadiine_gx2/language/" + CSettings::getValueAsString(CSettings::AppLanguage) + ".lang";
-		char* chr = strdup(LanguagePath.c_str());
-		gettextLoadLanguage(chr);
+        std::string languagePath = "sd:/wiiu/apps/loadiine_gx2/language/" + CSettings::getValueAsString(CSettings::AppLanguage) + ".lang";
+		gettextLoadLanguage(languagePath.c_str());
     }
-	
+
 	exitApplication = false;
 }
 
@@ -86,6 +84,8 @@ Application::~Application()
     Resources::Clear();
 
 	SoundHandler::DestroyInstance();
+
+	gettextCleanUp();
 }
 
 void Application::exec()
