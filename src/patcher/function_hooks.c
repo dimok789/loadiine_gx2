@@ -889,7 +889,7 @@ DECL(int, OSDynLoad_Acquire, char* rpl, unsigned int *handle, int r5 __attribute
     if ((int)bss_ptr != 0x0a000000)
     {
         char buffer[200];
-        __os_snprintf(buffer, sizeof(buffer), "OSDynLoad_Acquire: %s result: %i", rpl, result);
+        __os_snprintf(buffer, sizeof(buffer), "OSDynLoad_Acquire: %s result: %i (0x%08X)", rpl, result, result);
         fs_log_string(bss.global_sock, buffer, BYTE_LOG_STR);
     }
 

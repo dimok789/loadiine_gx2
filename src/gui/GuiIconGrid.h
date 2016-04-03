@@ -21,6 +21,7 @@
 #include "GuiFrame.h"
 #include "GuiButton.h"
 #include "GameIcon.h"
+#include "GameInfoWindow.h"
 #include "GuiGameBrowser.h"
 #include "GameBgImage.h"
 #include "GridBackground.h"
@@ -42,6 +43,7 @@ private:
     void OnLeftArrowClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
     void OnRightArrowClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
     void OnGameButtonClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
+    void OnGameButtonHold(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
 
     void OnLeftClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
     void OnRightClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
@@ -49,6 +51,10 @@ private:
     void OnUpClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
 
     void OnLaunchClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
+
+    void OnOpenEffectFinish(GuiElement *element);
+    void OnCloseEffectFinish(GuiElement *element);
+    void OnLaunchBoxCloseClick(GuiElement *element);
 
     void updateButtonPositions();
 

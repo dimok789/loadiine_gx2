@@ -61,10 +61,12 @@ static const struct
     const char *iconGlow;
     const char *descriptions;
 }
+
 stSettingsCategories[] =
 {
     { "GUI",     "guiSettingsIcon.png",    "guiSettingsIconGlow.png",    "Game View Selection\n" "Background customizations" },
-    { "Loader",  "loaderSettingsIcon.png", "loaderSettingsIconGlow.png", "Customize games path\nCustomize save path\nSet save mode" },
+    { "Loader 1",  "loaderSettingsIcon.png", "loaderSettingsIconGlow.png", "Customize games path\nCustomize save path\nSet save mode" },
+    { "Loader 2",  "loaderSettingsIcon.png", "loaderSettingsIconGlow.png", "PADcon Control\n" "pyGecko Control" },
     { "Game",    "gameSettingsIcon.png",   "gameSettingsIconGlow.png",   "Launch method selection\n" "Log server control\n" "Adjust log server IP and port" },
     { "Credits", "creditsIcon.png",        "creditsIconGlow.png",        "Credits to all contributors" }
 };
@@ -75,11 +77,17 @@ static const SettingType GuiSettings[] =
     { "Game View DRC", ValueGameViewMode, Type3Buttons, CSettings::GameViewModeDrc }
 };
 
-static const SettingType LoaderSettings[] =
+static const SettingType Loader1Settings[] =
 {
     { "Game Path", 0, TypeDisplayOnly, CSettings::GamePath },
     { "Game Save Path", 0, TypeDisplayOnly, CSettings::GameSavePath },
     { "Game Save Mode", ValueGameSaveModes, Type2Buttons, CSettings::GameSaveMode }
+};
+
+static const SettingType Loader2Settings[] =
+{
+    { "PADcon Control", ValueOnOff, Type2Buttons, CSettings::PadconMode },
+    { "pyGecko Control", ValueOnOff, Type2Buttons, CSettings::LaunchPyGecko },
 };
 
 static const SettingType GameSettings[] =
@@ -368,14 +376,18 @@ void SettingsMenu::OnCategoryClick(GuiButton *button, const GuiController *contr
             categorySettingsCount = sizeof(GuiSettings) / sizeof(SettingType);
             break;
         case 1:
-            categorySettings = LoaderSettings;
-            categorySettingsCount = sizeof(LoaderSettings) / sizeof(SettingType);
+            categorySettings = Loader1Settings;
+            categorySettingsCount = sizeof(Loader1Settings) / sizeof(SettingType);
             break;
         case 2:
+            categorySettings = Loader2Settings;
+            categorySettingsCount = sizeof(Loader2Settings) / sizeof(SettingType);
+            break;
+        case 3:
             categorySettings = GameSettings;
             categorySettingsCount = sizeof(GameSettings) / sizeof(SettingType);
             break;
-        case 3:
+        case 4:
         {
             CreditsMenu * menu = new CreditsMenu(getWidth(), getHeight(), tr(stSettingsCategories[indexClicked].name));
             menu->setEffect(EFFECT_FADE, 10, 255);
