@@ -1,0 +1,153 @@
+# Loadiine GX2 language source file.
+# ptbr.lang - v0.3
+# don't delete/change this line (Ã©).
+msgid ""
+msgstr ""
+"Project-Id-Version: Loadiine GX2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-04-03 11:40+0200\n"
+"PO-Revision-Date: 2016-04-02 07:28+0200\n"
+"Last-Translator: AirKingBR\n"
+"Language-Team: AirKingBR\n"
+"Language: Portuguese BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Loadiine GX2"
+msgstr ""
+
+msgid "Official Site:"
+msgstr "Site Oficial:"
+
+msgid "Coding:"
+msgstr "Programando:"
+
+msgid "Design:"
+msgstr ""
+
+msgid "Some guy who doesn't want to be named."
+msgstr "Alguem que não quer ser identificado."
+
+msgid "Testing:"
+msgstr "Testando:"
+
+msgid "Cyan / Maschell / n1ghty / OnionKnight and many more"
+msgstr "Cyan / Maschell / n1ghty / OnionKnight e muitos mais"
+
+msgid "Social Presence:"
+msgstr "Presença Social:"
+
+msgid "Based on:"
+msgstr "Baseado em:"
+
+msgid "Loadiine v4.0 by Golden45 and Dimok"
+msgstr "Loadiine v4.0 por Golden45 e Dimok"
+
+msgid "Big thanks to:"
+msgstr "Agradecimentos:"
+
+msgid "lustar for GameTDB and hosting covers / disc images"
+msgstr "lustar da GameTDB e hospedagem das capas"
+
+msgid "Marionumber1 for his kernel exploit"
+msgstr "Marionumber1 pelo kernel exploit"
+
+msgid "The whole libwiiu team and it's contributors."
+msgstr "Toda a equipe do libwiiu e seus colaboradores."
+
+msgid "Off"
+msgstr "Desligado"
+
+msgid "On"
+msgstr "Ligado"
+
+msgid "Icon Carousel"
+msgstr "Carrossel de Icones"
+
+msgid "Grid View"
+msgstr "Exibição em Grade"
+
+msgid "Cover Carousel"
+msgstr "Carrossel de Capas"
+
+msgid "Shared Mode"
+msgstr "Modo Compartilhado"
+
+msgid "Unique Mode"
+msgstr "Modo Único"
+
+msgid "Mii Maker Mode"
+msgstr "Modo Mii Maker"
+
+msgid "Smash Bros Mode"
+msgstr "Modo Smash Bros"
+
+msgid "Karaoke Mode"
+msgstr "Modo Karaoke"
+
+msgid "Art Atelier Mode"
+msgstr "Modo Art Atelier"
+
+msgid "Background customizations"
+msgstr "Mudar Imagem de Fundo"
+
+msgid "GUI"
+msgstr ""
+
+msgid "Game View Selection"
+msgstr "Aparência da Lista de Jogos"
+
+msgid "Customize games path"
+msgstr "Mudar Pasta de Jogos"
+
+msgid "Customize save path"
+msgstr "Mudar Pasta de Saves"
+
+msgid "Loader"
+msgstr ""
+
+msgid "Set save mode"
+msgstr "Mudar Modo de Save"
+
+msgid "Adjust log server IP and port"
+msgstr "Configurar Servidor de Logs"
+
+msgid "Game"
+msgstr "Jogos"
+
+msgid "Launch method selection"
+msgstr "Mudar Modo de Inicio"
+
+msgid "Log server control"
+msgstr "Servidor de Logs"
+
+msgid "Credits"
+msgstr "Créditos"
+
+msgid "Credits to all contributors"
+msgstr "Créditos / Colaboradores"
+
+msgid "Game View TV"
+msgstr "Lista de Jogos na TV"
+
+msgid "Game View DRC"
+msgstr "Lista de Jogos no DRC"
+
+msgid "Game Path"
+msgstr "Mudar Pasta de Jogos"
+
+msgid "Game Save Path"
+msgstr "Mudar Pasta de Saves"
+
+msgid "Game Save Mode"
+msgstr "Mudar Modo de Save"
+
+msgid "Launch Mode"
+msgstr "Modo de Inicio"
+
+msgid "Log Server Control"
+msgstr "Controle do Servidor de Logs"
+
+msgid "Log Server IP"
+msgstr "IP do Servidor de Logs"
