@@ -30,7 +30,7 @@ msgid "Credits"
 msgstr "Créditos"
 
 msgid "Game View Selection"
-msgstr "Visualização da seleção de jogo"
+msgstr "Aparência da Lista de jogos"
 
 msgid "Background customizations"
 msgstr "Personalizar fundo"
@@ -45,7 +45,7 @@ msgid "Set save mode"
 msgstr "Estabelecer modo de save"
 
 msgid "Launch method selection"
-msgstr "Seleção do modo de carregar"
+msgstr "Selecionar modo de carregamento"
 
 msgid "Log server control"
 msgstr "Iniciar servidor de Log"
@@ -150,7 +150,7 @@ msgid "Loadiine v4.0 by Golden45 and Dimok"
 msgstr "Loadiine V4.0 por Golden45 e Dimok"
 
 msgid "Big thanks to:"
-msgstr "Muito obrigado para:"
+msgstr "Agradecimentos a:"
 
 msgid "lustar for GameTDB and hosting covers / disc images"
 msgstr "Lustar da GameTDB por hostear capas / imagens de disco"
