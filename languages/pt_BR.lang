@@ -1,0 +1,162 @@
+# Loadiine GX2 language source file.
+# pt_BR.lang - v0.2
+# don't delete/change this line (é).
+msgid ""
+msgstr ""
+"Project-Id-Version: Loadiine GX2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-05-12 07:11+0100\n"
+"PO-Revision-Date: 2009-10-01 01:00+0200\n"
+"Last-Translator: AndréFranco\n"
+"Language-Team: AndréFranco\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: Português(Brasil)\n"
+
+msgid "Loadiine GX2"
+msgstr ""
+
+msgid "GUI"
+msgstr ""
+
+msgid "Loader"
+msgstr "Carregador"
+
+msgid "Game"
+msgstr "Jogo"
+
+msgid "Credits"
+msgstr "Créditos"
+
+msgid "Game View Selection"
+msgstr "Aparência da Lista de jogos"
+
+msgid "Background customizations"
+msgstr "Personalizar fundo"
+
+msgid "Customize games path"
+msgstr "Personalizar pasta dos jogos"
+
+msgid "Customize save path"
+msgstr "Personalizar pasta dos saves"
+
+msgid "Set save mode"
+msgstr "Estabelecer modo de save"
+
+msgid "Launch method selection"
+msgstr "Selecionar modo de carregamento"
+
+msgid "Log server control"
+msgstr "Iniciar servidor de Log"
+
+msgid "Adjust log server IP and port"
+msgstr "Configurar IP:Porta do servidor de log"
+
+msgid "Credits to all contributors"
+msgstr "Créditos aos colaboradores"
+
+msgid "Off"
+msgstr "Desligado"
+
+msgid "On"
+msgstr "Ligado"
+
+msgid "Icon Carousel"
+msgstr "Carrossel de ícones"
+
+msgid "Grid View"
+msgstr "Exibição em grade "
+
+msgid "Cover Carousel"
+msgstr "Carrossel de capas"
+
+msgid "Shared Mode"
+msgstr "Modo Compartilhado"
+
+msgid "Unique Mode"
+msgstr "Modo Único"
+
+msgid "Mii Maker Mode"
+msgstr "Modo Criador Mii"
+
+msgid "Smash Bros Mode"
+msgstr "Modo Smash Bros"
+
+msgid "Karaoke Mode"
+msgstr "Modo Karaokê"
+
+msgid "Art Atelier Mode"
+msgstr "Modo Art Atelier"
+
+msgid "Game View TV"
+msgstr "Visualização do jogo - TV"
+
+msgid "Game View DRC"
+msgstr "Visualização do jogo - DRC"
+
+msgid "Game Path"
+msgstr "Caminho do jogo"
+
+msgid "Game Save Path"
+msgstr "Caminho do save"
+
+msgid "Game Save Mode"
+msgstr "Modo de save"
+
+msgid "Launch Mode"
+msgstr "Modo de carregamento"
+
+msgid "Log Server Control"
+msgstr "Controle do servidor de log"
+
+msgid "Log Server IP"
+msgstr "IP do servidor de log"
+
+msgid "Official Site:"
+msgstr "Site Oficial:"
+
+msgid "https://gbatemp.net/threads/413823"
+msgstr ""
+
+msgid "Coding:"
+msgstr "Programação:"
+
+msgid "Dimok / dibas / Maschell / n1ghty"
+msgstr ""
+
+msgid "Design:"
+msgstr "Design:"
+
+msgid "Some guy who doesn't want to be named."
+msgstr "Um cara que não quis ser identificado"
+
+msgid "Testing:"
+msgstr "Testadores:"
+
+msgid "Cyan / Maschell / n1ghty / OnionKnight and many more"
+msgstr "Cyan / Maschell / n1ghty / OnionKnight e muitos mais"
+
+msgid "Social Presence:"
+msgstr "Representante nas redes:"
+
+msgid "Cyan"
+msgstr ""
+
+msgid "Based on:"
+msgstr "Baseado em:"
+
+msgid "Loadiine v4.0 by Golden45 and Dimok"
+msgstr "Loadiine V4.0 por Golden45 e Dimok"
+
+msgid "Big thanks to:"
+msgstr "Agradecimentos a:"
+
+msgid "lustar for GameTDB and hosting covers / disc images"
+msgstr "Lustar da GameTDB por hostear capas / imagens de disco"
+
+msgid "Marionumber1 for his kernel exploit"
+msgstr "Marionumber1 por seu kernel exploit"
+
+msgid "The whole libwiiu team and it's contributors."
+msgstr "A todo o time da libwiiu e seus contribuidores."
