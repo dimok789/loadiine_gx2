@@ -18,7 +18,11 @@
 #include <string.h>
 #include <stdio.h>
 #include <gctypes.h>
+#include <string>
+#include <vector>
 #include "gettext.h"
+#include "fs/CFile.hpp"
+#include "utils/StringTools.h"
 
 typedef struct _MSG
 {
@@ -183,7 +187,8 @@ static MSG *setMSG(const char *msgid, const char *msgstr)
 	}
 	return NULL;
 }
-void gettextCleanUp(void)
+
+extern "C" void gettextCleanUp(void)
 {
 	while (baseMSG)
 	{
@@ -194,23 +199,44 @@ void gettextCleanUp(void)
 	}
 }
 
-bool gettextLoadLanguage(const char* langFile)
+extern "C" bool gettextLoadLanguage(const char* langFile)
 {
-
-	FILE *f;
-	char line[512];
 	char *lastID = NULL;
-
 	gettextCleanUp();
-	f = fopen(langFile, "r");
-	if (!f) return false;
 
-	while (fgets(line, sizeof(line), f))
+	CFile file(langFile, CFile::ReadOnly);
+	if (!file.isOpen())
+        return false;
+
+    std::string strBuffer;
+    strBuffer.resize(file.size());
+    file.read((u8 *) &strBuffer[0], strBuffer.size());
+    file.close();
+
+    //! remove all windows crap signs
+    size_t position;
+    while(1)
+    {
+        position = strBuffer.find('\r');
+        if(position == std::string::npos)
+            break;
+
+        strBuffer.erase(position, 1);
+    }
+
+	std::vector<std::string> lines = stringSplit(strBuffer, "\n");
+
+
+	if(lines.empty())
+		return false;
+
+	for(unsigned int i = 0; i < lines.size(); i++)
 	{
+	    std::string & line = lines[i];
 		// lines starting with # are comments
 		if (line[0] == '#')
 			continue;
-		else if (strncmp(line, "msgid \"", 7) == 0)
+		else if (strncmp(line.c_str(), "msgid \"", 7) == 0)
 		{
 			char *msgid, *end;
 			if (lastID)
@@ -226,7 +252,7 @@ bool gettextLoadLanguage(const char* langFile)
 				lastID = strdup(msgid);
 			}
 		}
-		else if (strncmp(line, "msgstr \"", 8) == 0)
+		else if (strncmp(line.c_str(), "msgstr \"", 8) == 0)
 		{
 			char *msgstr, *end;
 
@@ -244,11 +270,10 @@ bool gettextLoadLanguage(const char* langFile)
 		}
 
 	}
-
-	fclose(f);
 	return true;
 }
-const char *gettext(const char *msgid)
+
+extern "C" const char *gettext(const char *msgid)
 {
 	if(!msgid) return NULL;
 	MSG *msg = findMSG(hash_string(msgid));
