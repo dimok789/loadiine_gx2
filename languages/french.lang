@@ -7,7 +7,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-03 19:00+0200\n"
 "PO-Revision-Date: 2016-04-03 19:00+0200\n"
-"Last-Translator: littlebalup\n"
+"Last-Translator: BHackUP, littlebalup\n"
 "Language-Team: BHackUP, littlebalup\n"
 "Language: Français\n"
 "MIME-Version: 1.0\n"
@@ -96,7 +96,7 @@ msgid "GUI"
 msgstr "Interface"
 
 msgid "Game View Selection"
-msgstr "Sélection des vues"
+msgstr "Mode d'affichage des jeux"
 
 msgid "Customize games path"
 msgstr "Emplacement des jeux"
@@ -117,7 +117,7 @@ msgid "Game"
 msgstr "Jeu"
 
 msgid "Launch method selection"
-msgstr "Méthode de lancement"
+msgstr "Méthode de lancement des jeux"
 
 msgid "Log server control"
 msgstr "Serveur de log"
@@ -129,25 +129,25 @@ msgid "Credits to all contributors"
 msgstr "Merci à tous les contributeurs"
 
 msgid "Game View TV"
-msgstr "Vue sur écran TV"
+msgstr "Affichage des jeux sur TV"
 
 msgid "Game View DRC"
-msgstr "Vue sur GamePad"
+msgstr "Affichage des jeux sur GamePad"
 
 msgid "Game Path"
-msgstr "Emplacement des Jeux"
+msgstr "Emplacement des jeux"
 
 msgid "Game Save Path"
-msgstr "Emplacement des Sauvegardes"
+msgstr "Emplacement des sauvegardes"
 
 msgid "Game Save Mode"
-msgstr "Mode de Sauvegarde"
+msgstr "Mode de sauvegarde"
 
 msgid "Launch Mode"
-msgstr "Mode de Lancement"
+msgstr "Mode de lancement"
 
 msgid "Log Server Control"
 msgstr "Serveur de Log"
 
 msgid "Log Server IP"
-msgstr "IP Serveur de Log"
+msgstr "IP serveur de Log"
