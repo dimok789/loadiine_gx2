@@ -64,7 +64,7 @@ Application::Application()
 	//! load language
     if(!CSettings::getValueAsString(CSettings::AppLanguage).empty())
     {
-        std::string languagePath = "sd:/wiiu/apps/loadiine_gx2/language/" + CSettings::getValueAsString(CSettings::AppLanguage) + ".lang";
+        std::string languagePath = "sd:/wiiu/apps/loadiine_gx2/languages/" + CSettings::getValueAsString(CSettings::AppLanguage) + ".lang";
 		gettextLoadLanguage(languagePath.c_str());
     }
 
