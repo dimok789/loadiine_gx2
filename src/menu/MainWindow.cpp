@@ -35,6 +35,7 @@ MainWindow::MainWindow(int w, int h)
     , mainSwitchButtonFrame(NULL)
     , currentTvFrame(NULL)
     , currentDrcFrame(NULL)
+    , launchingGame(false)
 
 {
     for(int i = 0; i < 4; i++)
@@ -391,8 +392,10 @@ void MainWindow::OnLayoutSwitchClicked(GuiElement *element)
 
 void MainWindow::OnGameLaunch(GuiGameBrowser *element, int gameIdx)
 {
-    if (launchingGame) {return;}
-    launchingGame = 1;
+    if (launchingGame)
+        return;
+
+    launchingGame = true;
 
     CSettings::setValueAsU16(CSettings::GameStartIndex,gameIdx);
 
@@ -438,6 +441,9 @@ void MainWindow::OnGameLoadFinish(GameLauncher * launcher, const discHeader *hea
 
         Application::instance()->quit();
     }
+    else {
+        launchingGame = false;
+    }
 
     mainSwitchButtonFrame->resetState();
     if(currentTvFrame)
@@ -445,7 +451,6 @@ void MainWindow::OnGameLoadFinish(GameLauncher * launcher, const discHeader *hea
     if(currentDrcFrame)
         currentDrcFrame->resetState();
 
-    launchingGame = 0;
     launcher->setState(GuiElement::STATE_DISABLED);
     launcher->setEffect(EFFECT_FADE, -15, 0);
     launcher->effectFinished.connect(this, &MainWindow::OnCloseEffectFinish);
