@@ -391,6 +391,9 @@ void MainWindow::OnLayoutSwitchClicked(GuiElement *element)
 
 void MainWindow::OnGameLaunch(GuiGameBrowser *element, int gameIdx)
 {
+    if (launchingGame) {return;}
+    launchingGame = 1;
+
     CSettings::setValueAsU16(CSettings::GameStartIndex,gameIdx);
 
     if(gameClickSound)
@@ -442,6 +445,7 @@ void MainWindow::OnGameLoadFinish(GameLauncher * launcher, const discHeader *hea
     if(currentDrcFrame)
         currentDrcFrame->resetState();
 
+    launchingGame = 0;
     launcher->setState(GuiElement::STATE_DISABLED);
     launcher->setEffect(EFFECT_FADE, -15, 0);
     launcher->effectFinished.connect(this, &MainWindow::OnCloseEffectFinish);
