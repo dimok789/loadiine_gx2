@@ -22,7 +22,7 @@ typedef struct _private_data_t
     EXPORT_DECL(void, DCFlushRange, const void *addr, u32 length);
     EXPORT_DECL(void, ICInvalidateRange, const void *addr, u32 length);
     EXPORT_DECL(int, __os_snprintf, char* s, int n, const char * format, ...);
-    EXPORT_DECL(void, __Exit, void);
+    EXPORT_DECL(void, exit, void);
 
     EXPORT_DECL(int, FSInit, void);
     EXPORT_DECL(int, FSAddClientEx, void *pClient, int unk_zero_param, int errHandling);
@@ -216,7 +216,7 @@ static void loadFunctionPointers(private_data_t * private_data)
     OS_FIND_EXPORT(coreinit_handle, "DCFlushRange", private_data->DCFlushRange);
     OS_FIND_EXPORT(coreinit_handle, "ICInvalidateRange", private_data->ICInvalidateRange);
     OS_FIND_EXPORT(coreinit_handle, "__os_snprintf", private_data->__os_snprintf);
-    OS_FIND_EXPORT(coreinit_handle, "_Exit", private_data->__Exit);
+    OS_FIND_EXPORT(coreinit_handle, "exit", private_data->exit);
 
     OS_FIND_EXPORT(coreinit_handle, "FSInit", private_data->FSInit);
     OS_FIND_EXPORT(coreinit_handle, "FSAddClientEx", private_data->FSAddClientEx);
@@ -293,7 +293,7 @@ int _start(int argc, char **argv)
                 {
                     //MAIN_ENTRY_ADDR = 0xDEADC0DE;
                     //private_data.SYSRelaunchTitle(0, 0);
-                    //private_data.__Exit();
+                    //private_data.exit();
                     break;
                 }
             }

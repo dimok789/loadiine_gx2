@@ -44,6 +44,11 @@
 #elif ( (VER == 400) || (VER == 410) )
     #define ADDRESS_OSTitle_main_entry_ptr              0x1005A8C0
     #define ADDRESS_main_entry_hook                     0x0101BD4C
+
+    #define KERN_SYSCALL_TBL_1                          0xFFE84C90
+    #define KERN_SYSCALL_TBL_2                          0xFFE85090
+    #define KERN_SYSCALL_TBL_3                          0xFFE85C90
+    #define KERN_SYSCALL_TBL_4                          0xFFE85490
     #define KERN_SYSCALL_TBL_5                          0xFFE85890 // works with browser
 #endif // VER
 
@@ -56,8 +61,10 @@ static int show_install_menu(unsigned int coreinit_handle, unsigned int *ip_addr
 static void thread_callback(int argc, void *argv);
 
 static void SetupKernelSyscall(unsigned int addr);
+static void KernelCopyData(unsigned int addr, unsigned int src, unsigned int len);
 
 /* assembly functions */
+extern void SC_0x25_KernelCopyData(void* addr, void* src, unsigned int len);
 extern void Syscall_0x36(void);
 extern void KernelPatches(void);
 
@@ -96,38 +103,39 @@ void __main(void)
     if (private_data.OSEffectiveToPhysical((void *)0xa0000000) != (void *)0x10000000)
     {
         run_kexploit(&private_data);
-        return;
     }
+    else
+    {
+        /* Get functions to send restart signal */
+        int(*IM_Open)();
+        int(*IM_Close)(int fd);
+        int(*IM_SetDeviceState)(int fd, void *mem, int state, int a, int b);
+        void*(*OSAllocFromSystem)(unsigned int size, int align);
+        void(*OSFreeToSystem)(void *ptr);
+        OSDynLoad_FindExport(coreinit_handle, 0, "IM_Open", &IM_Open);
+        OSDynLoad_FindExport(coreinit_handle, 0, "IM_Close", &IM_Close);
+        OSDynLoad_FindExport(coreinit_handle, 0, "IM_SetDeviceState", &IM_SetDeviceState);
+        OSDynLoad_FindExport(coreinit_handle, 0, "OSAllocFromSystem", &OSAllocFromSystem);
+        OSDynLoad_FindExport(coreinit_handle, 0, "OSFreeToSystem", &OSFreeToSystem);
 
-    /* Get functions to send restart signal */
-    int(*IM_Open)();
-    int(*IM_Close)(int fd);
-    int(*IM_SetDeviceState)(int fd, void *mem, int state, int a, int b);
-    void*(*OSAllocFromSystem)(unsigned int size, int align);
-    void(*OSFreeToSystem)(void *ptr);
-    OSDynLoad_FindExport(coreinit_handle, 0, "IM_Open", &IM_Open);
-    OSDynLoad_FindExport(coreinit_handle, 0, "IM_Close", &IM_Close);
-    OSDynLoad_FindExport(coreinit_handle, 0, "IM_SetDeviceState", &IM_SetDeviceState);
-    OSDynLoad_FindExport(coreinit_handle, 0, "OSAllocFromSystem", &OSAllocFromSystem);
-    OSDynLoad_FindExport(coreinit_handle, 0, "OSFreeToSystem", &OSFreeToSystem);
+        /* Send restart signal to get rid of uneeded threads */
+        /* Cause the other browser threads to exit */
+        int fd = IM_Open();
+        void *mem = OSAllocFromSystem(0x100, 64);
+        if(!mem)
+            ExitFailure(&private_data, "Not enough memory. Exit and re-enter browser.");
 
-    /* Send restart signal to get rid of uneeded threads */
-    /* Cause the other browser threads to exit */
-    int fd = IM_Open();
-    void *mem = OSAllocFromSystem(0x100, 64);
-    if(!mem)
-        ExitFailure(&private_data, "Not enough memory. Exit and re-enter browser.");
+        private_data.memset(mem, 0, 0x100);
 
-    private_data.memset(mem, 0, 0x100);
+        /* Sets wanted flag */
+        IM_SetDeviceState(fd, mem, 3, 0, 0);
+        IM_Close(fd);
+        OSFreeToSystem(mem);
 
-    /* Sets wanted flag */
-    IM_SetDeviceState(fd, mem, 3, 0, 0);
-    IM_Close(fd);
-    OSFreeToSystem(mem);
-
-    /* Waits for thread exits */
-    unsigned int t1 = 0x1FFFFFFF;
-    while(t1--) ;
+        /* Waits for thread exits */
+        unsigned int t1 = 0x1FFFFFFF;
+        while(t1--) ;
+    }
 
     /* Prepare for thread startups */
     int (*OSCreateThread)(void *thread, void *entry, int argc, void *args, unsigned int stack, unsigned int stack_size, int priority, unsigned short attr);
@@ -171,6 +179,9 @@ void __main(void)
         "    nop\n"
         );
     }
+
+    /* setup kernel copy data syscall */
+    kern_write((void*)(KERN_SYSCALL_TBL_5 + (0x25 * 4)), (unsigned int)KernelCopyData);
 
     /* Install our code now */
     InstallMain(&private_data);
@@ -267,6 +278,43 @@ static void SetupKernelSyscall(unsigned int address)
     kern_write((void*)(KERN_SYSCALL_TBL_4 + (0x35 * 4)), KERN_CODE_WRITE);
 }
 
+static void KernelCopyData(unsigned int addr, unsigned int src, unsigned int len)
+{
+    /*
+     * Setup a DBAT access for our 0xC0800000 area and our 0xBC000000 area which hold our variables like GAME_LAUNCHED and our BSS/rodata section
+     */
+    register int dbatu0, dbatl0;
+    // save the original DBAT value
+    asm volatile("mfdbatu %0, 0" : "=r" (dbatu0));
+    asm volatile("mfdbatl %0, 0" : "=r" (dbatl0));
+    asm volatile("mtdbatu 0, %0" : : "r" (0xC0001FFF));
+    asm volatile("mtdbatl 0, %0" : : "r" (0x30000012));
+    asm volatile("eieio; isync");
+
+    unsigned char *src_p = (unsigned char*)src;
+    unsigned char *dst_p = (unsigned char*)addr;
+
+    unsigned int i;
+    for(i = 0; i < len; i++)
+    {
+        dst_p[i] = src_p[i];
+    }
+
+    unsigned int flushAddr = addr & ~31;
+
+    while(flushAddr < (addr + len))
+    {
+        asm volatile("dcbf 0, %0; sync" : : "r"(flushAddr));
+        flushAddr += 0x20;
+    }
+
+    /*
+     * Restore original DBAT value
+     */
+    asm volatile("mtdbatu 0, %0" : : "r" (dbatu0));
+    asm volatile("mtdbatl 0, %0" : : "r" (dbatl0));
+    asm volatile("eieio; isync");
+}
 
 static void thread_callback(int argc, void *argv)
 {
@@ -342,9 +390,9 @@ static void InstallMain(private_data_t *private_data)
     /* Copy main .text to memory */
     if(section_offset > 0)
     {
-        private_data->memcpy((void*)(CODE_RW_BASE_OFFSET + main_text_addr), main_text, main_text_len);
-        private_data->DCFlushRange((void*)(CODE_RW_BASE_OFFSET + main_text_addr), main_text_len);
-        private_data->ICInvalidateRange((void*)(main_text_addr), main_text_len);
+        SC_0x25_KernelCopyData((void*)(CODE_RW_BASE_OFFSET + main_text_addr), main_text, main_text_len);
+        //private_data->DCFlushRange((void*)(CODE_RW_BASE_OFFSET + main_text_addr), main_text_len);
+        //private_data->ICInvalidateRange((void*)(main_text_addr), main_text_len);
     }
 
     // get the .rodata section
@@ -355,8 +403,8 @@ static void InstallMain(private_data_t *private_data)
     {
         unsigned char *main_rodata = private_data->data_elf + section_offset;
         /* Copy main rodata to memory */
-        private_data->memcpy((void*)(DATA_RW_BASE_OFFSET + main_rodata_addr), main_rodata, main_rodata_len);
-        private_data->DCFlushRange((void*)(DATA_RW_BASE_OFFSET + main_rodata_addr), main_rodata_len);
+        SC_0x25_KernelCopyData((void*)(DATA_RW_BASE_OFFSET + main_rodata_addr), main_rodata, main_rodata_len);
+        //private_data->DCFlushRange((void*)(DATA_RW_BASE_OFFSET + main_rodata_addr), main_rodata_len);
     }
 
     // get the .data section
@@ -367,8 +415,8 @@ static void InstallMain(private_data_t *private_data)
     {
         unsigned char *main_data = private_data->data_elf + section_offset;
         /* Copy main data to memory */
-        private_data->memcpy((void*)(DATA_RW_BASE_OFFSET + main_data_addr), main_data, main_data_len);
-        private_data->DCFlushRange((void*)(DATA_RW_BASE_OFFSET + main_data_addr), main_data_len);
+        SC_0x25_KernelCopyData((void*)(DATA_RW_BASE_OFFSET + main_data_addr), main_data, main_data_len);
+        //private_data->DCFlushRange((void*)(DATA_RW_BASE_OFFSET + main_data_addr), main_data_len);
     }
 
     // get the .bss section
@@ -377,9 +425,10 @@ static void InstallMain(private_data_t *private_data)
     section_offset = get_section(private_data, private_data->data_elf, ".bss", &main_bss_len, &main_bss_addr, 0);
     if(section_offset > 0)
     {
+        unsigned char *main_bss = private_data->data_elf + section_offset;
         /* Copy main data to memory */
-        private_data->memset((void*)(DATA_RW_BASE_OFFSET + main_bss_addr), 0, main_bss_len);
-        private_data->DCFlushRange((void*)(DATA_RW_BASE_OFFSET + main_bss_addr), main_bss_len);
+        SC_0x25_KernelCopyData((void*)(DATA_RW_BASE_OFFSET + main_bss_addr), main_bss, main_bss_len);
+        //private_data->DCFlushRange((void*)(DATA_RW_BASE_OFFSET + main_bss_addr), main_bss_len);
     }
 }
 
@@ -389,26 +438,32 @@ static void InstallMain(private_data_t *private_data)
 /* ****************************************************************** */
 static void InstallPatches(private_data_t *private_data)
 {
-    OsSpecifics * osSpecificFunctions = OS_SPECIFICS;
-    private_data->memset(osSpecificFunctions, 0, sizeof(OsSpecifics));
+    OsSpecifics osSpecificFunctions;
+    private_data->memset(&osSpecificFunctions, 0, sizeof(OsSpecifics));
 
+    unsigned int bufferU32;
     /* Pre-setup a few options to defined values */
-    OS_FIRMWARE = VER;
-    MAIN_ENTRY_ADDR = 0xDEADC0DE;
-    ELF_DATA_ADDR = 0xDEADC0DE;
-    ELF_DATA_SIZE = 0;
+    bufferU32 = VER;
+    SC_0x25_KernelCopyData((void*)&OS_FIRMWARE, &bufferU32, sizeof(bufferU32));
+    bufferU32 = 0xDEADC0DE;
+    SC_0x25_KernelCopyData((void*)&MAIN_ENTRY_ADDR, &bufferU32, sizeof(bufferU32));
+    SC_0x25_KernelCopyData((void*)&ELF_DATA_ADDR, &bufferU32, sizeof(bufferU32));
+    bufferU32 = 0;
+    SC_0x25_KernelCopyData((void*)&ELF_DATA_SIZE, &bufferU32, sizeof(bufferU32));
 
     unsigned int jump_main_hook = 0;
-    osSpecificFunctions->addr_OSDynLoad_Acquire = (unsigned int)OSDynLoad_Acquire;
-    osSpecificFunctions->addr_OSDynLoad_FindExport = (unsigned int)OSDynLoad_FindExport;
+    osSpecificFunctions.addr_OSDynLoad_Acquire = (unsigned int)OSDynLoad_Acquire;
+    osSpecificFunctions.addr_OSDynLoad_FindExport = (unsigned int)OSDynLoad_FindExport;
 
-    osSpecificFunctions->addr_KernSyscallTbl1 = KERN_SYSCALL_TBL_1;
-    osSpecificFunctions->addr_KernSyscallTbl2 = KERN_SYSCALL_TBL_2;
-    osSpecificFunctions->addr_KernSyscallTbl3 = KERN_SYSCALL_TBL_3;
-    osSpecificFunctions->addr_KernSyscallTbl4 = KERN_SYSCALL_TBL_4;
-    osSpecificFunctions->addr_KernSyscallTbl5 = KERN_SYSCALL_TBL_5;
+    osSpecificFunctions.addr_KernSyscallTbl1 = KERN_SYSCALL_TBL_1;
+    osSpecificFunctions.addr_KernSyscallTbl2 = KERN_SYSCALL_TBL_2;
+    osSpecificFunctions.addr_KernSyscallTbl3 = KERN_SYSCALL_TBL_3;
+    osSpecificFunctions.addr_KernSyscallTbl4 = KERN_SYSCALL_TBL_4;
+    osSpecificFunctions.addr_KernSyscallTbl5 = KERN_SYSCALL_TBL_5;
     //! pointer to main entry point of a title
-    osSpecificFunctions->addr_OSTitle_main_entry = ADDRESS_OSTitle_main_entry_ptr;
+    osSpecificFunctions.addr_OSTitle_main_entry = ADDRESS_OSTitle_main_entry_ptr;
+
+    SC_0x25_KernelCopyData((void*)OS_SPECIFICS, &osSpecificFunctions, sizeof(OsSpecifics));
 
     //! at this point we dont need to check header and stuff as it is sure to be OK
     Elf32_Ehdr *ehdr = (Elf32_Ehdr *) private_data->data_elf;
@@ -417,8 +472,9 @@ static void InstallPatches(private_data_t *private_data)
     //! Install our entry point hook
     unsigned int repl_addr = ADDRESS_main_entry_hook;
     unsigned int jump_addr = mainEntryPoint & 0x03fffffc;
-    *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + repl_addr)) = 0x48000003 | jump_addr;
+    bufferU32 = 0x48000003 | jump_addr;
+    SC_0x25_KernelCopyData((void*)(LIB_CODE_RW_BASE_OFFSET + repl_addr), &bufferU32, sizeof(bufferU32));
     // flush caches and invalidate instruction cache
-    private_data->DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + repl_addr), 4);
+    //private_data->DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + repl_addr), 4);
     private_data->ICInvalidateRange((void*)(repl_addr), 4);
 }
