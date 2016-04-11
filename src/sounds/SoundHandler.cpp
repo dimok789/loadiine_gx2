@@ -216,6 +216,12 @@ SoundDecoder * SoundHandler::GetSoundDecoder(const u8 * sound, int length)
 
 void SoundHandler::executeThread()
 {
+    // v2 sound lib can not properly end transition audio on old firmwares.
+    if (OS_FIRMWARE <= 410)
+    {
+        ProperlyEndTransitionAudio();
+    }
+    
     //! initialize 48 kHz renderer
     u32 params[3] = { 1, 0, 0 };
     AXInitWithParams(params);

@@ -72,3 +72,23 @@ void InitAXFunctionPointers(void)
     OS_FIND_EXPORT(sound_handle, AXSetVoiceLoopOffset);
 }
 
+void ProperlyEndTransitionAudio(void)
+{
+    bool (* check_os_audio_transition_flag_old)(void);
+    void (* AXInit_old)(void);
+    void (* AXQuit_old)(void);
+    
+    unsigned int *funcPointer = 0;
+    unsigned int sound_handle;
+    OSDynLoad_Acquire("snd_core.rpl", &sound_handle);
+    
+    OS_FIND_EXPORT_EX(sound_handle, check_os_audio_transition_flag, check_os_audio_transition_flag_old);
+    OS_FIND_EXPORT_EX(sound_handle, AXInit, AXInit_old);
+    OS_FIND_EXPORT_EX(sound_handle, AXQuit, AXQuit_old);
+    
+    if (check_os_audio_transition_flag_old())
+    {
+        AXInit_old();
+        AXQuit_old();
+    }
+}
