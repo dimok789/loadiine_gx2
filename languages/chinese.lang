@@ -1,0 +1,153 @@
+﻿# Loadiine GX2 language source file.
+# Chinese.lang - v0.3
+# don't delete/change this line (é).
+msgid ""
+msgstr ""
+"Project-Id-Version: Loadiine GX2\n"
+"Report-Msgid-Bugs-To: kavid@sina.com\n"
+"POT-Creation-Date: 2016-04-11 16:40+0200\n"
+"PO-Revision-Date: 2009-10-01 01:00+0200\n"
+"Last-Translator:kavid by 91wii.com \n"
+"Language-Team: 91wii.com\n"
+"Language:Chinese\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Loadiine GX2"
+msgstr "Loadiine GX2"
+
+msgid "Official Site:"
+msgstr "官方网站"
+
+msgid "Coding:"
+msgstr "代码编写："
+
+msgid "Design:"
+msgstr "设计："
+
+msgid "Some guy who doesn't want to be named."
+msgstr "有些人不想被提到名字。"
+
+msgid "Testing:"
+msgstr "测试者："
+
+msgid "Cyan / Maschell / n1ghty / OnionKnight and many more"
+msgstr "Cyan / Maschell / n1ghty / OnionKnight 等等更多人"
+
+msgid "Social Presence:"
+msgstr "社会参与人员："
+
+msgid "Based on:"
+msgstr "基于："
+
+msgid "Loadiine v4.0 by Golden45 and Dimok"
+msgstr "Loadiine v4.0作者Golden45和Dimok"
+
+msgid "Big thanks to:"
+msgstr "强烈感谢："
+
+msgid "lustar for GameTDB and hosting covers / disc images"
+msgstr "lustar的GameTDB与提供的封面和光盘封面"
+
+msgid "Marionumber1 for his kernel exploit"
+msgstr "Marionumber1开发的内核破解程序"
+
+msgid "The whole libwiiu team and it's contributors."
+msgstr "还有libwiiu小组和其他人所做出贡献"
+
+msgid "Off"
+msgstr "关闭"
+
+msgid "On"
+msgstr "开启"
+
+msgid "Icon Carousel"
+msgstr "旋转图标模式"
+
+msgid "Grid View"
+msgstr "网格视图"
+
+msgid "Cover Carousel"
+msgstr "旋转封面模式"
+
+msgid "Shared Mode"
+msgstr "共享模式"
+
+msgid "Unique Mode"
+msgstr "独享模式"
+
+msgid "Mii Maker Mode"
+msgstr "Mii Maker模式"
+
+msgid "Smash Bros Mode"
+msgstr "超级大乱斗模式"
+
+msgid "Karaoke Mode"
+msgstr "卡拉OK模式"
+
+msgid "Art Atelier Mode"
+msgstr "绘心教室模式"
+
+msgid "Background customizations"
+msgstr "自定义背景"
+
+msgid "GUI"
+msgstr "图形化"
+
+msgid "Game View Selection"
+msgstr "游戏查看选择"
+
+msgid "Customize games path"
+msgstr "自定义游戏路径"
+
+msgid "Customize save path"
+msgstr "自定义保存路径"
+
+msgid "Loader"
+msgstr "加载器"
+
+msgid "Set save mode"
+msgstr "设置存档模式"
+
+msgid "Adjust log server IP and port"
+msgstr "更改日志服务器的ip和端口"
+
+msgid "Game"
+msgstr "游戏"
+
+msgid "Launch method selection"
+msgstr "运行模式选择"
+
+msgid "Log server control"
+msgstr "日志服务器控制"
+
+msgid "Credits"
+msgstr "感谢"
+
+msgid "Credits to all contributors"
+msgstr "感谢所有为此项目的贡献者"
+
+msgid "Game View TV"
+msgstr "电视显示样式"
+
+msgid "Game View DRC"
+msgstr "平板显示样式"
+
+msgid "Game Path"
+msgstr "游戏路径"
+
+msgid "Game Save Path"
+msgstr "游戏存档路径"
+
+msgid "Game Save Mode"
+msgstr "游戏存档模式"
+
+msgid "Launch Mode"
+msgstr "运行模式"
+
+msgid "Log Server Control"
+msgstr "日志服务器控制"
+
+msgid "Log Server IP"
+msgstr "日志服务器IP"
