@@ -17,6 +17,7 @@
 #include "Application.h"
 #include "dynamic_libs/os_functions.h"
 #include "gui/FreeTypeGX.h"
+#include "gui/GuiImageAsync.h"
 #include "gui/VPadController.h"
 #include "gui/WPadController.h"
 #include "game/GameList.h"
@@ -80,6 +81,7 @@ Application::~Application()
     for(int i = 0; i < 5; i++)
         delete controller[i];
 
+    GuiImageAsync::threadExit();
 	AsyncDeleter::destroyInstance();
     Resources::Clear();
 

@@ -4,12 +4,14 @@
 #include "patcher/function_hooks.h"
 #include "patcher/pygecko.h"
 #include "common/common.h"
+#include "common/retain_vars.h"
 #include "utils/utils.h"
 #include "main.h"
 
 int __entry_menu(int argc, char **argv)
 {
-    if (GAME_LAUNCHED && LAUNCH_PYGECKO)
+    //! Launch PyGecko if requested
+    if (GAME_LAUNCHED && gSettingLaunchPyGecko)
     {
         start_pygecko();
     }

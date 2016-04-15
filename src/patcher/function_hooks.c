@@ -1321,10 +1321,10 @@ void PatchMethodHooks(int padmode)
         }
         else if(strcmp(method_hooks[i].functionName, "VPADRead") == 0)
         {
-            if(padmode == 1) {
-                OSDynLoad_FindExport(vpad_handle, 0, method_hooks[i].functionName, &real_addr);
-            }
-            if(padmode == 0) continue;
+            if(padmode == 0)
+                continue;
+
+            OSDynLoad_FindExport(vpad_handle, 0, method_hooks[i].functionName, &real_addr);
         }
         else
         {

@@ -27,14 +27,15 @@
 #include "resources/Resources.h"
 #include "utils/utils.h"
 
-#define MAX_PAGE_SIZE   11
+#define DEG_OFFSET          8.0f
+#define COVERS_CENTER_DEG   (bPageSizeEven ? (pagesize * 0.5f * DEG_OFFSET) : (pagesize * 0.5f * DEG_OFFSET - 0.5f * DEG_OFFSET))
+#define RADIUS	            1000.0f
+#define IN_SPEED	        175
+#define SHIFT_SPEED         75
+#define SPEED_STEP          4
+#define SPEED_LIMIT         250
 
-#define DEG_OFFSET      8.0f
-#define RADIUS	        1000.0f
-#define IN_SPEED	    175
-#define SHIFT_SPEED     75
-#define SPEED_STEP      4
-#define SPEED_LIMIT     250
+#define MAX_PAGE_SIZE       14
 
 /**
  * Constructor for the GuiGameCarousel class.
@@ -58,55 +59,61 @@ GuiGameCarousel::GuiGameCarousel(int w, int h, int GameIndex)
     , bgNewImageDataAsync(NULL)
     , bgFadingImageDataAsync(NULL)
 {
-	pagesize = GameList::instance()->size();//(GameList::instance()->size() < MAX_PAGE_SIZE) ? GameList::instance()->size() : MAX_PAGE_SIZE;
-	listOffset = 0;
-	refreshDrawMap = true;
-	selectable = true;
-	selectedGame = GameIndex;
-	selectedGameOnDragStart = 0;
-	bWasDragging = false;
+    pagesize = (GameList::instance()->size() < MAX_PAGE_SIZE) ? GameList::instance()->size() : MAX_PAGE_SIZE;
+    bFullCircleMode = (GameList::instance()->size() > MAX_PAGE_SIZE);
+    refreshDrawMap = true;
+    selectable = true;
+    selectedGame = GameIndex;
+    listOffset = selectedGame;
+    selectedGameOnDragStart = 0;
+    forceRotateDirection = 0;
+    bWasDragging = false;
+    bAnimating = false;
+    bPageSizeEven = ((pagesize >> 1) << 1) == pagesize;
 
+    rotateDirection = 0;
+    lastTouchDifference = 0;
+    gameLaunchTimer = 0;
+    touchClickDelay = 0;
+    circleRotationSpeed = 0.0f;
+    circleSpeedMin = 0.3f;
+    circleSpeedMax = 1.8f;
+    startRotationDistance = 0.0f;
+    circleCenterDegree = 90.0f;
+    circleStartDegree = circleCenterDegree + COVERS_CENTER_DEG;
+    destDegree = bFullCircleMode ? circleStartDegree : (circleCenterDegree + listOffset * DEG_OFFSET);
+    currDegree = 0.0f;
 
-	lastTouchDifference = 0;
-	gameLaunchTimer = 0;
-	touchClickDelay = 0;
-  circleRotationSpeed = 0.0f;
-  circleSpeedLimit = 1.8f;
-  startRotationDistance = 0.0f;
-  destDegree = 90.0f + selectedGame * DEG_OFFSET;
-  currDegree = destDegree;
-	speed = 0;
+    this->append(&particleBgImage);
 
-  this->append(&particleBgImage);
+    game.resize(pagesize);
+    drawOrder.resize(pagesize);
+    coverImg.resize(GameList::instance()->size());
 
-	game.resize(pagesize);
-	drawOrder.resize(pagesize);
-	coverImg.resize(pagesize);
+    touchButton.setAlignment(ALIGN_LEFT | ALIGN_TOP);
+    touchButton.setTrigger(&touchTrigger);
+    touchButton.setTrigger(&wpadTouchTrigger);
+    touchButton.setClickable(true);
+    touchButton.setHoldable(true);
+    touchButton.clicked.connect(this, &GuiGameCarousel::OnTouchClick);
+    touchButton.held.connect(this, &GuiGameCarousel::OnTouchHold);
+    touchButton.released.connect(this, &GuiGameCarousel::OnTouchRelease);
+    this->append(&touchButton);
 
-  touchButton.setAlignment(ALIGN_LEFT | ALIGN_TOP);
-  touchButton.setTrigger(&touchTrigger);
-  touchButton.setTrigger(&wpadTouchTrigger);
-  touchButton.setClickable(true);
-  touchButton.setHoldable(true);
-  touchButton.clicked.connect(this, &GuiGameCarousel::OnTouchClick);
-  touchButton.held.connect(this, &GuiGameCarousel::OnTouchHold);
-  touchButton.released.connect(this, &GuiGameCarousel::OnTouchRelease);
-  this->append(&touchButton);
+    DPADButtons.setTrigger(&buttonATrigger);
+    DPADButtons.setTrigger(&buttonLTrigger);
+    DPADButtons.setTrigger(&buttonRTrigger);
+    DPADButtons.setTrigger(&buttonLeftTrigger);
+    DPADButtons.setTrigger(&buttonRightTrigger);
+    DPADButtons.clicked.connect(this, &GuiGameCarousel::OnDPADClick);
+    append(&DPADButtons);
 
-  DPADButtons.setTrigger(&buttonATrigger);
-  DPADButtons.setTrigger(&buttonLTrigger);
-  DPADButtons.setTrigger(&buttonRTrigger);
-  DPADButtons.setTrigger(&buttonLeftTrigger);
-  DPADButtons.setTrigger(&buttonRightTrigger);
-  DPADButtons.clicked.connect(this, &GuiGameCarousel::OnDPADClick);
-  append(&DPADButtons);
+    gameTitle.setPosition(0, -320);
+    gameTitle.setBlurGlowColor(5.0f, glm::vec4(0.109804, 0.6549, 1.0f, 1.0f));
+    gameTitle.setMaxWidth(900, GuiText::DOTTED);
+    append(&gameTitle);
 
-  gameTitle.setPosition(0, -320);
-  gameTitle.setBlurGlowColor(5.0f, glm::vec4(0.109804, 0.6549, 1.0f, 1.0f));
-  gameTitle.setMaxWidth(900, GuiText::DOTTED);
-  append(&gameTitle);
-
-	refresh();
+    refresh();
 }
 
 /**
@@ -118,10 +125,10 @@ GuiGameCarousel::~GuiGameCarousel()
     AsyncDeleter::pushForDelete(bgUsedImageDataAsync);
     AsyncDeleter::pushForDelete(bgNewImageDataAsync);
 
-	for (u32 i = 0; i < game.size(); ++i)
-		delete coverImg[i];
-	for (u32 i = 0; i < game.size(); ++i)
-		delete game[i];
+    for (u32 i = 0; i < coverImg.size(); ++i)
+        delete coverImg[i];
+    for (u32 i = 0; i < game.size(); ++i)
+        delete game[i];
 
     Resources::RemoveSound(buttonClickSound);
 }
@@ -133,27 +140,14 @@ void GuiGameCarousel::setSelectedGame(int idx)
 
     if(idx < 0)
         idx = 0;
-    if(idx >= pagesize)
-        idx = pagesize-1;
+    if(idx >= GameList::instance()->size())
+        idx = GameList::instance()->size()-1;
 
-	selectedGame = idx;
-    loadBgImage(selectedGame);
-
-    //! normalize to 360°
-    currDegree = ((int)(currDegree + 0.5f)) % 360;
-    if(currDegree < 0.0f)
-        currDegree += 360.0f;
-
-    destDegree = 90.0f + selectedGame * DEG_OFFSET;
-//
-//    f32 angleDiff = (circleTargetPosition - currDegree);
-//    if(angleDiff > 180.0f)
-//        circleTargetPosition -= 360.0f;
-//    else if(angleDiff < -180.0f)
-//        circleTargetPosition += 360.0f;
+    selectedGame = idx;
+    loadBgImage(idx);
 
     touchClickDelay = 20;
-    circleSpeedLimit = 1.8f;
+    circleSpeedMax = 1.8f;
     refreshDrawMap = true;
 }
 
@@ -164,44 +158,44 @@ int GuiGameCarousel::getSelectedGame()
 
 void GuiGameCarousel::refresh()
 {
-	for (int i = 0; i < pagesize; i++)
-	{
-		//------------------------
-		// Index
-		//------------------------
-		//gameIndex[i] = GetGameIndex( i, listOffset, GameList::instance()->size() );
+    // since we got more than enough memory we can pre-cache all covers
+    // once there are more than 1000 games for the WiiU we can do a load on demand
+    for (int i = 0; i < GameList::instance()->size(); i++)
+    {
+        //------------------------
+        // Image
+        //------------------------
+        delete coverImg[i];
 
-		//------------------------
-		// Image
-		//------------------------
-		delete coverImg[i];
+        std::string filepath = CSettings::getValueAsString(CSettings::GameCover3DPath) + "/" + GameList::instance()->at(i)->id + ".png";
 
-		std::string filepath = CSettings::getValueAsString(CSettings::GameCover3DPath) + "/" + GameList::instance()->at(i)->id + ".png";
+        coverImg[i] = new GuiImageAsync(filepath, &noCover);
+    }
 
-		coverImg[i] = new GuiImageAsync(filepath, &noCover);
+    for (int i = 0; i < pagesize; i++)
+    {
+        //------------------------
+        // Index
+        //------------------------
+        int gameIndex = getGameIndex(listOffset, i);
 
-		//------------------------
-		// GameButton
-		//------------------------
-		delete game[i];
-		game[i] = new GuiButton(coverImg[i]->getWidth(), coverImg[i]->getHeight());
-		game[i]->setAlignment(ALIGN_CENTER | ALIGN_MIDDLE);
-		game[i]->setImage(coverImg[i]);
-		game[i]->setParent(this);
-		game[i]->setTrigger(&touchTrigger);
+        //------------------------
+        // GameButton
+        //------------------------
+        delete game[i];
+        game[i] = new GuiButton(coverImg[gameIndex]->getWidth(), coverImg[gameIndex]->getHeight());
+        game[i]->setAlignment(ALIGN_CENTER | ALIGN_MIDDLE);
+        game[i]->setImage(coverImg[gameIndex]);
+        game[i]->setParent(this);
+        game[i]->setTrigger(&touchTrigger);
         game[i]->setTrigger(&wpadTouchTrigger);
-		game[i]->setSoundClick(buttonClickSound);
-		game[i]->setEffectGrow();
-		game[i]->clicked.connect(this, &GuiGameCarousel::OnGameButtonClick);
+        game[i]->setSoundClick(buttonClickSound);
+        game[i]->setEffectGrow();
+        game[i]->clicked.connect(this, &GuiGameCarousel::OnGameButtonClick);
 
         drawOrder[i] = i;
-	}
+    }
 
-//    currDegree = 270.0f + pagesize * 0.5f * DEG_OFFSET - 0.5f * DEG_OFFSET;
-//    destDegree = 90.0f + pagesize * 0.5f * DEG_OFFSET - 0.5f * DEG_OFFSET;
-//    selectedGame = (int)((pagesize * 0.5f) + 0.5f); // round to nearest
-
-    loadBgImage(selectedGame);
     setSelectedGame(selectedGame);
 }
 
@@ -211,7 +205,8 @@ void GuiGameCarousel::OnGameButtonClick(GuiButton *button, const GuiController *
     {
         if(button == game[i])
         {
-            if(selectedGame ==  (int)i)
+            int gameIndex = getGameIndex(listOffset, i);
+            if(selectedGame == (int)gameIndex)
             {
                 if(gameLaunchTimer < 30)
                     OnLaunchClick(button, controller, trigger);
@@ -219,8 +214,8 @@ void GuiGameCarousel::OnGameButtonClick(GuiButton *button, const GuiController *
                 gameLaunchTimer = 0;
             }
 
-            setSelectedGame(i);
-            gameSelectionChanged(this, selectedGame);
+            setSelectedGame(gameIndex);
+            gameSelectionChanged(this, gameIndex);
             break;
         }
     }
@@ -228,27 +223,44 @@ void GuiGameCarousel::OnGameButtonClick(GuiButton *button, const GuiController *
 
 void GuiGameCarousel::OnTouchClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
-    if(!controller->data.validPointer)
+    if((pagesize == 0) || !controller->data.validPointer)
         return;
 
     bWasDragging = false;
-    selectedGameOnDragStart = getSelectedGame();
+    selectedGameOnDragStart = getGameIndex(listOffset, drawOrder[ drawOrder.size() - 1 ]);
     lastPosition.x = controller->data.x;
     lastPosition.y = controller->data.y;
 }
 
 void GuiGameCarousel::OnTouchHold(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
-    if(!controller->data.validPointer)
-        return;
-
-    lastTouchDifference = (controller->data.x - lastPosition.x);
-    f32 degreeAdd = lastTouchDifference * 0.096f;
-    if(touchClickDelay || fabs(degreeAdd) < 0.5f) {
+    if(touchClickDelay || (pagesize == 0) || !controller->data.validPointer) {
+        bWasDragging = false;
         return;
     }
 
+    lastTouchDifference = (controller->data.x - lastPosition.x);
+    f32 degreeAdd = lastTouchDifference * 0.096f;
+    if(fabs(degreeAdd) < 0.5f)
+        return;
+
     currDegree -= degreeAdd;
+
+    if(!bFullCircleMode)
+    {
+        f32 leftLimit = (circleStartDegree - COVERS_CENTER_DEG);
+        f32 rightLimit = (circleStartDegree + COVERS_CENTER_DEG) - (bPageSizeEven ? DEG_OFFSET : 0.0f); // TODO: find out why the 2nd part is required
+
+        if(currDegree < leftLimit)
+        {
+            currDegree = leftLimit;
+        }
+        else if(currDegree > rightLimit)
+        {
+            currDegree = rightLimit;
+        }
+    }
+
     destDegree = currDegree;
 
     lastPosition.x = controller->data.x;
@@ -259,54 +271,56 @@ void GuiGameCarousel::OnTouchHold(GuiButton *button, const GuiController *contro
 
 void GuiGameCarousel::OnTouchRelease(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
-    if(!controller->lastData.validPointer)
+    if(touchClickDelay || (pagesize == 0) || !controller->lastData.validPointer) {
+        bWasDragging = false;
         return;
+    }
 
     f32 degreeAdd = lastTouchDifference * 0.128f;
-    if(touchClickDelay || fabsf(degreeAdd) < 2.0f)
+    if(fabsf(degreeAdd) < 2.0f)
     {
-        updateDrawMap();
+        selectedGame = listOffset;
 
         if(bWasDragging && selectedGameOnDragStart != selectedGame)
         {
             setSelectedGame(selectedGame);
             gameSelectionChanged(this, selectedGame);
         }
+        // if we ever want that the circle is always centered after dragging, comment this in
+        // destDegree = circleStartDegree;
+        bWasDragging = false;
         return;
     }
 
-    currDegree = ((int)(currDegree + 0.5f)) % 360;
-    if(currDegree < 0.0f)
-        currDegree += 360.0f;
+    selectedGame = selectedGame - (degreeAdd + 0.5f);
 
-    f32 partDegree = DEG_OFFSET;
-
-    destDegree = currDegree - degreeAdd * partDegree;
-
-    //! round to nearest game position at the target position
-    destDegree = ((int)(destDegree / partDegree + 0.5f)) * partDegree;
-    circleSpeedLimit = 10.0f;
-
-
-    int iMin = 0;
-    int iDegreeMin = destDegree;
-
-    for(int i = 0; i < pagesize; i++)
+    if(bFullCircleMode)
     {
-        f32 setDegree = (destDegree - DEG_OFFSET * i);
-        int degree = labs(((int)setDegree - 90) % 360);
-        if(degree < iDegreeMin)
-        {
-            iDegreeMin = degree;
-            iMin = i;
-        }
+        while(selectedGame < 0)
+            selectedGame += GameList::instance()->size();
+        while(selectedGame >= GameList::instance()->size())
+            selectedGame -= GameList::instance()->size();
+    }
+    else
+    {
+        if(selectedGame >= GameList::instance()->size())
+            selectedGame = GameList::instance()->size() - 1;
+        if(selectedGame < 0)
+            selectedGame = 0;
     }
 
-    selectedGame = iMin;
-    gameSelectionChanged(this, selectedGame);
+    if(selectedGame != selectedGameOnDragStart) {
+        forceRotateDirection = (lastTouchDifference > 0) ? -1 : 1;
+        setSelectedGame(selectedGame);
+        gameSelectionChanged(this, selectedGame);
+    }
+    else {
+        forceRotateDirection = 0;
+    }
 
-    loadBgImage(selectedGame);
+    circleSpeedMax = 10.0f;
     refreshDrawMap = true;
+    bWasDragging = false;
 }
 
 void GuiGameCarousel::OnDPADClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
@@ -337,31 +351,58 @@ void GuiGameCarousel::OnDPADClick(GuiButton *button, const GuiController *contro
 
 void GuiGameCarousel::OnLeftClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
-    int sel = getSelectedGame() - 1;
-    if(sel < 0 && (GameList::instance()->size() > 1))
-        sel = GameList::instance()->size() - 1;
+    if(pagesize == 0)
+        return;
 
-    setSelectedGame(sel);
-    gameSelectionChanged(this, sel);
+    int sel = getSelectedGame() - 1;
+    if(sel < 0)
+    {
+        if(bFullCircleMode)
+            sel = GameList::instance()->size() - 1;
+        else
+            sel = 0;
+    }
+
+    if(sel != getSelectedGame())
+    {
+        setSelectedGame(sel);
+        gameSelectionChanged(this, sel);
+    }
 }
 
 void GuiGameCarousel::OnRightClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
+    if(pagesize == 0)
+        return;
+
     int sel = getSelectedGame() + 1;
     if(sel >= (int)GameList::instance()->size())
-        sel = 0;
+        sel = bFullCircleMode ? 0 : (GameList::instance()->size() - 1);
 
-    setSelectedGame(sel);
-    gameSelectionChanged(this, sel);
+    if(sel != getSelectedGame())
+    {
+        setSelectedGame(sel);
+        gameSelectionChanged(this, sel);
+    }
 }
 
 void GuiGameCarousel::OnRightSkipClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
-    if((int)GameList::instance()->size() > 5){
-        int sel = getSelectedGame() + 5;
-        if(sel >= (int)GameList::instance()->size())
-            sel -= (int)GameList::instance()->size();
+    if(pagesize == 0)
+        return;
 
+    int sel = getSelectedGame() + 5;
+
+    if(sel >= GameList::instance()->size())
+    {
+        if(bFullCircleMode)
+            sel -= GameList::instance()->size();
+        else
+            sel = GameList::instance()->size() - 1;
+    }
+
+    if(sel != getSelectedGame())
+    {
         setSelectedGame(sel);
         gameSelectionChanged(this, sel);
     }
@@ -369,11 +410,21 @@ void GuiGameCarousel::OnRightSkipClick(GuiButton *button, const GuiController *c
 
 void GuiGameCarousel::OnLeftSkipClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
-    if((int)GameList::instance()->size() > 5){
-        int sel = getSelectedGame() - 5;
-        if(sel < 0 && (GameList::instance()->size() > 5))
-            sel += GameList::instance()->size();
+    if(pagesize == 0)
+        return;
 
+    int sel = getSelectedGame() - 5;
+
+    if(sel < 0)
+    {
+        if(bFullCircleMode)
+            sel += GameList::instance()->size();
+        else
+            sel = 0;
+    }
+
+    if(sel != getSelectedGame())
+    {
         setSelectedGame(sel);
         gameSelectionChanged(this, sel);
     }
@@ -435,16 +486,40 @@ void GuiGameCarousel::updateDrawMap(void)
     for(itr = drawMap.begin(); itr != drawMap.end(); itr++)
     {
         drawOrder[n++] = itr->second;
-        coverImg[itr->second]->setColorIntensity(glm::vec4(0.6f, 0.6f, 0.6f, 1.0f));
+
+        int gameIndex = getGameIndex(listOffset, itr->second);
+        if(gameIndex >= GameList::instance()->size())
+            gameIndex -= GameList::instance()->size();
+
+        coverImg[gameIndex]->setColorIntensity(glm::vec4(0.6f, 0.6f, 0.6f, 1.0f));
     }
 
     if(drawOrder.size())
     {
         int lastIdx = drawOrder[ drawOrder.size() - 1 ];
-        gameTitle.setText(GameList::instance()->at(lastIdx)->name.c_str());
-        coverImg[lastIdx]->setColorIntensity(glm::vec4(1.0f));
-        selectedGame = lastIdx;
+
+        int gameIndex = getGameIndex(listOffset, lastIdx);
+        coverImg[gameIndex]->setColorIntensity(glm::vec4(1.0f));
+        gameTitle.setText(GameList::instance()->at(gameIndex)->name.c_str());
     }
+}
+
+int GuiGameCarousel::getGameIndex(int listOffset, int idx)
+{
+    if(pagesize == 0)
+        return 0;
+
+    int gameIndex = idx;
+    if(bFullCircleMode) {
+        gameIndex += listOffset - (pagesize >> 1);
+    }
+
+    while(gameIndex < 0)
+        gameIndex += GameList::instance()->size();
+    while(gameIndex >= GameList::instance()->size())
+        gameIndex -= GameList::instance()->size();
+
+    return gameIndex;
 }
 
 /**
@@ -469,47 +544,68 @@ void GuiGameCarousel::draw(CVideo *v)
         insert(bgUsedImageDataAsync, 0);
     }
 
+    bool bAnimationFinished = false;
+    bool bUpdateButtonPositions = false;
+
     if((currDegree - 0.5f) > destDegree)
     {
+        f32 gameDistance = fabsf(selectedGame - listOffset);
+        f32 dynamicDegreeDistance = (DEG_OFFSET - fabsf(destDegree - currDegree));
+
+        if(gameDistance > (GameList::instance()->size() >> 1))
+            gameDistance = GameList::instance()->size() - gameDistance;
+
+        f32 angleDistance = gameDistance * DEG_OFFSET - dynamicDegreeDistance;
+
         if(startRotationDistance == 0.0f)
-            startRotationDistance = fabsf(destDegree - currDegree);
+            startRotationDistance = angleDistance;
 
         currDegree -= circleRotationSpeed;
 
-        f32 angleDistance = fabsf(destDegree - currDegree);
         circleRotationSpeed = 8.0f * angleDistance / startRotationDistance;
 
-        if(circleRotationSpeed > circleSpeedLimit)
-            circleRotationSpeed = circleSpeedLimit;
+        if(circleRotationSpeed < circleSpeedMin)
+            circleRotationSpeed = circleSpeedMin;
+        if(circleRotationSpeed > circleSpeedMax)
+            circleRotationSpeed = circleSpeedMax;
 
-        if(angleDistance < circleRotationSpeed)
+        if(currDegree < destDegree)
             currDegree = destDegree;
 
         refreshDrawMap = true;
     }
     else if((currDegree + 0.5f) < destDegree)
     {
+        f32 gameDistance = fabsf(selectedGame - listOffset);
+        f32 dynamicDegreeDistance = (DEG_OFFSET - fabsf(destDegree - currDegree));
+
+        if(gameDistance > (GameList::instance()->size() >> 1))
+            gameDistance = GameList::instance()->size() - gameDistance;
+
+        f32 angleDistance = gameDistance * DEG_OFFSET - dynamicDegreeDistance;
+
         if(startRotationDistance == 0.0f)
-            startRotationDistance = fabsf(destDegree - currDegree);
+            startRotationDistance = angleDistance;
 
         currDegree += circleRotationSpeed;
 
-        f32 angleDistance = fabsf(destDegree - currDegree);
         circleRotationSpeed = 8.0f * angleDistance / startRotationDistance;
 
-        if(circleRotationSpeed > circleSpeedLimit)
-            circleRotationSpeed = circleSpeedLimit;
+        if(circleRotationSpeed < circleSpeedMin)
+            circleRotationSpeed = circleSpeedMin;
+        if(circleRotationSpeed > circleSpeedMax)
+            circleRotationSpeed = circleSpeedMax;
 
-        if(angleDistance < circleRotationSpeed)
+        if(currDegree > destDegree)
             currDegree = destDegree;
 
         refreshDrawMap = true;
     }
     else
     {
-        startRotationDistance = 0.0f;
+        bAnimationFinished = bAnimating;
+        bAnimating = false;
     }
-
 
     if(refreshDrawMap)
     {
@@ -524,11 +620,134 @@ void GuiGameCarousel::draw(CVideo *v)
         int idx = drawOrder[i];
         game[idx]->draw(v);
     }
+
+    if(bWasDragging)
+    {
+        if(bFullCircleMode)
+        {
+            if(currDegree > (circleStartDegree + DEG_OFFSET * 0.5f))
+            {
+                currDegree -= DEG_OFFSET;
+                destDegree -= DEG_OFFSET;
+                selectedGame++;
+                if(selectedGame >= GameList::instance()->size()) {
+                    selectedGame -= GameList::instance()->size();
+                }
+
+                listOffset = selectedGame;
+                bUpdateButtonPositions = true;
+                rotateDirection = 0;
+            }
+            else if(currDegree < (circleStartDegree - DEG_OFFSET * 0.5f))
+            {
+                currDegree += DEG_OFFSET;
+                destDegree += DEG_OFFSET;
+                selectedGame--;
+                if(selectedGame < 0) {
+                    selectedGame += GameList::instance()->size();
+                }
+
+                listOffset = selectedGame;
+                bUpdateButtonPositions = true;
+                rotateDirection = 0;
+            }
+        }
+        else
+        {
+            selectedGame = (currDegree - circleCenterDegree) / DEG_OFFSET + 0.5f;
+            listOffset = selectedGame;
+        }
+
+    }
+
+    if(!bAnimating && (listOffset != selectedGame || bAnimationFinished || bUpdateButtonPositions))
+    {
+        if(bUpdateButtonPositions || bAnimationFinished)
+        {
+            if(rotateDirection > 0)
+            {
+                listOffset++;
+            }
+            else if(rotateDirection < 0)
+            {
+                listOffset--;
+            }
+
+            if(listOffset < 0) {
+                listOffset += GameList::instance()->size();
+            }
+            if(listOffset >= GameList::instance()->size()) {
+                listOffset -= GameList::instance()->size();
+            }
+
+            for(int i = 0; i < pagesize; i++)
+            {
+                int idx = getGameIndex(listOffset, i);
+
+                if(idx < 0) {
+                    idx += GameList::instance()->size();
+                }
+                if(idx >= GameList::instance()->size()) {
+                    idx -= GameList::instance()->size();
+                }
+
+                game[i]->setImage(coverImg[idx]);
+            }
+
+            if(bAnimationFinished)
+            {
+                destDegree = bFullCircleMode ? circleStartDegree : (circleCenterDegree + listOffset * DEG_OFFSET);
+                currDegree = destDegree;
+            }
+            refreshDrawMap = true;
+        }
+
+        rotateDirection = 0;
+
+        if(listOffset < selectedGame)
+        {
+            if(forceRotateDirection)
+                rotateDirection = forceRotateDirection;
+            else if(!bFullCircleMode)
+                rotateDirection = 1;
+            else
+                rotateDirection = ((selectedGame - listOffset) > (GameList::instance()->size() >> 1)) ? -1 : 1;
+        }
+        else if(listOffset > selectedGame)
+        {
+            if(forceRotateDirection)
+                rotateDirection = forceRotateDirection;
+            else if(!bFullCircleMode)
+                rotateDirection = -1;
+            else
+                rotateDirection = ((listOffset - selectedGame) > (GameList::instance()->size() >> 1)) ? 1 : -1;
+        }
+
+        if(rotateDirection > 0)
+        {
+            destDegree += DEG_OFFSET;
+            bAnimating = true;
+            rotateDirection = 1;
+        }
+        else if(rotateDirection < 0)
+        {
+            destDegree -= DEG_OFFSET;
+            bAnimating = true;
+            rotateDirection = -1;
+        }
+        else
+        {
+            startRotationDistance = 0.0f;
+            forceRotateDirection = 0;
+        }
+
+        bUpdateButtonPositions = false;
+    }
 }
 
 void GuiGameCarousel::update(GuiController * c)
 {
-	if (isStateSet(STATE_DISABLED) || !pagesize)
+    if (isStateSet(STATE_DISABLED) || !pagesize)
         return;
 
     GuiGameBrowser::update(c);

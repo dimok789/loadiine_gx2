@@ -57,20 +57,30 @@ protected:
 
     void loadBgImage(int idx);
 
+    int getGameIndex(int listOffset, int idx);
+
     bool refreshDrawMap;
+    bool bAnimating;
+    bool bWasDragging;
+    bool bWasSwapped;
+    bool bFullCircleMode;
+    bool bPageSizeEven;
+    int rotateDirection;
+    int forceRotateDirection;
     int selectedGame;
     int selectedGameOnDragStart;
-    bool bWasDragging;
     int listOffset;
     int pagesize;
-    int speed;
     POINT lastPosition;
     int lastTouchDifference;
     int touchClickDelay;
     u32 gameLaunchTimer;
 
+    f32 circleCenterDegree;
+    f32 circleStartDegree;
     f32 circleRotationSpeed;
-    f32 circleSpeedLimit;
+    f32 circleSpeedMin;
+    f32 circleSpeedMax;
     f32 startRotationDistance;
 
     GuiSound *buttonClickSound;

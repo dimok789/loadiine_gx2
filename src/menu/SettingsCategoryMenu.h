@@ -19,6 +19,7 @@
 
 #include "gui/Gui.h"
 #include "settings/SettingsDefs.h"
+#include "gui/Scrollbar.h"
 
 class SettingsCategoryMenu : public GuiFrame, public sigslot::has_slots<>
 {
@@ -41,15 +42,22 @@ private:
     void OnSubMenuCloseEffectFinish(GuiElement *element);
 
     void OnDPADClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
-   
+
 
     void OnKeyPadOkClicked(GuiElement *element, const std::string & newValue);
     void OnButtonChoiceOkClicked(GuiElement *element, int selectedButton);
 
+    void OnScrollbarListChange(int selectItem, int pageIndex);
+
     const SettingType * categorySettings;
     const int categorySettingsCount;
 
+    int currentYOffset;
+
     GuiFrame categoryFrame;
+
+    Scrollbar scrollbar;
+
     GuiSound *buttonClickSound;
     GuiImageData *backImageData;
     GuiImage backImage;

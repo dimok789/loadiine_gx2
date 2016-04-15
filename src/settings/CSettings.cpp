@@ -105,7 +105,7 @@ void CSettings::SetDefault()
     settingsNames[ConsoleRegionCode] = "ConsoleRegionCode";
     settingsValues[ConsoleRegionCode].dataType = TypeString;
     settingsValues[ConsoleRegionCode].strValue = new std::string("EN");
-	
+
 	settingsNames[AppLanguage] = "AppLanguage";
     settingsValues[AppLanguage].dataType = TypeString;
     settingsValues[AppLanguage].strValue = new std::string();
@@ -120,11 +120,11 @@ void CSettings::SetDefault()
 
 	settingsNames[PadconMode] = "PadconMode";
     settingsValues[PadconMode].dataType = TypeU8;
-    settingsValues[PadconMode].ucValue = PADCON_DISABLED;
+    settingsValues[PadconMode].ucValue = SETTING_OFF;
 
     settingsNames[LaunchPyGecko] = "LaunchPyGecko";
     settingsValues[LaunchPyGecko].dataType = TypeU8;
-    settingsValues[LaunchPyGecko].ucValue = 0;
+    settingsValues[LaunchPyGecko].ucValue = SETTING_OFF;
 
 }
 
@@ -132,11 +132,11 @@ bool CSettings::Load()
 {
 	//! Reset default path variables to the right device
 	SetDefault();
-	
-	
+
+
 	std::string filepath = configPath;
 	filepath += "/loadiine_gx2.cfg";
-  
+
 	CFile file(filepath, CFile::ReadOnly);
 	if (!file.isOpen())
         return false;
@@ -253,10 +253,10 @@ bool CSettings::Save()
         return true;
 
     CreateSubfolder(configPath.c_str());
-	
+
 	std::string filepath = configPath;
 	filepath += "/loadiine_gx2.cfg";
-    
+
 	CFile file(filepath, CFile::WriteOnly);
 	if (!file.isOpen())
         return false;

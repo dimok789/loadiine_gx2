@@ -34,9 +34,10 @@ class GuiImageAsync : public GuiImage
 		static void removeFromQueue(GuiImageAsync * image) {
 		    threadRemoveImage(image);
 		}
+
+		static void threadExit();
 	private:
 		static void threadInit();
-		static void threadExit();
 
 		GuiImageData *imgData;
 	    std::string filename;

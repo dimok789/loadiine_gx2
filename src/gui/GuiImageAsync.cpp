@@ -55,7 +55,7 @@ GuiImageAsync::~GuiImageAsync()
 	if (imgData)
         delete imgData;
 
-    threadExit();
+    //threadExit();
 }
 
 void GuiImageAsync::threadAddImage(GuiImageAsync *Image)
@@ -159,9 +159,10 @@ void GuiImageAsync::threadInit()
 
 void GuiImageAsync::threadExit()
 {
-    --threadRefCounter;
+    if(threadRefCounter)
+        --threadRefCounter;
 
-	if((threadRefCounter == 0) && (pThread != NULL))
+	if(/*(threadRefCounter == 0) &&*/ (pThread != NULL))
 	{
 	    bExitRequested = true;
         delete pThread;

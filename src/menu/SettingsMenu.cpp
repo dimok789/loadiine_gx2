@@ -85,7 +85,9 @@ static const SettingType GameSettings[] =
 {
     { trNOOP("Launch Mode"), ValueLaunchMode, Type4Buttons, CSettings::GameLaunchMethod },
     { trNOOP("Log Server Control"), ValueOnOff, Type2Buttons, CSettings::GameLogServer },
-    { trNOOP("Log Server IP"), 0, TypeIP, CSettings::GameLogServerIp }
+    { trNOOP("Log Server IP"), 0, TypeIP, CSettings::GameLogServerIp },
+    { trNOOP("PyGecko"), ValueOnOff, Type2Buttons, CSettings::LaunchPyGecko },
+    { trNOOP("Padcon"), ValueOnOff, Type2Buttons, CSettings::PadconMode }
 };
 
 SettingsMenu::SettingsMenu(int w, int h)

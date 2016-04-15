@@ -32,6 +32,7 @@ TARGET		:=	loadiine_gx2
 BUILD		:=	build
 BUILD_DBG	:=	$(TARGET)_dbg
 SOURCES		:=	src \
+				src/common \
 				src/dynamic_libs \
 				src/fs \
 				src/game \
