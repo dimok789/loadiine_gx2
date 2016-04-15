@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Loadiine GX2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-03 19:00+0200\n"
+"POT-Creation-Date: 2016-04-15 21:47+0200\n"
 "PO-Revision-Date: 2016-04-03 19:00+0200\n"
 "Last-Translator: BHackUP, littlebalup, Cyan\n"
 "Language-Team: BHackUP, littlebalup, Cyan\n"
@@ -91,7 +91,7 @@ msgstr "Mode Art Atelier"
 
 # translated as nul terminator (hidden), as the option is not implemented yet.
 msgid "Background customizations"
-msgstr "\0"
+msgstr ""
 
 msgid "GUI"
 msgstr "Interface"
@@ -152,3 +152,9 @@ msgstr "Activer les logs"
 
 msgid "Log Server IP"
 msgstr "Adresse IP du serveur log"
+
+msgid "PyGecko"
+msgstr ""
+
+msgid "Padcon"
+msgstr ""

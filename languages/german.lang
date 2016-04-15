@@ -1,159 +1,160 @@
 # Loadiine GX2 language source file.
-# spanish.lang - v0.3
+# german.lang - v0.3
 # don't delete/change this line (é).
 msgid ""
 msgstr ""
 "Project-Id-Version: Loadiine GX2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-15 21:47+0200\n"
-"PO-Revision-Date: 2016-04-02 07:28+0200\n"
-"Last-Translator: MasQchips\n"
-"Language-Team: MasQchips\n"
-"Language: Español\n"
+"POT-Creation-Date: 2016-04-15 21:58+0200\n"
+"PO-Revision-Date: 2009-10-01 01:00+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: German\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "Loadiine GX2"
-msgstr ""
+msgstr "Loadiine GX2"
 
 msgid "Official Site:"
-msgstr "Sitio Oficial:"
+msgstr "Offizielle Seite:"
 
 msgid "Coding:"
-msgstr "Codificación:"
+msgstr "Programmierer:"
 
 msgid "Design:"
-msgstr "Diseño:"
-
-msgid "Some guy who doesn't want to be named."
-msgstr "Alguien que no quiso ser identificado."
-
-msgid "Testing:"
-msgstr "Pruebas:"
-
-msgid "Cyan / Maschell / n1ghty / OnionKnight and many more"
-msgstr "Cyan / Maschell / n1ghty / OnionKnight y muchos mas"
-
-msgid "Social Presence:"
-msgstr "Presencia Social:"
-
-msgid "Based on:"
-msgstr "Basado en:"
-
-msgid "Loadiine v4.0 by Golden45 and Dimok"
-msgstr "Loadiine v4.0 de Golden45 y Dimok"
-
-msgid "Big thanks to:"
-msgstr "Muchas Gracias a:"
-
-msgid "lustar for GameTDB and hosting covers / disc images"
-msgstr "lustar de GameTDB y alojamiento de caratulas"
-
-msgid "Marionumber1 for his kernel exploit"
-msgstr "Marionumber1 por su kernel exploit"
-
-msgid "The whole libwiiu team and it's contributors."
-msgstr "Todo el equipo de libwiiu y sus colaboradores."
-
-msgid "Off"
-msgstr "Apagado"
-
-msgid "On"
-msgstr "Encendido"
-
-msgid "Icon Carousel"
-msgstr "Carrusel de Iconos"
-
-msgid "Grid View"
-msgstr "Vista de Rejilla"
-
-msgid "Cover Carousel"
-msgstr "Carrusel de Caratulas"
-
-msgid "Shared Mode"
-msgstr "Modo Compartido"
-
-msgid "Unique Mode"
-msgstr "Modo Unico"
-
-msgid "Mii Maker Mode"
-msgstr "Modo Mii Maker"
-
-msgid "Smash Bros Mode"
-msgstr "Modo Smash Bros"
-
-msgid "Karaoke Mode"
-msgstr "Modo Karaoke"
-
-msgid "Art Atelier Mode"
-msgstr "Modo Art Atelier"
-
-msgid "Background customizations"
-msgstr "Personalización del fondo"
-
-msgid "GUI"
 msgstr ""
 
+msgid "Some guy who doesn't want to be named."
+msgstr "Jemand der nicht genannt werden will."
+
+msgid "Testing:"
+msgstr "Tester:"
+
+msgid "Cyan / Maschell / n1ghty / OnionKnight and many more"
+msgstr "Cyan / Maschell / n1ghty / OnionKnight und viele weitere"
+
+msgid "Social Presence:"
+msgstr "Öffentliches Auftreten:"
+
+msgid "Based on:"
+msgstr "Basierend auf:"
+
+msgid "Loadiine v4.0 by Golden45 and Dimok"
+msgstr "Loadiine v4.0 von Golden45 und Dimok"
+
+msgid "Big thanks to:"
+msgstr "Besonderen Dank an:"
+
+msgid "lustar for GameTDB and hosting covers / disc images"
+msgstr "lustar für GameTDB und die Bereitstellung der Cover-Server"
+
+msgid "Marionumber1 for his kernel exploit"
+msgstr "Marionumber1 für seinen Kernel-Exploit"
+
+msgid "The whole libwiiu team and it's contributors."
+msgstr "Dem ganzen libwiiu Team und allen Mitwirkenden."
+
+msgid "Off"
+msgstr "Aus"
+
+msgid "On"
+msgstr "An"
+
+msgid "Icon Carousel"
+msgstr "Iconkarussell"
+
+msgid "Grid View"
+msgstr "Gitteransicht"
+
+msgid "Cover Carousel"
+msgstr "Coverkarussell"
+
+msgid "Shared Mode"
+msgstr "Gemeisame Spielstände"
+
+msgid "Unique Mode"
+msgstr "Getrennte Spielstände"
+
+msgid "Mii Maker Mode"
+msgstr "Mii Maker Modus"
+
+msgid "Smash Bros Mode"
+msgstr "Smash Bros Modus"
+
+msgid "Karaoke Mode"
+msgstr "Karaoke Modus"
+
+msgid "Art Atelier Mode"
+msgstr "Art Atelier Modus"
+
+msgid "Background customizations"
+msgstr "Hintergrundanpassungen"
+
+msgid "GUI"
+msgstr "GUI"
+
 msgid "Game View Selection"
-msgstr "Vista de selección del juego"
+msgstr "Spielansicht Auswahl"
 
 msgid "Customize games path"
-msgstr "Personalizar ruta del juego"
+msgstr "Spieleordner ändern"
 
 msgid "Customize save path"
-msgstr "Personalizar ruta de guardado"
+msgstr "Spielstandordner ändern"
 
 msgid "Loader"
-msgstr "Cargador"
+msgstr "Loader"
 
 msgid "Set save mode"
-msgstr "Establecer modo de guardado"
+msgstr "Spielstand-Optionen"
 
 msgid "Adjust log server IP and port"
-msgstr "Ajustar IP y puerto del servidor"
+msgstr "Logger-Einstellungen"
 
 msgid "Game"
-msgstr "Juego"
+msgstr "Spiel"
 
 msgid "Launch method selection"
-msgstr "Seleccionar metodo de carga"
+msgstr "Spielstart-Methode auswählen"
 
 msgid "Log server control"
-msgstr "Iniciar servidor"
+msgstr "Log-Server Kontrolle"
 
 msgid "Credits"
-msgstr "Creditos"
+msgstr "Credits"
 
 msgid "Credits to all contributors"
-msgstr "Créditos de los colaboladores"
+msgstr "Mitwirkende"
 
 msgid "Game View TV"
-msgstr "Vista del Juego TV"
+msgstr "Ansicht am Fernseher"
 
 msgid "Game View DRC"
-msgstr "Vista del Juego DRC"
+msgstr "Ansicht am Gamepad"
 
 msgid "Game Path"
-msgstr "Ruta del Juego"
+msgstr "Spielordner ändern"
 
 msgid "Game Save Path"
-msgstr "Ruta de guardado"
+msgstr "Speicherstandordner ändern"
 
 msgid "Game Save Mode"
-msgstr "Modo de Guardado"
+msgstr "Speichermodus"
 
 msgid "Launch Mode"
-msgstr "Modo de Carga"
+msgstr "Spielstart-Methode"
 
 msgid "Log Server Control"
-msgstr "Control de Registros"
+msgstr "Log-Server Kontrolle"
 
 msgid "Log Server IP"
-msgstr "IP del Servidor"
+msgstr "Log-Server IP"
 
 msgid "PyGecko"
 msgstr ""
 
 msgid "Padcon"
 msgstr ""
+
