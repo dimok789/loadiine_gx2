@@ -152,8 +152,14 @@ msgstr "日志服务器控制"
 msgid "Log Server IP"
 msgstr "日志服务器IP"
 
-msgid "PyGecko"
+msgid "Read and write memory"
 msgstr ""
 
-msgid "Padcon"
+msgid "Turn off the screen Gamepad"
+msgstr ""
+
+msgid "Load PyGecko"
+msgstr ""
+
+msgid "Enable Padcon"
 msgstr ""

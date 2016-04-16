@@ -24,17 +24,18 @@
 
 #define MAX_SETTINGS_PER_PAGE 3
 
-SettingsCategoryMenu::SettingsCategoryMenu(int w, int h, const std::string & title, const SettingType * catSettings, int settingsCount)
+SettingsCategoryMenu::SettingsCategoryMenu(int w, int h, const std::string & title, const char *nameTitleImage, const SettingType * catSettings, int settingsCount)
     : GuiFrame(w, h)
     , categorySettings(catSettings)
     , categorySettingsCount(settingsCount)
+	, categoryNameTitle(nameTitleImage)
     , categoryFrame(w, h)
     , scrollbar(h - 150)
     , buttonClickSound(Resources::GetSound("settings_click_2.mp3"))
     , backImageData(Resources::GetImageData("backButton.png"))
     , backImage(backImageData)
     , backButton(backImage.getWidth(), backImage.getHeight())
-    , titleImageData(Resources::GetImageData("settingsTitle.png"))
+    , titleImageData(Resources::GetImageData(categoryNameTitle))
     , titleImage(titleImageData)
     , settingImageData(Resources::GetImageData("settingButton.png"))
     , settingSelectedImageData(Resources::GetImageData("settingSelectedButton.png"))
@@ -72,14 +73,20 @@ SettingsCategoryMenu::SettingsCategoryMenu(int w, int h, const std::string & tit
     for(int i = 0; i < categorySettingsCount; i++)
     {
         settings[i].settingImage = new GuiImage(settingImageData);
+		settings[i].settingIcon = new GuiImage(Resources::GetImageData(categorySettings[i].icon));
+		settings[i].settingIconOver = new GuiImage(Resources::GetImageData(categorySettings[i].iconGlow));
         settings[i].settingImageSelected = new GuiImage(settingSelectedImageData);
         settings[i].settingButton = new GuiButton(settingImageData->getWidth(), settingImageData->getHeight());
         settings[i].settingLabel = new GuiText(tr(categorySettings[i].name), 46, glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));
 
-        settings[i].settingButton->setIconOver(settings[i].settingImageSelected);
-        settings[i].settingButton->setImage(settings[i].settingImage);
+        settings[i].settingButton->setImageSelectOver(settings[i].settingImageSelected);
+		settings[i].settingButton->setIcon(settings[i].settingIcon);
+		settings[i].settingButton->setIconOver(settings[i].settingIconOver);
+		settings[i].settingButton->setImage(settings[i].settingImage);
         settings[i].settingButton->setLabel(settings[i].settingLabel);
 
+		settings[i].settingIcon->setPosition(-300, 0);
+		settings[i].settingIconOver->setPosition(-300, 0);
         settings[i].settingButton->setPosition(0, 150 - (settings[i].settingImage->getHeight() + 30) * i);
         settings[i].settingButton->setTrigger(&touchTrigger);
         settings[i].settingButton->setTrigger(&wpadTouchTrigger);
@@ -122,6 +129,8 @@ SettingsCategoryMenu::~SettingsCategoryMenu()
     for(u32 i = 0; i < settings.size(); ++i)
     {
         delete settings[i].settingImage;
+		delete settings[i].settingIcon;
+		delete settings[i].settingIconOver;
         delete settings[i].settingImageSelected;
         delete settings[i].settingButton;
         delete settings[i].settingLabel;
@@ -199,7 +208,7 @@ void SettingsCategoryMenu::OnSettingButtonClick(GuiButton *button, const GuiCont
             for(int n = 0; n < buttonCount; n++)
                 buttonNames.push_back(tr(categorySettings[i].valueStrings[n].name));
 
-            ButtonChoiceMenu *buttonMenu = new ButtonChoiceMenu(width, height, tr(categorySettings[i].name), buttonNames, buttonSelected);
+            ButtonChoiceMenu *buttonMenu = new ButtonChoiceMenu(width, height, tr(categorySettings[i].name), categoryNameTitle, buttonNames, buttonSelected);
             buttonMenu->settingsBackClicked.connect(this, &SettingsCategoryMenu::OnSubMenuCloseClicked);
             buttonMenu->settingsOkClicked.connect(this, &SettingsCategoryMenu::OnButtonChoiceOkClicked);
             menu = buttonMenu;

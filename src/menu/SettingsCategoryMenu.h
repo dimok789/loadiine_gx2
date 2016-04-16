@@ -24,7 +24,7 @@
 class SettingsCategoryMenu : public GuiFrame, public sigslot::has_slots<>
 {
 public:
-    SettingsCategoryMenu(int w, int h, const std::string & titleText, const SettingType * categorySettings, int settingsCount);
+    SettingsCategoryMenu(int w, int h, const std::string & titleText, const char *nameTitleImage, const SettingType * categorySettings, int settingsCount);
     virtual ~SettingsCategoryMenu();
 
      void update(GuiController *c);
@@ -51,6 +51,7 @@ private:
 
     const SettingType * categorySettings;
     const int categorySettingsCount;
+	const char * categoryNameTitle;
 
     int currentYOffset;
 
@@ -73,6 +74,8 @@ private:
     typedef struct
     {
         GuiImage *settingImage;
+		GuiImage *settingIcon;
+		GuiImage *settingIconOver;
         GuiImage *settingImageSelected;
         GuiButton *settingButton;
         GuiText *settingLabel;

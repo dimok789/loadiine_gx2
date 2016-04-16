@@ -57,10 +57,10 @@ msgid "The whole libwiiu team and it's contributors."
 msgstr "Todo el equipo de libwiiu y sus colaboradores."
 
 msgid "Off"
-msgstr "Apagado"
+msgstr "Desactivado"
 
 msgid "On"
-msgstr "Encendido"
+msgstr "Activado"
 
 msgid "Icon Carousel"
 msgstr "Carrusel de Iconos"
@@ -152,8 +152,14 @@ msgstr "Control de Registros"
 msgid "Log Server IP"
 msgstr "IP del Servidor"
 
-msgid "PyGecko"
-msgstr ""
+msgid "Read and write memory"
+msgstr "Leer y escribir en la memoria"
 
-msgid "Padcon"
-msgstr ""
+msgid "Turn off the screen Gamepad"
+msgstr "Apagar la pantalla del Gamepad"
+
+msgid "Load PyGecko"
+msgstr "Cargar PyGecko"
+
+msgid "Enable Padcon"
+msgstr "Activar Padcon"

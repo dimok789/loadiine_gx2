@@ -151,3 +151,15 @@ msgstr "Log Server"
 
 msgid "Log Server IP"
 msgstr "Log Server IP"
+
+msgid "Read and write memory"
+msgstr ""
+
+msgid "Turn off the screen Gamepad"
+msgstr ""
+
+msgid "Load PyGecko"
+msgstr ""
+
+msgid "Enable Padcon"
+msgstr ""

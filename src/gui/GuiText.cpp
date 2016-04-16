@@ -568,7 +568,7 @@ void GuiText::draw(CVideo *pVideo)
 		}
 		else if(wrapMode == WRAP)
 		{
-			int lineheight = currentSize + 6;
+			int lineheight = currentSize + 2;
 			int yoffset = 0;
 			int voffset = 0;
 

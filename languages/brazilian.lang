@@ -1,5 +1,5 @@
 # Loadiine GX2 language source file.
-# pt_BR.lang - v0.2
+# Brazilian.lang - v0.2
 # don't delete/change this line (é).
 msgid ""
 msgstr ""
@@ -9,7 +9,7 @@ msgstr ""
 "PO-Revision-Date: 2009-10-01 01:00+0200\n"
 "Last-Translator: AndréFranco\n"
 "Language-Team: AndréFranco\n"
-"Language: Português(Brasil)\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -152,8 +152,14 @@ msgstr "Controle do servidor de log"
 msgid "Log Server IP"
 msgstr "IP do servidor de log"
 
-msgid "PyGecko"
+msgid "Read and write memory"
 msgstr ""
 
-msgid "Padcon"
+msgid "Turn off the screen Gamepad"
+msgstr ""
+
+msgid "Load PyGecko"
+msgstr ""
+
+msgid "Enable Padcon"
 msgstr ""
