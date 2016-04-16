@@ -1,0 +1,159 @@
+# Loadiine GX2 language source file.
+# italian.lang - vx.x
+# don't delete/change this line (é).
+msgid ""
+msgstr ""
+"Project-Id-Version: Loadiine GX2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-04-03 11:40+0200\n"
+"PO-Revision-Date: 2009-10-01 01:00+0200\n"
+"Last-Translator: Student\n"
+"Language-Team: Student\n"
+"Language: Italiano\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Loadiine GX2"
+msgstr ""
+
+msgid "Official Site:"
+msgstr "Sito Ufficiale"
+
+msgid "Coding:"
+msgstr "Programmazione"
+
+msgid "Design:"
+msgstr ""
+
+msgid "Some guy who doesn't want to be named."
+msgstr "Qualcuno che non vuole essere nominato"
+
+msgid "Testing:"
+msgstr ""
+
+msgid "Cyan / Maschell / n1ghty / OnionKnight and many more"
+msgstr ""
+
+msgid "Social Presence:"
+msgstr "Presenza Sociale"
+
+msgid "Based on:"
+msgstr "Basato su"
+
+msgid "Loadiine v4.0 by Golden45 and Dimok"
+msgstr "Loadiine v4.0 creato da Golden45 e Dimok"
+
+msgid "Big thanks to:"
+msgstr "Un enorme grazie a"
+
+msgid "lustar for GameTDB and hosting covers / disc images"
+msgstr "lustar per GameTDB e per l'hosting sia delle copertine che delle scansioni dei dischi"
+
+msgid "Marionumber1 for his kernel exploit"
+msgstr "Marionumber1 per il suo kernel exploit"
+
+msgid "The whole libwiiu team and it's contributors."
+msgstr "Tutto il team libwiiu ed i suoi contributors."
+
+msgid "Off"
+msgstr ""
+
+msgid "On"
+msgstr ""
+
+msgid "Icon Carousel"
+msgstr "Carosello di Icone"
+
+msgid "Grid View"
+msgstr "Griglia"
+
+msgid "Cover Carousel"
+msgstr "Carosello di Copertina"
+
+msgid "Shared Mode"
+msgstr "Modalità Condivisa"
+
+msgid "Unique Mode"
+msgstr "Modalità Unica"
+
+msgid "Mii Maker Mode"
+msgstr "Modalità Mii Maker"
+
+msgid "Smash Bros Mode"
+msgstr "Modalità Smash Bros"
+
+msgid "Karaoke Mode"
+msgstr "Modalità Karaoke"
+
+msgid "Art Atelier Mode"
+msgstr "Modalità Art Atelier"
+
+msgid "Background customizations"
+msgstr "Personalizza Sfondo"
+
+msgid "GUI"
+msgstr "Interfaccia Grafica (GUI)"
+
+msgid "Game View Selection"
+msgstr "Modalità di Visualizzazione Giochi"
+
+msgid "Customize games path"
+msgstr "Personalizza Percorso Cartella Giochi"
+
+msgid "Customize save path"
+msgstr "Personalizza Percorso Salvataggi"
+
+msgid "Loader"
+msgstr ""
+
+msgid "Set save mode"
+msgstr "Imposta Modalità Salvataggio"
+
+msgid "Adjust log server IP and port"
+msgstr "Regola IP del server log e porta"
+
+msgid "Game"
+msgstr "Gioco"
+
+msgid "Launch method selection"
+msgstr "Seleziona Modalità di Avvio"
+
+msgid "Log server control"
+msgstr "Log Controllo Server"
+
+msgid "Credits"
+msgstr "Crediti"
+
+msgid "Credits to all contributors"
+msgstr "Ringraziamenti a tutti i contributors"
+
+msgid "Game View TV"
+msgstr "Vista TV"
+
+msgid "Game View DRC"
+msgstr "Vista DRC (gamepad)"
+
+msgid "Game Path"
+msgstr "Percorso Gioco"
+
+msgid "Game Save Path"
+msgstr "Percorso Slavataggio"
+
+msgid "Game Save Mode"
+msgstr "Modalità Salvataggio"
+
+msgid "Launch Mode"
+msgstr "Modalità di Avvio"
+
+msgid "Log Server Control"
+msgstr "Log Controllo Server"
+
+msgid "Log Server IP"
+msgstr "Log IP Server"
+
+msgid "PyGecko"
+msgstr ""
+
+msgid "Padcon"
+msgstr ""
