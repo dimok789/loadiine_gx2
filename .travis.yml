@@ -55,7 +55,7 @@ before_deploy:
 - git config --global user.email "builds@travis-ci.com"
 - git config --global user.name "Travis CI"
 - export GIT_TAG=Loadiine-nightly-$commit
-- git tag $GIT_TAG -a -m "Automatically generated loadiine_gx2 nightly build from TravisCI. These are bleeding edge builds and not stable releases. Don't expect them to work perfectly!"
+- git tag $GIT_TAG -a -m "Loadiine_gx2 nightly build. Not a stable release. Expect bugs!"
 - git push --quiet https://$GITHUBKEY@github.com/dimok789/loadiine_gx2 $GIT_TAG > /dev/null 2>&1
 
 deploy:
