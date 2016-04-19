@@ -7,6 +7,9 @@ branches:
     - /^*-v[0-9]/
     - /^build-[0-9a-z\-]*/
 
+notifications:
+  email: false
+
 cache:
   apt: true
   directories:
