@@ -1,0 +1,71 @@
+language: c
+
+sudo: false
+
+branches:
+  except:
+    - /^*-v[0-9]/
+    - /^build-[0-9a-z\-]*/
+
+cache:
+  apt: true
+  directories:
+  - "/home/travis/devkitPro"
+
+before_cache:
+- rm -rf $DEVKITPRO/*.7z
+- rm -rf $DEVKITPRO/*.bz2
+- rm -rf $DEVKITPRO/examples
+
+addons:
+  apt:
+    packages:
+    - p7zip-full
+    - zip
+
+before_install:
+- export DEVKITPRO=/home/travis/devkitPro
+- export DEVKITPPC=${DEVKITPRO}/devkitPPC
+- mkdir -p $DEVKITPRO
+- cd $DEVKITPRO
+- wget -N http://sourceforge.net/projects/devkitpro/files/Automated%20Installer/devkitPPCupdate.pl
+- wget -N https://github.com/dimok789/loadiine_gx2/releases/download/v0.2/libogc.7z
+- wget -N https://github.com/dimok789/loadiine_gx2/releases/download/v0.2/portlibs.7z
+
+install:
+- cd $DEVKITPRO
+- perl devkitPPCupdate.pl
+- 7z x -y libogc.7z
+- 7z x -y portlibs.7z
+- cp -R portlibs/ppc/* devkitPPC/
+
+before_script:
+- cd $TRAVIS_BUILD_DIR/
+
+script:
+- make
+- cd $TRAVIS_BUILD_DIR/installer
+- make
+
+before_deploy:
+- cd $TRAVIS_BUILD_DIR/
+- cp -R installer/bin/*.bin www/loadiine/
+- commit="$(git rev-parse --short=7 HEAD)"
+- zip -r loadiine_gx2_$commit.zip www loadiine_gx2.elf
+- git config --global user.email "builds@travis-ci.com"
+- git config --global user.name "Travis CI"
+- export GIT_TAG=Loadiine-nightly-$commit
+- git tag $GIT_TAG -a -m "Automatically generated loadiine_gx2 nightly build from TravisCI. These are bleeding edge builds and not stable releases. Don't expect them to work perfectly!"
+- git push --quiet https://$GITHUBKEY@github.com/dimok789/loadiine_gx2 $GIT_TAG > /dev/null 2>&1
+
+deploy:
+  provider: releases
+  skip_cleanup: true
+  prerelease: true
+  api_key:
+    secure: TsBo40ntXnJ6ZGT85Kw0/sDDayoHoYjpdpXMB3Lw9pADy68ArJ9IKcRW+sP14Xy2djxPXv/EugjHiVZXHATlCCAQUHbQ225SJxiorN3fOq8HFez4UlYPjlM1MVxAwFdi5ch13G0sPYF10y0csurf5imCEkNifq3hSYx/E9R5TSCewJTjGXIv+9spoGEio1rKwaQY3f+3Y1riHtgk67XP6cDcxFQjY0ezuk7L05vQUxtpVNzkaJAhyXX7JwA3yG8h5ky/e0KSEXMLq5XAsc/EbicGz4aAcouv0293R2mP2uRXGRWPePviFprSUTeHKHeY2zkQFjtiVroCy9wYEXdPsq+IL+mcG+gBddLMaUqR7hi1BpV8c4az8DCupnBw+N800Qelkyw04EKn87BXLL1TZHaVC8rRN/6KSLTO3W1iTluY693pUgJElqxN05jmJcv532PX//jltza+oL/w3UU7i+SNYAYE3Mi1tq/RXPnOVcmEvB0TBR3R9zZDFdSoZUve5blNdfs5TjK+nVuOMyXFhutFAONzmhPjgEt2njWt0J6leiHZ039L3EgXLtJ6x04dowogjpHvgZFB+6tSgpN2oG5uvUK+nu3oYTaluwg6WwWQvpE1DKGCrx0qg0qSSqp8qPZshueIVOyJ9KIqPKmWcWSJi3Thyt4gYTAneg3P/yk=
+  file: loadiine_gx2_$commit.zip
+  on:
+    repo: dimok789/loadiine_gx2
+    tags: false
+    all_branches: true
