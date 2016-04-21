@@ -41,7 +41,7 @@
     #define KERN_SYSCALL_TBL_3                          0xFFE85470 // works with loader
     #define KERN_SYSCALL_TBL_4                          0xFFEAAA60 // works with home menu
     #define KERN_SYSCALL_TBL_5                          0xFFEAAE60 // works with browser (previously KERN_SYSCALL_TBL)
-#elif ( (VER == 400) || (VER == 410) )
+#elif (VER == 410)
     #define ADDRESS_OSTitle_main_entry_ptr              0x1005A8C0
     #define ADDRESS_main_entry_hook                     0x0101BD4C
 
@@ -50,7 +50,30 @@
     #define KERN_SYSCALL_TBL_3                          0xFFE85C90
     #define KERN_SYSCALL_TBL_4                          0xFFE85490
     #define KERN_SYSCALL_TBL_5                          0xFFE85890 // works with browser
+#elif (VER == 400)
+    #define ADDRESS_OSTitle_main_entry_ptr              0x1005A600
+    #define ADDRESS_main_entry_hook                     0x0101BD4C
+
+    #define KERN_SYSCALL_TBL_1                          0xFFE84C90
+    #define KERN_SYSCALL_TBL_2                          0xFFE85090
+    #define KERN_SYSCALL_TBL_3                          0xFFE85C90
+    #define KERN_SYSCALL_TBL_4                          0xFFE85490
+    #define KERN_SYSCALL_TBL_5                          0xFFE85890 // works with browser
+#else
+    #error Please define valid values for firmware.
 #endif // VER
+
+#define ROOTRPX_DBAT0U_VAL                              0xC00003FF
+#define COREINIT_DBAT0U_VAL                             0xC20001FF
+#if (VER >= 410)
+    #define ROOTRPX_DBAT0L_VAL                          0x30000012
+    #define COREINIT_DBAT0L_VAL                         0x32000012
+#elif (VER == 400)
+    #define ROOTRPX_DBAT0L_VAL                          0x4E000012
+    #define COREINIT_DBAT0L_VAL                         0x4D000012
+#else
+    #error Please define valid values for firmware.
+#endif
 
 /* Install functions */
 static void InstallMain(private_data_t *private_data);
@@ -283,12 +306,23 @@ static void KernelCopyData(unsigned int addr, unsigned int src, unsigned int len
     /*
      * Setup a DBAT access for our 0xC0800000 area and our 0xBC000000 area which hold our variables like GAME_LAUNCHED and our BSS/rodata section
      */
-    register int dbatu0, dbatl0;
+    register unsigned int dbatu0, dbatl0, target_dbat0u, target_dbat0l;
+    // setup mapping based on target address
+    if ((addr >= 0xC0000000) && (addr < 0xC2000000)) // root.rpx address
+    {
+        target_dbat0u = ROOTRPX_DBAT0U_VAL;
+        target_dbat0l = ROOTRPX_DBAT0L_VAL;
+    }
+    else if ((addr >= 0xC2000000) && (addr < 0xC3000000))
+    {
+        target_dbat0u = COREINIT_DBAT0U_VAL;
+        target_dbat0l = COREINIT_DBAT0L_VAL;
+    }
     // save the original DBAT value
     asm volatile("mfdbatu %0, 0" : "=r" (dbatu0));
     asm volatile("mfdbatl %0, 0" : "=r" (dbatl0));
-    asm volatile("mtdbatu 0, %0" : : "r" (0xC0001FFF));
-    asm volatile("mtdbatl 0, %0" : : "r" (0x30000012));
+    asm volatile("mtdbatu 0, %0" : : "r" (target_dbat0u));
+    asm volatile("mtdbatl 0, %0" : : "r" (target_dbat0l));
     asm volatile("eieio; isync");
 
     unsigned char *src_p = (unsigned char*)src;
