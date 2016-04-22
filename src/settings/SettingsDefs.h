@@ -37,6 +37,8 @@ typedef struct
 {
     const char *name;
     const ValueString *valueStrings;
+	const char *icon;
+	const char *iconGlow;
     int type;
     int index;
 } SettingType;

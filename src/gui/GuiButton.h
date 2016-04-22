@@ -40,9 +40,18 @@ class GuiButton : public GuiElement
 		//!Sets the button's image on over
 		//!\param i Pointer to GuiImage object
 		void setImageOver(GuiImage* i);
-
+		//!Sets the button's image on over
+		//!\param i Pointer to GuiImage object
 		void setIcon(GuiImage* i);
+		//!Sets the button's image on over
+		//!\param i Pointer to GuiImage object
 		void setIconOver(GuiImage* i);
+		//!Sets the button's image on over
+		//!\param i Pointer to GuiImage object
+		void setImageSelect(GuiImage* i);
+		//!Sets the button's image on over
+		//!\param i Pointer to GuiImage object
+		void setImageSelectOver(GuiImage* i);
 		//!Sets the button's image on hold
 		//!\param i Pointer to GuiImage object
 		void setImageHold(GuiImage* i);
@@ -102,6 +111,8 @@ class GuiButton : public GuiElement
 		GuiImage * imageClick; //!< Button image for STATE_CLICKED
 		GuiImage * icon;
 		GuiImage * iconOver;
+		GuiImage * imageSelect;
+		GuiImage * imageSelectOver;
 		GuiText * label[4]; //!< Label(s) to display (default)
 		GuiText * labelOver[4]; //!< Label(s) to display for STATE_SELECTED
 		GuiText * labelHold[4]; //!< Label(s) to display for STATE_HELD

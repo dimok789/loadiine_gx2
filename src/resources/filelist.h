@@ -1,7 +1,7 @@
 /****************************************************************************
  * Loadiine resource files.
  * This file is generated automatically.
- * Includes 51 files.
+ * Includes 75 files.
  *
  * NOTE:
  * Any manual modification of this file will be overwriten by the generation.
@@ -41,11 +41,11 @@ extern const u32 choiceHighlightedSquare_png_size;
 extern const u8 choiceUncheckedSquare_png[];
 extern const u32 choiceUncheckedSquare_png_size;
 
-extern const u8 creditsIconGlow_png[];
-extern const u32 creditsIconGlow_png_size;
-
 extern const u8 creditsIcon_png[];
 extern const u32 creditsIcon_png_size;
+
+extern const u8 creditsIconGlow_png[];
+extern const u32 creditsIconGlow_png_size;
 
 extern const u8 credits_music_ogg[];
 extern const u32 credits_music_ogg_size;
@@ -59,20 +59,62 @@ extern const u32 emptyRoundButtonSelected_png_size;
 extern const u8 font_ttf[];
 extern const u32 font_ttf_size;
 
-extern const u8 game_click_mp3[];
-extern const u32 game_click_mp3_size;
+extern const u8 gameLoadLog_png[];
+extern const u32 gameLoadLog_png_size;
 
-extern const u8 gameSettingsIconGlow_png[];
-extern const u32 gameSettingsIconGlow_png_size;
+extern const u8 gameLoadLogGlow_png[];
+extern const u32 gameLoadLogGlow_png_size;
+
+extern const u8 gameModeLoad_png[];
+extern const u32 gameModeLoad_png_size;
+
+extern const u8 gameModeLoadGlow_png[];
+extern const u32 gameModeLoadGlow_png_size;
+
+extern const u8 gamePadconIcon_png[];
+extern const u32 gamePadconIcon_png_size;
+
+extern const u8 gamePadconIconGlow_png[];
+extern const u32 gamePadconIconGlow_png_size;
+
+extern const u8 gamePyGeckoLoad_png[];
+extern const u32 gamePyGeckoLoad_png_size;
+
+extern const u8 gamePyGeckoLoadGlow_png[];
+extern const u32 gamePyGeckoLoadGlow_png_size;
 
 extern const u8 gameSettingsIcon_png[];
 extern const u32 gameSettingsIcon_png_size;
 
-extern const u8 guiSettingsIconGlow_png[];
-extern const u32 guiSettingsIconGlow_png_size;
+extern const u8 gameSettingsIconGlow_png[];
+extern const u32 gameSettingsIconGlow_png_size;
+
+extern const u8 gameSettingsIP_png[];
+extern const u32 gameSettingsIP_png_size;
+
+extern const u8 gameSettingsIPGlow_png[];
+extern const u32 gameSettingsIPGlow_png_size;
+
+extern const u8 game_click_mp3[];
+extern const u32 game_click_mp3_size;
+
+extern const u8 guiDRCIcon_png[];
+extern const u32 guiDRCIcon_png_size;
+
+extern const u8 guiDRCIconGlow_png[];
+extern const u32 guiDRCIconGlow_png_size;
 
 extern const u8 guiSettingsIcon_png[];
 extern const u32 guiSettingsIcon_png_size;
+
+extern const u8 guiSettingsIconGlow_png[];
+extern const u32 guiSettingsIconGlow_png_size;
+
+extern const u8 guiTVIcon_png[];
+extern const u32 guiTVIcon_png_size;
+
+extern const u8 guiTVIconGlow_png[];
+extern const u32 guiTVIconGlow_png_size;
 
 extern const u8 iconEmpty_jpg[];
 extern const u32 iconEmpty_jpg_size;
@@ -83,11 +125,11 @@ extern const u32 keyPadBackButton_png_size;
 extern const u8 keyPadBg_png[];
 extern const u32 keyPadBg_png_size;
 
-extern const u8 keyPadButtonClicked_png[];
-extern const u32 keyPadButtonClicked_png_size;
-
 extern const u8 keyPadButton_png[];
 extern const u32 keyPadButton_png_size;
+
+extern const u8 keyPadButtonClicked_png[];
+extern const u32 keyPadButtonClicked_png_size;
 
 extern const u8 keyPadDeleteButton_png[];
 extern const u32 keyPadDeleteButton_png_size;
@@ -95,11 +137,11 @@ extern const u32 keyPadDeleteButton_png_size;
 extern const u8 keyPadDeleteClicked_png[];
 extern const u32 keyPadDeleteClicked_png_size;
 
-extern const u8 keyPadFieldBlinker_png[];
-extern const u32 keyPadFieldBlinker_png_size;
-
 extern const u8 keyPadField_png[];
 extern const u32 keyPadField_png_size;
+
+extern const u8 keyPadFieldBlinker_png[];
+extern const u32 keyPadFieldBlinker_png_size;
 
 extern const u8 keyPadOkButton_png[];
 extern const u32 keyPadOkButton_png_size;
@@ -110,17 +152,35 @@ extern const u32 layoutSwitchButton_png_size;
 extern const u8 leftArrow_png[];
 extern const u32 leftArrow_png_size;
 
+extern const u8 loaderSettingsIcon_png[];
+extern const u32 loaderSettingsIcon_png_size;
+
 extern const u8 loaderSettingsIconGlow_png[];
 extern const u32 loaderSettingsIconGlow_png_size;
 
-extern const u8 loaderSettingsIcon_png[];
-extern const u32 loaderSettingsIcon_png_size;
+extern const u8 modoSaveIcon_png[];
+extern const u32 modoSaveIcon_png_size;
+
+extern const u8 modoSaveIconGlow_png[];
+extern const u32 modoSaveIconGlow_png_size;
 
 extern const u8 noCover_png[];
 extern const u32 noCover_png_size;
 
 extern const u8 noGameIcon_png[];
 extern const u32 noGameIcon_png_size;
+
+extern const u8 pathGameIcon_png[];
+extern const u32 pathGameIcon_png_size;
+
+extern const u8 pathGameIconGlow_png[];
+extern const u32 pathGameIconGlow_png_size;
+
+extern const u8 pathSaveIcon_png[];
+extern const u32 pathSaveIcon_png_size;
+
+extern const u8 pathSaveIconGlow_png[];
+extern const u32 pathSaveIconGlow_png_size;
 
 extern const u8 player1_point_png[];
 extern const u32 player1_point_png_size;
@@ -164,14 +224,26 @@ extern const u32 settingsCategoryBg_png_size;
 extern const u8 settingsCategoryButton_png[];
 extern const u32 settingsCategoryButton_png_size;
 
-extern const u8 settings_click_2_mp3[];
-extern const u32 settings_click_2_mp3_size;
-
 extern const u8 settingSelectedButton_png[];
 extern const u32 settingSelectedButton_png_size;
 
-extern const u8 settingsTitle_png[];
-extern const u32 settingsTitle_png_size;
+extern const u8 settingsIconArrow_png[];
+extern const u32 settingsIconArrow_png_size;
+
+extern const u8 settingsTitleCredits_png[];
+extern const u32 settingsTitleCredits_png_size;
+
+extern const u8 settingsTitleGame_png[];
+extern const u32 settingsTitleGame_png_size;
+
+extern const u8 settingsTitleGUI_png[];
+extern const u32 settingsTitleGUI_png_size;
+
+extern const u8 settingsTitleLoader_png[];
+extern const u32 settingsTitleLoader_png_size;
+
+extern const u8 settings_click_2_mp3[];
+extern const u32 settings_click_2_mp3_size;
 
 static RecourceFile RecourceList[] =
 {
@@ -182,33 +254,53 @@ static RecourceFile RecourceList[] =
 	{"choiceCheckedSquare.png", choiceCheckedSquare_png, choiceCheckedSquare_png_size, NULL, 0},
 	{"choiceHighlightedSquare.png", choiceHighlightedSquare_png, choiceHighlightedSquare_png_size, NULL, 0},
 	{"choiceUncheckedSquare.png", choiceUncheckedSquare_png, choiceUncheckedSquare_png_size, NULL, 0},
-	{"creditsIconGlow.png", creditsIconGlow_png, creditsIconGlow_png_size, NULL, 0},
 	{"creditsIcon.png", creditsIcon_png, creditsIcon_png_size, NULL, 0},
+	{"creditsIconGlow.png", creditsIconGlow_png, creditsIconGlow_png_size, NULL, 0},
 	{"credits_music.ogg", credits_music_ogg, credits_music_ogg_size, NULL, 0},
 	{"emptyRoundButton.png", emptyRoundButton_png, emptyRoundButton_png_size, NULL, 0},
 	{"emptyRoundButtonSelected.png", emptyRoundButtonSelected_png, emptyRoundButtonSelected_png_size, NULL, 0},
 	{"font.ttf", font_ttf, font_ttf_size, NULL, 0},
-	{"game_click.mp3", game_click_mp3, game_click_mp3_size, NULL, 0},
-	{"gameSettingsIconGlow.png", gameSettingsIconGlow_png, gameSettingsIconGlow_png_size, NULL, 0},
+	{"gameLoadLog.png", gameLoadLog_png, gameLoadLog_png_size, NULL, 0},
+	{"gameLoadLogGlow.png", gameLoadLogGlow_png, gameLoadLogGlow_png_size, NULL, 0},
+	{"gameModeLoad.png", gameModeLoad_png, gameModeLoad_png_size, NULL, 0},
+	{"gameModeLoadGlow.png", gameModeLoadGlow_png, gameModeLoadGlow_png_size, NULL, 0},
+	{"gamePadconIcon.png", gamePadconIcon_png, gamePadconIcon_png_size, NULL, 0},
+	{"gamePadconIconGlow.png", gamePadconIconGlow_png, gamePadconIconGlow_png_size, NULL, 0},
+	{"gamePyGeckoLoad.png", gamePyGeckoLoad_png, gamePyGeckoLoad_png_size, NULL, 0},
+	{"gamePyGeckoLoadGlow.png", gamePyGeckoLoadGlow_png, gamePyGeckoLoadGlow_png_size, NULL, 0},
 	{"gameSettingsIcon.png", gameSettingsIcon_png, gameSettingsIcon_png_size, NULL, 0},
-	{"guiSettingsIconGlow.png", guiSettingsIconGlow_png, guiSettingsIconGlow_png_size, NULL, 0},
+	{"gameSettingsIconGlow.png", gameSettingsIconGlow_png, gameSettingsIconGlow_png_size, NULL, 0},
+	{"gameSettingsIP.png", gameSettingsIP_png, gameSettingsIP_png_size, NULL, 0},
+	{"gameSettingsIPGlow.png", gameSettingsIPGlow_png, gameSettingsIPGlow_png_size, NULL, 0},
+	{"game_click.mp3", game_click_mp3, game_click_mp3_size, NULL, 0},
+	{"guiDRCIcon.png", guiDRCIcon_png, guiDRCIcon_png_size, NULL, 0},
+	{"guiDRCIconGlow.png", guiDRCIconGlow_png, guiDRCIconGlow_png_size, NULL, 0},
 	{"guiSettingsIcon.png", guiSettingsIcon_png, guiSettingsIcon_png_size, NULL, 0},
+	{"guiSettingsIconGlow.png", guiSettingsIconGlow_png, guiSettingsIconGlow_png_size, NULL, 0},
+	{"guiTVIcon.png", guiTVIcon_png, guiTVIcon_png_size, NULL, 0},
+	{"guiTVIconGlow.png", guiTVIconGlow_png, guiTVIconGlow_png_size, NULL, 0},
 	{"iconEmpty.jpg", iconEmpty_jpg, iconEmpty_jpg_size, NULL, 0},
 	{"keyPadBackButton.png", keyPadBackButton_png, keyPadBackButton_png_size, NULL, 0},
 	{"keyPadBg.png", keyPadBg_png, keyPadBg_png_size, NULL, 0},
-	{"keyPadButtonClicked.png", keyPadButtonClicked_png, keyPadButtonClicked_png_size, NULL, 0},
 	{"keyPadButton.png", keyPadButton_png, keyPadButton_png_size, NULL, 0},
+	{"keyPadButtonClicked.png", keyPadButtonClicked_png, keyPadButtonClicked_png_size, NULL, 0},
 	{"keyPadDeleteButton.png", keyPadDeleteButton_png, keyPadDeleteButton_png_size, NULL, 0},
 	{"keyPadDeleteClicked.png", keyPadDeleteClicked_png, keyPadDeleteClicked_png_size, NULL, 0},
-	{"keyPadFieldBlinker.png", keyPadFieldBlinker_png, keyPadFieldBlinker_png_size, NULL, 0},
 	{"keyPadField.png", keyPadField_png, keyPadField_png_size, NULL, 0},
+	{"keyPadFieldBlinker.png", keyPadFieldBlinker_png, keyPadFieldBlinker_png_size, NULL, 0},
 	{"keyPadOkButton.png", keyPadOkButton_png, keyPadOkButton_png_size, NULL, 0},
 	{"layoutSwitchButton.png", layoutSwitchButton_png, layoutSwitchButton_png_size, NULL, 0},
 	{"leftArrow.png", leftArrow_png, leftArrow_png_size, NULL, 0},
-	{"loaderSettingsIconGlow.png", loaderSettingsIconGlow_png, loaderSettingsIconGlow_png_size, NULL, 0},
 	{"loaderSettingsIcon.png", loaderSettingsIcon_png, loaderSettingsIcon_png_size, NULL, 0},
+	{"loaderSettingsIconGlow.png", loaderSettingsIconGlow_png, loaderSettingsIconGlow_png_size, NULL, 0},
+	{"modoSaveIcon.png", modoSaveIcon_png, modoSaveIcon_png_size, NULL, 0},
+	{"modoSaveIconGlow.png", modoSaveIconGlow_png, modoSaveIconGlow_png_size, NULL, 0},
 	{"noCover.png", noCover_png, noCover_png_size, NULL, 0},
 	{"noGameIcon.png", noGameIcon_png, noGameIcon_png_size, NULL, 0},
+	{"pathGameIcon.png", pathGameIcon_png, pathGameIcon_png_size, NULL, 0},
+	{"pathGameIconGlow.png", pathGameIconGlow_png, pathGameIconGlow_png_size, NULL, 0},
+	{"pathSaveIcon.png", pathSaveIcon_png, pathSaveIcon_png_size, NULL, 0},
+	{"pathSaveIconGlow.png", pathSaveIconGlow_png, pathSaveIconGlow_png_size, NULL, 0},
 	{"player1_point.png", player1_point_png, player1_point_png_size, NULL, 0},
 	{"player2_point.png", player2_point_png, player2_point_png_size, NULL, 0},
 	{"player3_point.png", player3_point_png, player3_point_png_size, NULL, 0},
@@ -223,9 +315,13 @@ static RecourceFile RecourceList[] =
 	{"settingsButton.png", settingsButton_png, settingsButton_png_size, NULL, 0},
 	{"settingsCategoryBg.png", settingsCategoryBg_png, settingsCategoryBg_png_size, NULL, 0},
 	{"settingsCategoryButton.png", settingsCategoryButton_png, settingsCategoryButton_png_size, NULL, 0},
-	{"settings_click_2.mp3", settings_click_2_mp3, settings_click_2_mp3_size, NULL, 0},
 	{"settingSelectedButton.png", settingSelectedButton_png, settingSelectedButton_png_size, NULL, 0},
-	{"settingsTitle.png", settingsTitle_png, settingsTitle_png_size, NULL, 0},
+	{"settingsIconArrow.png", settingsIconArrow_png, settingsIconArrow_png_size, NULL, 0},
+	{"settingsTitleCredits.png", settingsTitleCredits_png, settingsTitleCredits_png_size, NULL, 0},
+	{"settingsTitleGame.png", settingsTitleGame_png, settingsTitleGame_png_size, NULL, 0},
+	{"settingsTitleGUI.png", settingsTitleGUI_png, settingsTitleGUI_png_size, NULL, 0},
+	{"settingsTitleLoader.png", settingsTitleLoader_png, settingsTitleLoader_png_size, NULL, 0},
+	{"settings_click_2.mp3", settings_click_2_mp3, settings_click_2_mp3_size, NULL, 0},
 	{NULL, NULL, 0, NULL, 0}
 };
 
