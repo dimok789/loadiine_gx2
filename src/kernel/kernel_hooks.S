@@ -61,22 +61,6 @@ my_PrepareTitle_hook:
     stw r21, 0x78(r1)
     stw r22, 0x7C(r1)
 
-    # save original DBAT registers
-    mfdbatu r28, 0
-    mfdbatl r29, 0
-
-    # setup access to our data memory range
-    lis r3, 0xC000
-    ori r3, r3, 0x1FFF
-    mtdbatu 0, r3
-    lis r3, 0x3000
-    ori r3, r3, 0x0012
-    mtdbatl 0, r3
-
-    # memory barrier
-    eieio
-    isync
-
     # save the LR from where we came
     mflr r31
 
@@ -86,10 +70,6 @@ my_PrepareTitle_hook:
     addi r3, r11, 0x68
 
     bl my_PrepareTitle
-
-    # restore original DBAT registers
-    mtdbatu 0, r28
-    mtdbatl 0, r29
 
     # memory barrier
     eieio

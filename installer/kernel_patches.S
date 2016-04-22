@@ -79,7 +79,13 @@
 #endif
 
 #define BAT4U_VAL                       0x008000FF
-#define BAT4L_VAL                       0x30800012
+#if VER >= 410
+    #define BAT4L_VAL                   0x30800012
+#elif VER == 400
+    #define BAT4L_VAL                   0x4E800012
+#else
+    #error Please define valid value for firmware setup.
+#endif
 
 #define SET_R4_TO_ADDR(addr)        \
     lis r3, addr@h              ;   \

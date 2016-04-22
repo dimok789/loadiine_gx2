@@ -942,9 +942,9 @@ DECL(int, LiWaitOneChunk, unsigned int * iRemainingBytes, const char *filename, 
     else
     {
         // pointer to global variables of the loader
-        loader_globals_t *loader_globals = (loader_globals_t*)(0xEFE19D00);
+        loader_globals_t *loader_globals = (loader_globals_t*)(addr_sgIsLoadingBuffer);
 
-        gDynloadInitialized = *(volatile unsigned int*)(0xEFE13C3C + (core_id << 2));
+        gDynloadInitialized = *(volatile unsigned int*)(addr_gDynloadInitialized + (core_id << 2));
         sgBufferNumber = loader_globals->sgBufferNumber;
         sgFileOffset = loader_globals->sgFileOffset;
         sgBounceError = &loader_globals->sgBounceError;
