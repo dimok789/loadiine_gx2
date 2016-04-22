@@ -123,7 +123,7 @@ void __main(void)
     OSDynLoad_FindExport(coreinit_handle, 0, "ICInvalidateRange", &private_data.ICInvalidateRange);
     OSDynLoad_FindExport(coreinit_handle, 0, "_Exit", &private_data._Exit);
 
-    if (private_data.OSEffectiveToPhysical((void *)0xa0000000) != (void *)0x10000000)
+    if (private_data.OSEffectiveToPhysical((void *)0xa0000000) == (void *)0)
     {
         run_kexploit(&private_data);
     }
@@ -158,6 +158,10 @@ void __main(void)
         /* Waits for thread exits */
         unsigned int t1 = 0x1FFFFFFF;
         while(t1--) ;
+
+        /* restore kernel memory table to original state */
+        kern_write((void*)(KERN_ADDRESS_TBL + (0x12 * 4)), 0);
+        kern_write((void*)(KERN_ADDRESS_TBL + (0x13 * 4)), 0x14000000);
     }
 
     /* Prepare for thread startups */
@@ -219,10 +223,6 @@ void __main(void)
     /* Free thread memory and stack */
     private_data.MEMFreeToDefaultHeap(thread);
     private_data.MEMFreeToDefaultHeap(stack);
-
-    /* restore kernel memory table to original state */
-    kern_write((void*)(KERN_ADDRESS_TBL + (0x12 * 4)), 0);
-	kern_write((void*)(KERN_ADDRESS_TBL + (0x13 * 4)), 0x14000000);
 
     //! we are done -> exit browser now
     private_data._Exit();
@@ -423,11 +423,7 @@ static void InstallMain(private_data_t *private_data)
     unsigned char *main_text = private_data->data_elf + section_offset;
     /* Copy main .text to memory */
     if(section_offset > 0)
-    {
         SC_0x25_KernelCopyData((void*)(CODE_RW_BASE_OFFSET + main_text_addr), main_text, main_text_len);
-        //private_data->DCFlushRange((void*)(CODE_RW_BASE_OFFSET + main_text_addr), main_text_len);
-        //private_data->ICInvalidateRange((void*)(main_text_addr), main_text_len);
-    }
 
     // get the .rodata section
     unsigned int main_rodata_addr = 0;
@@ -438,7 +434,6 @@ static void InstallMain(private_data_t *private_data)
         unsigned char *main_rodata = private_data->data_elf + section_offset;
         /* Copy main rodata to memory */
         SC_0x25_KernelCopyData((void*)(DATA_RW_BASE_OFFSET + main_rodata_addr), main_rodata, main_rodata_len);
-        //private_data->DCFlushRange((void*)(DATA_RW_BASE_OFFSET + main_rodata_addr), main_rodata_len);
     }
 
     // get the .data section
@@ -450,7 +445,6 @@ static void InstallMain(private_data_t *private_data)
         unsigned char *main_data = private_data->data_elf + section_offset;
         /* Copy main data to memory */
         SC_0x25_KernelCopyData((void*)(DATA_RW_BASE_OFFSET + main_data_addr), main_data, main_data_len);
-        //private_data->DCFlushRange((void*)(DATA_RW_BASE_OFFSET + main_data_addr), main_data_len);
     }
 
     // get the .bss section
@@ -462,7 +456,6 @@ static void InstallMain(private_data_t *private_data)
         unsigned char *main_bss = private_data->data_elf + section_offset;
         /* Copy main data to memory */
         SC_0x25_KernelCopyData((void*)(DATA_RW_BASE_OFFSET + main_bss_addr), main_bss, main_bss_len);
-        //private_data->DCFlushRange((void*)(DATA_RW_BASE_OFFSET + main_bss_addr), main_bss_len);
     }
 }
 
@@ -509,6 +502,5 @@ static void InstallPatches(private_data_t *private_data)
     bufferU32 = 0x48000003 | jump_addr;
     SC_0x25_KernelCopyData((void*)(LIB_CODE_RW_BASE_OFFSET + repl_addr), &bufferU32, sizeof(bufferU32));
     // flush caches and invalidate instruction cache
-    //private_data->DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + repl_addr), 4);
     private_data->ICInvalidateRange((void*)(repl_addr), 4);
 }
