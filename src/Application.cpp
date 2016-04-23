@@ -81,8 +81,8 @@ Application::~Application()
     for(int i = 0; i < 5; i++)
         delete controller[i];
 
-    GuiImageAsync::threadExit();
 	AsyncDeleter::destroyInstance();
+	GuiImageAsync::threadExit();
     Resources::Clear();
 
 	SoundHandler::DestroyInstance();

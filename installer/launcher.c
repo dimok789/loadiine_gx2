@@ -7,7 +7,7 @@
 #define MEM_BASE                                        0xC0800000
 #include "../src/common/common.h"
 #include "../src/common/os_defs.h"
-#include "../../libwiiu/src/coreinit.h"
+#include "coreinit.h"
 
 //! this shouldnt depend on OS
 #define LIB_CODE_RW_BASE_OFFSET                         0xC1000000
@@ -41,7 +41,7 @@
     #define KERN_SYSCALL_TBL_3                          0xFFE85470 // works with loader
     #define KERN_SYSCALL_TBL_4                          0xFFEAAA60 // works with home menu
     #define KERN_SYSCALL_TBL_5                          0xFFEAAE60 // works with browser (previously KERN_SYSCALL_TBL)
-#elif ( (VER == 400) || (VER == 410) )
+#elif (VER == 410)
     #define ADDRESS_OSTitle_main_entry_ptr              0x1005A8C0
     #define ADDRESS_main_entry_hook                     0x0101BD4C
 
@@ -50,7 +50,30 @@
     #define KERN_SYSCALL_TBL_3                          0xFFE85C90
     #define KERN_SYSCALL_TBL_4                          0xFFE85490
     #define KERN_SYSCALL_TBL_5                          0xFFE85890 // works with browser
+#elif (VER == 400)
+    #define ADDRESS_OSTitle_main_entry_ptr              0x1005A600
+    #define ADDRESS_main_entry_hook                     0x0101BD4C
+
+    #define KERN_SYSCALL_TBL_1                          0xFFE84C90
+    #define KERN_SYSCALL_TBL_2                          0xFFE85090
+    #define KERN_SYSCALL_TBL_3                          0xFFE85C90
+    #define KERN_SYSCALL_TBL_4                          0xFFE85490
+    #define KERN_SYSCALL_TBL_5                          0xFFE85890 // works with browser
+#else
+    #error Please define valid values for firmware.
 #endif // VER
+
+#define ROOTRPX_DBAT0U_VAL                              0xC00003FF
+#define COREINIT_DBAT0U_VAL                             0xC20001FF
+#if (VER >= 410)
+    #define ROOTRPX_DBAT0L_VAL                          0x30000012
+    #define COREINIT_DBAT0L_VAL                         0x32000012
+#elif (VER == 400)
+    #define ROOTRPX_DBAT0L_VAL                          0x4E000012
+    #define COREINIT_DBAT0L_VAL                         0x4D000012
+#else
+    #error Please define valid values for firmware.
+#endif
 
 /* Install functions */
 static void InstallMain(private_data_t *private_data);
@@ -100,7 +123,7 @@ void __main(void)
     OSDynLoad_FindExport(coreinit_handle, 0, "ICInvalidateRange", &private_data.ICInvalidateRange);
     OSDynLoad_FindExport(coreinit_handle, 0, "_Exit", &private_data._Exit);
 
-    if (private_data.OSEffectiveToPhysical((void *)0xa0000000) != (void *)0x10000000)
+    if (private_data.OSEffectiveToPhysical((void *)0xa0000000) == (void *)0)
     {
         run_kexploit(&private_data);
     }
@@ -135,6 +158,10 @@ void __main(void)
         /* Waits for thread exits */
         unsigned int t1 = 0x1FFFFFFF;
         while(t1--) ;
+
+        /* restore kernel memory table to original state */
+        kern_write((void*)(KERN_ADDRESS_TBL + (0x12 * 4)), 0);
+        kern_write((void*)(KERN_ADDRESS_TBL + (0x13 * 4)), 0x14000000);
     }
 
     /* Prepare for thread startups */
@@ -196,10 +223,6 @@ void __main(void)
     /* Free thread memory and stack */
     private_data.MEMFreeToDefaultHeap(thread);
     private_data.MEMFreeToDefaultHeap(stack);
-
-    /* restore kernel memory table to original state */
-    kern_write((void*)(KERN_ADDRESS_TBL + (0x12 * 4)), 0);
-	kern_write((void*)(KERN_ADDRESS_TBL + (0x13 * 4)), 0x14000000);
 
     //! we are done -> exit browser now
     private_data._Exit();
@@ -283,12 +306,23 @@ static void KernelCopyData(unsigned int addr, unsigned int src, unsigned int len
     /*
      * Setup a DBAT access for our 0xC0800000 area and our 0xBC000000 area which hold our variables like GAME_LAUNCHED and our BSS/rodata section
      */
-    register int dbatu0, dbatl0;
+    register unsigned int dbatu0, dbatl0, target_dbat0u, target_dbat0l;
+    // setup mapping based on target address
+    if ((addr >= 0xC0000000) && (addr < 0xC2000000)) // root.rpx address
+    {
+        target_dbat0u = ROOTRPX_DBAT0U_VAL;
+        target_dbat0l = ROOTRPX_DBAT0L_VAL;
+    }
+    else if ((addr >= 0xC2000000) && (addr < 0xC3000000))
+    {
+        target_dbat0u = COREINIT_DBAT0U_VAL;
+        target_dbat0l = COREINIT_DBAT0L_VAL;
+    }
     // save the original DBAT value
     asm volatile("mfdbatu %0, 0" : "=r" (dbatu0));
     asm volatile("mfdbatl %0, 0" : "=r" (dbatl0));
-    asm volatile("mtdbatu 0, %0" : : "r" (0xC0001FFF));
-    asm volatile("mtdbatl 0, %0" : : "r" (0x30000012));
+    asm volatile("mtdbatu 0, %0" : : "r" (target_dbat0u));
+    asm volatile("mtdbatl 0, %0" : : "r" (target_dbat0l));
     asm volatile("eieio; isync");
 
     unsigned char *src_p = (unsigned char*)src;
@@ -389,11 +423,7 @@ static void InstallMain(private_data_t *private_data)
     unsigned char *main_text = private_data->data_elf + section_offset;
     /* Copy main .text to memory */
     if(section_offset > 0)
-    {
         SC_0x25_KernelCopyData((void*)(CODE_RW_BASE_OFFSET + main_text_addr), main_text, main_text_len);
-        //private_data->DCFlushRange((void*)(CODE_RW_BASE_OFFSET + main_text_addr), main_text_len);
-        //private_data->ICInvalidateRange((void*)(main_text_addr), main_text_len);
-    }
 
     // get the .rodata section
     unsigned int main_rodata_addr = 0;
@@ -404,7 +434,6 @@ static void InstallMain(private_data_t *private_data)
         unsigned char *main_rodata = private_data->data_elf + section_offset;
         /* Copy main rodata to memory */
         SC_0x25_KernelCopyData((void*)(DATA_RW_BASE_OFFSET + main_rodata_addr), main_rodata, main_rodata_len);
-        //private_data->DCFlushRange((void*)(DATA_RW_BASE_OFFSET + main_rodata_addr), main_rodata_len);
     }
 
     // get the .data section
@@ -416,7 +445,6 @@ static void InstallMain(private_data_t *private_data)
         unsigned char *main_data = private_data->data_elf + section_offset;
         /* Copy main data to memory */
         SC_0x25_KernelCopyData((void*)(DATA_RW_BASE_OFFSET + main_data_addr), main_data, main_data_len);
-        //private_data->DCFlushRange((void*)(DATA_RW_BASE_OFFSET + main_data_addr), main_data_len);
     }
 
     // get the .bss section
@@ -428,7 +456,6 @@ static void InstallMain(private_data_t *private_data)
         unsigned char *main_bss = private_data->data_elf + section_offset;
         /* Copy main data to memory */
         SC_0x25_KernelCopyData((void*)(DATA_RW_BASE_OFFSET + main_bss_addr), main_bss, main_bss_len);
-        //private_data->DCFlushRange((void*)(DATA_RW_BASE_OFFSET + main_bss_addr), main_bss_len);
     }
 }
 
@@ -475,6 +502,5 @@ static void InstallPatches(private_data_t *private_data)
     bufferU32 = 0x48000003 | jump_addr;
     SC_0x25_KernelCopyData((void*)(LIB_CODE_RW_BASE_OFFSET + repl_addr), &bufferU32, sizeof(bufferU32));
     // flush caches and invalidate instruction cache
-    //private_data->DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + repl_addr), 4);
     private_data->ICInvalidateRange((void*)(repl_addr), 4);
 }

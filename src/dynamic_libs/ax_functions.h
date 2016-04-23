@@ -31,6 +31,7 @@ extern "C" {
 #include <gctypes.h>
 
 void InitAXFunctionPointers(void);
+void ProperlyEndTransitionAudio(void);
 
 extern void (* AXInitWithParams)(u32 * params);
 extern void (* AXQuit)(void);

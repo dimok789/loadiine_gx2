@@ -216,14 +216,23 @@ SoundDecoder * SoundHandler::GetSoundDecoder(const u8 * sound, int length)
 
 void SoundHandler::executeThread()
 {
+    // v2 sound lib can not properly end transition audio on old firmwares
+    if (OS_FIRMWARE <= 410)
+    {
+        ProperlyEndTransitionAudio();
+    }
+    
     //! initialize 48 kHz renderer
     u32 params[3] = { 1, 0, 0 };
     AXInitWithParams(params);
 
 
-	for(u32 i = 0; i < MAX_DECODERS; ++i)
+    // The problem with last voice on 500 was caused by it having priority 0
+    // We would need to change this priority distribution if for some reason
+    // we would need MAX_DECODERS > Voice::PRIO_MAX
+    for(u32 i = 0; i < MAX_DECODERS; ++i)
     {
-        int priority = (MAX_DECODERS - 1 - i) * (Voice::PRIO_MAX - Voice::PRIO_MIN)  / (MAX_DECODERS - 1);
+        int priority = (MAX_DECODERS - i) * Voice::PRIO_MAX  / MAX_DECODERS;
         voiceList[i] = new Voice(priority); // allocate voice 0 with highest priority
     }
 
@@ -257,15 +266,7 @@ void SoundHandler::executeThread()
     AXRegisterFrameCallback(NULL);
     AXQuit();
 
-    // deleting the last voice from the decoder produced DSI errors on 5.0.0 so we skip it
-    // expecting same behaviour on every FW below 532
-    u32 delete_skip = 0;
-    if(OS_FIRMWARE < 532)
-    {
-        delete_skip = 1;
-    }
-    
-	for(u32 i = 0; i < MAX_DECODERS - delete_skip; ++i)
+    for(u32 i = 0; i < MAX_DECODERS; ++i)
     {
         delete voiceList[i];
         voiceList[i] = NULL;

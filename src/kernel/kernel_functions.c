@@ -82,8 +82,13 @@ void KernelSetDBATs(bat_table_t * table)
         }
     }
 
-    bat_table_copy.bat[iUse].h = 0xC0001FFF;
-    bat_table_copy.bat[iUse].l = 0x30000012;
+    // Seems like it's actually used to access loader+coreinit only. So reduce the range and move it
+    // to 0xC2000000-0xC3000000 to get propper support on lower firmwares.
+    bat_table_copy.bat[iUse].h = 0xC20001FF;
+    if (OS_FIRMWARE >= 410)
+        bat_table_copy.bat[iUse].l = 0x32000012;
+    else if (OS_FIRMWARE == 400)
+        bat_table_copy.bat[iUse].l = 0x4D000012;
     SC0x37_KernelWriteDBATs(&bat_table_copy);
 }
 

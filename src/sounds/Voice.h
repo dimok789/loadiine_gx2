@@ -26,7 +26,7 @@ public:
 
     enum VoicePriorities
     {
-        PRIO_MIN = 0,
+        PRIO_MIN = 1,
         PRIO_MAX = 31
     };
 
