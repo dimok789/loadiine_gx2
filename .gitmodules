@@ -1,0 +1,3 @@
+[submodule "src/dynamic_libs"]
+	path = src/dynamic_libs
+	url = https://github.com/Maschell/dynamic_libs
