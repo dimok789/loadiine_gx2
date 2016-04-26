@@ -19,6 +19,7 @@ if(isset($_REQUEST['sysver']))
 	else if($_REQUEST['sysver']==="550")
 	{
 		$sysver = 550;
+		$wiiuhaxxcfg_payloadfilepath = "code550.bin";
 	}
 }
 

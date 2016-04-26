@@ -52,7 +52,7 @@ script:
 
 before_deploy:
 - cd $TRAVIS_BUILD_DIR/
-- cp -R installer/bin/*.bin www/loadiine/
+- cp -R installer/bin/*.bin www/loadiine_gx2/
 - commit="$(git rev-parse --short=7 HEAD)"
 - zip -r loadiine_gx2_$commit.zip www loadiine_gx2.elf
 - git config --global user.email "builds@travis-ci.com"
