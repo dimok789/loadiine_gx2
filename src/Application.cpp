@@ -23,6 +23,7 @@
 #include "game/GameList.h"
 #include "resources/Resources.h"
 #include "settings/CSettings.h"
+#include "settings/CSettingsGame.h"
 #include "sounds/SoundHandler.hpp"
 #include "system/exception_handler.h"
 #include "utils/logger.h"
@@ -42,6 +43,8 @@ Application::Application()
     controller[3] = new WPadController(GuiTrigger::CHANNEL_4);
     controller[4] = new WPadController(GuiTrigger::CHANNEL_5);
 
+    CSettings::instance()->Load();
+     
     //! reload logger to change IP to settings IP
     log_deinit();
     log_init(CSettings::getValueAsString(CSettings::DebugLoggerIP).c_str());
@@ -75,6 +78,11 @@ Application::Application()
 Application::~Application()
 {
     GameList::destroyInstance();
+
+    CSettings::instance()->Save();
+    CSettings::destroyInstance();
+	
+	CSettingsGame::destroyInstance();
 
     delete bgMusic;
 

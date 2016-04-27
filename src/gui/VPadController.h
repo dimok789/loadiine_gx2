@@ -48,8 +48,9 @@ public:
             data.validPointer = !vpad.tpdata.invalid;
             data.touched = vpad.tpdata.touched;
             //! calculate the screen offsets
-            data.x = -(width >> 1) + (int)((vpad.tpdata1.x * width) >> 12);
-            data.y = (height >> 1) - (int)(height - ((vpad.tpdata1.y * height) >> 12));
+            data.x = -(width >> 1) + ((int)(vpad.tpdata1.x * ((width)/1211.0f)*width) >> 12)-30;
+            data.y = -(height >> 1) + ((int)(vpad.tpdata1.y * ((height)/653.0f)*height) >> 12)-35;
+            
             return true;
         }
         return false;

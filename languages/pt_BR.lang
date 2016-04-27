@@ -5,14 +5,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Loadiine GX2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-15 21:47+0200\n"
+"POT-Creation-Date: 2016-04-18 15:13+0200\n"
 "PO-Revision-Date: 2009-10-01 01:00+0200\n"
 "Last-Translator: AndréFranco\n"
 "Language-Team: AndréFranco\n"
-"Language: Português(Brasil)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: Português(Brasil)\n"
 
 msgid "Loadiine GX2"
 msgstr ""
@@ -56,6 +56,21 @@ msgstr "Marionumber1 por seu kernel exploit"
 msgid "The whole libwiiu team and it's contributors."
 msgstr "A todo o time da libwiiu e seus contribuidores."
 
+msgid "Update Folder"
+msgstr ""
+
+msgid "Save Mode"
+msgstr ""
+
+msgid "Launch Mode"
+msgstr "Modo de carregamento"
+
+msgid "<Settings Default>"
+msgstr ""
+
+msgid "Saving game settings!"
+msgstr ""
+
 msgid "Off"
 msgstr "Desligado"
 
@@ -70,24 +85,6 @@ msgstr "Exibição em grade "
 
 msgid "Cover Carousel"
 msgstr "Carrossel de capas"
-
-msgid "Shared Mode"
-msgstr "Modo Compartilhado"
-
-msgid "Unique Mode"
-msgstr "Modo Único"
-
-msgid "Mii Maker Mode"
-msgstr "Modo Criador Mii"
-
-msgid "Smash Bros Mode"
-msgstr "Modo Smash Bros"
-
-msgid "Karaoke Mode"
-msgstr "Modo Karaokê"
-
-msgid "Art Atelier Mode"
-msgstr "Modo Art Atelier"
 
 msgid "Background customizations"
 msgstr "Personalizar fundo"
@@ -143,9 +140,6 @@ msgstr "Caminho do save"
 msgid "Game Save Mode"
 msgstr "Modo de save"
 
-msgid "Launch Mode"
-msgstr "Modo de carregamento"
-
 msgid "Log Server Control"
 msgstr "Controle do servidor de log"
 
@@ -157,3 +151,21 @@ msgstr ""
 
 msgid "Padcon"
 msgstr ""
+
+msgid "Shared Mode"
+msgstr "Modo Compartilhado"
+
+msgid "Unique Mode"
+msgstr "Modo Único"
+
+msgid "Mii Maker Mode"
+msgstr "Modo Criador Mii"
+
+msgid "Smash Bros Mode"
+msgstr "Modo Smash Bros"
+
+msgid "Karaoke Mode"
+msgstr "Modo Karaokê"
+
+msgid "Art Atelier Mode"
+msgstr "Modo Art Atelier"

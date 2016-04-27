@@ -39,20 +39,6 @@ static const ValueString ValueGameViewMode[] =
     { 2, trNOOP("Cover Carousel") }
 };
 
-static const ValueString ValueGameSaveModes[] =
-{
-    { GAME_SAVES_SHARED, trNOOP("Shared Mode") },
-    { GAME_SAVES_UNIQUE, trNOOP("Unique Mode") },
-};
-
-static ValueString ValueLaunchMode[] =
-{
-    { LOADIINE_MODE_MII_MAKER, trNOOP("Mii Maker Mode") },
-    { LOADIINE_MODE_SMASH_BROS, trNOOP("Smash Bros Mode") },
-    { LOADIINE_MODE_KARAOKE, trNOOP("Karaoke Mode") },
-    { LOADIINE_MODE_ART_ATELIER, trNOOP("Art Atelier Mode") }
-};
-
 static const struct
 {
     const char *name;
@@ -229,8 +215,6 @@ SettingsMenu::SettingsMenu(int w, int h)
     rightArrowButton.setSoundClick(buttonClickSound);
     rightArrowButton.clicked.connect(this, &SettingsMenu::OnCategoryRightClick);
     categorySelectionFrame.append(&rightArrowButton);
-
-
 
     DPADButtons.setTrigger(&buttonATrigger);
     DPADButtons.setTrigger(&buttonBTrigger);

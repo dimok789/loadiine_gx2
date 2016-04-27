@@ -49,7 +49,8 @@ SOURCES		:=	src \
 				src/system \
 				src/utils \
 				src/video \
-				src/video/shaders
+				src/video/shaders \
+				src/controller_patcher
 DATA		:=	data \
 				data/images \
 				data/fonts \
@@ -102,6 +103,7 @@ export DEPSDIR	:=	$(CURDIR)/$(BUILD)
 FILELIST		:=	$(shell bash ./filelist.sh)
 export CFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
 export CPPFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
+export HFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.h)))
 sFILES			:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.s)))
 SFILES			:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.S)))
 BINFILES		:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*)))
@@ -237,7 +239,7 @@ translations: $(wildcard $(PROJECTDIR)/languages/*.lang)
 #---------------------------------------------------------------------------------
 export PATH		:=	$(PROJECTDIR)/gettext-bin:$(PATH)
 
-%.pot: $(CFILES) $(CPPFILES)
+%.pot: $(CFILES) $(CPPFILES) $(HFILES)
 	@echo Updating language files ...
 	@touch $(PROJECTDIR)/languages/$(TARGET).pot
 	@xgettext -C -cTRANSLATORS --from-code=utf-8 -F --no-wrap --add-location -ktr -ktrNOOP -o$(PROJECTDIR)/languages/$(TARGET).pot -p $@ $^

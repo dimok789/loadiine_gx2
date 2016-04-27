@@ -34,8 +34,10 @@ public:
     }
 
     static void destroyInstance() {
-        delete settingsInstance;
-        settingsInstance = NULL;
+        if(settingsInstance){
+            delete settingsInstance;
+            settingsInstance = NULL;
+        }
     }
 
     //!Set Default Settings

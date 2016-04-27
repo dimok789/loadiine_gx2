@@ -5,14 +5,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Loadiine GX2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-15 21:58+0200\n"
+"POT-Creation-Date: 2016-04-18 15:13+0200\n"
 "PO-Revision-Date: 2009-10-01 01:00+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: German\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: German\n"
 
 msgid "Loadiine GX2"
 msgstr "Loadiine GX2"
@@ -56,6 +56,21 @@ msgstr "Marionumber1 für seinen Kernel-Exploit"
 msgid "The whole libwiiu team and it's contributors."
 msgstr "Dem ganzen libwiiu Team und allen Mitwirkenden."
 
+msgid "Update Folder"
+msgstr ""
+
+msgid "Save Mode"
+msgstr ""
+
+msgid "Launch Mode"
+msgstr "Spielstart-Methode"
+
+msgid "<Settings Default>"
+msgstr ""
+
+msgid "Saving game settings!"
+msgstr ""
+
 msgid "Off"
 msgstr "Aus"
 
@@ -70,24 +85,6 @@ msgstr "Gitteransicht"
 
 msgid "Cover Carousel"
 msgstr "Coverkarussell"
-
-msgid "Shared Mode"
-msgstr "Gemeisame Spielstände"
-
-msgid "Unique Mode"
-msgstr "Getrennte Spielstände"
-
-msgid "Mii Maker Mode"
-msgstr "Mii Maker Modus"
-
-msgid "Smash Bros Mode"
-msgstr "Smash Bros Modus"
-
-msgid "Karaoke Mode"
-msgstr "Karaoke Modus"
-
-msgid "Art Atelier Mode"
-msgstr "Art Atelier Modus"
 
 msgid "Background customizations"
 msgstr "Hintergrundanpassungen"
@@ -143,9 +140,6 @@ msgstr "Speicherstandordner ändern"
 msgid "Game Save Mode"
 msgstr "Speichermodus"
 
-msgid "Launch Mode"
-msgstr "Spielstart-Methode"
-
 msgid "Log Server Control"
 msgstr "Log-Server Kontrolle"
 
@@ -158,3 +152,20 @@ msgstr ""
 msgid "Padcon"
 msgstr ""
 
+msgid "Shared Mode"
+msgstr "Gemeisame Spielstände"
+
+msgid "Unique Mode"
+msgstr "Getrennte Spielstände"
+
+msgid "Mii Maker Mode"
+msgstr "Mii Maker Modus"
+
+msgid "Smash Bros Mode"
+msgstr "Smash Bros Modus"
+
+msgid "Karaoke Mode"
+msgstr "Karaoke Modus"
+
+msgid "Art Atelier Mode"
+msgstr "Art Atelier Modus"

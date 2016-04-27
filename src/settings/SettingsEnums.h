@@ -11,7 +11,8 @@ enum eGameViewModes
 enum eGameSaveModes
 {
     GAME_SAVES_SHARED,
-    GAME_SAVES_UNIQUE
+    GAME_SAVES_UNIQUE,
+	GAME_SAVES_DEFAULT = 255
 };
 
 enum eOnOff

@@ -35,10 +35,13 @@ class GuiImageAsync : public GuiImage
 		    threadRemoveImage(image);
 		}
 
+		sigslot::signal1<GuiElement *> loaded;
 		static void threadExit();
+
 	private:
 		static void threadInit();
 
+        void imageLoaded();
 		GuiImageData *imgData;
 	    std::string filename;
 	    const u8 *imgBuffer;

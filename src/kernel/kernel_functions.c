@@ -62,8 +62,27 @@ void SetupKernelCallback(void)
 {
     KernelSetupSyscalls();
 }
-
 void KernelSetDBATs(bat_table_t * table)
+{
+    // Seems like it's actually used to access loader+coreinit only. So reduce the range and move it
+    // to 0xC2000000-0xC3000000 to get propper support on lower firmwares.
+    u32 high = 0xC20001FF;
+    u32 low = 0;
+    if (OS_FIRMWARE >= 410){
+        low = 0x32000012;
+    }else if (OS_FIRMWARE == 400){
+        low = 0x4D000012;
+    }
+    KernelSetDBATsInternal(table,high,low);
+}
+
+/* physical_address is the physical address*/
+void KernelSetDBATsForDynamicFuction(bat_table_t * table, unsigned int physical_address)
+{
+    KernelSetDBATsInternal(table,(physical_address & 0xFFFC0000) | 0x0F,(physical_address & 0xFFFC0000) | 0x32);
+}
+
+void KernelSetDBATsInternal(bat_table_t * table, unsigned int high_address, unsigned int low_address)
 {
     SC0x36_KernelReadDBATs(table);
     bat_table_t bat_table_copy = *table;
@@ -81,14 +100,8 @@ void KernelSetDBATs(bat_table_t * table)
             break;
         }
     }
-
-    // Seems like it's actually used to access loader+coreinit only. So reduce the range and move it
-    // to 0xC2000000-0xC3000000 to get propper support on lower firmwares.
-    bat_table_copy.bat[iUse].h = 0xC20001FF;
-    if (OS_FIRMWARE >= 410)
-        bat_table_copy.bat[iUse].l = 0x32000012;
-    else if (OS_FIRMWARE == 400)
-        bat_table_copy.bat[iUse].l = 0x4D000012;
+    bat_table_copy.bat[iUse].h = high_address;
+    bat_table_copy.bat[iUse].l = low_address;
     SC0x37_KernelWriteDBATs(&bat_table_copy);
 }
 

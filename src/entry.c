@@ -1,12 +1,20 @@
 #include <string.h>
 #include "dynamic_libs/os_functions.h"
 #include "dynamic_libs/sys_functions.h"
+#include "dynamic_libs/socket_functions.h"
+#include "dynamic_libs/aoc_functions.h"
+#include "dynamic_libs/gx2_functions.h"
+#include "dynamic_libs/syshid_functions.h"
 #include "patcher/function_hooks.h"
+#include "patcher/cpp_to_c_util.h"
+#include "controller_patcher/controller_patcher.h"
 #include "patcher/pygecko.h"
 #include "common/common.h"
 #include "common/retain_vars.h"
 #include "utils/utils.h"
+#include "utils/logger.h"
 #include "main.h"
+
 
 int __entry_menu(int argc, char **argv)
 {
@@ -14,6 +22,23 @@ int __entry_menu(int argc, char **argv)
     if (GAME_LAUNCHED && gSettingLaunchPyGecko)
     {
         start_pygecko();
+    }
+    InitOSFunctionPointers();
+    InitSocketFunctionPointers();
+
+    log_init("192.168.0.181");
+
+    //!*******************************************************************
+    //!                        Initialize HID Config                     *
+    //!*******************************************************************
+    init_config_controller();
+
+    //!*******************************************************************
+    //!                        Dynamic Patching                          *
+    //!*******************************************************************
+
+    if(GAME_LAUNCHED){
+         PatchMethodHooks();
     }
 
     //! *******************************************************************
@@ -66,6 +91,8 @@ int __entry_menu(int argc, char **argv)
     //! *******************************************************************
     Menu_Main();
 
+    log_init("192.168.0.181");
+
     //! *******************************************************************
     //! *                    Restore EABI registers                       *
     //! *******************************************************************
@@ -94,8 +121,12 @@ int __entry_menu(int argc, char **argv)
         //! *******************************************************************
         return EXIT_RELAUNCH_ON_LOAD;
     }
-
+    draw_Cursor_destroy();
     RestoreInstructions();
+
+    deinit_config_controller();
+
+    log_deinit();
 
     //! *******************************************************************
     //! *                 Jump to homebrew launcher                       *

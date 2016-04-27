@@ -1,3 +1,6 @@
+[submodule "src/controller_patcher"]
+	path = src/controller_patcher
+	url = https://github.com/Maschell/controller_patcher
 [submodule "src/dynamic_libs"]
 	path = src/dynamic_libs
 	url = https://github.com/Maschell/dynamic_libs

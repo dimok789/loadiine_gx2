@@ -5,14 +5,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Loadiine GX2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-15 21:57+0200\n"
+"POT-Creation-Date: 2016-04-18 15:13+0200\n"
 "PO-Revision-Date: 2009-10-01 01:00+0200\n"
 "Last-Translator: kavid by 91wii.com \n"
 "Language-Team: 91wii.com\n"
-"Language: Chinese\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: Chinese\n"
 
 msgid "Loadiine GX2"
 msgstr "Loadiine GX2"
@@ -56,6 +56,21 @@ msgstr "Marionumber1开发的内核破解程序"
 msgid "The whole libwiiu team and it's contributors."
 msgstr "还有libwiiu小组和其他人所做出贡献"
 
+msgid "Update Folder"
+msgstr ""
+
+msgid "Save Mode"
+msgstr ""
+
+msgid "Launch Mode"
+msgstr "运行模式"
+
+msgid "<Settings Default>"
+msgstr ""
+
+msgid "Saving game settings!"
+msgstr ""
+
 msgid "Off"
 msgstr "关闭"
 
@@ -70,24 +85,6 @@ msgstr "网格视图"
 
 msgid "Cover Carousel"
 msgstr "旋转封面模式"
-
-msgid "Shared Mode"
-msgstr "共享模式"
-
-msgid "Unique Mode"
-msgstr "独享模式"
-
-msgid "Mii Maker Mode"
-msgstr "Mii Maker模式"
-
-msgid "Smash Bros Mode"
-msgstr "超级大乱斗模式"
-
-msgid "Karaoke Mode"
-msgstr "卡拉OK模式"
-
-msgid "Art Atelier Mode"
-msgstr "绘心教室模式"
 
 msgid "Background customizations"
 msgstr "自定义背景"
@@ -143,9 +140,6 @@ msgstr "游戏存档路径"
 msgid "Game Save Mode"
 msgstr "游戏存档模式"
 
-msgid "Launch Mode"
-msgstr "运行模式"
-
 msgid "Log Server Control"
 msgstr "日志服务器控制"
 
@@ -157,3 +151,21 @@ msgstr ""
 
 msgid "Padcon"
 msgstr ""
+
+msgid "Shared Mode"
+msgstr "共享模式"
+
+msgid "Unique Mode"
+msgstr "独享模式"
+
+msgid "Mii Maker Mode"
+msgstr "Mii Maker模式"
+
+msgid "Smash Bros Mode"
+msgstr "超级大乱斗模式"
+
+msgid "Karaoke Mode"
+msgstr "卡拉OK模式"
+
+msgid "Art Atelier Mode"
+msgstr "绘心教室模式"

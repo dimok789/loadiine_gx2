@@ -461,6 +461,7 @@ class GuiElement : public AsyncDeleter::Element
             STATE_HELD = 0x04,
             STATE_OVER = 0x08,
             STATE_HIDDEN = 0x10,
+            STATE_DISABLE_INPUT = 0x20,
             STATE_DISABLED = 0x80
         };
 

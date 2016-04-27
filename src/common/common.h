@@ -20,11 +20,34 @@ extern "C" {
 #define RPX_RPL_PATH            "/code"
 #define META_PATH               "/meta"
 
+/* file replacement */
+#define UPDATE_PATH             "/updates"
+#define COMMON_UPDATE_PATH      "<none>"
+#define FILELIST_NAME			"filelist.txt"
+#define DIR_IDENTIFY			"?"  /* maximum length = 1*/
+#define PARENT_DIR_IDENTIFY 	"?.."
+
 /* Macros for libs */
 #define LIB_CORE_INIT           0
 #define LIB_NSYSNET             1
 #define LIB_GX2                 2
-#define LIB_VPAD                3
+#define LIB_AOC                 3
+#define LIB_AX                  4
+#define LIB_FS                  5
+#define LIB_OS                  6
+#define LIB_PADSCORE            7
+#define LIB_SOCKET              8
+#define LIB_SYS                 9
+#define LIB_VPAD                10
+#define LIB_NN_ACP              11
+#define LIB_SYSHID              12
+#define LIB_VPADBASE            13
+
+// functions types
+#define STATIC_FUNCTION         0
+#define DYNAMIC_FUNCTION        1
+
+
 // none dynamic libs
 #define LIB_LOADER              0x1001
 
@@ -33,6 +56,7 @@ extern "C" {
 #define LOADIINE_MODE_SMASH_BROS    1
 #define LOADIINE_MODE_KARAOKE       2
 #define LOADIINE_MODE_ART_ATELIER   3
+#define LOADIINE_MODE_DEFAULT	    255
 
 /* homebrew launcher return codes */
 #ifndef EXIT_SUCCESS
@@ -59,25 +83,15 @@ extern "C" {
 
 #define OS_SPECIFICS            ((OsSpecifics*)(MEM_BASE + 0x1500))
 
-#define RESTORE_INSTR_MAGIC     0xC001C0DE
-#define RESTORE_INSTR_ADDR      ((restore_instructions_t*)(MEM_BASE + 0x1600))
-
-typedef struct _restore_instructions_t {
-    unsigned int magic;
-    unsigned int instr_count;
-    struct {
-        unsigned int addr;
-        unsigned int instr;
-    } data[0];
-} restore_instructions_t;
-
 typedef struct _game_paths_t
 {
     char os_game_path_base[511];
     char os_save_path_base[511];
     char game_dir[255];
+	char update_folder[255];
     char save_dir_common[10];
     char save_dir_user[10];
+    int extraSave;
 } game_paths_t;
 
 #ifdef __cplusplus

@@ -21,10 +21,12 @@
 #include "game/GameList.h"
 #include "game/GameLauncher.h"
 #include "menu/SettingsMenu.h"
+#include "menu/GameLauncherMenu.h"
 #include "gui/GuiGameCarousel.h"
 #include "gui/GuiIconCarousel.h"
 #include "gui/GuiIconGrid.h"
 #include "settings/CSettings.h"
+#include "settings/CSettingsGame.h"
 #include "common/retain_vars.h"
 #include "utils/StringTools.h"
 #include "utils/logger.h"
@@ -248,13 +250,15 @@ void MainWindow::SetupMainView()
     currentTvFrame->gameLaunchClicked.disconnect(this);
     currentDrcFrame->gameLaunchClicked.disconnect(this);
 
-    if(currentTvFrame != currentDrcFrame) // Only connected when they are the same!
+
+    if(currentTvFrame != currentDrcFrame)
     {
         currentTvFrame->gameSelectionChanged.connect(this, &MainWindow::OnGameSelectionChange);
-        currentTvFrame->gameLaunchClicked.connect(this, &MainWindow::OnGameLaunch);
+        currentTvFrame->gameLaunchClicked.connect(this, &MainWindow::OnGameLaunchMenu);
     }
+
     currentDrcFrame->gameSelectionChanged.connect(this, &MainWindow::OnGameSelectionChange);
-    currentDrcFrame->gameLaunchClicked.connect(this, &MainWindow::OnGameLaunch);
+    currentDrcFrame->gameLaunchClicked.connect(this, &MainWindow::OnGameLaunchMenu);
 
     mainSwitchButtonFrame = new MainDrcButtonsFrame(width, height);
     mainSwitchButtonFrame->settingsButtonClicked.connect(this, &MainWindow::OnSettingsButtonClicked);
@@ -363,9 +367,9 @@ void MainWindow::OnLayoutSwitchEffectFinish(GuiElement *element)
     currentDrcFrame->gameLaunchClicked.disconnect(this);
 
     currentTvFrame->gameSelectionChanged.connect(this, &MainWindow::OnGameSelectionChange);
-    currentTvFrame->gameLaunchClicked.connect(this, &MainWindow::OnGameLaunch);
+    currentTvFrame->gameLaunchClicked.connect(this, &MainWindow::OnGameLaunchMenu);
     currentDrcFrame->gameSelectionChanged.connect(this, &MainWindow::OnGameSelectionChange);
-    currentDrcFrame->gameLaunchClicked.connect(this, &MainWindow::OnGameLaunch);
+    currentDrcFrame->gameLaunchClicked.connect(this, &MainWindow::OnGameLaunchMenu);
 
     u8 tmpMode = CSettings::getValueAsU8(CSettings::GameViewModeDrc);
 
@@ -391,19 +395,72 @@ void MainWindow::OnLayoutSwitchClicked(GuiElement *element)
     mainSwitchButtonFrame->setState(GuiElement::STATE_DISABLED);
 }
 
-void MainWindow::OnGameLaunch(GuiGameBrowser *element, int gameIdx)
+void MainWindow::OnGameLaunchMenu(GuiGameBrowser *element, int gameIdx)
 {
-    if (launchingGame)
+    if(GameList::instance()->size() == 0)
+        return;
+    mainSwitchButtonFrame->setState(GuiElement::STATE_DISABLED);
+    currentTvFrame->setState(GuiElement::STATE_DISABLED);
+    if(currentTvFrame != currentDrcFrame)
+    {
+        currentDrcFrame->setState(GuiElement::STATE_DISABLED);
+    }
+
+    GameLauncherMenu * gameSettings = new GameLauncherMenu(this,gameIdx);
+    gameSettings->setEffect(EFFECT_FADE, 10, 255);
+    gameSettings->setState(GuiElement::STATE_DISABLED);
+    gameSettings->effectFinished.connect(this, &MainWindow::OnOpenEffectFinish);
+    gameSettings->gameLauncherMenuQuitClicked.connect(this, &MainWindow::OnGameLaunchMenuFinish);
+    gameSettings->gameLauncherGetHeaderClicked.connect(this, &MainWindow::OnGameLaunchGetHeader);
+    append(gameSettings);
+
+}
+
+void MainWindow::OnGameLaunchGetHeader(GuiElement *element,int gameIdx, int next)
+{
+    if(next == 1){
+        gameIdx += 1;
+    }else if (next == -1){
+        gameIdx -= 1;
+    }
+    if(gameIdx >= GameList::instance()->size()){
+        gameIdx = 0;
+    }else if(gameIdx < 0){
+        gameIdx = GameList::instance()->size() -1;
+    }
+
+    CSettings::setValueAsU16(CSettings::GameStartIndex,gameIdx);
+
+    OnExternalGameSelectionChange(gameIdx);
+    gameLauncherMenuNextClicked(element,gameIdx);
+}
+
+void MainWindow::OnGameLaunchMenuFinish(GuiElement *element,const discHeader *header, bool result)
+{
+    mainSwitchButtonFrame->clearState(GuiElement::STATE_DISABLED);
+    currentTvFrame->clearState(GuiElement::STATE_DISABLED);
+    if(currentTvFrame != currentDrcFrame)
+    {
+        currentDrcFrame->clearState(GuiElement::STATE_DISABLED);
+    }
+    element->setState(GuiElement::STATE_DISABLED);
+    element->setEffect(EFFECT_FADE, -15, 0);
+    element->effectFinished.connect(this, &MainWindow::OnCloseEffectFinish);
+
+    if(result == true){
+        OnGameLaunch(header);
+    }
+}
+
+void MainWindow::OnGameLaunch(const discHeader *gameHdr)
+{
+     if (launchingGame)
         return;
 
     launchingGame = true;
 
-    CSettings::setValueAsU16(CSettings::GameStartIndex,gameIdx);
-
     if(gameClickSound)
         gameClickSound->Play();
-
-    const discHeader *gameHdr = GameList::instance()->at(gameIdx);
 
     log_printf("Loading game %s\n", gameHdr->name.c_str());
 
@@ -416,8 +473,6 @@ void MainWindow::OnGameLaunch(GuiGameBrowser *element, int gameIdx)
 
 void MainWindow::OnGameLoadFinish(GameLauncher * launcher, const discHeader *header, int result)
 {
-    log_printf("game loading result %i\n", result);
-
     if(result == GameLauncher::SUCCESS)
     {
         // Set game launched
@@ -439,7 +494,36 @@ void MainWindow::OnGameLoadFinish(GameLauncher * launcher, const discHeader *hea
         GAME_RPX_LOADED = 0;
         LOADIINE_MODE = CSettings::getValueAsU8(CSettings::GameLaunchMethod);
         gSettingLaunchPyGecko = CSettings::getValueAsU8(CSettings::LaunchPyGecko);
+        gSettingPadconMode= CSettings::getValueAsU8(CSettings::PadconMode);
 
+		GameSettings  gs;
+		bool result = CSettingsGame::getInstance()->LoadGameSettings(header->id,gs);
+		if(result){
+			switch(gs.launch_method){
+				case LOADIINE_MODE_DEFAULT:
+					log_printf("Using launch method from Settings\n");
+					break; //leave it from settings
+				case LOADIINE_MODE_MII_MAKER:
+					log_printf("Using Mii Maker cfg\n");
+					LOADIINE_MODE = LOADIINE_MODE_MII_MAKER;
+					break;
+				case LOADIINE_MODE_SMASH_BROS:
+					log_printf("Using Super Smash Bros cfg\n");
+					LOADIINE_MODE = LOADIINE_MODE_SMASH_BROS;
+					break;
+				case LOADIINE_MODE_KARAOKE:
+					log_printf("Using KARAOKE BY U Joysound cfg\n");
+					LOADIINE_MODE = LOADIINE_MODE_KARAOKE;
+					break;
+				case LOADIINE_MODE_ART_ATELIER:
+					log_printf("Using Art Academy Atelier cfg\n");
+					LOADIINE_MODE = LOADIINE_MODE_ART_ATELIER;
+					break;
+				default:
+					log_printf("No valid value found. Using launch method from settings\n");
+					break;
+			}
+		}
         Application::instance()->quit();
     }
     else {
@@ -466,6 +550,15 @@ void MainWindow::OnGameSelectionChange(GuiGameBrowser *element, int selectedIdx)
         currentTvFrame->setSelectedGame(selectedIdx);
     else if(element == currentTvFrame && currentDrcFrame != currentTvFrame)
         currentDrcFrame->setSelectedGame(selectedIdx);
+}
+
+void MainWindow::OnExternalGameSelectionChange(int selectedIdx)
+{
+    currentTvFrame->setSelectedGame(selectedIdx);
+    if(currentDrcFrame != currentTvFrame)
+    {
+        currentDrcFrame->setSelectedGame(selectedIdx);
+    }
 }
 
 void MainWindow::OnImageDownloadClicked(GuiElement *element)

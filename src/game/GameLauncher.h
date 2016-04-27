@@ -11,6 +11,7 @@
 #include "GameList.h"
 #include "system/CThread.h"
 #include "gui/sigslot.h"
+#include "fs/CFile.hpp"
 
 class GameLauncher : public GuiFrame, public CThread
 {
@@ -47,10 +48,10 @@ private:
     int loadGameToMemory(const discHeader *hdr);
 
     int LoadRpxRplToMem(const std::string & path, const std::string & name, bool isRPX, int entryIndex, std::vector<std::string> & rplImportList);
-    void GetRpxImports(s_rpx_rpl * rpxArray, std::vector<std::string> & rplImports);
+    void GetRpxImportsRecursive(CFile file, std::vector<std::string> & rplImports, std::map<std::string, std::string> & rplNameList);
 
     static void gameLoadCallback(CThread *thread, void *arg);
-
+    bool createFileList(const std::string  & filepath);
     const discHeader *discHdr;
     ProgressWindow progressWindow;
 };

@@ -85,7 +85,7 @@ class GuiButton : public GuiElement
 		//!Constantly called to allow the GuiButton to respond to updated input data
 		//!\param t Pointer to a GuiTrigger, containing the current input data from PAD/WPAD
 		void update(GuiController * c);
-
+	
 		sigslot::signal2<GuiButton *, const GuiController *> selected;
 		sigslot::signal2<GuiButton *, const GuiController *> deSelected;
 		sigslot::signal2<GuiButton *, const GuiController *> pointedOn;
@@ -94,7 +94,7 @@ class GuiButton : public GuiElement
 		sigslot::signal3<GuiButton *, const GuiController *, GuiTrigger *> held;
 		sigslot::signal3<GuiButton *, const GuiController *, GuiTrigger *> released;
 	protected:
-        static const int iMaxGuiTriggers = 7;
+        static const int iMaxGuiTriggers = 10;
 
 		GuiImage * image; //!< Button image (default)
 		GuiImage * imageOver; //!< Button image for STATE_SELECTED
