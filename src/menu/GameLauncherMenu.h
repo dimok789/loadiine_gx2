@@ -20,7 +20,7 @@
 #include "system/CThread.h"
 #include "gui/Gui.h"
 #include "gui/GuiParticleImage.h"
-#include "gui/GuiCheckbox.h"
+#include "gui/GuiCheckBox.h"
 #include "gui/GuiSelectBox.h"
 #include "game/GameList.h"
 #include "menu/MainWindow.h"
