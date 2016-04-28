@@ -16,7 +16,7 @@ sd_loader_elf := ../sd_loader/sd_loader.elf
 CFLAGS += -DUSE_SD_LOADER
 ASFLAGS += -DUSE_SD_LOADER
 
-all: clean setup main532 main550 main500 main410 main400
+all: clean setup main532 main550 main500 main410 main400 main310 main300
 
 sd_loader.h: $(sd_loader_elf)
 	xxd -i $< | sed "s/unsigned/static const unsigned/g;s/loader/loader/g;s/build_//g" > $@

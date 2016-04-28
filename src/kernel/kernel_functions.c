@@ -70,7 +70,7 @@ void KernelSetDBATs(bat_table_t * table)
     u32 low = 0;
     if (OS_FIRMWARE >= 410){
         low = 0x32000012;
-    }else if (OS_FIRMWARE == 400){
+    }else if (OS_FIRMWARE <= 400){
         low = 0x4D000012;
     }
     KernelSetDBATsInternal(table,high,low);

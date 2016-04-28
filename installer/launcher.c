@@ -59,6 +59,15 @@
     #define KERN_SYSCALL_TBL_3                          0xFFE85C90
     #define KERN_SYSCALL_TBL_4                          0xFFE85490
     #define KERN_SYSCALL_TBL_5                          0xFFE85890 // works with browser
+#elif ( (VER == 300) || (VER == 310) )
+    #define ADDRESS_OSTitle_main_entry_ptr              0x1005BBC0
+    #define ADDRESS_main_entry_hook                     0x0101894C // used OSDynLoad_Acquire 0x01022CBC from libwiiu to calculate
+
+    #define KERN_SYSCALL_TBL_1                          0xFFE84D50
+    #define KERN_SYSCALL_TBL_2                          0xFFE85150
+    #define KERN_SYSCALL_TBL_3                          0xFFE85D50 // comes after KERN_SYSCALL_TBL_5
+    #define KERN_SYSCALL_TBL_4                          0xFFE85550
+    #define KERN_SYSCALL_TBL_5                          0xFFE85950
 #else
     #error Please define valid values for firmware.
 #endif // VER
@@ -68,7 +77,7 @@
 #if (VER >= 410)
     #define ROOTRPX_DBAT0L_VAL                          0x30000012
     #define COREINIT_DBAT0L_VAL                         0x32000012
-#elif (VER == 400)
+#elif (VER <= 400)
     #define ROOTRPX_DBAT0L_VAL                          0x4E000012
     #define COREINIT_DBAT0L_VAL                         0x4D000012
 #else

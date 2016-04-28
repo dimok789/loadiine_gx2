@@ -69,7 +69,7 @@ static void KernelCopyData(unsigned int addr, unsigned int src, unsigned int len
             dst_dbatu = 0xC00003FF;
             if (os_firmware >= 410)
                 dst_dbatl = 0x30000012;
-            else if (os_firmware == 400)
+            else
                 dst_dbatl = 0x4E000012;
         }
         else if ((addr >= 0xC2000000) && (addr < 0xC3000000)) // destination address is from coreinit.rpl region
@@ -77,7 +77,7 @@ static void KernelCopyData(unsigned int addr, unsigned int src, unsigned int len
             dst_dbatu = 0xC20001FF;
             if (os_firmware >= 410)
                 dst_dbatl = 0x32000012;
-            else if (os_firmware == 400)
+            else
                 dst_dbatl = 0x4D000012;
         }
         if ((src >= 0xB8000000) && (src < 0xC0000000)) // source address is from home menu region
@@ -90,7 +90,7 @@ static void KernelCopyData(unsigned int addr, unsigned int src, unsigned int len
             src_dbatu = 0xC00003FF;
             if (os_firmware >= 410)
                 src_dbatl = 0x30000012;
-            else if (os_firmware == 400)
+            else
                 src_dbatl = 0x4E000012;
         }
         else if ((src >= 0xC2000000) && (src < 0xC3000000)) // source address is from coreinit.rpl region
@@ -98,7 +98,7 @@ static void KernelCopyData(unsigned int addr, unsigned int src, unsigned int len
             src_dbatu = 0xC20001FF;
             if (os_firmware >= 410)
                 src_dbatl = 0x32000012;
-            else if (os_firmware == 400)
+            else
                 src_dbatl = 0x4D000012;
         }
         asm volatile("mtdbatu 0, %0" : : "r" (dst_dbatu));

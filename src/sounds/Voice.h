@@ -86,7 +86,9 @@ public:
         voiceBuffer.loop_offset = ((nextBuffer - buffer) >> 1);
         nextBufferSize = nextBufSize;
 
-        ratioBits[0] = (u32)(0x00010000 * ((f32)sampleRate / (f32)AXGetInputSamplesPerSec()));
+        u32 samplesPerSec = (AXGetInputSamplesPerSec != 0) ? AXGetInputSamplesPerSec() : 32000;
+
+        ratioBits[0] = (u32)(0x00010000 * ((f32)sampleRate / (f32)samplesPerSec));
         ratioBits[1] = 0;
         ratioBits[2] = 0;
         ratioBits[3] = 0;

@@ -996,6 +996,22 @@ DECL(int, OSDynLoad_Acquire, char* rpl, unsigned int *handle, int r5 __attribute
     return result;
 }
 
+
+static struct {
+    unsigned int fileType;
+    unsigned int sgBufferNumber;
+    unsigned int sgFileOffset;
+} loaderGlobals3XX;
+
+DECL(int, LiBounceOneChunk, const char * filename, int fileType, int procId, int * hunkBytes, int fileOffset, int bufferNumber, int * dst_address)
+{
+    loaderGlobals3XX.fileType = fileType;
+    loaderGlobals3XX.sgBufferNumber = bufferNumber;
+    loaderGlobals3XX.sgFileOffset = fileOffset;
+
+    return real_LiBounceOneChunk(filename, fileType, procId, hunkBytes, fileOffset, bufferNumber, dst_address);
+}
+
 // This function is called every time after LiBounceOneChunk.
 // It waits for the asynchronous call of LiLoadAsync for the IOSU to fill data to the RPX/RPL address
 // and return the still remaining bytes to load.
@@ -1014,11 +1030,11 @@ DECL(int, LiWaitOneChunk, unsigned int * iRemainingBytes, const char *filename, 
     int *sgIsLoadingBuffer;
     int *sgFinishedLoadingBuffer;
 
-    // get the offset of per core global variable for dynload initialized (just a simple address + (core_id * 4))
-    unsigned int gDynloadInitialized;
-
     // get the current core
     asm volatile("mfspr %0, 0x3EF" : "=r" (core_id));
+
+    // get the offset of per core global variable for dynload initialized (just a simple address + (core_id * 4))
+    unsigned int gDynloadInitialized = *(volatile unsigned int*)(addr_gDynloadInitialized + (core_id << 2));
 
     // Comment (Dimok):
     // time measurement at this position for logger  -> we don't need it right now except maybe for debugging
@@ -1029,7 +1045,6 @@ DECL(int, LiWaitOneChunk, unsigned int * iRemainingBytes, const char *filename, 
         // pointer to global variables of the loader
         loader_globals_550_t *loader_globals = (loader_globals_550_t*)(0xEFE19E80);
 
-        gDynloadInitialized = *(volatile unsigned int*)(0xEFE13DBC + (core_id << 2));
         sgBufferNumber = loader_globals->sgBufferNumber;
         sgFileOffset = loader_globals->sgFileOffset;
         sgBounceError = &loader_globals->sgBounceError;
@@ -1039,12 +1054,24 @@ DECL(int, LiWaitOneChunk, unsigned int * iRemainingBytes, const char *filename, 
         // not available on 5.5.x
         sgIsLoadingBuffer = NULL;
     }
+    else if(OS_FIRMWARE < 400)
+    {
+        sgBufferNumber = loaderGlobals3XX.sgBufferNumber;
+        sgFileOffset = loaderGlobals3XX.sgFileOffset;
+        fileType = loaderGlobals3XX.fileType;   // fileType is actually not passed to this function on < 400
+        sgIsLoadingBuffer = (int *)addr_sgIsLoadingBuffer;
+
+        // not available on < 400
+        sgBounceError = NULL;
+        sgGotBytes = NULL;
+        sgTotalBytes = NULL;
+        sgFinishedLoadingBuffer = NULL;
+    }
     else
     {
         // pointer to global variables of the loader
         loader_globals_t *loader_globals = (loader_globals_t*)(addr_sgIsLoadingBuffer);
 
-        gDynloadInitialized = *(volatile unsigned int*)(addr_gDynloadInitialized + (core_id << 2));
         sgBufferNumber = loader_globals->sgBufferNumber;
         sgFileOffset = loader_globals->sgFileOffset;
         sgBounceError = &loader_globals->sgBounceError;
@@ -1134,16 +1161,18 @@ DECL(int, LiWaitOneChunk, unsigned int * iRemainingBytes, const char *filename, 
     //------------------------------------------------------------------------------------------------------------------
 
     // set the result to the global bounce error variable
-    *sgBounceError = result;
+    if(sgBounceError) {
+        *sgBounceError = result;
+    }
 
     // disable global flag that buffer is still loaded by IOSU
-	if(OS_FIRMWARE == 550)
+	if(sgFinishedLoadingBuffer)
     {
         unsigned int zeroBitCount = 0;
         asm volatile("cntlzw %0, %0" : "=r" (zeroBitCount) : "r"(*sgFinishedLoadingBuffer));
         *sgFinishedLoadingBuffer = zeroBitCount >> 5;
     }
-    else
+    else if(sgIsLoadingBuffer)
     {
         *sgIsLoadingBuffer = 0;
     }
@@ -1153,10 +1182,14 @@ DECL(int, LiWaitOneChunk, unsigned int * iRemainingBytes, const char *filename, 
         // the remaining size is set globally and in stack variable only
         // if a pointer was passed to this function
         if(iRemainingBytes) {
-            *sgGotBytes = remaining_bytes;
+            if(sgGotBytes) {
+                *sgGotBytes = remaining_bytes;
+            }
+
             *iRemainingBytes = remaining_bytes;
+
             // on 5.5.x a new variable for total loaded bytes was added
-            if(sgTotalBytes != NULL) {
+            if(sgTotalBytes) {
                 *sgTotalBytes += remaining_bytes;
             }
         }
@@ -1368,6 +1401,7 @@ static struct hooks_magic_t {
 
     // LOADER function
     MAKE_MAGIC(LiWaitOneChunk,              LIB_LOADER,STATIC_FUNCTION),
+    MAKE_MAGIC(LiBounceOneChunk,            LIB_LOADER,STATIC_FUNCTION),
 
     // Dynamic RPL loading functions
     MAKE_MAGIC(OSDynLoad_Acquire,           LIB_CORE_INIT,STATIC_FUNCTION),
@@ -1576,7 +1610,17 @@ unsigned int GetAddressOfFunction(const char * functionName,unsigned int library
     }
     else if(strcmp(functionName, "LiWaitOneChunk") == 0)
     {
-        memcpy(&real_addr, &addr_LiWaitOneChunk, 4);
+        real_addr = addr_LiWaitOneChunk;
+        return real_addr;
+    }
+    else if(strcmp(functionName, "LiBounceOneChunk") == 0)
+    {
+        //! not required on firmwares above 3.1.0
+        if(OS_FIRMWARE >= 400)
+            return 0;
+
+        unsigned int addr_LiBounceOneChunk = 0x010003A0;
+        real_addr = addr_LiBounceOneChunk;
         return real_addr;
     }
 
@@ -1709,6 +1753,16 @@ void PatchSDK(void){
         ICInvalidateRange((void*)(0x01008DAC), 4);
         DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x01008E50), 4);
         ICInvalidateRange((void*)(0x01008E50), 4);
+    }
+    else if (OS_FIRMWARE < 400)
+    {
+        /* Patch to bypass SDK version tests */
+        *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x010067A8)) = 0x48000088;
+        *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x01006834)) = 0x480000b8;
+        DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x010067A8), 4);
+        ICInvalidateRange((void*)(0x010067A8), 4);
+        DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x01006834), 4);
+        ICInvalidateRange((void*)(0x01006834), 4);
     }
 	else if (OS_FIRMWARE == 550)
     {
