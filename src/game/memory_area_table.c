@@ -26,6 +26,20 @@ typedef struct _memory_values_t
     unsigned int end_address;
 } memory_values_t;
 
+static const memory_values_t mem_vals_400[] =
+{
+    { 0xBE573BFC, 0xBFF8F83C }, // 26735 kB
+    { 0xBD86D318, 0xBDFFFFFC }, // 7755 kB
+    { 0xBCE59830, 0xBD3794D8 }, // 5247 kB
+    { 0xBD3795AC, 0xBD854300 }, // 4971 kB
+    { 0xB8FEC800, 0xB93B29D0 }, // 3864 kB
+    { 0xB9BC200C, 0xB9D79B94 }, // 1758 kB
+    { 0xBA517A68, 0xBA6794B8 }, // 1414 kB
+    { 0XB88C1D80, 0XB8A69FA0 }, // 1696 kB
+    
+    { 0, 0 }
+};
+
 static const memory_values_t mem_vals_410[] =
 {
 //        { 0xB8041760, 0xB8049D0C } // 33 kB
@@ -1872,6 +1886,10 @@ void memoryInitAreaTable()
 
     switch(OS_FIRMWARE)
     {
+    case 400: {
+        mem_vals = mem_vals_400;
+        break;
+    }
     case 500: {
         mem_vals = mem_vals_500;
         break;
