@@ -4,7 +4,7 @@
 class Directory
 {
    public:
-		Directory(int socket_,std::string name);
+		Directory(std::string name);
 		~Directory();
 		void addFile(std::string name_);
 		void addFolder(Directory * dir);
@@ -21,6 +21,5 @@ class Directory
 		std::string name;
 		std::vector<std::string> files;
 		std::vector<Directory*> folder;
-		int socket;
 		Directory * parent = NULL;
 };

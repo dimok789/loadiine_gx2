@@ -4,13 +4,12 @@
 
 extern "C" {
   // Get declaration for f(int i, char c, float x)
-  #include "patcher/fs_logger.h" 
+  #include "utils/logger.h" 
   #include "common/common.h"
 }
 
-Directory::Directory(int socket_,std::string name_){
+Directory::Directory(std::string name_){
 	name = name_;
-	socket = socket_;
 }
 
 Directory::~Directory(){
@@ -34,7 +33,6 @@ int Directory::getSize()
 	char log_size[100];
 	size += dir_size +file_size + folder_size;
 	sprintf(log_size,"Size of %s: %d Bytes | Dirsize: %d | Folder %d(%d Bytes) Files: %d (%d Bytes)",getFolderName().c_str(),size,dir_size,folder.size(),folder_size,files.size(),file_size);
-	//fs_log_string(socket, log_size, BYTE_LOG_STR);
 	return size;
 }
 
@@ -109,8 +107,7 @@ void Directory::printFolderRecursive(std::string base){
 	}		
 	
 	for(unsigned int i = 0; i < files.size(); i++){
-		std::string logstring = base + std::string("/") + files[i];
-		fs_log_string(socket, logstring.c_str(), BYTE_LOG_STR); ;
+		log_printf("%s/%s",base.c_str(),files[i].c_str()); ;
 	}
 }
 

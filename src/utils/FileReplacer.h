@@ -20,6 +20,5 @@ class FileReplacer
 	  int getSize();
 	  std::string getFileListAsString();
 	private:
-	  int socket;
 	  Directory * dir_all;
 };
