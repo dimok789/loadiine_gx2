@@ -44,37 +44,46 @@ static const struct
     const char *name;
     const char *icon;
     const char *iconGlow;
+	const char *imageTitle;
     const char *descriptions;
 }
 stSettingsCategories[] =
 {
-    { trNOOP("GUI"),     "guiSettingsIcon.png",    "guiSettingsIconGlow.png",    trNOOP("Game View Selection") "\n" trNOOP("Background customizations") },
-    { trNOOP("Loader"),  "loaderSettingsIcon.png", "loaderSettingsIconGlow.png", trNOOP("Customize games path") "\n" trNOOP("Customize save path") "\n" trNOOP("Set save mode") },
-    { trNOOP("Game"),    "gameSettingsIcon.png",   "gameSettingsIconGlow.png",   trNOOP("Launch method selection") "\n" trNOOP("Log server control") "\n" trNOOP("Adjust log server IP and port") },
-    { trNOOP("Credits"), "creditsIcon.png",        "creditsIconGlow.png",        trNOOP("Credits to all contributors") }
+    { trNOOP("GUI"),     "guiSettingsIcon.png",    "guiSettingsIconGlow.png", "settingsTitleGUI.png",       	trNOOP("Game View Selection") "\n"     trNOOP("Background customizations") },
+    { trNOOP("Loader"),  "loaderSettingsIcon.png", "loaderSettingsIconGlow.png", "settingsTitleLoader.png", 	trNOOP("Customize games path") "\n"    trNOOP("Customize save path") "\n"  trNOOP("Set save mode") },
+    { trNOOP("Game"),    "gameSettingsIcon.png",   "gameSettingsIconGlow.png", "settingsTitleGame.png",         trNOOP("Launch method selection") "\n" trNOOP("Log server control") "\n"   trNOOP("Adjust log server IP and port") "\n" trNOOP("Read and write memory") "\n" trNOOP("Turn off the screen Gamepad") },
+	{ trNOOP("Languages"), "languageSettingsIcon.png", "languageSettingsIcon.png", "settingsTitleLanguage.png", trNOOP("Download languages") "\n"      trNOOP("Select language") },
+    { trNOOP("Credits"), "creditsIcon.png",        "creditsIconGlow.png", "settingsTitleCredits.png",       	trNOOP("Credits to all contributors") }
 };
 
 static const SettingType GuiSettings[] =
 {
-    { trNOOP("Game View TV"), ValueGameViewMode, Type3Buttons, CSettings::GameViewModeTv },
-    { trNOOP("Game View DRC"), ValueGameViewMode, Type3Buttons, CSettings::GameViewModeDrc }
+    { trNOOP("Game View TV"), ValueGameViewMode, "guiTVIcon.png", "guiTVIconGlow.png", Type3Buttons, CSettings::GameViewModeTv },
+    { trNOOP("Game View DRC"), ValueGameViewMode, "guiDRCIcon.png", "guiDRCIconGlow.png", Type3Buttons, CSettings::GameViewModeDrc }
 };
 
 static const SettingType LoaderSettings[] =
 {
-    { trNOOP("Game Path"), 0, TypeDisplayOnly, CSettings::GamePath },
-    { trNOOP("Game Save Path"), 0, TypeDisplayOnly, CSettings::GameSavePath },
-    { trNOOP("Game Save Mode"), ValueGameSaveModes, Type2Buttons, CSettings::GameSaveMode }
+    { trNOOP("Game Path"), 0, "pathGameIcon.png", "pathGameIconGlow.png", TypeDisplayOnly, CSettings::GamePath },
+    { trNOOP("Game Save Path"), 0, "pathSaveIcon.png", "pathSaveIconGlow.png", TypeDisplayOnly, CSettings::GameSavePath },
+    { trNOOP("Game Save Mode"), ValueGameSaveModes, "modoSaveIcon.png", "modoSaveIconGlow.png", Type2Buttons, CSettings::GameSaveMode }
 };
 
 static const SettingType GameSettings[] =
 {
-    { trNOOP("Launch Mode"), ValueLaunchMode, Type4Buttons, CSettings::GameLaunchMethod },
-    { trNOOP("Log Server Control"), ValueOnOff, Type2Buttons, CSettings::GameLogServer },
-    { trNOOP("Log Server IP"), 0, TypeIP, CSettings::GameLogServerIp },
-    { trNOOP("PyGecko"), ValueOnOff, Type2Buttons, CSettings::LaunchPyGecko },
-    { trNOOP("Padcon"), ValueOnOff, Type2Buttons, CSettings::PadconMode }
+    { trNOOP("Launch Mode"), ValueLaunchMode, "gameModeLoad.png", "gameModeLoadGlow.png", Type4Buttons, CSettings::GameLaunchMethod },
+    { trNOOP("Log Server Control"), ValueOnOff, "gameLoadLog.png", "gameLoadLogGlow.png", Type2Buttons, CSettings::GameLogServer },
+    { trNOOP("Log Server IP"), 0, "gameSettingsIP.png", "gameSettingsIP.png", TypeIP, CSettings::GameLogServerIp },
+    { trNOOP("Load PyGecko"), ValueOnOff, "gamePyGeckoLoad.png", "gamePyGeckoLoadGlow.png", Type2Buttons, CSettings::LaunchPyGecko },
+    { trNOOP("Enable Padcon"), ValueOnOff, "gamePadconIcon.png", "gamePadconIconGlow.png", Type2Buttons, CSettings::PadconMode }
 };
+
+static const SettingType LanguagesSettings[] =
+{
+    { trNOOP("Download"), 0, "downloadLanguageIcon.png", "downloadLanguageIconGlow.png", TypeDownloadLanguage, CSettings::LanguagesPath },
+    { trNOOP("Languages"), 0, "flagsLanguageIcon.png", "flagsLanguageIconGlow.png", TypeSelectLanguage, CSettings::AppLanguage }
+};
+
 
 SettingsMenu::SettingsMenu(int w, int h)
     : GuiFrame(w, h)
@@ -84,6 +93,7 @@ SettingsMenu::SettingsMenu(int w, int h)
     , quitImageData(Resources::GetImageData("quitButton.png"))
     , categoryImageData(Resources::GetImageData("settingsCategoryButton.png"))
     , categoryBgImageData(Resources::GetImageData("settingsCategoryBg.png"))
+	, arrowImageData(Resources::GetImageData("settingsIconArrow.png"))
     , quitImage(quitImageData)
     , quitButton(quitImage.getWidth(), quitImage.getHeight())
     , touchTrigger(GuiTrigger::CHANNEL_1, GuiTrigger::VPAD_TOUCH)
@@ -138,7 +148,7 @@ SettingsMenu::SettingsMenu(int w, int h)
         category.categoryIconData = Resources::GetImageData(stSettingsCategories[idx].icon);
         category.categoryIconGlowData = Resources::GetImageData(stSettingsCategories[idx].iconGlow);
 
-        category.categoryLabel = new GuiText(tr(stSettingsCategories[idx].name), 46, glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));
+        category.categoryLabel = new GuiText(tr(stSettingsCategories[idx].name), 44, glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));
         category.categoryLabel->setPosition(0, -120);
 
         category.categoryBgImage = new GuiImage(categoryBgImageData);
@@ -167,14 +177,54 @@ SettingsMenu::SettingsMenu(int w, int h)
         category.categoryButton->setParent(category.categoryBgImage);
         category.categoryBgImage->setPosition(currentPosition + (category.categoryBgImage->getWidth() + 40) * idx, 0);
 
+		int line = 0;
+		
         for(u32 n = 0; n < splitDescriptions.size(); n++)
         {
-            GuiText * descr = new GuiText(tr(splitDescriptions[n].c_str()), 46, glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));
-            descr->setAlignment(ALIGN_MIDDLE | ALIGN_LEFT);
-            descr->setPosition(category.categoryBgImage->getWidth() * 0.5f - 50.0f, category.categoryBgImage->getHeight() * 0.5f - 100.0f - n * 60.0f);
-            categorySelectionFrame.append(descr);
-            descr->setParent(category.categoryBgImage);
-            category.descriptions.push_back(descr);
+
+			switch(splitDescriptions.size())
+				{
+				default: //! max 5 descriptions with new line
+					break;
+
+				case 1: {
+					line = category.categoryBgImage->getHeight() * 0.5f - 220.0f - n * 60.0f;
+					break;
+				}
+				case 2: {
+					line = category.categoryBgImage->getHeight() * 0.5f - 140.0f - (n * 3.0f) * 60.0f;
+					break;
+				}
+				case 3: {
+					line = category.categoryBgImage->getHeight() * 0.5f - 120.0f - (n * 2.0f) * 60.0f;
+					break;
+				}
+				case 4: {
+					line = category.categoryBgImage->getHeight() * 0.5f - 100.0f - (n * 1.5f) * 60.0f;
+					break;
+				}
+				case 5: {
+					line = category.categoryBgImage->getHeight() * 0.5f - 50.0f - (n * 1.5f) * 60.0f;
+					break;
+				}
+			}
+			
+			category.categoryArrowImage = new GuiImage(arrowImageData);
+            category.categoryArrowImage->setAlignment(ALIGN_MIDDLE | ALIGN_LEFT);
+			category.categoryArrowImage->setPosition(category.categoryBgImage->getWidth() * 0.5f - 80.0f, line + 4);
+		    categorySelectionFrame.append(category.categoryArrowImage);
+			category.categoryArrowImage->setParent(category.categoryBgImage);
+			
+            if(splitDescriptions.size() <= 5) 
+			{
+				GuiText * descr = new GuiText(tr(splitDescriptions[n].c_str()), 42, glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));
+				descr->setAlignment(ALIGN_MIDDLE | ALIGN_LEFT);
+				descr->setMaxWidth(category.categoryBgImage->getWidth() * 0.5f, GuiText::WRAP);
+				descr->setPosition(category.categoryBgImage->getWidth() * 0.5f - 50.0f, line);
+				categorySelectionFrame.append(descr);
+				descr->setParent(category.categoryBgImage);
+				category.descriptions.push_back(descr);
+			}
         }
 
         GuiImage *smallIconOver = new GuiImage(category.categoryIconGlowData);
@@ -216,6 +266,8 @@ SettingsMenu::SettingsMenu(int w, int h)
     rightArrowButton.clicked.connect(this, &SettingsMenu::OnCategoryRightClick);
     categorySelectionFrame.append(&rightArrowButton);
 
+
+
     DPADButtons.setTrigger(&buttonATrigger);
     DPADButtons.setTrigger(&buttonBTrigger);
     DPADButtons.setTrigger(&buttonLTrigger);
@@ -244,7 +296,7 @@ SettingsMenu::~SettingsMenu()
         delete settingsCategories[i].categoryIconGlow;
         delete settingsCategories[i].categoryButton;
 
-        for(u32 n = 0; n < settingsCategories[i].descriptions.size(); n++)
+        for(u32 n = 0; n < settingsCategories[i].descriptions.size() && n <=5; n++)
             delete settingsCategories[i].descriptions[n];
 
         Resources::RemoveImageData(settingsCategories[i].categoryIconData);
@@ -257,6 +309,7 @@ SettingsMenu::~SettingsMenu()
     Resources::RemoveImageData(quitImageData);
     Resources::RemoveImageData(categoryImageData);
     Resources::RemoveImageData(categoryBgImageData);
+	Resources::RemoveImageData(arrowImageData);
     Resources::RemoveImageData(leftArrowImageData);
     Resources::RemoveImageData(rightArrowImageData);
     Resources::RemoveSound(buttonClickSound);
@@ -360,9 +413,13 @@ void SettingsMenu::OnCategoryClick(GuiButton *button, const GuiController *contr
             categorySettings = GameSettings;
             categorySettingsCount = sizeof(GameSettings) / sizeof(SettingType);
             break;
-        case 3:
+		case 3:
+            categorySettings = LanguagesSettings;
+            categorySettingsCount = sizeof(LanguagesSettings) / sizeof(SettingType);
+            break;
+        case 4:
         {
-            CreditsMenu * menu = new CreditsMenu(getWidth(), getHeight(), tr(stSettingsCategories[indexClicked].name));
+            CreditsMenu * menu = new CreditsMenu(getWidth(), getHeight(), tr(stSettingsCategories[indexClicked].name), stSettingsCategories[indexClicked].imageTitle);
             menu->setEffect(EFFECT_FADE, 10, 255);
             menu->setState(STATE_DISABLED);
             menu->effectFinished.connect(this, &SettingsMenu::OnSubMenuOpenEffectFinish);
@@ -381,7 +438,7 @@ void SettingsMenu::OnCategoryClick(GuiButton *button, const GuiController *contr
             return;
         }
 
-        SettingsCategoryMenu *menu = new SettingsCategoryMenu(getWidth(), getHeight(), tr(stSettingsCategories[indexClicked].name), categorySettings, categorySettingsCount);
+        SettingsCategoryMenu *menu = new SettingsCategoryMenu(getWidth(), getHeight(), tr(stSettingsCategories[indexClicked].name), stSettingsCategories[indexClicked].imageTitle, categorySettings, categorySettingsCount);
         menu->setEffect(EFFECT_FADE, 10, 255);
         menu->setState(STATE_DISABLED);
         menu->effectFinished.connect(this, &SettingsMenu::OnSubMenuOpenEffectFinish);

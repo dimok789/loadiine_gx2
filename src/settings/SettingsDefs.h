@@ -24,7 +24,8 @@ enum SettingTypes
     Type3Buttons,
     Type4Buttons,
     TypeIP,
-    TypeList,
+	TypeDownloadLanguage,
+    TypeSelectLanguage
 };
 
 typedef struct
@@ -37,6 +38,8 @@ typedef struct
 {
     const char *name;
     const ValueString *valueStrings;
+	const char *icon;
+	const char *iconGlow;
     int type;
     int index;
 } SettingType;

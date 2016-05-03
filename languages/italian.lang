@@ -140,17 +140,14 @@ msgstr "Percorso Slavataggio"
 msgid "Game Save Mode"
 msgstr "Modalità Salvataggio"
 
+msgid "Launch Mode"
+msgstr "Modalità di Avvio"
+
 msgid "Log Server Control"
 msgstr "Log Controllo Server"
 
 msgid "Log Server IP"
 msgstr "Log IP Server"
-
-msgid "PyGecko"
-msgstr ""
-
-msgid "Padcon"
-msgstr ""
 
 msgid "Shared Mode"
 msgstr "Modalità Condivisa"
@@ -169,3 +166,54 @@ msgstr "Modalità Karaoke"
 
 msgid "Art Atelier Mode"
 msgstr "Modalità Art Atelier"
+
+msgid "Read and write memory"
+msgstr ""
+
+msgid "Turn off the screen Gamepad"
+msgstr ""
+
+msgid "Load PyGecko"
+msgstr ""
+
+msgid "Enable Padcon"
+msgstr ""
+
+msgid "Default"
+msgstr ""
+
+msgid "Download languages"
+msgstr ""
+
+msgid "Select language"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "Languages"
+msgstr ""
+
+msgid "Brazilian"
+msgstr ""
+
+msgid "English"
+msgstr ""
+
+msgid "Chinese"
+msgstr ""
+
+msgid "French"
+msgstr ""
+
+msgid "German"
+msgstr ""
+
+msgid "Italian"
+msgstr ""
+
+msgid "Spanish"
+msgstr ""
+
+msgid "Swedish"
+msgstr ""

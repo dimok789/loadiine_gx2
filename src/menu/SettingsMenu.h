@@ -39,7 +39,6 @@ static const ValueString ValueLaunchMode[] =
 
 class SettingsMenu : public GuiFrame, public sigslot::has_slots<>
 {
-
 public:
     SettingsMenu(int w, int h);
     virtual ~SettingsMenu();
@@ -75,7 +74,7 @@ private:
     GuiImageData *quitImageData;
     GuiImageData *categoryImageData;
     GuiImageData *categoryBgImageData;
-
+	GuiImageData *arrowImageData;
 
     GuiImage quitImage;
 
@@ -88,6 +87,7 @@ private:
         GuiImage *categoryIconGlow;
         GuiImage *categoryImages;
         GuiImage *categoryBgImage;
+		GuiImage *categoryArrowImage;
         GuiButton *categoryButton;
         std::vector<GuiText *> descriptions;
     } GuiSettingsCategory;
@@ -117,6 +117,8 @@ private:
     GuiButton leftArrowButton;
     GuiButton rightArrowButton;
     GuiButton DPADButtons;
+
+
 
     int selectedCategory;
     int currentPosition;

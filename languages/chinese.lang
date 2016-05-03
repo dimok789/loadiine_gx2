@@ -146,12 +146,6 @@ msgstr "日志服务器控制"
 msgid "Log Server IP"
 msgstr "日志服务器IP"
 
-msgid "PyGecko"
-msgstr ""
-
-msgid "Padcon"
-msgstr ""
-
 msgid "Shared Mode"
 msgstr "共享模式"
 
@@ -169,3 +163,54 @@ msgstr "卡拉OK模式"
 
 msgid "Art Atelier Mode"
 msgstr "绘心教室模式"
+
+msgid "Read and write memory"
+msgstr ""
+
+msgid "Turn off the screen Gamepad"
+msgstr ""
+
+msgid "Load PyGecko"
+msgstr ""
+
+msgid "Enable Padcon"
+msgstr ""
+
+msgid "Default"
+msgstr ""
+
+msgid "Download languages"
+msgstr ""
+
+msgid "Select language"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "Languages"
+msgstr ""
+
+msgid "Brazilian"
+msgstr ""
+
+msgid "English"
+msgstr ""
+
+msgid "Chinese"
+msgstr ""
+
+msgid "French"
+msgstr ""
+
+msgid "German"
+msgstr ""
+
+msgid "Italian"
+msgstr ""
+
+msgid "Spanish"
+msgstr ""
+
+msgid "Swedish"
+msgstr ""
