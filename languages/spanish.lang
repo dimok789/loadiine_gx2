@@ -66,16 +66,16 @@ msgid "Launch Mode"
 msgstr "Modo de Carga"
 
 msgid "<Settings Default>"
-msgstr "<Ajustes por Defecto>"
+msgstr "<Ajustes por defecto>"
 
 msgid "Saving game settings!"
-msgstr "Guardando ajustes del juego!"
+msgstr "¡Guardando ajustes del juego!"
 
 msgid "Off"
-msgstr "Apagado"
+msgstr "Desactivado"
 
 msgid "On"
-msgstr "Encendido"
+msgstr "Activado"
 
 msgid "Icon Carousel"
 msgstr "Carrusel de Iconos"
@@ -146,12 +146,6 @@ msgstr "Control de Registros"
 msgid "Log Server IP"
 msgstr "IP del Servidor"
 
-msgid "PyGecko"
-msgstr ""
-
-msgid "Padcon"
-msgstr ""
-
 msgid "Shared Mode"
 msgstr "Modo Compartido"
 
@@ -169,3 +163,57 @@ msgstr "Modo Karaoke"
 
 msgid "Art Atelier Mode"
 msgstr "Modo Art Atelier"
+
+msgid "Read and write memory"
+msgstr "Leer y escribir en la memoria"
+
+msgid "Turn off the screen Gamepad"
+msgstr "Apagar la pantalla del Gamepad"
+
+msgid "Load PyGecko"
+msgstr "Cargar PyGecko"
+
+msgid "Enable Padcon"
+msgstr "Activar Padcon"
+
+msgid "Default"
+msgstr ""
+
+msgid "Download languages"
+msgstr "Descargar idiomas"
+
+msgid "Select language"
+msgstr "Seleccionar idioma"
+
+msgid "Download"
+msgstr "Descargar"
+
+msgid "Languages"
+msgstr "Idiomas"
+
+msgid "Default"
+msgstr "Por Defecto"
+
+msgid "Brazilian"
+msgstr "Brasileño"
+
+msgid "English"
+msgstr "Ingles"
+
+msgid "Chinese"
+msgstr "Chino"
+
+msgid "French"
+msgstr "Frances"
+
+msgid "German"
+msgstr "Alemán"
+
+msgid "Italian"
+msgstr "Italiano"
+
+msgid "Spanish"
+msgstr "Español"
+
+msgid "Swedish"
+msgstr "Sueco"

@@ -17,14 +17,14 @@
 #include "CreditsMenu.h"
 #include "Application.h"
 
-CreditsMenu::CreditsMenu(int w, int h, const std::string & title)
+CreditsMenu::CreditsMenu(int w, int h, const std::string & title, const char *nameTitleImage)
     : GuiFrame(w, h)
     , creditsMusic(Resources::GetSound("credits_music.ogg"))
     , buttonClickSound(Resources::GetSound("settings_click_2.mp3"))
     , backImageData(Resources::GetImageData("backButton.png"))
     , backImage(backImageData)
     , backButton(backImage.getWidth(), backImage.getHeight())
-    , titleImageData(Resources::GetImageData("settingsTitle.png"))
+    , titleImageData(Resources::GetImageData(nameTitleImage))
     , titleImage(titleImageData)
     , touchTrigger(GuiTrigger::CHANNEL_1, GuiTrigger::VPAD_TOUCH)
     , wpadTouchTrigger(GuiTrigger::CHANNEL_2 | GuiTrigger::CHANNEL_3 | GuiTrigger::CHANNEL_4 | GuiTrigger::CHANNEL_5, GuiTrigger::BUTTON_A)
