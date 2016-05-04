@@ -136,9 +136,9 @@ void DirList::AddEntrie(const std::string &filepath, const char * filename, bool
 	if(!filename)
 		return;
 
-    // Don't list hidden OS X files
-    if(filename[0] == '.' && filename[1] == '_')
-        return;
+	// Don't list hidden OS X files
+	if(filename[0] == '.' && filename[1] == '_')
+		return;
 
 	int pos = FileInfo.size();
 
