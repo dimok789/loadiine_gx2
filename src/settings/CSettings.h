@@ -80,6 +80,7 @@ public:
         BgMusicPath,
         GameCover3DPath,
         ConsoleRegionCode,
+		LanguagesPath,
 		AppLanguage,
         DebugLoggerIP,
         GameStartIndex,
