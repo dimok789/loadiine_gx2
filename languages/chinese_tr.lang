@@ -1,18 +1,18 @@
-﻿# Loadiine GX2 language source file.
+# Loadiine GX2 language source file.
 # chinese.lang - v0.32
 # don't delete/change this line (é).
 msgid ""
 msgstr ""
 "Project-Id-Version: Loadiine GX2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-29 15:13+0200\n"
+"POT-Creation-Date: 2016-05-05 01:09+0200\n"
 "PO-Revision-Date: 2009-10-01 01:00+0200\n"
 "Last-Translator: kavid by 91wii.com \n"
 "Language-Team: 91wii.com\n"
+"Language: Chinese\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: Chinese\n"
 
 msgid "Loadiine GX2"
 msgstr "Loadiine GX2"
@@ -118,6 +118,12 @@ msgstr "運行模式選擇"
 
 msgid "Log server control"
 msgstr "日誌服務器控制"
+
+msgid "Padcon settings"
+msgstr ""
+
+msgid "PyGecko settings"
+msgstr ""
 
 msgid "Credits"
 msgstr "感謝"
