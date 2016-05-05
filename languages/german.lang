@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Loadiine GX2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-18 15:13+0200\n"
+"POT-Creation-Date: 2016-05-05 01:39+0200\n"
 "PO-Revision-Date: 2009-10-01 01:00+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -113,6 +113,9 @@ msgstr "Logger-Einstellungen"
 msgid "Game"
 msgstr "Spiel"
 
+msgid "HID settings"
+msgstr ""
+ 
 msgid "Launch method selection"
 msgstr "Spielstart-Methode auswählen"
 
@@ -179,6 +182,9 @@ msgstr ""
 msgid "Enable Padcon"
 msgstr ""
 
+msgid "HID-Pad"
+msgstr ""
+ 
 msgid "Default"
 msgstr ""
 
@@ -203,7 +209,7 @@ msgstr ""
 msgid "Chinese"
 msgstr ""
 
-msgid "Chinese_T"
+msgid "Chinese_Tr"
 msgstr ""
 
 msgid "French"

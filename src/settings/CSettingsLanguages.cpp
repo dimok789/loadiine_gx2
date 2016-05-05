@@ -33,13 +33,7 @@ CSettingsLanguages::CSettingsLanguages()
 
 CSettingsLanguages::~CSettingsLanguages()
 {
-	/*
-    for(u32 i = 0; i < settingsGames.size(); i++){
-		for(u32 j = 0; j < settingsGames[i].settingsValues.size(); j++){
-			if(settingsGames[i].settingsValues.at(j).dataType == TypeString)
-				delete settingsGames[i].settingsValues.at(j).strValue;
-		}
-    }*/
+	
 }
 
 std::vector<std::string> CSettingsLanguages::LoadLanguages(int *languageSelect)
@@ -55,7 +49,7 @@ std::vector<std::string> CSettingsLanguages::LoadLanguages(int *languageSelect)
 
 	languagesNames["brazilian.lang"]["brazilian"] = trNOOP("Brazilian");
 	languagesNames["chinese.lang"]["chinese"] =  trNOOP("Chinese");
-	languagesNames["chinese_T.lang"]["chinese_T"] =  trNOOP("Traditional Chinese");
+	languagesNames["chinese_tr.lang"]["chinese_tr"] =  trNOOP("Traditional Chinese");
 	languagesNames["english.lang"]["english"] =  trNOOP("English");
 	languagesNames["french.lang"]["french"] =  trNOOP("French");
 	languagesNames["german.lang"]["german"] =  trNOOP("German");

@@ -329,6 +329,7 @@ void GameLauncherMenu::setHeader(const discHeader * header)
     coverImg->setAlignment(ALIGN_LEFT);
     coverImg->setPosition(50,0);
     coverImg->setScale((5.0/3.0) * windowScale);
+    ((GuiImageAsync *)coverImg)->loaded.connect(this, &GameLauncherMenu::OnCoverLoadedFinished);
     gameLauncherMenuFrame.append(coverImg);
     loadBgImage();
 
@@ -542,6 +543,16 @@ void GameLauncherMenu::loadBgImage()
     bgNewImageDataAsync->loaded.connect(this, &GameLauncherMenu::OnBgLoadedFinished);
 }
 
+void GameLauncherMenu::OnCoverLoadedFinished(GuiElement *element)
+{
+    if(coverImg){
+        f32 oldScale = coverImg->getScale();
+        f32 coverScale = noCover.getHeight() / coverImg->getHeight();
+        coverImg->setScale(oldScale * coverScale);
+        log_printf("%f %f",oldScale,coverScale);
+    }
+}
+
 void GameLauncherMenu::OnBgLoadedFinished(GuiElement *element)
 {
     if(bgNewImageDataAsync->getImageData())
@@ -586,13 +597,13 @@ void GameLauncherMenu::update(GuiController *c)
         bFocusChanged = false;
     }
     if(bChanged){
-        if(gamesettings.updateFolder.compare(COMMON_UPDATE_PATH) != 0){            
+        if(gamesettings.updateFolder.compare(COMMON_UPDATE_PATH) != 0){
             extraSaveBox.setAlpha(1.0f);
             extraSaveText.setAlpha(1.0f);
             extraSaveBox.clearState(STATE_DISABLED);
             extraSaveText.clearState(STATE_DISABLED);
         }else{
-            if(gamelauncherelementfocus == GamelaunchermenuFocus::ExtraSave){                
+            if(gamelauncherelementfocus == GamelaunchermenuFocus::ExtraSave){
                 gamelauncherelementfocus = GamelaunchermenuFocus::LaunchMethod;
                 bFocusChanged =  true;
             }

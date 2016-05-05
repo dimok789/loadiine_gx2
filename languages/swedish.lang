@@ -113,6 +113,9 @@ msgstr "Konfigurera log server ip och port"
 msgid "Game"
 msgstr "Spel"
 
+msgid "HID settings"
+msgstr ""
+ 
 msgid "Launch method selection"
 msgstr "Välj launchmetod"
 
@@ -176,6 +179,9 @@ msgstr ""
 msgid "Enable Padcon"
 msgstr ""
 
+msgid "HID-Pad"
+msgstr ""
+ 
 msgid "Default"
 msgstr ""
 
@@ -200,7 +206,7 @@ msgstr ""
 msgid "Chinese"
 msgstr ""
 
-msgid "Chinese_T"
+msgid "Chinese_Tr"
 msgstr ""
 
 msgid "French"

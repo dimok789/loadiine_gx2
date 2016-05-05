@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Loadiine GX2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-18 15:13+0200\n"
+"POT-Creation-Date: 2016-05-05 01:39+0200\n"
 "PO-Revision-Date: 2016-04-02 07:28+0200\n"
 "Last-Translator: MasQchips\n"
 "Language-Team: MasQchips\n"
@@ -113,6 +113,9 @@ msgstr "Ajustar IP y puerto del servidor"
 msgid "Game"
 msgstr "Juego"
 
+msgid "HID ajustes"
+msgstr ""
+ 
 msgid "Launch method selection"
 msgstr "Seleccionar metodo de carga"
 
@@ -176,6 +179,9 @@ msgstr "Cargar PyGecko"
 msgid "Enable Padcon"
 msgstr "Activar Padcon"
 
+msgid "HID-Pad"
+msgstr ""
+ 
 msgid "Default"
 msgstr ""
 
@@ -203,7 +209,7 @@ msgstr "Ingles"
 msgid "Chinese"
 msgstr "Chino"
 
-msgid "Chinese_T"
+msgid "Chinese_Tr"
 msgstr "Chino Tradicional"
 
 msgid "French"

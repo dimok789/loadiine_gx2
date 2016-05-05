@@ -85,8 +85,6 @@ extern "C" int Menu_Main(void)
 
     Application::destroyInstance();
 
-
-
     log_printf("Unmount SD\n");
     unmount_sd_fat("sd");
     log_printf("Release memory\n");

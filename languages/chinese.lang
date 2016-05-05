@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Loadiine GX2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-29 15:13+0200\n"
+"POT-Creation-Date: 2016-05-05 01:39+0200\n"
 "PO-Revision-Date: 2009-10-01 01:00+0200\n"
 "Last-Translator: kavid by 91wii.com \n"
 "Language-Team: 91wii.com\n"
@@ -113,6 +113,9 @@ msgstr "更改日志服务器的ip和端口"
 msgid "Game"
 msgstr "游戏"
 
+msgid "HID settings"
+msgstr ""
+ 
 msgid "Launch method selection"
 msgstr "运行模式选择"
 
@@ -172,9 +175,12 @@ msgstr ""
 
 msgid "Load PyGecko"
 msgstr "金手指"
-
+ 
 msgid "Enable Padcon"
 msgstr "平板屏幕控制"
+
+msgid "HID-Pad"
+msgstr ""
 
 msgid "Default"
 msgstr ""

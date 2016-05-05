@@ -27,6 +27,8 @@
 #include "sounds/SoundHandler.hpp"
 #include "system/exception_handler.h"
 #include "utils/logger.h"
+#include "common/retain_vars.h"
+#include "controller_patcher/cp_retain_vars.h"
 
 Application *Application::applicationInstance = NULL;
 bool Application::exitApplication = false;
@@ -44,10 +46,13 @@ Application::Application()
     controller[4] = new WPadController(GuiTrigger::CHANNEL_5);
 
     CSettings::instance()->Load();
-     
+
     //! reload logger to change IP to settings IP
     log_deinit();
     log_init(CSettings::getValueAsString(CSettings::DebugLoggerIP).c_str());
+
+    //! load HID settings
+    gHIDPADEnabled = CSettings::getValueAsU8(CSettings::HIDPadEnabled);
 
     //! load resources
     Resources::LoadFiles("sd:/wiiu/apps/loadiine_gx2/resources");
@@ -81,7 +86,7 @@ Application::~Application()
 
     CSettings::instance()->Save();
     CSettings::destroyInstance();
-	
+
 	CSettingsGame::destroyInstance();
 
     delete bgMusic;
@@ -96,6 +101,10 @@ Application::~Application()
 	SoundHandler::DestroyInstance();
 
 	gettextCleanUp();
+
+	if(!gHIDPADEnabled && config_done){
+        deinit_config_controller(); //Needs InitSysHIDFunctionPointers();! here done by init_config_controller() when config_done is set.
+    }
 }
 
 void Application::exec()

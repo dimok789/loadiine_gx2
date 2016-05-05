@@ -51,7 +51,7 @@ stSettingsCategories[] =
 {
     { trNOOP("GUI"),     "guiSettingsIcon.png",    "guiSettingsIconGlow.png", "settingsTitleGUI.png",       	trNOOP("Game View Selection") "\n"     trNOOP("Background customizations") },
     { trNOOP("Loader"),  "loaderSettingsIcon.png", "loaderSettingsIconGlow.png", "settingsTitleLoader.png", 	trNOOP("Customize games path") "\n"    trNOOP("Customize save path") "\n"  trNOOP("Set save mode") },
-    { trNOOP("Game"),    "gameSettingsIcon.png",   "gameSettingsIconGlow.png", "settingsTitleGame.png",         trNOOP("Launch method selection") "\n" trNOOP("Log server control") "\n"   trNOOP("Adjust log server IP and port") "\n" trNOOP("Read and write memory") "\n" trNOOP("Turn off the screen Gamepad") },
+    { trNOOP("Game"),    "gameSettingsIcon.png",   "gameSettingsIconGlow.png", "settingsTitleGame.png",         trNOOP("Launch method selection") "\n" trNOOP("Log server control") "\n"   trNOOP("Adjust log server IP and port") "\n" trNOOP("Read and write memory") "\n" trNOOP("Turn off the screen Gamepad") "\n" trNOOP("HID settings")},
 	{ trNOOP("Languages"), "languageSettingsIcon.png", "languageSettingsIcon.png", "settingsTitleLanguage.png", trNOOP("Download languages") "\n"      trNOOP("Select language") },
     { trNOOP("Credits"), "creditsIcon.png",        "creditsIconGlow.png", "settingsTitleCredits.png",       	trNOOP("Credits to all contributors") }
 };
@@ -75,7 +75,8 @@ static const SettingType GameSettings[] =
     { trNOOP("Log Server Control"), ValueOnOff, "gameLoadLog.png", "gameLoadLogGlow.png", Type2Buttons, CSettings::GameLogServer },
     { trNOOP("Log Server IP"), 0, "gameSettingsIP.png", "gameSettingsIP.png", TypeIP, CSettings::GameLogServerIp },
     { trNOOP("Load PyGecko"), ValueOnOff, "gamePyGeckoLoad.png", "gamePyGeckoLoadGlow.png", Type2Buttons, CSettings::LaunchPyGecko },
-    { trNOOP("Enable Padcon"), ValueOnOff, "gamePadconIcon.png", "gamePadconIconGlow.png", Type2Buttons, CSettings::PadconMode }
+    { trNOOP("Enable Padcon"), ValueOnOff, "gamePadconIcon.png", "gamePadconIconGlow.png", Type2Buttons, CSettings::PadconMode },
+	{ trNOOP("HID-Pad"), ValueOnOff, "gameHIDIcon.png", "gameHIDIconGlow.png", Type2Buttons, CSettings::HIDPadEnabled }
 };
 
 static const SettingType LanguagesSettings[] =
