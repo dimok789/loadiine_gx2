@@ -29,7 +29,7 @@
 
 CThread * GameLauncherMenu::pThread = NULL;
 
-GameLauncherMenu::GameLauncherMenu(MainWindow * main, int gameIdx)
+GameLauncherMenu::GameLauncherMenu(int gameIdx)
     : GuiFrame(0,0)
     , gameIdx(gameIdx)
     , bgImage(500, 500, (GX2Color){0, 0, 0, 255})
@@ -96,7 +96,7 @@ GameLauncherMenu::GameLauncherMenu(MainWindow * main, int gameIdx)
 
     progresswindow.setVisible(false);
 
-    main->gameLauncherMenuNextClicked.connect(this,&GameLauncherMenu::OnGotHeaderFromMain);
+    Application::instance()->getMainWindow()->gameLauncherMenuNextClicked.connect(this,&GameLauncherMenu::OnGotHeaderFromMain);
 
     CVideo * video = Application::instance()->getVideo();
     width = video->getTvWidth()*windowScale;
@@ -247,14 +247,28 @@ GameLauncherMenu::~GameLauncherMenu()
     Resources::RemoveImageData(titleImageData);
     Resources::RemoveImageData(frameImageData);
 
-
     Resources::RemoveSound(buttonClickSound);
 
-    AsyncDeleter::pushForDelete(bgFadingImageDataAsync);
-    AsyncDeleter::pushForDelete(bgUsedImageDataAsync);
-    AsyncDeleter::pushForDelete(bgNewImageDataAsync);
-
-    AsyncDeleter::pushForDelete(coverImg);
+    if(bgFadingImageDataAsync)
+    {
+        bgFadingImageDataAsync->imageLoaded.disconnect_all();
+        AsyncDeleter::pushForDelete(bgFadingImageDataAsync);
+    }
+    if(bgUsedImageDataAsync)
+    {
+        bgUsedImageDataAsync->imageLoaded.disconnect_all();
+        AsyncDeleter::pushForDelete(bgUsedImageDataAsync);
+    }
+    if(bgNewImageDataAsync)
+    {
+        bgNewImageDataAsync->imageLoaded.disconnect_all();
+        AsyncDeleter::pushForDelete(bgNewImageDataAsync);
+    }
+    if(coverImg)
+    {
+        coverImg->imageLoaded.disconnect_all();
+        AsyncDeleter::pushForDelete(coverImg);
+    }
 
     if(GameLauncherMenu::pThread != NULL){
         delete GameLauncherMenu::pThread;
@@ -320,16 +334,21 @@ void GameLauncherMenu::setHeader(const discHeader * header)
 {
     this->header =  header;
     gameLauncherMenuFrame.remove(coverImg);
-    delete coverImg;
-
 
     std::string filepath = CSettings::getValueAsString(CSettings::GameCover3DPath) + "/" + header->id + ".png";
+
+    if(coverImg)
+    {
+        coverImg->imageLoaded.disconnect_all();
+        AsyncDeleter::pushForDelete(coverImg);
+        coverImg = NULL;
+    }
 
     coverImg = new GuiImageAsync(filepath, &noCover);
     coverImg->setAlignment(ALIGN_LEFT);
     coverImg->setPosition(50,0);
     coverImg->setScale((5.0/3.0) * windowScale);
-    ((GuiImageAsync *)coverImg)->loaded.connect(this, &GameLauncherMenu::OnCoverLoadedFinished);
+    coverImg->imageLoaded.connect(this, &GameLauncherMenu::OnCoverLoadedFinished);
     gameLauncherMenuFrame.append(coverImg);
     loadBgImage();
 
@@ -528,6 +547,7 @@ void GameLauncherMenu::loadBgImage()
     //! TODO: fix (state != STATE_DISABLED) its a cheap trick to make the thread not create new images when fading out because it causes issues
     if(bgNewImageDataAsync && !isStateSet(STATE_DISABLED))
     {
+        bgNewImageDataAsync->imageLoaded.disconnect_all();
         GuiImageAsync::removeFromQueue(bgNewImageDataAsync);
         AsyncDeleter::pushForDelete(bgNewImageDataAsync);
         bgNewImageDataAsync = new GuiImageAsync(filepath, NULL);
@@ -537,42 +557,64 @@ void GameLauncherMenu::loadBgImage()
         delete bgNewImageDataAsync;
         bgNewImageDataAsync = new GuiImageAsync(filepath,  NULL);
     }
-    if(bgNewImageDataAsync){
-        remove(bgUsedImageDataAsync);
-    }
-    bgNewImageDataAsync->loaded.connect(this, &GameLauncherMenu::OnBgLoadedFinished);
+
+    bgNewImageDataAsync->imageLoaded.connect(this, &GameLauncherMenu::OnBgLoadedFinished);
 }
 
-void GameLauncherMenu::OnCoverLoadedFinished(GuiElement *element)
+void GameLauncherMenu::OnCoverLoadedFinished(GuiImageAsync *image)
 {
-    if(coverImg){
-        f32 oldScale = coverImg->getScale();
-        f32 coverScale = noCover.getHeight() / coverImg->getHeight();
-        coverImg->setScale(oldScale * coverScale);
-        log_printf("%f %f",oldScale,coverScale);
+    //! since this function is entered through an asynchron call from the gui image async thread
+    //! the GUI has to be locked before accessing the data
+    Application::instance()->getMainWindow()->lockGUI();
+    if(image->imageLoaded.connected()){
+        f32 oldScale = image->getScale();
+        f32 coverScale = noCover.getHeight() / image->getHeight();
+        image->setScale(oldScale * coverScale);
     }
+    Application::instance()->getMainWindow()->unlockGUI();
 }
 
-void GameLauncherMenu::OnBgLoadedFinished(GuiElement *element)
+void GameLauncherMenu::OnBgLoadedFinished(GuiImageAsync *image)
 {
-    if(bgNewImageDataAsync->getImageData())
+    //! since this function is entered through an asynchron call from the gui image async thread
+    //! the GUI has to be locked before accessing the data
+    Application::instance()->getMainWindow()->lockGUI();
+    if(image->imageLoaded.connected())
     {
-        bgUsedImageDataAsync = bgNewImageDataAsync;
-        bgNewImageDataAsync = NULL;
-        bgUsedImageDataAsync->setColorIntensity(glm::vec4(0.5f, 0.5f, 0.5f, 1.0f));
-        bgUsedImageDataAsync->setParent(this);
-        bgUsedImageDataAsync->setEffect(EFFECT_FADE, 10, 255);
-        bgUsedImageDataAsync->setScale(windowScale);
+        if(bgNewImageDataAsync->getImageData())
+        {
+            if(bgUsedImageDataAsync)
+            {
+                bgFadingImageDataAsync = bgUsedImageDataAsync;
+                bgFadingImageDataAsync->setEffect(EFFECT_FADE, -10, 0);
+                bgFadingImageDataAsync->effectFinished.connect(this, &GameLauncherMenu::OnBgEffectFinished);
+            }
+
+            bgUsedImageDataAsync = bgNewImageDataAsync;
+            bgNewImageDataAsync = NULL;
+            bgUsedImageDataAsync->setColorIntensity(glm::vec4(0.5f, 0.5f, 0.5f, 1.0f));
+            bgUsedImageDataAsync->setParent(this);
+            bgUsedImageDataAsync->setEffect(EFFECT_FADE, 10, 255);
+            bgUsedImageDataAsync->setScale(windowScale);
+        }
+        else
+        {
+            bgNewImageDataAsync->imageLoaded.disconnect_all();
+            AsyncDeleter::pushForDelete(bgNewImageDataAsync);
+            bgNewImageDataAsync = NULL;
+        }
 
         insert(bgUsedImageDataAsync,2);
     }
+    Application::instance()->getMainWindow()->unlockGUI();
 }
 
-void GameLauncherMenu::OnBgEffectFinished(GuiElement *element)
+void GameLauncherMenu::OnBgEffectFinished(GuiElement *image)
 {
-    if(element == bgFadingImageDataAsync)
+    if(image == bgFadingImageDataAsync)
     {
         remove(bgFadingImageDataAsync);
+        bgFadingImageDataAsync->imageLoaded.disconnect_all();
         AsyncDeleter::pushForDelete(bgFadingImageDataAsync);
         bgFadingImageDataAsync = NULL;
     }

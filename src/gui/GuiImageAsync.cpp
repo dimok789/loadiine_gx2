@@ -58,11 +58,6 @@ GuiImageAsync::~GuiImageAsync()
     //threadExit();
 }
 
-void GuiImageAsync::imageLoaded()
-{
-    loaded(this);
-}
-
 void GuiImageAsync::threadAddImage(GuiImageAsync *Image)
 {
     pMutex->lock();
@@ -143,7 +138,7 @@ void GuiImageAsync::guiImageAsyncThread(CThread *thread, void *arg)
                     pInUse->imgData = NULL;
                 }
             }
-            pInUse->imageLoaded();
+            pInUse->imageLoaded(pInUse);
 			pInUse = NULL;
 		}
 	}

@@ -399,6 +399,12 @@ void MainWindow::OnGameLaunchMenu(GuiGameBrowser *element, int gameIdx)
 {
     if(GameList::instance()->size() == 0)
         return;
+
+    if (launchingGame)
+        return;
+
+    launchingGame = true;
+
     mainSwitchButtonFrame->setState(GuiElement::STATE_DISABLED);
     currentTvFrame->setState(GuiElement::STATE_DISABLED);
     if(currentTvFrame != currentDrcFrame)
@@ -406,14 +412,20 @@ void MainWindow::OnGameLaunchMenu(GuiGameBrowser *element, int gameIdx)
         currentDrcFrame->setState(GuiElement::STATE_DISABLED);
     }
 
-    GameLauncherMenu * gameSettings = new GameLauncherMenu(this,gameIdx);
-    gameSettings->setEffect(EFFECT_FADE, 10, 255);
-    gameSettings->setState(GuiElement::STATE_DISABLED);
-    gameSettings->effectFinished.connect(this, &MainWindow::OnOpenEffectFinish);
-    gameSettings->gameLauncherMenuQuitClicked.connect(this, &MainWindow::OnGameLaunchMenuFinish);
-    gameSettings->gameLauncherGetHeaderClicked.connect(this, &MainWindow::OnGameLaunchGetHeader);
-    append(gameSettings);
-
+    if(CSettings::getValueAsU8(CSettings::ShowGameSettings) == SETTING_ON)
+    {
+        GameLauncherMenu * gameSettings = new GameLauncherMenu(gameIdx);
+        gameSettings->setEffect(EFFECT_FADE, 10, 255);
+        gameSettings->setState(GuiElement::STATE_DISABLED);
+        gameSettings->effectFinished.connect(this, &MainWindow::OnOpenEffectFinish);
+        gameSettings->gameLauncherMenuQuitClicked.connect(this, &MainWindow::OnGameLaunchMenuFinish);
+        gameSettings->gameLauncherGetHeaderClicked.connect(this, &MainWindow::OnGameLaunchGetHeader);
+        append(gameSettings);
+    }
+    else
+    {
+        OnGameLaunchMenuFinish(NULL, GameList::instance()->at(gameIdx), true);
+    }
 }
 
 void MainWindow::OnGameLaunchGetHeader(GuiElement *element,int gameIdx, int next)
@@ -443,22 +455,24 @@ void MainWindow::OnGameLaunchMenuFinish(GuiElement *element,const discHeader *he
     {
         currentDrcFrame->clearState(GuiElement::STATE_DISABLED);
     }
-    element->setState(GuiElement::STATE_DISABLED);
-    element->setEffect(EFFECT_FADE, -15, 0);
-    element->effectFinished.connect(this, &MainWindow::OnCloseEffectFinish);
+
+    if(element)
+    {
+        element->setState(GuiElement::STATE_DISABLED);
+        element->setEffect(EFFECT_FADE, -15, 0);
+        element->effectFinished.connect(this, &MainWindow::OnCloseEffectFinish);
+    }
 
     if(result == true){
         OnGameLaunch(header);
+    }
+    else {
+        launchingGame = false;
     }
 }
 
 void MainWindow::OnGameLaunch(const discHeader *gameHdr)
 {
-     if (launchingGame)
-        return;
-
-    launchingGame = true;
-
     if(gameClickSound)
         gameClickSound->Play();
 

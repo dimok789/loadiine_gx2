@@ -12,118 +12,83 @@ static unsigned int origPrepareTitleInstr __attribute__((section(".data"))) = 0;
 static void KernelCopyData(unsigned int addr, unsigned int src, unsigned int len)
 {
     /*
-     * Setup a DBAT access for our 0xC0800000 area and our 0xBC000000 area which hold our variables like GAME_LAUNCHED and our BSS/rodata section
+     * Setup a DBAT access with cache inhibited to write through and read directly from memory
      */
-    register int dbatu0, dbatl0, dbatu1, dbatl1;
-    // Cache firmware version since we might break dbat that gives us access to it
-    int os_firmware = OS_FIRMWARE;
+    unsigned int dbatu0, dbatl0, dbatu1, dbatl1;
     // save the original DBAT value
     asm volatile("mfdbatu %0, 0" : "=r" (dbatu0));
     asm volatile("mfdbatl %0, 0" : "=r" (dbatl0));
     asm volatile("mfdbatu %0, 1" : "=r" (dbatu1));
     asm volatile("mfdbatl %0, 1" : "=r" (dbatl1));
 
-    // write our own DBATs into the array
-    if( ((addr & 0xFFF00000) == 0xFFF00000) || ((src & 0xFFF00000) == 0xFFF00000) )
-    {
-        // setup kernel code access
-        unsigned int dbatu = 0;
-        unsigned int dbatl = 0;
+    unsigned int target_dbatu0 = 0;
+    unsigned int target_dbatl0 = 0;
+    unsigned int target_dbatu1 = 0;
+    unsigned int target_dbatl1 = 0;
 
-        if((src & 0xFFF00000) == 0xFFF00000) {
-            dbatu = (src & 0xFFF00000) | 0x02;
-            dbatl = (src & 0xFFF00000) | 0x32;
-        }
-        else {
-            dbatu = (addr & 0xFFF00000) | 0x02;
-            dbatl = (addr & 0xFFF00000) | 0x32;
-        }
-
-        if( ((addr & 0xFFF00000) != (dbatu0 & 0xFFF00000)) && ((src & 0xFFF00000) != (dbatu0 & 0xFFF00000)) )
-        {
-            asm volatile("mtdbatu 0, %0" : : "r" (dbatu));
-            asm volatile("mtdbatl 0, %0" : : "r" (dbatl));
-        }
-        else
-        {
-            asm volatile("mtdbatu 1, %0" : : "r" (dbatu));
-            asm volatile("mtdbatl 1, %0" : : "r" (dbatl));
-        }
-    }
-    else
-    {
-        unsigned int dst_dbatu = 0;
-        unsigned int dst_dbatl = 0;
-        unsigned int src_dbatu = 0;
-        unsigned int src_dbatl = 0;
-        // Since we apply different operations, but never use multiple-regions ranges
-        // it's best to setup one dbat for source and second for the destination depending on their addresses.
-        // But we should not create two dbats with the same mapping.
-        if ((addr >= 0xB8000000) && (addr < 0xC0000000)) // destination address is from home menu region
-        {
-            dst_dbatu = 0xB8000FFF;
-            dst_dbatl = 0x28000012;
-        }
-        else if ((addr >= 0xC0000000) && (addr < 0xC2000000)) // destination address is from root.rpx region
-        {
-            dst_dbatu = 0xC00003FF;
-            if (os_firmware >= 410)
-                dst_dbatl = 0x30000012;
-            else
-                dst_dbatl = 0x4E000012;
-        }
-        else if ((addr >= 0xC2000000) && (addr < 0xC3000000)) // destination address is from coreinit.rpl region
-        {
-            dst_dbatu = 0xC20001FF;
-            if (os_firmware >= 410)
-                dst_dbatl = 0x32000012;
-            else
-                dst_dbatl = 0x4D000012;
-        }
-        if ((src >= 0xB8000000) && (src < 0xC0000000)) // source address is from home menu region
-        {
-            src_dbatu = 0xB8000FFF;
-            src_dbatl = 0x28000012;
-        }
-        else if ((src >= 0xC0000000) && (src < 0xC2000000)) // source address is from root.rpx region
-        {
-            src_dbatu = 0xC00003FF;
-            if (os_firmware >= 410)
-                src_dbatl = 0x30000012;
-            else
-                src_dbatl = 0x4E000012;
-        }
-        else if ((src >= 0xC2000000) && (src < 0xC3000000)) // source address is from coreinit.rpl region
-        {
-            src_dbatu = 0xC20001FF;
-            if (os_firmware >= 410)
-                src_dbatl = 0x32000012;
-            else
-                src_dbatl = 0x4D000012;
-        }
-        asm volatile("mtdbatu 0, %0" : : "r" (dst_dbatu));
-        asm volatile("mtdbatl 0, %0" : : "r" (dst_dbatl));
-        if (dst_dbatu != src_dbatu) // Setup second dbat only if virtual range is different
-        {
-            asm volatile("mtdbatu 1, %0" : : "r" (src_dbatu));
-            asm volatile("mtdbatl 1, %0" : : "r" (src_dbatl));
-        }
-    }
-    asm volatile("eieio; isync");
-
-
-    unsigned char *src_p = (unsigned char*)src;
     unsigned char *dst_p = (unsigned char*)addr;
+    unsigned char *src_p = (unsigned char*)src;
+
+    // we only need DBAT modification for addresses out of our own DBAT range
+    // as our own DBAT is available everywhere for user and supervisor
+    // since our own DBAT is on DBAT5 position we don't collide here
+    if(addr < 0x00800000 || addr >= 0x01000000)
+    {
+        target_dbatu0 = (addr & 0x00F00000) | 0xC0000000 | 0x1F;
+        target_dbatl0 = (addr & 0xFFF00000) | 0x32;
+        asm volatile("mtdbatu 0, %0" : : "r" (target_dbatu0));
+        asm volatile("mtdbatl 0, %0" : : "r" (target_dbatl0));
+        dst_p = (unsigned char*)((addr & 0xFFFFFF) | 0xC0000000);
+    }
+    if(src < 0x00800000 || src >= 0x01000000)
+    {
+        target_dbatu1 = (src & 0x00F00000) | 0xB0000000 | 0x1F;
+        target_dbatl1 = (src & 0xFFF00000) | 0x32;
+
+        asm volatile("mtdbatu 1, %0" : : "r" (target_dbatu1));
+        asm volatile("mtdbatl 1, %0" : : "r" (target_dbatl1));
+        src_p = (unsigned char*)((src & 0xFFFFFF) | 0xB0000000);
+    }
+
+    asm volatile("eieio; isync");
 
     unsigned int i;
     for(i = 0; i < len; i++)
     {
-        dst_p[i] = src_p[i];
+        // if we are on the edge to next chunk
+        if((target_dbatu0 != 0) && (((unsigned int)dst_p & 0x00F00000) != (target_dbatu0 & 0x00F00000)))
+        {
+            target_dbatu0 = ((addr + i) & 0x00F00000) | 0xC0000000 | 0x1F;
+            target_dbatl0 = ((addr + i) & 0xFFF00000) | 0x32;
+            dst_p = (unsigned char*)(((addr + i) & 0xFFFFFF) | 0xC0000000);
+
+            asm volatile("eieio; isync");
+            asm volatile("mtdbatu 0, %0" : : "r" (target_dbatu0));
+            asm volatile("mtdbatl 0, %0" : : "r" (target_dbatl0));
+            asm volatile("eieio; isync");
+        }
+        if((target_dbatu1 != 0) && (((unsigned int)src_p & 0x00F00000) != (target_dbatu1 & 0x00F00000)))
+        {
+            target_dbatu1 = ((src + i) & 0x00F00000) | 0xB0000000 | 0x1F;
+            target_dbatl1 = ((src + i) & 0xFFF00000) | 0x32;
+            src_p = (unsigned char*)(((src + i) & 0xFFFFFF) | 0xB0000000);
+
+            asm volatile("eieio; isync");
+            asm volatile("mtdbatu 1, %0" : : "r" (target_dbatu1));
+            asm volatile("mtdbatl 1, %0" : : "r" (target_dbatl1));
+            asm volatile("eieio; isync");
+        }
+
+        *dst_p = *src_p;
+
+        ++dst_p;
+        ++src_p;
     }
 
     /*
      * Restore original DBAT value
      */
+    asm volatile("eieio; isync");
     asm volatile("mtdbatu 0, %0" : : "r" (dbatu0));
     asm volatile("mtdbatl 0, %0" : : "r" (dbatl0));
     asm volatile("mtdbatu 1, %0" : : "r" (dbatu1));
@@ -276,9 +241,10 @@ void KernelSetupSyscalls(void)
 
     //! write our hook to the
     u32 addr_my_PrepareTitle_hook = ((u32)my_PrepareTitle_hook) | 0x48000003;
+    DCFlushRange(&addr_my_PrepareTitle_hook, sizeof(addr_my_PrepareTitle_hook));
 
     SC0x25_KernelCopyData((u32)&origPrepareTitleInstr, (u32)addr_PrepareTitle_hook, 4);
-    SC0x25_KernelCopyData((u32)addr_PrepareTitle_hook, (u32)&addr_my_PrepareTitle_hook, 4);
+    SC0x25_KernelCopyData((u32)addr_PrepareTitle_hook, (u32)OSEffectiveToPhysical(&addr_my_PrepareTitle_hook), 4);
 }
 
 

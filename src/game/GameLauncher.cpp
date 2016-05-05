@@ -14,6 +14,7 @@
 #include "utils/StringTools.h"
 #include "utils/logger.h"
 #include "utils/xml.h"
+#include "utils/utils.h"
 #include "settings/CSettingsGame.h"
 #include "settings/SettingsGameDefs.h"
 #include "utils/FileReplacer.h"
@@ -420,6 +421,7 @@ int GameLauncher::LoadRpxRplToMem(const std::string & path, const std::string & 
     std::string strBuffer;
     strBuffer.resize(0x10000);
     unsigned char *pBuffer = (unsigned char*)&strBuffer[0];
+    unsigned char *pBufferPhysical = (unsigned char*)OSEffectiveToPhysical(&strBuffer[0]);
 
     // fill rpx entry
     u32 bytesRead = 0;
@@ -448,7 +450,9 @@ int GameLauncher::LoadRpxRplToMem(const std::string & path, const std::string & 
             break;
         }
 
-        int copiedData = rpxRplCopyDataToMem(rpx_rpl_struct, bytesRead, pBuffer, ret);
+		DCFlushRange(pBuffer, ret);
+
+        int copiedData = rpxRplCopyDataToMem(rpx_rpl_struct, bytesRead, pBufferPhysical, ret);
         if(copiedData != ret)
         {
             log_printf("Not enough memory for file %s. Could not copy all data %i != %i.\n", rpx_rpl_struct->name, copiedData, ret);

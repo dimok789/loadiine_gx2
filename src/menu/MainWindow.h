@@ -25,6 +25,7 @@
 #include "MainDrcButtonsFrame.h"
 #include "network/GameImageDownloader.h"
 #include "game/GameLauncher.h"
+#include "system/CMutex.h"
 
 class CVideo;
 
@@ -119,6 +120,15 @@ public:
     void update(GuiController *controller);
     void updateEffects();
 
+    void lockGUI()
+    {
+        guiMutex.lock();
+    }
+    void unlockGUI()
+    {
+        guiMutex.unlock();
+    }
+
     sigslot::signal2<GuiElement *,int> gameLauncherMenuNextClicked;
 private:
     void SetupMainView(void);
@@ -160,6 +170,8 @@ private:
     GuiImage *pointerImg[4];
     bool pointerValid[4];
     bool launchingGame;
+
+    CMutex guiMutex;
 };
 
 #endif //_MAIN_WINDOW_H_

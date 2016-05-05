@@ -49,7 +49,7 @@ Application::Application()
 
     //! reload logger to change IP to settings IP
     log_deinit();
-    log_init(CSettings::getValueAsString(CSettings::DebugLoggerIP).c_str());
+    log_init(CSettings::getValueAsString(CSettings::GameLogServerIp).c_str());
 
     //! load HID settings
     gHIDPADEnabled = CSettings::getValueAsU8(CSettings::HIDPadEnabled);
@@ -190,6 +190,7 @@ void Application::executeThread(void)
     //! main GX2 loop (60 Hz cycle with max priority on core 1)
 	while(!exitApplication)
 	{
+	    mainWindow->lockGUI();
 	    //! Read out inputs
 	    for(int i = 0; i < 5; i++)
         {
@@ -221,6 +222,7 @@ void Application::executeThread(void)
 
 	    //! as last point update the effects as it can drop elements
 	    mainWindow->updateEffects();
+	    mainWindow->unlockGUI();
 
 	    video->waitForVSync();
 

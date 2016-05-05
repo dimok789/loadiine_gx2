@@ -5,14 +5,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Loadiine GX2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-05 01:39+0200\n"
+"POT-Creation-Date: 2016-05-06 00:24+0200\n"
 "PO-Revision-Date: 2009-10-01 01:00+0200\n"
 "Last-Translator: Student\n"
 "Language-Team: Student\n"
+"Language: Italiano\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: Italiano\n"
 
 msgid "Loadiine GX2"
 msgstr ""
@@ -95,6 +95,9 @@ msgstr "Interfaccia Grafica (GUI)"
 msgid "Game View Selection"
 msgstr "Modalità di Visualizzazione Giochi"
 
+msgid "Adjust log server IP and port"
+msgstr "Regola IP del server log e porta"
+
 msgid "Customize games path"
 msgstr "Personalizza Percorso Cartella Giochi"
 
@@ -106,9 +109,6 @@ msgstr ""
 
 msgid "Set save mode"
 msgstr "Imposta Modalità Salvataggio"
-
-msgid "Adjust log server IP and port"
-msgstr "Regola IP del server log e porta"
 
 msgid "Game"
 msgstr "Gioco"
@@ -140,6 +140,12 @@ msgstr "Vista TV"
 msgid "Game View DRC"
 msgstr "Vista DRC (gamepad)"
 
+msgid "Show Game Settings"
+msgstr ""
+
+msgid "Host IP"
+msgstr ""
+
 msgid "Game Path"
 msgstr "Percorso Gioco"
 
@@ -151,9 +157,6 @@ msgstr "Modalità Salvataggio"
 
 msgid "Log Server Control"
 msgstr "Log Controllo Server"
-
-msgid "Log Server IP"
-msgstr "Log IP Server"
 
 msgid "PyGecko"
 msgstr ""
@@ -181,3 +184,6 @@ msgstr "Modalità Karaoke"
 
 msgid "Art Atelier Mode"
 msgstr "Modalità Art Atelier"
+
+#~ msgid "Log Server IP"
+#~ msgstr "Log IP Server"

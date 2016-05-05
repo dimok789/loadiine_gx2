@@ -51,13 +51,23 @@ int GameList::readGameList()
         if (len <= 8)
             continue;
 
-        if (filename[len - 8] != '[' || filename[len - 1] != ']')
+        if ((filename[len - 8] != '[' && filename[len - 6] != '[') || filename[len - 1] != ']')
             continue;
+
+        bool id4Title = (filename[len - 8] != '[');
 
         std::string gamePathName = filename;
         discHeader newHeader;
-        newHeader.id = gamePathName.substr(gamePathName.size() - 7, 6);
-        newHeader.name = gamePathName.substr(0, gamePathName.size() - 8);
+        if(id4Title)
+        {
+            newHeader.id = gamePathName.substr(gamePathName.size() - 5, 4);
+            newHeader.name = gamePathName.substr(0, gamePathName.size() - 6);
+        }
+        else
+        {
+            newHeader.id = gamePathName.substr(gamePathName.size() - 7, 6);
+            newHeader.name = gamePathName.substr(0, gamePathName.size() - 8);
+        }
         newHeader.gamepath = gamePath + "/" + filename;
 
         while(newHeader.name.size() > 0 && newHeader.name[newHeader.name.size()-1] == ' ')

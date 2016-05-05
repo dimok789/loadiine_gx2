@@ -25,6 +25,7 @@
 #include "fs/fs_utils.h"
 #include "utils/strings.h"
 #include "utils/logger.h"
+#include "utils/utils.h"
 #include "settings/SettingsEnums.h"
 #include "system/memory.h"
 #include "controller_patcher/controller_patcher.h"
@@ -859,6 +860,8 @@ static int LoadRPLToMemory(s_rpx_rpl *rpl_entry)
         return 0;
     }
 
+	unsigned char * dataBufPhysical = (unsigned char*)OSEffectiveToPhysical(dataBuf);
+
     // do more initial FS stuff
     FSInitCmdBlock(pCmd);
     FSAddClientEx(pClient, 0, -1);
@@ -902,8 +905,10 @@ static int LoadRPLToMemory(s_rpx_rpl *rpl_entry)
         // Copy rpl in memory
         while ((ret = FSReadFile(pClient, pCmd, dataBuf, 0x1, 0x10000, fd, 0, FS_RET_ALL_ERROR)) > 0)
         {
+			m_DCFlushRange((u32)dataBuf, ret);
+
             // Copy in memory and save offset
-            int copiedData = rpxRplCopyDataToMem(rpl_entry, rpl_size, dataBuf, ret);
+            int copiedData = rpxRplCopyDataToMem(rpl_entry, rpl_size, dataBufPhysical, ret);
             if(copiedData != ret)
             {
                 char buffer[200];
@@ -1129,7 +1134,8 @@ DECL(int, LiWaitOneChunk, unsigned int * iRemainingBytes, const char *filename, 
 
             if (found)
             {
-                unsigned int load_address = (sgBufferNumber == 1) ? 0xF6000000 : 0xF6400000;
+                unsigned int load_address = (sgBufferNumber == 1) ? 0xF6000000 : (0xF6000000 + 0x00400000);
+                unsigned int load_addressPhys = (sgBufferNumber == 1) ? gLoaderPhysicalBufferAddr : (gLoaderPhysicalBufferAddr + 0x00400000); // virtual 0xF6000000 and 0xF6400000
 
                 // set our game RPX loaded variable for use in FS system
                 if(fileType == 0)
@@ -1140,7 +1146,12 @@ DECL(int, LiWaitOneChunk, unsigned int * iRemainingBytes, const char *filename, 
                     // truncate size
                     remaining_bytes = 0x400000;
 
-                rpxRplCopyDataFromMem(rpl_struct, sgFileOffset, (unsigned char*)load_address, remaining_bytes);
+                m_DCFlushRange(load_address, remaining_bytes);
+
+                rpxRplCopyDataFromMem(rpl_struct, sgFileOffset, (unsigned char*)load_addressPhys, remaining_bytes);
+
+                m_DCInvalidateRange(load_address, remaining_bytes);
+
                 // set result to 0 -> "everything OK"
                 result = 0;
                 break;
@@ -1333,6 +1344,7 @@ DECL(void, _Exit, void){
     draw_Cursor_destroy();
     real__Exit();
 }
+
 DECL(int, VPADRead, int chan, VPADData *buffer, u32 buffer_size, s32 *error) {
 
     int result = real_VPADRead(chan, buffer, buffer_size, error);
@@ -1356,6 +1368,32 @@ DECL(int, VPADRead, int chan, VPADData *buffer, u32 buffer_size, s32 *error) {
     return result;
 }
 
+DECL(int, MCP_GetTitleId, unsigned int handle, u64 * titleId)
+{
+    if(GAME_LAUNCHED && titleId)
+    {
+        real_MCP_GetTitleId(handle, titleId);
+        *titleId = cosAppXmlInfoStruct.title_id;
+        return 0;
+    }
+    else
+    {
+        return real_MCP_GetTitleId(handle, titleId);
+    }
+}
+
+DECL(u64, OSGetTitleID, void)
+{
+    if(GAME_LAUNCHED)
+    {
+        return cosAppXmlInfoStruct.title_id;
+    }
+    else
+    {
+        return real_OSGetTitleID();
+    }
+}
+
 /* *****************************************************************************
  * Creates function pointer array
  * ****************************************************************************/
@@ -1372,6 +1410,9 @@ static struct hooks_magic_t {
     unsigned char alreadyPatched;
 } method_hooks[] = {
      // Common FS functions
+    MAKE_MAGIC(MCP_GetTitleId,              LIB_CORE_INIT,STATIC_FUNCTION),
+    MAKE_MAGIC(OSGetTitleID,                LIB_CORE_INIT,STATIC_FUNCTION),
+
     MAKE_MAGIC(FSInit,                      LIB_CORE_INIT,STATIC_FUNCTION),
     MAKE_MAGIC(FSShutdown,                  LIB_CORE_INIT,STATIC_FUNCTION),
     MAKE_MAGIC(FSAddClientEx,               LIB_CORE_INIT,STATIC_FUNCTION),
@@ -1487,27 +1528,19 @@ void PatchMethodHooks(void)
 
         if(DEBUG_LOG_DYN)log_printf("%s physical is located at %08X!\n", method_hooks[i].functionName,physical);
 
-        bat_table_t my_dbat_table;
-        if(DEBUG_LOG_DYN)log_printf("Setting up DBAT\n");
-        KernelSetDBATsForDynamicFuction(&my_dbat_table,physical);
-
-        //log_printf("Setting call_addr to %08X\n",(unsigned int)(space) - CODE_RW_BASE_OFFSET);
         *(volatile unsigned int *)(call_addr) = (unsigned int)(space) - CODE_RW_BASE_OFFSET;
 
-        // copy instructions from real function.
-        u32 offset_ptr = 0;
-        for(offset_ptr = 0;offset_ptr<skip_instr*4;offset_ptr +=4){
-             if(DEBUG_LOG_DYN)log_printf("(real_)%08X = %08X\n",space,*(volatile unsigned int*)(physical+offset_ptr));
-            *space = *(volatile unsigned int*)(physical+offset_ptr);
-            space++;
-        }
+        log_printf("copy replace instructions\n");
+        SC0x25_KernelCopyData((u32)space, physical, 4);
+        space++;
 
         //Only works if skip_instr == 1
         if(skip_instr == 1){
             // fill the restore instruction section
             method_hooks[i].realAddr = real_addr;
-            method_hooks[i].restoreInstruction = *(volatile unsigned int*)(physical);
-        }else{
+            method_hooks[i].restoreInstruction = *(space-1);
+        }
+        else{
             log_printf("Can't save %s for restoring!\n", method_hooks[i].functionName);
         }
 
@@ -1536,11 +1569,10 @@ void PatchMethodHooks(void)
 
         //setting jump back
         unsigned int replace_instr = 0x48000002 | (repl_addr & 0x03fffffc);
-        *(volatile unsigned int *)(physical) = replace_instr;
-        ICInvalidateRange((void*)(real_addr), 4);
+        DCFlushRange(&replace_instr, 4);
 
-        //restore my dbat stuff
-        KernelRestoreDBATs(&my_dbat_table);
+        SC0x25_KernelCopyData(physical, (u32)OSEffectiveToPhysical(&replace_instr), 4);
+        ICInvalidateRange((void*)(real_addr), 4);
 
         method_hooks[i].alreadyPatched = 1;
     }
@@ -1552,7 +1584,6 @@ void PatchMethodHooks(void)
 /* ****************************************************************** */
 void RestoreInstructions(void)
 {
-    bat_table_t table;
     log_printf("Restore functions!\n");
     int method_hooks_count = sizeof(method_hooks) / sizeof(struct hooks_magic_t);
     for(int i = 0; i < method_hooks_count; i++)
@@ -1575,19 +1606,18 @@ void RestoreInstructions(void)
             continue;
         }
 
-        if(isDynamicFunction(physical)){
+        if(isDynamicFunction(physical))
+        {
              log_printf("Its a dynamic function. We don't need to restore it! %s\n",method_hooks[i].functionName);
-        }else{
-            KernelSetDBATs(&table);
-
-            *(volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + method_hooks[i].realAddr) = method_hooks[i].restoreInstruction;
-            DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + method_hooks[i].realAddr), 4);
+        }
+        else
+        {
+            SC0x25_KernelCopyData(physical, (u32)&method_hooks[i].restoreInstruction, 4);
             ICInvalidateRange((void*)method_hooks[i].realAddr, 4);
-            log_printf("Restored %s\n",method_hooks[i].functionName);
-            KernelRestoreDBATs(&table);
         }
         method_hooks[i].alreadyPatched = 0; // In case a
     }
+
     KernelRestoreInstructions();
     gPatchSDKDone = 0;
     log_print("Done with restoring all functions!\n");
@@ -1610,7 +1640,7 @@ unsigned int GetAddressOfFunction(const char * functionName,unsigned int library
     }
     else if(strcmp(functionName, "LiWaitOneChunk") == 0)
     {
-        real_addr = addr_LiWaitOneChunk;
+        real_addr = (unsigned int)addr_LiWaitOneChunk;
         return real_addr;
     }
     else if(strcmp(functionName, "LiBounceOneChunk") == 0)
@@ -1620,7 +1650,7 @@ unsigned int GetAddressOfFunction(const char * functionName,unsigned int library
             return 0;
 
         unsigned int addr_LiBounceOneChunk = 0x010003A0;
-        real_addr = addr_LiBounceOneChunk;
+        real_addr = (unsigned int)addr_LiBounceOneChunk;
         return real_addr;
     }
 
@@ -1695,6 +1725,13 @@ unsigned int GetAddressOfFunction(const char * functionName,unsigned int library
         if(vpadbase_handle == 0){log_print("LIB_VPADBASE not aquired\n"); return 0;}
         rpl_handle = vpadbase_handle;
     }
+    else if(library == LIB_ACT){
+        log_printf("FindExport of %s! From LIB_ACT\n", functionName);
+        unsigned int act_handle = 0;
+        OSDynLoad_Acquire("nn_act.rpl", &act_handle);
+        if(act_handle == 0){log_print("LIB_ACT not aquired\n"); return 0;}
+        rpl_handle = act_handle;
+    }
 
     if(!rpl_handle){
         log_printf("Failed to find the RPL handle for %s\n", functionName);
@@ -1708,71 +1745,93 @@ unsigned int GetAddressOfFunction(const char * functionName,unsigned int library
         return 0;
     }
 
-    if((u32)(*(volatile unsigned int*)(real_addr) & 0xFF000000) == 0x48000000){
-        real_addr += (u32)(*(volatile unsigned int*)(real_addr) & 0x0000FFFF);
-        if((u32)(*(volatile unsigned int*)(real_addr) & 0xFF000000) == 0x48000000){
-            return 0;
-        }
-    }
+//    if((u32)(*(volatile unsigned int*)(real_addr) & 0x48000002) == 0x48000000){
+//        real_addr += (u32)(*(volatile unsigned int*)(real_addr) & 0x07FFFFFC);
+//        if((u32)(*(volatile unsigned int*)(real_addr) & 0x48000002) == 0x48000000){
+//            return 0;
+//        }
+//    }
 
     return real_addr;
 }
 
-void PatchSDK(void){
-    if(gPatchSDKDone) return;
+void PatchSDK(void)
+{
+    if(gPatchSDKDone)
+        return;
+
     gPatchSDKDone = 1;
-    bat_table_t table;
-    KernelSetDBATs(&table);
-    //! TODO: Not sure if this is still needed at all after changing the SDK version in the xml struct, check that
+
+    // this only needs
+    gLoaderPhysicalBufferAddr = (u32)OSEffectiveToPhysical((void*)0xF6000000);
+    if(gLoaderPhysicalBufferAddr == 0)
+        gLoaderPhysicalBufferAddr = 0x1B000000; // this is just in case and probably never needed
+
+    u32 sdkLeAddr = 0;
+    u32 sdkGtAddr = 0;
+
+    u32 sdkLePatch = 0;
+    u32 sdkGtPatch = 0;
+
+    /* Patch to bypass SDK version tests */
     if((OS_FIRMWARE == 532) || (OS_FIRMWARE == 540))
     {
         /* Patch to bypass SDK version tests */
-        *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x010095b4)) = 0x480000a0; // ble loc_1009654    (0x408100a0) => b loc_1009654      (0x480000a0)
-        *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x01009658)) = 0x480000e8; // bge loc_1009740    (0x408100a0) => b loc_1009740      (0x480000e8)
-        DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x010095b4), 4);
-        ICInvalidateRange((void*)(0x010095b4), 4);
-        DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x01009658), 4);
-        ICInvalidateRange((void*)(0x01009658), 4);
+        sdkLeAddr = 0x010095b4;
+        sdkLePatch = 0x480000a0; // ble loc_1009654    (0x408100a0) => b loc_1009654      (0x480000a0)
+
+        sdkGtAddr = 0x01009658;
+        sdkGtPatch = 0x480000e8; // bge loc_1009740    (0x408100a0) => b loc_1009740      (0x480000e8)
     }
     else if((OS_FIRMWARE == 500) || (OS_FIRMWARE == 510))
     {
         /* Patch to bypass SDK version tests */
-        *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x010091CC)) = 0x480000a0; // ble loc_1009654    (0x408100a0) => b loc_1009654      (0x480000a0)
-        *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x01009270)) = 0x480000e8; // bge loc_1009740    (0x408100a0) => b loc_1009740      (0x480000e8)
-        DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x010091CC), 4);
-        ICInvalidateRange((void*)(0x010091CC), 4);
-        DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x01009270), 4);
-        ICInvalidateRange((void*)(0x01009270), 4);
+        sdkLeAddr = 0x010091CC;
+        sdkLePatch = 0x480000a0; // ble loc_1009654    (0x408100a0) => b loc_1009654      (0x480000a0)
+
+        sdkGtAddr = 0x01009270;
+        sdkGtPatch = 0x480000e8; // bge loc_1009740    (0x408100a0) => b loc_1009740      (0x480000e8)
     }
     else if ((OS_FIRMWARE == 400) || (OS_FIRMWARE == 410))
     {
         /* Patch to bypass SDK version tests */
-        *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x01008DAC)) = 0x480000a0; // ble loc_1009654    (0x408100a0) => b loc_1009654      (0x480000a0)
-        *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x01008E50)) = 0x480000e8; // bge loc_1009740    (0x408100a0) => b loc_1009740      (0x480000e8)
-        DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x01008DAC), 4);
-        ICInvalidateRange((void*)(0x01008DAC), 4);
-        DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x01008E50), 4);
-        ICInvalidateRange((void*)(0x01008E50), 4);
+        sdkLeAddr = 0x01008DAC;
+        sdkLePatch = 0x480000a0; // ble loc_1009654    (0x408100a0) => b loc_1009654      (0x480000a0)
+
+        sdkGtAddr = 0x01008E50;
+        sdkGtPatch = 0x480000e8; // bge loc_1009740    (0x408100a0) => b loc_1009740      (0x480000e8)
     }
     else if (OS_FIRMWARE < 400)
     {
         /* Patch to bypass SDK version tests */
-        *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x010067A8)) = 0x48000088;
-        *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x01006834)) = 0x480000b8;
-        DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x010067A8), 4);
-        ICInvalidateRange((void*)(0x010067A8), 4);
-        DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x01006834), 4);
-        ICInvalidateRange((void*)(0x01006834), 4);
+        sdkLeAddr = 0x010067A8;
+        sdkLePatch = 0x48000088;
+
+        sdkGtAddr = 0x01006834;
+        sdkGtPatch = 0x480000b8;
     }
 	else if (OS_FIRMWARE == 550)
     {
-       /* Patch to bypass SDK version tests */
-        *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x010097AC)) = 0x480000a0; // ble loc_1009654    (0x408100a0) => b loc_1009654      (0x480000a0)
-        *((volatile unsigned int *)(LIB_CODE_RW_BASE_OFFSET + 0x01009850)) = 0x480000e8; // bge loc_1009740    (0x408100a0) => b loc_1009740      (0x480000e8)
-        DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x010097AC), 4);
-        ICInvalidateRange((void*)(0x010097AC), 4);
-        DCFlushRange((void*)(LIB_CODE_RW_BASE_OFFSET + 0x01009850), 4);
-        ICInvalidateRange((void*)(0x01009850), 4);
+        /* Patch to bypass SDK version tests */
+        sdkLeAddr = 0x010097AC;
+        sdkLePatch = 0x480000a0; // ble loc_1009654    (0x408100a0) => b loc_1009654      (0x480000a0)
+
+        sdkGtAddr = 0x01009850;
+        sdkGtPatch = 0x480000e8; // bge loc_1009740    (0x408100a0) => b loc_1009740      (0x480000e8)
     }
-    KernelRestoreDBATs(&table);
+
+    u32 sdkLePhysAddr = (u32)OSEffectiveToPhysical((void*)sdkLeAddr);
+    u32 sdkGtPhysAddr = (u32)OSEffectiveToPhysical((void*)sdkGtAddr);
+
+    if(sdkLePhysAddr != 0 && sdkGtPhysAddr != 0)
+    {
+        DCFlushRange(&sdkLePatch, sizeof(sdkLePatch));
+        DCFlushRange(&sdkGtPatch, sizeof(sdkGtPatch));
+
+        SC0x25_KernelCopyData(sdkLePhysAddr, (u32)OSEffectiveToPhysical(&sdkLePatch), 4);
+        SC0x25_KernelCopyData(sdkGtPhysAddr, (u32)OSEffectiveToPhysical(&sdkGtPatch), 4);
+
+        ICInvalidateRange((void*)(sdkLeAddr), 4);
+        ICInvalidateRange((void*)(sdkGtPhysAddr), 4);
+    }
 }

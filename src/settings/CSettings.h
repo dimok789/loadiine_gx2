@@ -81,11 +81,11 @@ public:
         GameCover3DPath,
         ConsoleRegionCode,
 		AppLanguage,
-        DebugLoggerIP,
         GameStartIndex,
 		PadconMode,
         LaunchPyGecko,
         HIDPadEnabled,
+        ShowGameSettings,
         MAX_VALUE
     };
 
