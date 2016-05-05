@@ -128,7 +128,7 @@ void CSettings::SetDefault()
 
     settingsNames[HIDPadEnabled] = "HIDPadUse";
     settingsValues[HIDPadEnabled].dataType = TypeU8;
-    settingsValues[HIDPadEnabled].ucValue = SETTING_ON;
+    settingsValues[HIDPadEnabled].ucValue = SETTING_OFF;
 
 }
 
