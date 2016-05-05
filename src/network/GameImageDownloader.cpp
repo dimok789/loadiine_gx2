@@ -239,9 +239,19 @@ bool GameImageDownloader::DownloadImage(const char * url, const char * gameID, c
 
     imageData.clear();
 
+    if(PAL && checkedRegion != "EN")
+    {
+        downloadURL = std::string(url) + "EN/" + gameID + fileExt;
+        FileDownloader::getFile(downloadURL, imageData);
+        if(VALID_IMAGE(imageData.size()))
+            return true;
+
+        imageData.clear();
+    }
+
+
     //! those are not needed yet -> later
     //! just shutup the compiler
-    (void)PAL;
     (void)serverURL2D;
     (void)serverURLFullHQ;
     (void)serverURLFull;
