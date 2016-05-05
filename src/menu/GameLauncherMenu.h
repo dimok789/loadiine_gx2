@@ -94,6 +94,7 @@ private:
 
     void loadBgImage();
     void OnBgLoadedFinished(GuiElement *element);
+    void OnCoverLoadedFinished(GuiElement *element);
     void OnBgEffectFinished(GuiElement *element);
 
     GuiFrame gameLauncherMenuFrame;

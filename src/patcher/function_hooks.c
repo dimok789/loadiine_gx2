@@ -1337,7 +1337,7 @@ DECL(int, VPADRead, int chan, VPADData *buffer, u32 buffer_size, s32 *error) {
 
     int result = real_VPADRead(chan, buffer, buffer_size, error);
 
-    if(gHIDAttached){
+    if((gHIDPADEnabled == SETTING_ON) && gHIDAttached){
         setControllerDataFromHID(buffer,gHIDCurrentDevice);
     }
 

@@ -85,6 +85,7 @@ public:
         GameStartIndex,
 		PadconMode,
         LaunchPyGecko,
+        HIDPadEnabled,
         MAX_VALUE
     };
 

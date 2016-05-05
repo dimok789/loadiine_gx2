@@ -126,6 +126,10 @@ void CSettings::SetDefault()
     settingsValues[LaunchPyGecko].dataType = TypeU8;
     settingsValues[LaunchPyGecko].ucValue = SETTING_OFF;
 
+    settingsNames[HIDPadEnabled] = "HIDPadUse";
+    settingsValues[HIDPadEnabled].dataType = TypeU8;
+    settingsValues[HIDPadEnabled].ucValue = SETTING_ON;
+
 }
 
 bool CSettings::Load()

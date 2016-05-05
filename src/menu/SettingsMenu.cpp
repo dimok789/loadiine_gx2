@@ -50,7 +50,7 @@ stSettingsCategories[] =
 {
     { trNOOP("GUI"),     "guiSettingsIcon.png",    "guiSettingsIconGlow.png",    trNOOP("Game View Selection") "\n" trNOOP("Background customizations") },
     { trNOOP("Loader"),  "loaderSettingsIcon.png", "loaderSettingsIconGlow.png", trNOOP("Customize games path") "\n" trNOOP("Customize save path") "\n" trNOOP("Set save mode") },
-    { trNOOP("Game"),    "gameSettingsIcon.png",   "gameSettingsIconGlow.png",   trNOOP("Launch method selection") "\n" trNOOP("Log server control") "\n" trNOOP("Adjust log server IP and port") "\n" trNOOP("PyGecko settings") "\n" trNOOP("Padcon settings")},
+    { trNOOP("Game"),    "gameSettingsIcon.png",   "gameSettingsIconGlow.png",   trNOOP("Launch method selection") "\n" trNOOP("Log server control") "\n" trNOOP("Adjust log server IP and port") "\n" trNOOP("PyGecko settings") "\n" trNOOP("Padcon settings") "\n" trNOOP("HID settings")},
     { trNOOP("Credits"), "creditsIcon.png",        "creditsIconGlow.png",        trNOOP("Credits to all contributors") }
 };
 
@@ -73,7 +73,8 @@ static const SettingType GameSettings[] =
     { trNOOP("Log Server Control"), ValueOnOff, Type2Buttons, CSettings::GameLogServer },
     { trNOOP("Log Server IP"), 0, TypeIP, CSettings::GameLogServerIp },
     { trNOOP("PyGecko"), ValueOnOff, Type2Buttons, CSettings::LaunchPyGecko },
-    { trNOOP("Padcon"), ValueOnOff, Type2Buttons, CSettings::PadconMode }
+    { trNOOP("Padcon"), ValueOnOff, Type2Buttons, CSettings::PadconMode },
+    { trNOOP("HID-Pad"), ValueOnOff, Type2Buttons, CSettings::HIDPadEnabled }
 };
 
 SettingsMenu::SettingsMenu(int w, int h)

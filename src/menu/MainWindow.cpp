@@ -495,6 +495,8 @@ void MainWindow::OnGameLoadFinish(GameLauncher * launcher, const discHeader *hea
         LOADIINE_MODE = CSettings::getValueAsU8(CSettings::GameLaunchMethod);
         gSettingLaunchPyGecko = CSettings::getValueAsU8(CSettings::LaunchPyGecko);
         gSettingPadconMode= CSettings::getValueAsU8(CSettings::PadconMode);
+        //! load HID settings
+        gHIDPADEnabled = CSettings::getValueAsU8(CSettings::HIDPadEnabled);
 
 		GameSettings  gs;
 		bool result = CSettingsGame::getInstance()->LoadGameSettings(header->id,gs);
