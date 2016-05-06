@@ -49,7 +49,7 @@ static const struct
 stSettingsCategories[] =
 {
     { trNOOP("GUI"),     "guiSettingsIcon.png",    "guiSettingsIconGlow.png",    trNOOP("Game View Selection") "\n" trNOOP("Background customizations") },
-    { trNOOP("Loader"),  "loaderSettingsIcon.png", "loaderSettingsIconGlow.png", trNOOP("Customize games path") "\n" trNOOP("Customize save path") "\n" trNOOP("Set save mode") trNOOP("Adjust log server IP and port") },
+    { trNOOP("Loader"),  "loaderSettingsIcon.png", "loaderSettingsIconGlow.png", trNOOP("Customize games path") "\n" trNOOP("Customize save path") "\n" trNOOP("Set save mode") "\n" trNOOP("Adjust log server IP and port") },
     { trNOOP("Game"),    "gameSettingsIcon.png",   "gameSettingsIconGlow.png",   trNOOP("Launch method selection") "\n" trNOOP("Log server control") "\n"  "\n" trNOOP("PyGecko settings") "\n" trNOOP("Padcon settings") "\n" trNOOP("HID settings")},
     { trNOOP("Credits"), "creditsIcon.png",        "creditsIconGlow.png",        trNOOP("Credits to all contributors") }
 };
