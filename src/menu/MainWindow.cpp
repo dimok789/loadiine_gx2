@@ -511,8 +511,9 @@ void MainWindow::OnGameLoadFinish(GameLauncher * launcher, const discHeader *hea
         gSettingPadconMode= CSettings::getValueAsU8(CSettings::PadconMode);
         //! load HID settings
         gHIDPADEnabled = CSettings::getValueAsU8(CSettings::HIDPadEnabled);
+        gEnableDLC = 0;
 
-		GameSettings  gs;
+		GameSettings gs;
 		bool result = CSettingsGame::getInstance()->LoadGameSettings(header->id,gs);
 		if(result){
 			switch(gs.launch_method){
@@ -539,6 +540,8 @@ void MainWindow::OnGameLoadFinish(GameLauncher * launcher, const discHeader *hea
 					log_printf("No valid value found. Using launch method from settings\n");
 					break;
 			}
+
+			gEnableDLC = gs.EnableDLC;
 		}
         Application::instance()->quit();
     }

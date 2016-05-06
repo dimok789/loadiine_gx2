@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Loadiine GX2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-06 00:24+0200\n"
+"POT-Creation-Date: 2016-05-07 01:41+0200\n"
 "PO-Revision-Date: 2009-10-01 01:00+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -54,6 +54,12 @@ msgid "Marionumber1 for his kernel exploit"
 msgstr ""
 
 msgid "The whole libwiiu team and it's contributors."
+msgstr ""
+
+msgid "Extra Save:"
+msgstr ""
+
+msgid "Enable DLC Support:"
 msgstr ""
 
 msgid "Update Folder"

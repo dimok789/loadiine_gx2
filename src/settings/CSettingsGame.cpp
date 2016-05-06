@@ -114,12 +114,9 @@ bool CSettingsGame::Load()
 		if(lines.empty())
 			return false;
 
-		if(lines.size() != (2 + MAX_VALUE))
-			continue;
-
 		std::string ID6 = lines[0];
 
-		std::vector<CSettingsGame::SettingValue> newValues = getSettingValuesFromGameSettings(std::string(COMMON_UPDATE_PATH),false,GAME_SAVES_DEFAULT,LOADIINE_MODE_DEFAULT);
+		std::vector<CSettingsGame::SettingValue> newValues = getSettingValuesFromGameSettings(std::string(COMMON_UPDATE_PATH), false, GAME_SAVES_DEFAULT, LOADIINE_MODE_DEFAULT, SETTING_OFF);
 
 		for(u32 i = 1; i < lines.size(); ++i)
 		{
@@ -194,15 +191,23 @@ bool CSettingsGame::Load()
 }
 
 bool CSettingsGame::LoadGameSettings(std::string ID6, GameSettings & result){
-	//log_printf("LoadGameSettings for ID6: %s\n",ID6.c_str());
-	std::map<std::string,GameSettings>::iterator itr;
-	itr = settingsGames.find(ID6);
-	if(itr != settingsGames.end()){// existiert
-		result = itr->second;
-		return true;
-	}else{
-		return false;
-	}
+    //log_printf("LoadGameSettings for ID6: %s\n",ID6.c_str());
+    std::map<std::string,GameSettings>::iterator itr;
+    itr = settingsGames.find(ID6);
+    if(itr != settingsGames.end()){// existiert
+        result = itr->second;
+        return true;
+    }
+    else
+    {
+        result.ID6 = ID6;
+        result.extraSave = false;
+        result.launch_method = LOADIINE_MODE_DEFAULT;
+        result.save_method = GAME_SAVES_DEFAULT;
+        result.updateFolder = COMMON_UPDATE_PATH;
+        result.EnableDLC = SETTING_OFF;
+        return false;
+    }
 }
 
 bool CSettingsGame::SaveGameSettings(const GameSettings & gSetttings)
@@ -287,10 +292,10 @@ bool CSettingsGame::Save()
 }
 
 std::vector<CSettingsGame::SettingValue> CSettingsGame::getSettingValuesFromGameSettings(GameSettings gameSettings){
-	return getSettingValuesFromGameSettings(gameSettings.updateFolder,gameSettings.extraSave,gameSettings.save_method,gameSettings.launch_method);
+	return getSettingValuesFromGameSettings(gameSettings.updateFolder,gameSettings.extraSave,gameSettings.save_method,gameSettings.launch_method,gameSettings.EnableDLC);
 }
 
-std::vector<CSettingsGame::SettingValue> CSettingsGame::getSettingValuesFromGameSettings(std::string updateFolder,bool extraSave,u8 save_method,u8 launch_method){
+std::vector<CSettingsGame::SettingValue> CSettingsGame::getSettingValuesFromGameSettings(std::string updateFolder,bool extraSave,u8 save_method,u8 launch_method, u8 enableDlc){
 	std::vector<CSettingsGame::SettingValue> result;
 
 	result = std::vector<CSettingsGame::SettingValue>();
@@ -304,6 +309,8 @@ std::vector<CSettingsGame::SettingValue> CSettingsGame::getSettingValuesFromGame
 	result.at(SaveMethod).ucValue = save_method;
 	result.at(LaunchMethod).dataType = TypeU8;
 	result.at(LaunchMethod).ucValue = launch_method;
+	result.at(EnableDLC).dataType = TypeU8;
+	result.at(EnableDLC).ucValue = enableDlc;
 	return result;
 }
 
@@ -315,6 +322,7 @@ GameSettings * CSettingsGame::GetGameSettingsBySettingGameValue(std::string ID6,
 	set->extraSave = settings.at(ExtraSaveFile).bValue;
 	set->save_method = settings.at(SaveMethod).ucValue;
 	set->launch_method = settings.at(LaunchMethod).ucValue;
+	set->EnableDLC = settings.at(EnableDLC).ucValue;
 
 	return set;
 }

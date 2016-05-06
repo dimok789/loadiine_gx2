@@ -42,7 +42,7 @@ extern "C" {
 #define LIB_NN_ACP              11
 #define LIB_SYSHID              12
 #define LIB_VPADBASE            13
-#define LIB_ACT                 14
+#define LIB_NN_AOC              14
 
 // functions types
 #define STATIC_FUNCTION         0

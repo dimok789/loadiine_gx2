@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Loadiine GX2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-06 00:24+0200\n"
+"POT-Creation-Date: 2016-05-07 01:41+0200\n"
 "PO-Revision-Date: 2009-10-01 01:00+0200\n"
 "Last-Translator: kavid by 91wii.com \n"
 "Language-Team: 91wii.com\n"
@@ -55,6 +55,12 @@ msgstr "Marionumber1开发的内核破解程序"
 
 msgid "The whole libwiiu team and it's contributors."
 msgstr "还有libwiiu小组和其他人所做出贡献"
+
+msgid "Extra Save:"
+msgstr ""
+
+msgid "Enable DLC Support:"
+msgstr ""
 
 msgid "Update Folder"
 msgstr "更新文件夹"

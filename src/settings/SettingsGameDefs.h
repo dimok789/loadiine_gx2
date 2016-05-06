@@ -23,6 +23,7 @@ typedef struct
 	  bool extraSave;
 	  u8 save_method;
 	  u8 launch_method;
+	  u8 EnableDLC;
     } GameSettings;
 
 #endif // __SETTINGSGAME_DEFS_

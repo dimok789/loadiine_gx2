@@ -41,8 +41,8 @@ public:
             instance = NULL;
         }
     }
-	
-	
+
+
 	enum SettingsGameIdx
     {
         INVALID = -1,
@@ -50,9 +50,10 @@ public:
 		ExtraSaveFile,
 		SaveMethod,
 		LaunchMethod,
+		EnableDLC,
         MAX_VALUE
     };
-	
+
 	enum DataTypes
     {
         TypeNone,
@@ -66,7 +67,7 @@ public:
         TypeF32,
         TypeString
     };
-	
+
 	bool SaveGameSettings(const GameSettings & gSetttings);
     bool LoadGameSettings(std::string ID6, GameSettings & result);
 
@@ -75,15 +76,16 @@ private:
     CSettingsGame();
     //!Destructor
     ~CSettingsGame();
-	
+
 	void InitSettingsNames(void){
 		settingsNames.resize(MAX_VALUE);
 		settingsNames[UpdateFolder] = "UpdateFolder";
 		settingsNames[ExtraSaveFile] = "ExtraSaveFile";
 		settingsNames[SaveMethod] = "SaveMethod";
 		settingsNames[LaunchMethod] = "LaunchMethod";
+		settingsNames[EnableDLC] = "EnableDLC";
 	}
-	
+
 	typedef struct
     {
         u8 dataType;
@@ -101,11 +103,11 @@ private:
             std::string *strValue;
         };
     } SettingValue;
-	
-	std::vector<const char*> settingsNames; 
-	
+
+	std::vector<const char*> settingsNames;
+
     bool ValidVersion(const std::string & versionString);
-	
+
 	std::map<std::string,GameSettings> settingsGames;
     static CSettingsGame *instance;
 	std::string configPath;
@@ -114,9 +116,9 @@ private:
 	bool Save();
 	bool Load();
 	void PrintLoadedGames();
-	
+
 	GameSettings * GetGameSettingsBySettingGameValue(std::string ID6,std::vector<SettingValue> settings);
 	std::vector<SettingValue> getSettingValuesFromGameSettings(GameSettings gameSettings);
-	std::vector<SettingValue> getSettingValuesFromGameSettings(std::string updateFolder,bool extraSave,u8 save_method,u8 launch_method);
+	std::vector<SettingValue> getSettingValuesFromGameSettings(std::string updateFolder,bool extraSave,u8 save_method,u8 launch_method,u8 enableDlc);
 };
 #endif

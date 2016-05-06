@@ -42,6 +42,11 @@
         res (* real_ ## name)(__VA_ARGS__) __attribute__((section(".data"))); \
         res my_ ## name(__VA_ARGS__)
 
+#define PATH_TYPE_IGNORE    0
+#define PATH_TYPE_GAME      1
+#define PATH_TYPE_SAVE      2
+#define PATH_TYPE_AOC       3
+
 extern game_paths_t gamePathStruct;
 
 /* Client functions */
@@ -73,7 +78,7 @@ static void client_num_free(int client) {
     bss.pClient_fs[client] = 0;
 }
 
-static int is_gamefile(const char *path) {
+static int getPathType(const char *path) {
     // In case the path starts by "//" and not "/" (some games do that ... ...)
     if (path[0] == '/' && path[1] == '/')
         path = &path[1];
@@ -86,40 +91,25 @@ static int is_gamefile(const char *path) {
         len++;
     }
 
-    while(*path && len < (int)sizeof(new_path)) {
+    while(*path && len < (int)(sizeof(new_path) - 1)) {
         new_path[len++] = *path++;
     }
+    new_path[len++] = 0;
 
     /* Note : no need to check everything, it is faster this way */
     if (m_strncasecmp(new_path, "/vol/content", 12) == 0)
-        return 1;
-
-    return 0;
-}
-static int is_savefile(const char *path) {
-    // In case the path starts by "//" and not "/" (some games do that ... ...)
-    if (path[0] == '/' && path[1] == '/')
-        path = &path[1];
-
-    // In case the path does not start with "/" (some games do that too ...)
-    int len = 0;
-    char new_path[16];
-    if(path[0] != '/') {
-        new_path[0] = '/';
-        len++;
-    }
-
-    while(*path && len < (int)sizeof(new_path)) {
-        new_path[len++] = *path++;
-    }
+        return PATH_TYPE_GAME;
 
     if (m_strncasecmp(new_path, "/vol/save", 9) == 0)
-        return 1;
+        return PATH_TYPE_SAVE;
+
+    if (m_strncasecmp(new_path, "/vol/aoc", 8) == 0)
+        return PATH_TYPE_AOC;
 
     return 0;
 }
 
-static void compute_new_path(char* new_path, const char* path, int len, int is_save) {
+static void compute_new_path(char* new_path, const char* path, int len, int pathType) {
 
     int i, n, path_offset = 0;
 
@@ -136,8 +126,8 @@ static void compute_new_path(char* new_path, const char* path, int len, int is_s
         path_offset += 2;
     }
 
-    if (!is_save) {
-
+    if(pathType == PATH_TYPE_GAME)
+    {
 		char * pathfoo = (char*)path + 13 + path_offset;
 		if(path[13 + path_offset] == '/') pathfoo++; //Skip double slash
 
@@ -165,7 +155,8 @@ static void compute_new_path(char* new_path, const char* path, int len, int is_s
 
         new_path[n++] = '\0';
     }
-    else {
+    else if(pathType == PATH_TYPE_SAVE)
+    {
         n = m_strlcpy(new_path, bss.save_base, sizeof(bss.save_base));
         new_path[n++] = '/';
 
@@ -207,6 +198,17 @@ static void compute_new_path(char* new_path, const char* path, int len, int is_s
         }
         new_path[n++] = '\0';
     }
+    else if(pathType == PATH_TYPE_AOC)
+    {
+        char * pathfoo = (char*)path + 4 + path_offset;
+        if(pathfoo[0] == '/') pathfoo++; //Skip double slash
+
+        n = m_strlcpy(new_path, bss.mount_base, sizeof(bss.mount_base)) - m_strlen(CONTENT_PATH);
+        n += m_strlcpy(new_path + n, "/", sizeof(bss.mount_base) - n);
+        n += m_strlcpy(new_path + n, pathfoo, sizeof(bss.mount_base) - n);
+
+        new_path[n++] = '\0';
+    }
 }
 
 static int GetCurClient(void *pClient) {
@@ -219,18 +221,25 @@ static int GetCurClient(void *pClient) {
     return -1;
 }
 
-static int getNewPathLen(int is_save){
+static int getNewPathLen(int pathType){
 
     int len_base = 0;
-    if(is_save){
+    if(pathType == PATH_TYPE_SAVE)
+    {
         len_base += m_strlen(bss.save_base) + 15;
         if(gSettingUseUpdatepath){
             if(gamePathStruct.extraSave){
                 len_base += (m_strlen(gamePathStruct.update_folder) + 2);
             }
         }
-    }else{
-        len_base +=  m_strlen(bss.mount_base);
+    }
+    else if(pathType == PATH_TYPE_AOC)
+    {
+        len_base += m_strlen(bss.mount_base) - m_strlen(CONTENT_PATH) + 23;
+    }
+    else
+    {
+        len_base += m_strlen(bss.mount_base);
         if(gSettingUseUpdatepath){
              len_base += sizeof(UPDATE_PATH);
              //len_base += sizeof(CONTENT_PATH); <-- Is already in the path!
@@ -358,13 +367,13 @@ DECL(int, FSGetStat, void *pClient, void *pCmd, const char *path, FSStat *stats,
         // log
         fs_log_string(bss.socket_fs[client], path, BYTE_STAT);
         // change path if it is a game file
-        int is_save = 0;
-        if (is_gamefile(path) || (is_save = is_savefile(path))) {
+        int pathType = getPathType(path);
+        if (pathType) {
             int len = m_strlen(path);
-            int len_base = getNewPathLen(is_save);
+            int len_base = getNewPathLen(pathType);
 
             char new_path[len + len_base + 1];
-            compute_new_path(new_path, path, len, is_save);
+            compute_new_path(new_path, path, len, pathType);
             fs_log_string(bss.socket_fs[client], new_path, BYTE_LOG_STR);
             // return function with new_path if path exists
             return real_FSGetStat(pClient, pCmd, new_path, stats, error);
@@ -380,13 +389,13 @@ DECL(int, FSGetStatAsync, void *pClient, void *pCmd, const char *path, void *sta
         fs_log_string(bss.socket_fs[client], path, BYTE_STAT_ASYNC);
 
         // change path if it is a game/save file
-        int is_save = 0;
-        if (is_gamefile(path) || (is_save = is_savefile(path))) {
+        int pathType = getPathType(path);
+        if (pathType) {
             int len = m_strlen(path);
-            int len_base = getNewPathLen(is_save);
+            int len_base = getNewPathLen(pathType);
+
             char new_path[len + len_base + 1];
-            compute_new_path(new_path, path, len, is_save);
-            // log new path
+            compute_new_path(new_path, path, len, pathType);
             fs_log_string(bss.socket_fs[client], new_path, BYTE_LOG_STR);
             return real_FSGetStatAsync(pClient, pCmd, new_path, stats, error, asyncParams);
         }
@@ -424,12 +433,13 @@ DECL(int, FSOpenFileAsync, void *pClient, void *pCmd, const char *path, const ch
         fs_log_string(bss.socket_fs[client], path, BYTE_OPEN_FILE_ASYNC);
 
         // change path if it is a game file
-        int is_save = 0;
-        if (is_gamefile(path) || (is_save = is_savefile(path))) {
+        int pathType = getPathType(path);
+        if (pathType) {
             int len = m_strlen(path);
-            int len_base = getNewPathLen(is_save);
+            int len_base = getNewPathLen(pathType);
+
             char new_path[len + len_base + 1];
-            compute_new_path(new_path, path, len, is_save);
+            compute_new_path(new_path, path, len, pathType);
             fs_log_string(bss.socket_fs[client], new_path, BYTE_LOG_STR);
             return real_FSOpenFileAsync(pClient, pCmd, new_path, mode, handle, error, asyncParams);
         }
@@ -444,12 +454,13 @@ DECL(int, FSOpenDir, void *pClient, void* pCmd, const char *path, int *handle, i
         fs_log_string(bss.socket_fs[client], path, BYTE_OPEN_DIR);
 
         // change path if it is a game folder
-        int is_save = 0;
-        if (is_gamefile(path) || (is_save = is_savefile(path))) {
+        int pathType = getPathType(path);
+        if (pathType) {
             int len = m_strlen(path);
-            int len_base = getNewPathLen(is_save);
+            int len_base = getNewPathLen(pathType);
+
             char new_path[len + len_base + 1];
-            compute_new_path(new_path, path, len, is_save);
+            compute_new_path(new_path, path, len, pathType);
             fs_log_string(bss.socket_fs[client], new_path, BYTE_LOG_STR);
             return real_FSOpenDir(pClient, pCmd, new_path, handle, error);
         }
@@ -464,12 +475,13 @@ DECL(int, FSOpenDirAsync, void *pClient, void* pCmd, const char *path, int *hand
         fs_log_string(bss.socket_fs[client], path, BYTE_OPEN_DIR_ASYNC);
 
         // change path if it is a game folder
-        int is_save = 0;
-        if (is_gamefile(path) || (is_save = is_savefile(path))) {
+        int pathType = getPathType(path);
+        if (pathType) {
             int len = m_strlen(path);
-            int len_base = getNewPathLen(is_save);
+            int len_base = getNewPathLen(pathType);
+
             char new_path[len + len_base + 1];
-            compute_new_path(new_path, path, len, is_save);
+            compute_new_path(new_path, path, len, pathType);
             fs_log_string(bss.socket_fs[client], new_path, BYTE_LOG_STR);
             return real_FSOpenDirAsync(pClient, pCmd, new_path, handle, error, asyncParams);
         }
@@ -484,12 +496,13 @@ DECL(int, FSChangeDir, void *pClient, void *pCmd, const char *path, int error) {
         fs_log_string(bss.socket_fs[client], path, BYTE_CHANGE_DIR);
 
         // change path if it is a game folder
-        int is_save = 0;
-        if (is_gamefile(path) || (is_save = is_savefile(path))) {
+        int pathType = getPathType(path);
+        if (pathType) {
             int len = m_strlen(path);
-            int len_base = getNewPathLen(is_save);
+            int len_base = getNewPathLen(pathType);
+
             char new_path[len + len_base + 1];
-            compute_new_path(new_path, path, len, is_save);
+            compute_new_path(new_path, path, len, pathType);
             fs_log_string(bss.socket_fs[client], new_path, BYTE_LOG_STR);
             return real_FSChangeDir(pClient, pCmd, new_path, error);
         }
@@ -504,12 +517,13 @@ DECL(int, FSChangeDirAsync, void *pClient, void *pCmd, const char *path, int err
         fs_log_string(bss.socket_fs[client], path, BYTE_CHANGE_DIR_ASYNC);
 
         // change path if it is a game folder
-        int is_save = 0;
-        if (is_gamefile(path) || (is_save = is_savefile(path))) {
+        int pathType = getPathType(path);
+        if (pathType) {
             int len = m_strlen(path);
-            int len_base = getNewPathLen(is_save);
+            int len_base = getNewPathLen(pathType);
+
             char new_path[len + len_base + 1];
-            compute_new_path(new_path, path, len, is_save);
+            compute_new_path(new_path, path, len, pathType);
             fs_log_string(bss.socket_fs[client], new_path, BYTE_LOG_STR);
             return real_FSChangeDirAsync(pClient, pCmd, new_path, error, asyncParams);
         }
@@ -525,11 +539,12 @@ DECL(int, FSMakeDir, void *pClient, void *pCmd, const char *path, int error) {
         fs_log_string(bss.socket_fs[client], path, BYTE_MAKE_DIR);
 
         // change path if it is a save folder
-        if (is_savefile(path)) {
+        int pathType = getPathType(path);
+        if (pathType == PATH_TYPE_SAVE) {
             int len = m_strlen(path);
-            int len_base = getNewPathLen(1);
+            int len_base = getNewPathLen(pathType);
             char new_path[len + len_base + 1];
-            compute_new_path(new_path, path, len, 1);
+            compute_new_path(new_path, path, len, pathType);
 
             // log new path
             fs_log_string(bss.socket_fs[client], new_path, BYTE_LOG_STR);
@@ -548,11 +563,12 @@ DECL(int, FSMakeDirAsync, void *pClient, void *pCmd, const char *path, int error
         fs_log_string(bss.socket_fs[client], path, BYTE_MAKE_DIR_ASYNC);
 
         // change path if it is a save folder
-        if (is_savefile(path)) {
+        int pathType = getPathType(path);
+        if (pathType == PATH_TYPE_SAVE) {
             int len = m_strlen(path);
-            int len_base = getNewPathLen(1);
+            int len_base = getNewPathLen(pathType);
             char new_path[len + len_base + 1];
-            compute_new_path(new_path, path, len, 1);
+            compute_new_path(new_path, path, len, pathType);
 
             // log new path
             fs_log_string(bss.socket_fs[client], new_path, BYTE_LOG_STR);
@@ -572,17 +588,18 @@ DECL(int, FSRename, void *pClient, void *pCmd, const char *oldPath, const char *
         fs_log_string(bss.socket_fs[client], newPath, BYTE_RENAME);
 
         // change path if it is a save folder
-        if (is_savefile(oldPath)) {
+        int pathType = getPathType(oldPath);
+        if (pathType == PATH_TYPE_SAVE) {
             // old path
-            int len_base = getNewPathLen(1);
+            int len_base = getNewPathLen(pathType);
             int len_old = m_strlen(oldPath);
             char new_old_path[len_old + len_base + 1];
-            compute_new_path(new_old_path, oldPath, len_old, 1);
+            compute_new_path(new_old_path, oldPath, len_old, pathType);
 
             // new path
             int len_new = m_strlen(newPath);
             char new_new_path[len_new + len_base + 1];
-            compute_new_path(new_new_path, newPath, len_new, 1);
+            compute_new_path(new_new_path, newPath, len_new, pathType);
 
             // log new path
             fs_log_string(bss.socket_fs[client], new_old_path, BYTE_LOG_STR);
@@ -603,17 +620,18 @@ DECL(int, FSRenameAsync, void *pClient, void *pCmd, const char *oldPath, const c
         fs_log_string(bss.socket_fs[client], newPath, BYTE_RENAME);
 
         // change path if it is a save folder
-        if (is_savefile(oldPath)) {
+        int pathType = getPathType(oldPath);
+        if (pathType == PATH_TYPE_SAVE) {
             // old path
-            int len_base = getNewPathLen(1);
+            int len_base = getNewPathLen(pathType);
             int len_old = m_strlen(oldPath);
             char new_old_path[len_old + len_base + 1];
-            compute_new_path(new_old_path, oldPath, len_old, 1);
+            compute_new_path(new_old_path, oldPath, len_old, pathType);
 
             // new path
             int len_new = m_strlen(newPath);
             char new_new_path[len_new + len_base + 1];
-            compute_new_path(new_new_path, newPath, len_new, 1);
+            compute_new_path(new_new_path, newPath, len_new, pathType);
 
             // log new path
             fs_log_string(bss.socket_fs[client], new_old_path, BYTE_LOG_STR);
@@ -633,11 +651,12 @@ DECL(int, FSRemove, void *pClient, void *pCmd, const char *path, int error) {
         fs_log_string(bss.socket_fs[client], path, BYTE_REMOVE);
 
         // change path if it is a save folder
-        if (is_savefile(path)) {
+        int pathType = getPathType(path);
+        if (pathType == PATH_TYPE_SAVE) {
             int len = m_strlen(path);
-            int len_base = getNewPathLen(1);
+            int len_base = getNewPathLen(pathType);
             char new_path[len + len_base + 1];
-            compute_new_path(new_path, path, len, 1);
+            compute_new_path(new_path, path, len, pathType);
 
             // log new path
             fs_log_string(bss.socket_fs[client], new_path, BYTE_LOG_STR);
@@ -656,11 +675,12 @@ DECL(int, FSRemoveAsync, void *pClient, void *pCmd, const char *path, int error,
         fs_log_string(bss.socket_fs[client], path, BYTE_REMOVE);
 
         // change path if it is a save folder
-        if (is_savefile(path)) {
+        int pathType = getPathType(path);
+        if (pathType == PATH_TYPE_SAVE) {
             int len = m_strlen(path);
-            int len_base = getNewPathLen(1);
+            int len_base = getNewPathLen(pathType);
             char new_path[len + len_base + 1];
-            compute_new_path(new_path, path, len, 1);
+            compute_new_path(new_path, path, len, pathType);
 
             // log new path
             fs_log_string(bss.socket_fs[client], new_path, BYTE_LOG_STR);
@@ -681,11 +701,12 @@ DECL(int, FSFlushQuota, void *pClient, void *pCmd, const char* path, int error) 
         fs_log_string(bss.global_sock, buffer, BYTE_LOG_STR);
 
         // change path if it is a save folder
-        if (is_savefile(path)) {
+        int pathType = getPathType(path);
+        if (pathType == PATH_TYPE_SAVE) {
             int len = m_strlen(path);
-            int len_base = getNewPathLen(1);
+            int len_base = getNewPathLen(pathType);
             char new_path[len + len_base + 1];
-            compute_new_path(new_path, path, len, 1);
+            compute_new_path(new_path, path, len, pathType);
 
             // log new path
             fs_log_string(bss.socket_fs[client], new_path, BYTE_LOG_STR);
@@ -705,11 +726,12 @@ DECL(int, FSFlushQuotaAsync, void *pClient, void *pCmd, const char *path, int er
         fs_log_string(bss.global_sock, buffer, BYTE_LOG_STR);
 
         // change path if it is a save folder
-        if (is_savefile(path)) {
+        int pathType = getPathType(path);
+        if (pathType == PATH_TYPE_SAVE) {
             int len = m_strlen(path);
-            int len_base = getNewPathLen(1);
+            int len_base = getNewPathLen(pathType);
             char new_path[len + len_base + 1];
-            compute_new_path(new_path, path, len, 1);
+            compute_new_path(new_path, path, len, pathType);
 
             // log new path
             fs_log_string(bss.socket_fs[client], new_path, BYTE_LOG_STR);
@@ -730,11 +752,12 @@ DECL(int, FSGetFreeSpaceSize, void *pClient, void *pCmd, const char *path, uint6
         fs_log_string(bss.global_sock, buffer, BYTE_LOG_STR);
 
         // change path if it is a save folder
-        if (is_savefile(path)) {
+        int pathType = getPathType(path);
+        if (pathType == PATH_TYPE_SAVE) {
             int len = m_strlen(path);
-            int len_base = getNewPathLen(1);
+            int len_base = getNewPathLen(pathType);
             char new_path[len + len_base + 1];
-            compute_new_path(new_path, path, len, 1);
+            compute_new_path(new_path, path, len, pathType);
 
             // log new path
             fs_log_string(bss.socket_fs[client], new_path, BYTE_LOG_STR);
@@ -754,11 +777,12 @@ DECL(int, FSGetFreeSpaceSizeAsync, void *pClient, void *pCmd, const char *path, 
         fs_log_string(bss.global_sock, buffer, BYTE_LOG_STR);
 
         // change path if it is a save folder
-        if (is_savefile(path)) {
+        int pathType = getPathType(path);
+        if (pathType == PATH_TYPE_SAVE) {
             int len = m_strlen(path);
-            int len_base = getNewPathLen(1);
+            int len_base = getNewPathLen(pathType);
             char new_path[len + len_base + 1];
-            compute_new_path(new_path, path, len, 1);
+            compute_new_path(new_path, path, len, pathType);
 
             // log new path
             fs_log_string(bss.socket_fs[client], new_path, BYTE_LOG_STR);
@@ -778,11 +802,12 @@ DECL(int, FSRollbackQuota, void *pClient, void *pCmd, const char *path, int erro
         fs_log_string(bss.global_sock, buffer, BYTE_LOG_STR);
 
         // change path if it is a save folder
-        if (is_savefile(path)) {
+        int pathType = getPathType(path);
+        if (pathType == PATH_TYPE_SAVE) {
             int len = m_strlen(path);
-            int len_base = getNewPathLen(1);
+            int len_base = getNewPathLen(pathType);
             char new_path[len + len_base + 1];
-            compute_new_path(new_path, path, len, 1);
+            compute_new_path(new_path, path, len, pathType);
 
             // log new path
             fs_log_string(bss.socket_fs[client], new_path, BYTE_LOG_STR);
@@ -801,11 +826,12 @@ DECL(int, FSRollbackQuotaAsync, void *pClient, void *pCmd, const char *path, int
         fs_log_string(bss.global_sock, buffer, BYTE_LOG_STR);
 
         // change path if it is a save folder
-        if (is_savefile(path)) {
+        int pathType = getPathType(path);
+        if (pathType == PATH_TYPE_SAVE) {
             int len = m_strlen(path);
-            int len_base = getNewPathLen(1);
+            int len_base = getNewPathLen(pathType);
             char new_path[len + len_base + 1];
-            compute_new_path(new_path, path, len, 1);
+            compute_new_path(new_path, path, len, pathType);
 
             // log new path
             fs_log_string(bss.socket_fs[client], new_path, BYTE_LOG_STR);
@@ -1368,6 +1394,31 @@ DECL(int, VPADRead, int chan, VPADData *buffer, u32 buffer_size, s32 *error) {
     return result;
 }
 
+DECL(int, ACPGetAddOnUniqueId, unsigned int * id_buffer, int buffer_size)
+{
+    int result = real_ACPGetAddOnUniqueId(id_buffer, buffer_size);
+
+    if(GAME_LAUNCHED && gEnableDLC)
+    {
+        id_buffer[0] = (cosAppXmlInfoStruct.title_id >> 8) & 0xffff;
+        result = 0;
+    }
+
+    return result;
+}
+
+DECL(int, AOC_OpenTitle, char * path, void * target, void * buffer, unsigned int buffer_size)
+{
+    int result  = real_AOC_OpenTitle(path, target, buffer, buffer_size);
+
+    if(GAME_LAUNCHED && gEnableDLC && (result != 0))
+    {
+        sprintf(path, "/vol/aoc0005000c%08x", (u32)(cosAppXmlInfoStruct.title_id & 0xffffffff));
+        result = 0;
+    }
+    return result;
+}
+
 /* *****************************************************************************
  * Creates function pointer array
  * ****************************************************************************/
@@ -1420,7 +1471,10 @@ static struct hooks_magic_t {
 
     MAKE_MAGIC(VPADRead,                    LIB_VPAD,STATIC_FUNCTION),
     MAKE_MAGIC(GX2CopyColorBufferToScanBuffer,     LIB_GX2,STATIC_FUNCTION),
-    MAKE_MAGIC(_Exit,     LIB_CORE_INIT,STATIC_FUNCTION),
+    MAKE_MAGIC(_Exit,                       LIB_CORE_INIT,STATIC_FUNCTION),
+
+    MAKE_MAGIC(ACPGetAddOnUniqueId,         LIB_NN_ACP,DYNAMIC_FUNCTION),
+    MAKE_MAGIC(AOC_OpenTitle,               LIB_NN_AOC,DYNAMIC_FUNCTION),
 
     #if (USE_EXTRA_LOG_FUNCTIONS == 1)
     MAKE_MAGIC(FSCloseFile_log,             LIB_CORE_INIT,STATIC_FUNCTION),
@@ -1641,9 +1695,10 @@ unsigned int GetAddressOfFunction(const char * functionName,unsigned int library
         if(gx2_handle == 0){log_print("LIB_GX2 not aquired\n"); return 0;}
         rpl_handle = gx2_handle;
     }
-    else if(library == LIB_AOC){
-        log_printf("FindExport of %s! From LIB_AOC\n", functionName);
-        if(aoc_handle == 0){log_print("LIB_AOC not aquired\n"); return 0;}
+    else if(library == LIB_NN_AOC){
+        log_printf("FindExport of %s! From LIB_NN_AOC\n", functionName);
+        OSDynLoad_Acquire("nn_aoc.rpl", &aoc_handle);
+        if(aoc_handle == 0){log_print("LIB_NN_AOC not aquired\n"); return 0;}
         rpl_handle = aoc_handle;
     }
     else if(library == LIB_AX){
@@ -1683,6 +1738,7 @@ unsigned int GetAddressOfFunction(const char * functionName,unsigned int library
     }
     else if(library == LIB_NN_ACP){
         log_printf("FindExport of %s! From LIB_NN_ACP\n", functionName);
+        OSDynLoad_Acquire("nn_acp.rpl", &acp_handle);
         if(acp_handle == 0){log_print("LIB_NN_ACP not aquired\n"); return 0;}
         rpl_handle = acp_handle;
     }
@@ -1695,13 +1751,6 @@ unsigned int GetAddressOfFunction(const char * functionName,unsigned int library
         log_printf("FindExport of %s! From LIB_VPADBASE\n", functionName);
         if(vpadbase_handle == 0){log_print("LIB_VPADBASE not aquired\n"); return 0;}
         rpl_handle = vpadbase_handle;
-    }
-    else if(library == LIB_ACT){
-        log_printf("FindExport of %s! From LIB_ACT\n", functionName);
-        unsigned int act_handle = 0;
-        OSDynLoad_Acquire("nn_act.rpl", &act_handle);
-        if(act_handle == 0){log_print("LIB_ACT not aquired\n"); return 0;}
-        rpl_handle = act_handle;
     }
 
     if(!rpl_handle){
@@ -1716,12 +1765,17 @@ unsigned int GetAddressOfFunction(const char * functionName,unsigned int library
         return 0;
     }
 
-//    if((u32)(*(volatile unsigned int*)(real_addr) & 0x48000002) == 0x48000000){
-//        real_addr += (u32)(*(volatile unsigned int*)(real_addr) & 0x07FFFFFC);
-//        if((u32)(*(volatile unsigned int*)(real_addr) & 0x48000002) == 0x48000000){
-//            return 0;
-//        }
-//    }
+    if((library == LIB_NN_ACP) && (u32)(*(volatile unsigned int*)(real_addr) & 0x48000002) == 0x48000000)
+    {
+        unsigned int address_diff = (u32)(*(volatile unsigned int*)(real_addr) & 0x03FFFFFC);
+        if((address_diff & 0x03000000) == 0x03000000) {
+            address_diff |=  0xFC000000;
+        }
+        real_addr += (int)address_diff;
+        if((u32)(*(volatile unsigned int*)(real_addr) & 0x48000002) == 0x48000000){
+            return 0;
+        }
+    }
 
     return real_addr;
 }
