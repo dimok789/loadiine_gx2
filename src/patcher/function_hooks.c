@@ -1368,32 +1368,6 @@ DECL(int, VPADRead, int chan, VPADData *buffer, u32 buffer_size, s32 *error) {
     return result;
 }
 
-DECL(int, MCP_GetTitleId, unsigned int handle, u64 * titleId)
-{
-    if(GAME_LAUNCHED && titleId)
-    {
-        real_MCP_GetTitleId(handle, titleId);
-        *titleId = cosAppXmlInfoStruct.title_id;
-        return 0;
-    }
-    else
-    {
-        return real_MCP_GetTitleId(handle, titleId);
-    }
-}
-
-DECL(u64, OSGetTitleID, void)
-{
-    if(GAME_LAUNCHED)
-    {
-        return cosAppXmlInfoStruct.title_id;
-    }
-    else
-    {
-        return real_OSGetTitleID();
-    }
-}
-
 /* *****************************************************************************
  * Creates function pointer array
  * ****************************************************************************/
@@ -1410,9 +1384,6 @@ static struct hooks_magic_t {
     unsigned char alreadyPatched;
 } method_hooks[] = {
      // Common FS functions
-    MAKE_MAGIC(MCP_GetTitleId,              LIB_CORE_INIT,STATIC_FUNCTION),
-    MAKE_MAGIC(OSGetTitleID,                LIB_CORE_INIT,STATIC_FUNCTION),
-
     MAKE_MAGIC(FSInit,                      LIB_CORE_INIT,STATIC_FUNCTION),
     MAKE_MAGIC(FSShutdown,                  LIB_CORE_INIT,STATIC_FUNCTION),
     MAKE_MAGIC(FSAddClientEx,               LIB_CORE_INIT,STATIC_FUNCTION),
