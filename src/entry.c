@@ -91,8 +91,6 @@ int __entry_menu(int argc, char **argv)
     //! *******************************************************************
     Menu_Main();
 
-    log_init("192.168.0.181");
-
     //! *******************************************************************
     //! *                    Restore EABI registers                       *
     //! *******************************************************************
@@ -103,10 +101,21 @@ int __entry_menu(int argc, char **argv)
     {
         if (LOADIINE_MODE == LOADIINE_MODE_SMASH_BROS)
         {
-            // Launch smash bros disk without exiting to menu
-            char buf_vol_odd[20];
-            strcpy(buf_vol_odd, "/vol/storage_odd03");
-            _SYSLaunchTitleByPathFromLauncher(buf_vol_odd, 18, 0);
+            if(SYSCheckTitleExists(0x0005000010145000)) { // EUR
+                SYSLaunchTitle(0x0005000010145000);
+            }
+            else if(SYSCheckTitleExists(0x0005000010144F00)) { // USA
+                SYSLaunchTitle(0x0005000010144F00);
+            }
+            else if(SYSCheckTitleExists(0x0005000010110E00)) { // JAP
+                SYSLaunchTitle(0x0005000010110E00);
+            }
+            else {
+                // Launch smash bros disk without exiting to menu
+                char buf_vol_odd[20];
+                strcpy(buf_vol_odd, "/vol/storage_odd03");
+                _SYSLaunchTitleByPathFromLauncher(buf_vol_odd, 18, 0);
+            }
         }
         else if(LOADIINE_MODE == LOADIINE_MODE_MII_MAKER)
         {
@@ -121,12 +130,11 @@ int __entry_menu(int argc, char **argv)
         //! *******************************************************************
         return EXIT_RELAUNCH_ON_LOAD;
     }
+
     draw_Cursor_destroy();
     RestoreInstructions();
 
     deinit_config_controller();
-
-    log_deinit();
 
     //! *******************************************************************
     //! *                 Jump to homebrew launcher                       *

@@ -316,15 +316,15 @@ static const memory_values_t mem_vals_532[] =
 
 static const memory_values_t mem_vals_540[] =
 {
-    { 0x2E609EFC, 0x2FF82BC0 }, // 26083 kB
+    { 0x2E609EFC, 0x2FF82000 }, // 26083 kB
+    { 0x29030800, 0x293F6000 }, // 3864 kB
+    { 0x288EEC30, 0x28B06800 }, // 2144 kB
+    { 0x2D3B966C, 0x2D894000 }, // 4971 kB
+    { 0x2CB56370, 0x2D1EF000 }, // 6756 kB
     { 0x2D8AD3D8, 0x2E000000 }, // 7499 kB
-    { 0x2CB56370, 0x2D1EF6B8 }, // 6756 kB
-    { 0x2D3B966C, 0x2D8943C4 }, // 4971 kB
-    { 0x29030800, 0x293F6A04 }, // 3864 kB
-    { 0x288EEC30, 0x28B06E98 }, // 2144 kB
-    { 0x2970200C, 0x298B9C58 }, // 1759 kB
-    { 0x28B06EC4, 0x28B930C4 }, // 560 kB
-
+    { 0x2970200C, 0x298B9800 }, // 1759 kB
+    { 0x2A057B68, 0x2A1B9000 }, // 1414 kB
+    { 0x2ABBCC4C, 0x2ACB9000 }, // 1010 kB
     {0, 0}
 };
 

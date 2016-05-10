@@ -1,195 +1,195 @@
 # Loadiine GX2 language source file.
-# chinese.lang - v0.34
+# hungarian.lang - v0.1
 # don't delete/change this line (é).
 msgid ""
 msgstr ""
 "Project-Id-Version: Loadiine GX2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-05-08 08:20+0200\n"
-"PO-Revision-Date: 2009-10-01 01:00+0200\n"
-"Last-Translator: kavid by 91wii.com \n"
-"Language-Team: 91wii.com\n"
-"Language: Simplified Chinese\n"
+"PO-Revision-Date: 2016-04-05 5:52+0200\n"
+"Last-Translator: Cava\n"
+"Language-Team: Cava\n"
+"Language: magyar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "Loadiine GX2"
-msgstr "Loadiine GX2"
+msgstr ""
 
 msgid "Official Site:"
-msgstr "官方网站"
+msgstr "Hivatalos Oldal:"
 
 msgid "Coding:"
-msgstr "代码编写："
+msgstr "Kódolás:"
 
 msgid "Design:"
-msgstr "界面设计："
+msgstr "Kinézet:"
 
 msgid "Some guy who doesn't want to be named."
-msgstr "有些人不想被提到名字。"
+msgstr "Néhány srác, aki nem akarja, hogy meg legyen nevezve."
 
 msgid "Testing:"
-msgstr "测试者："
+msgstr "Tesztelés:"
 
 msgid "Cyan / Maschell / n1ghty / OnionKnight and many more"
-msgstr "Cyan / Maschell / n1ghty / OnionKnight 等等更多人"
+msgstr "Cyan / Maschell / n1ghty / OnionKnight és még sokan mások"
 
 msgid "Social Presence:"
-msgstr "参与人员："
+msgstr "Társadalmi Jelenlét:"
 
 msgid "Based on:"
-msgstr "基于："
+msgstr "Ennek alapján készült:"
 
 msgid "Loadiine v4.0 by Golden45 and Dimok"
-msgstr "Loadiine v4.0作者Golden45和Dimok"
+msgstr "Loadiine v4.0 Golden45-től és Dimok-tól"
 
 msgid "Big thanks to:"
-msgstr "强烈感谢："
+msgstr "Hatalmas köszönet:"
 
 msgid "lustar for GameTDB and hosting covers / disc images"
-msgstr "lustar的GameTDB与提供的封面和光盘封面"
+msgstr "lustar-nak a GameTDB miatt és a borítókért / lemezek képeiért"
 
 msgid "Marionumber1 for his kernel exploit"
-msgstr "Marionumber1开发的内核破解程序"
+msgstr "Marionumber1-nek a kernel exploitért"
 
 msgid "The whole libwiiu team and it's contributors."
-msgstr "还有libwiiu小组和其他人所做出贡献"
+msgstr "Az egész libwiiu csapatnak és a közreműködőknek."
 
 msgid "Extra Save:"
-msgstr "扩展存档："
+msgstr ""
 
 msgid "Enable DLC Support:"
-msgstr "启用DLC支持："
+msgstr ""
 
 msgid "Update Folder"
-msgstr "更新文件夹"
+msgstr ""
 
 msgid "Save Mode"
-msgstr "存档模式"
+msgstr ""
 
 msgid "Launch Mode"
-msgstr "运行模式"
+msgstr "Indító Mód"
 
 msgid "<Settings Default>"
-msgstr "<默认设置>"
+msgstr ""
 
 msgid "Saving game settings!"
-msgstr "保存游戏设置！"
+msgstr ""
 
 msgid "Off"
-msgstr "关闭"
+msgstr "Ki"
 
 msgid "On"
-msgstr "开启"
+msgstr "Be"
 
 msgid "Icon Carousel"
-msgstr "旋转图标模式"
+msgstr "Kör-körös ikonok"
 
 msgid "Grid View"
-msgstr "网格视图"
+msgstr "Rácsnézet"
 
 msgid "Cover Carousel"
-msgstr "旋转封面模式"
+msgstr "Kör-körös borító"
 
 msgid "Background customizations"
-msgstr "自定义背景"
+msgstr "Háttér testreszabása"
 
 msgid "GUI"
-msgstr "图形化"
+msgstr "Grafikus felület"
 
 msgid "Game View Selection"
-msgstr "游戏查看选择"
+msgstr "Játéknézet választó"
 
 msgid "Adjust log server IP and port"
-msgstr "更改日志服务器的ip和端口"
+msgstr "Log szerver és IP port beállítása"
 
 msgid "Customize games path"
-msgstr "自定义游戏路径"
+msgstr "Játék útvonalának testreszabása"
 
 msgid "Customize save path"
-msgstr "自定义保存路径"
+msgstr "Játék mentés útvonalának testreszabása"
 
 msgid "Loader"
-msgstr "加载器"
+msgstr "Betöltő"
 
 msgid "Set save mode"
-msgstr "设置存档模式"
+msgstr "Mentés mód beállítása"
 
 msgid "Game"
-msgstr "游戏"
+msgstr "Játék"
 
 msgid "HID settings"
-msgstr "HID设置"
+msgstr ""
 
 msgid "Launch method selection"
-msgstr "运行模式选择"
+msgstr "Indítási mód kiválaszatása"
 
 msgid "Log server control"
-msgstr "日志服务器控制"
+msgstr "Log szerver vezérlése"
 
 msgid "Padcon settings"
-msgstr "屏幕控制设置"
+msgstr ""
 
 msgid "PyGecko settings"
-msgstr "金手指设置"
+msgstr ""
 
 msgid "Credits"
-msgstr "感谢"
+msgstr "Köszönet"
 
 msgid "Credits to all contributors"
-msgstr "感谢所有为此项目的贡献者"
+msgstr "Köszönet az összes hozzájárulónak"
 
 msgid "Game View TV"
-msgstr "电视显示样式"
+msgstr "Játék nézet TV-n"
 
 msgid "Game View DRC"
-msgstr "平板显示样式"
+msgstr "Játék nézet a GamePaden"
 
 msgid "Show Game Settings"
-msgstr "显示游戏设置"
+msgstr ""
 
 msgid "Host IP"
-msgstr "主机IP"
+msgstr ""
 
 msgid "Game Path"
-msgstr "游戏路径"
+msgstr "Játék elérési helye"
 
 msgid "Game Save Path"
-msgstr "游戏存档路径"
+msgstr "Játék mentési helye"
 
 msgid "Game Save Mode"
-msgstr "游戏存档模式"
+msgstr "Játék mentési módja"
 
 msgid "Log Server Control"
-msgstr "日志服务器控制"
+msgstr "Log szerver vezérlése"
 
 msgid "PyGecko"
-msgstr "金手指"
+msgstr ""
 
 msgid "Padcon"
-msgstr "平板屏幕控制"
+msgstr ""
 
 msgid "HID-Pad"
-msgstr "HID转PAD控制"
+msgstr ""
 
 msgid "Shared Mode"
-msgstr "共享模式"
+msgstr "Megosztott mód"
 
 msgid "Unique Mode"
-msgstr "独享模式"
+msgstr "Egyedi Mód"
 
 msgid "Mii Maker Mode"
-msgstr "Mii Maker模式"
+msgstr "Mii készítő mód"
 
 msgid "Smash Bros Mode"
-msgstr "超级大乱斗模式"
+msgstr "Smash Bros Mód"
 
 msgid "Karaoke Mode"
-msgstr "卡拉OK模式"
+msgstr "Karaoke Mód"
 
 msgid "Art Atelier Mode"
-msgstr "绘心教室模式"
+msgstr "Art Atelier Mód"
 
 #~ msgid "Log Server IP"
-#~ msgstr "日志服务器IP"
+#~ msgstr "Log szerver IP"
