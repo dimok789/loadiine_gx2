@@ -101,6 +101,7 @@ export DEPSDIR	:=	$(CURDIR)/$(BUILD)
 # automatically build a list of object files for our project
 #---------------------------------------------------------------------------------
 FILELIST		:=	$(shell bash ./filelist.sh)
+GIT_REV			:=	$(shell bash ./gitrev.sh)
 export CFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
 export CPPFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
 export HFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.h)))
