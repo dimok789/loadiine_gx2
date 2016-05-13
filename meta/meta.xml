@@ -2,8 +2,8 @@
 <app version="1">
   <name>Loadiine GX2</name>
   <coder>Dimok, Maschell, n1ghty, dibas</coder>
-  <version>0.3 ra0c73ed</version>
-  <release_date>20160512174132</release_date>
+  <version>0.3 rbfed87d</version>
+  <release_date>20160513234704</release_date>
   <short_description>WiiU game loader</short_description>
   <long_description>Loads games from SD card.
 
