@@ -6,6 +6,7 @@
 #include "common/common.h"
 #include "settings/CSettings.h"
 #include "fs/DirList.h"
+#include "utils/xml.h"
 
 GameList *GameList::gameListInstance = NULL;
 
@@ -47,17 +48,28 @@ int GameList::readGameList()
     for(int i = 0; i < dirList.GetFilecount(); i++)
     {
         const char *filename = dirList.GetFilename(i);
+        char id6[7];
         int len = strlen(filename);
-        if (len <= 8)
-            continue;
 
-        if ((filename[len - 8] != '[' && filename[len - 6] != '[') || filename[len - 1] != ']')
+        discHeader newHeader;
+
+        if (len <= 8 ||
+                ((filename[len - 8] != '[' && filename[len - 6] != '[') || filename[len - 1] != ']'))
+        {
+            if (GetId6FromMeta((gamePath + "/" + filename + META_PATH).c_str(), id6) == 0)
+            {
+                newHeader.id = id6;
+                newHeader.name = filename;
+                newHeader.gamepath = gamePath + "/" + filename;
+
+                fullGameList.push_back(newHeader);
+            }
             continue;
+        }
 
         bool id4Title = (filename[len - 8] != '[');
 
         std::string gamePathName = filename;
-        discHeader newHeader;
         if(id4Title)
         {
             newHeader.id = gamePathName.substr(gamePathName.size() - 5, 4);

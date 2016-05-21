@@ -9,6 +9,7 @@ extern "C" {
 
 char * XML_GetNodeText(const char *xml_part, const char * nodename, char * output, int output_size);
 int LoadXmlParameters(ReducedCosAppXmlInfo * xmlInfo, const char *rpx_name, const char *path);
+int GetId6FromMeta(const char *path, char *output);
 
 #ifdef __cplusplus
 }
