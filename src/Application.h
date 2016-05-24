@@ -18,6 +18,7 @@
 #define _APPLICATION_H
 
 #include "menu/MainWindow.h"
+#include "menu/MainStartUp.h"
 #include "video/CVideo.h"
 #include "system/CThread.h"
 
@@ -61,11 +62,12 @@ private:
     static Application *applicationInstance;
     static bool exitApplication;
 
-    void executeThread(void);
-
+	void executeThread(void);
+	
     GuiSound *bgMusic;
     CVideo *video;
     MainWindow *mainWindow;
+	MainStartUp *mainStartUp;
     GuiController *controller[5];
 };
 
