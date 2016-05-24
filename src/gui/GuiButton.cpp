@@ -31,6 +31,8 @@ GuiButton::GuiButton(f32 w, f32 h)
 	imageClick = NULL;
 	icon = NULL;
 	iconOver = NULL;
+	imageSelect = NULL;
+	imageSelectOver = NULL;
 
 	for(int i = 0; i < 4; i++)
 	{
@@ -91,7 +93,16 @@ void GuiButton::setIconOver(GuiImage* img)
 	iconOver = img;
 	if(img) img->setParent(this);
 }
-
+void GuiButton::setImageSelect(GuiImage* img)
+{
+	imageSelect = img;
+	if(img) img->setParent(this);
+}
+void GuiButton::setImageSelectOver(GuiImage* img)
+{
+	imageSelectOver = img;
+	if(img) img->setParent(this);
+}
 void GuiButton::setLabel(GuiText* txt, int n)
 {
 	label[n] = txt;
@@ -171,6 +182,11 @@ void GuiButton::draw(CVideo *v)
 	else if(icon)
 		icon->draw(v);
 
+	if(isStateSet(STATE_OVER | STATE_SELECTED | STATE_CLICKED | STATE_HELD) && imageSelectOver)
+		imageSelectOver->draw(v);
+	else if(imageSelect)
+		imageSelect->draw(v);
+	
 	// draw text
 	for(int i = 0; i < 4; i++)
 	{

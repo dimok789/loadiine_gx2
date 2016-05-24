@@ -22,7 +22,7 @@
 class CreditsMenu : public GuiFrame, public sigslot::has_slots<>
 {
 public:
-    CreditsMenu(int w, int h, const std::string & titleText);
+    CreditsMenu(int w, int h, const std::string & titleText, const char *nameTitleImage);
     virtual ~CreditsMenu();
 
     sigslot::signal1<GuiElement *> settingsBackClicked;
