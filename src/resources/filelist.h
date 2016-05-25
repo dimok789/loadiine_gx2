@@ -1,7 +1,7 @@
 /****************************************************************************
  * Loadiine resource files.
  * This file is generated automatically.
- * Includes 104 files.
+ * Includes 105 files.
  *
  * NOTE:
  * Any manual modification of this file will be overwriten by the generation.
@@ -320,6 +320,9 @@ extern const u32 showGameSettings_png_size;
 extern const u8 showGameSettingsGlow_png[];
 extern const u32 showGameSettingsGlow_png_size;
 
+extern const u8 splash_png[];
+extern const u32 splash_png_size;
+
 extern const u8 switchIconBase_png[];
 extern const u32 switchIconBase_png_size;
 
@@ -434,6 +437,7 @@ static RecourceFile RecourceList[] =
 	{"settings_click_2.mp3", settings_click_2_mp3, settings_click_2_mp3_size, NULL, 0},
 	{"showGameSettings.png", showGameSettings_png, showGameSettings_png_size, NULL, 0},
 	{"showGameSettingsGlow.png", showGameSettingsGlow_png, showGameSettingsGlow_png_size, NULL, 0},
+	{"splash.png", splash_png, splash_png_size, NULL, 0},
 	{"switchIconBase.png", switchIconBase_png, switchIconBase_png_size, NULL, 0},
 	{"switchIconBaseHighlighted.png", switchIconBaseHighlighted_png, switchIconBaseHighlighted_png_size, NULL, 0},
 	{"switchIconOff.png", switchIconOff_png, switchIconOff_png_size, NULL, 0},

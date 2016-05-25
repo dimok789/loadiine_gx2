@@ -46,6 +46,7 @@ private:
     ~CSettingsLanguages();
 	
     static CSettingsLanguages *instance;
+	
 	std::string languagesPath;
 	const char *filter;
 	std::map<int, std::string> enumLanguages;

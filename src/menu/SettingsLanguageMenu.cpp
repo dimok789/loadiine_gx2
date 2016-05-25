@@ -175,10 +175,9 @@ void SettingsLanguageMenu::OnlanguageButtonClick(GuiButton *button, const GuiCon
 		{
 			selectedButton = i;
 			selectedButtonDPAD = i;
-			CSettingsLanguages::getInstance()->SetLanguage(selectedButton);
 		}
-	}	
-	
+	}
+	CSettingsLanguages::getInstance()->SetLanguage(selectedButton);
 	UpdatelanguageButtons(button,controller,trigger);
 }
 
@@ -191,8 +190,12 @@ void SettingsLanguageMenu::OnDPADClick(GuiButton *button, const GuiController *c
         {
             return;
         }
-		OnlanguageButtonClick(button,controller,trigger);
-
+		if(selectedButtonDPAD >= 0 && selectedButtonDPAD <= buttonCount-1)
+		{
+			selectedButton = selectedButtonDPAD;
+			
+		}
+		OnlanguageButtonClick(button,controller,trigger);; 
 	}
 	else if(trigger == &buttonBTrigger)
 	{

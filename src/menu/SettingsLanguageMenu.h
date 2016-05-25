@@ -37,7 +37,6 @@ private:
 	void OnSubMenuCloseClicked(GuiElement *element);
     void OnSubMenuOpenEffectFinish(GuiElement *element);
     void OnSubMenuCloseEffectFinish(GuiElement *element);
-	void OnOpenEffectFinish(GuiElement *element);
 	
     void OnDPADClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);	
 	void UpdatelanguageButtons(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);

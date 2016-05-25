@@ -79,8 +79,6 @@ std::vector<std::string> CSettingsLanguages::LoadLanguages(int *languageSelect)
 			}
 		}
 	}
-
-	languagesNames.clear();
 	return languageName;
 	
 }
