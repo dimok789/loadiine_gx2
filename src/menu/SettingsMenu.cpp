@@ -281,7 +281,6 @@ SettingsMenu::SettingsMenu(int w, int h)
     append(&DPADButtons);
 	categorySelectionFrame.append(&DPADButtons);
     setTargetPosition(0);
-    moving = false;
 
     //! the particle BG is always appended in all sub menus
     append(&particleBgImage);
@@ -322,7 +321,6 @@ void SettingsMenu::setTargetPosition(int selectedIdx)
 {
     if(selectedIdx < 0 || selectedIdx >= (int)settingsCategories.size())
         return;
-    moving = true;
     selectedCategory = selectedIdx;
     targetPosition = (settingsCategories[selectedCategory].categoryBgImage->getWidth() + 40) * -selectedCategory;
 
@@ -385,7 +383,8 @@ void SettingsMenu::OnSubMenuCloseEffectFinish(GuiElement *element)
 
 void SettingsMenu::OnCategoryClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
-    if(!moving){
+    if(currentPosition == targetPosition)
+	{
 
         int indexClicked = -1;
 
@@ -526,9 +525,7 @@ void SettingsMenu::update(GuiController *c)
         if(currentPosition >= targetPosition)
 		{
             currentPosition = targetPosition;
-            moving = false;
         }
-
 
         bUpdatePositions = true;
     }
@@ -538,9 +535,7 @@ void SettingsMenu::update(GuiController *c)
         if(currentPosition <= targetPosition)
 		{
             currentPosition = targetPosition;
-            moving = false;
         }
-
 
         bUpdatePositions = true;
     }
