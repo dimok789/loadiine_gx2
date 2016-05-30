@@ -19,6 +19,7 @@
 
 #include <vector>
 #include "gui/Gui.h"
+#include "gui/GuiParticleImage.h"
 
 class CVideo;
 
@@ -54,6 +55,7 @@ private:
     }
 	
 	void draw();
+
 	void textFade(int direction);
 	void fadeIn(void);
 	
@@ -61,6 +63,7 @@ private:
     std::vector<GuiElement *> elements;
 	
 	CVideo *video;
+    GuiParticleImage particleBgImage;
 	GuiImageData *ImageData;
     GuiImage Image;
 	GuiText versionText;

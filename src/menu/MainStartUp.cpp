@@ -21,6 +21,7 @@
 
 MainStartUp::MainStartUp(CVideo *Video)
     : video(Video)
+    , particleBgImage(video->getTvWidth(), video->getTvHeight(), 50)
 	, ImageData(Resources::GetImageData("splash.png"))
     , Image(ImageData)
 
@@ -37,9 +38,10 @@ MainStartUp::MainStartUp(CVideo *Video)
 	msgText.setMaxWidth(video->getTvHeight(), GuiText::DOTTED);
     msgText.setPosition(0, - 324);
 	
+	append(&particleBgImage);
 	append(&Image);	
 	append(&versionText);
-	append(&msgText);	
+	append(&msgText);
 	
 	fadeIn();
 	
