@@ -132,6 +132,7 @@ int GameLauncher::loadGameToMemory(const discHeader *header)
                 log_printf("Using RPL from update path\n");
                 for(int i = 0; i < rplUpdateList.GetFilecount(); i++){
                     rplUpdateNameList[rplUpdateList.GetFilename(i)] = rplUpdateList.GetFilepath(i);
+                    rplFinalNameList[rplUpdateList.GetFilename(i)] = rplUpdateList.GetFilepath(i);
                 }
             }else{
                 log_printf("Using RPL from game path\n");
@@ -302,6 +303,7 @@ int GameLauncher::loadGameToMemory(const discHeader *header)
     log_printf("gamePathStruct.extraSave:         %d\n", gamePathStruct.extraSave);
 
 	if(!use_new_xml){
+        log_printf("Getting XML from game\n");
 		LoadXmlParameters(&cosAppXmlInfoStruct, rpxName.c_str(), (header->gamepath + RPX_RPL_PATH).c_str());
 	}else{
         log_printf("Getting XML from update\n");

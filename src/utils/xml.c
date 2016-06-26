@@ -242,3 +242,45 @@ int LoadXmlParameters(ReducedCosAppXmlInfo * xmlInfo, const char *rpx_name, cons
 
     return 0;
 }
+
+int GetId6FromMeta(const char *path, char *id6)
+{
+    id6[0] = 0;
+    char* path_copy = (char*)malloc(FS_MAX_MOUNTPATH_SIZE);
+    if (!path_copy)
+        return -1;
+
+    char* xmlNodeData = (char*)malloc(XML_BUFFER_SIZE);
+    if(!xmlNodeData) {
+        free(path_copy);
+        return -3;
+    }
+
+    // create path
+    snprintf(path_copy, FS_MAX_MOUNTPATH_SIZE, "%s/meta.xml", path);
+
+    char* xmlData = NULL;
+    u32 xmlSize = 0;
+
+    if(LoadFileToMem(path_copy, (u8**) &xmlData, &xmlSize) > 0)
+    {
+        // ensure 0 termination
+        xmlData[XML_BUFFER_SIZE-1] = 0;
+
+        if(XML_GetNodeText(xmlData, "product_code", xmlNodeData, XML_BUFFER_SIZE) && strlen(xmlNodeData) == 10)
+            strncpy(id6, xmlNodeData + 6, 4);
+        if(XML_GetNodeText(xmlData, "company_code", xmlNodeData, XML_BUFFER_SIZE) && strlen(xmlNodeData) == 4)
+            strncpy(id6 + 4, xmlNodeData + 2, 2);
+
+        id6[6] = 0;
+    }
+
+    free(xmlData);
+    free(xmlNodeData);
+    free(path_copy);
+
+    if(strlen(id6) == 6)
+        return 0;
+    else
+        return -2;
+}

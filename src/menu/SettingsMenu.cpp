@@ -23,6 +23,7 @@
 #include "SettingsCategoryMenu.h"
 #include "settings/SettingsDefs.h"
 #include "settings/SettingsEnums.h"
+#include "gitrev.h"
 
 static const float smallIconScale = 0.4f;
 
@@ -123,7 +124,7 @@ SettingsMenu::SettingsMenu(int w, int h)
     versionText.setFontSize(42);
     versionText.setAlignment(ALIGN_TOP | ALIGN_RIGHT);
     versionText.setPosition(-50, -80);
-    versionText.setText("Loadiine GX2 " LOADIINE_VERSION);
+    versionText.setTextf("Loadiine GX2 %s (build %s)",  LOADIINE_VERSION, GetRev());
     categorySelectionFrame.append(&versionText);
 
     const u32 cuCategoriesCount = sizeof(stSettingsCategories) / sizeof(stSettingsCategories[0]);

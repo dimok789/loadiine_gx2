@@ -53,8 +53,9 @@ script:
 before_deploy:
 - cd $TRAVIS_BUILD_DIR/
 - cp -R installer/bin/*.bin www/loadiine_gx2/
+- cp meta/meta.xml meta/icon.png .
 - commit="$(git rev-parse --short=7 HEAD)"
-- zip -r loadiine_gx2_$commit.zip www loadiine_gx2.elf
+- zip -r loadiine_gx2_$commit.zip www loadiine_gx2.elf meta.xml icon.png
 - git config --global user.email "builds@travis-ci.com"
 - git config --global user.name "Travis CI"
 - export GIT_TAG=Loadiine-nightly-$commit
