@@ -36,7 +36,7 @@ msgid "Cyan / Maschell / n1ghty / OnionKnight and many more"
 msgstr "Cyan / Maschell / n1ghty / OnionKnight και πολλοί άλλοι"
 
 msgid "Social Presence:"
-msgstr "Κοινωνική παρουσίαση:"
+msgstr "Κοινωνική παρουσία:"
 
 msgid "Based on:"
 msgstr "Βασισμένο σε:"
@@ -111,7 +111,7 @@ msgid "Customize save path"
 msgstr "Αλλαγή τοποθεσίας αρχείων αποθήκευσης"
 
 msgid "Loader"
-msgstr "Φορτωτής"
+msgstr "Εκκινητής"
 
 msgid "Set save mode"
 msgstr "Επιλέξτε τρόπο αποθήκευσης"
@@ -150,7 +150,7 @@ msgid "Show Game Settings"
 msgstr "Εμφάνιση ρύθμισης παιχνιδιών"
 
 msgid "Host IP"
-msgstr ""
+msgstr "IP διακομιστή"
 
 msgid "Game Path"
 msgstr "Τοποθεσία παιχνιδιών"
