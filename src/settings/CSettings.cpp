@@ -105,6 +105,10 @@ void CSettings::SetDefault()
     settingsNames[ConsoleRegionCode] = "ConsoleRegionCode";
     settingsValues[ConsoleRegionCode].dataType = TypeString;
     settingsValues[ConsoleRegionCode].strValue = new std::string("EN");
+	
+	settingsNames[LanguagesPath] = "LanguagesPath";
+    settingsValues[LanguagesPath].dataType = TypeString;
+    settingsValues[LanguagesPath].strValue = new std::string(SD_PATH WIIU_PATH "/apps/loadiine_gx2/languages");
 
 	settingsNames[AppLanguage] = "AppLanguage";
     settingsValues[AppLanguage].dataType = TypeString;
@@ -121,12 +125,12 @@ void CSettings::SetDefault()
     settingsNames[LaunchPyGecko] = "LaunchPyGecko";
     settingsValues[LaunchPyGecko].dataType = TypeU8;
     settingsValues[LaunchPyGecko].ucValue = SETTING_OFF;
-
-    settingsNames[HIDPadEnabled] = "HIDPadUse";
+	
+	settingsNames[HIDPadEnabled] = "HIDPadUse";
     settingsValues[HIDPadEnabled].dataType = TypeU8;
     settingsValues[HIDPadEnabled].ucValue = SETTING_OFF;
-
-    settingsNames[ShowGameSettings] = "ShowGameSettings";
+	
+	settingsNames[ShowGameSettings] = "ShowGameSettings";
     settingsValues[ShowGameSettings].dataType = TypeU8;
     settingsValues[ShowGameSettings].ucValue = SETTING_ON;
 
