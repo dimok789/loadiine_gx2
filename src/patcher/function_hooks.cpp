@@ -3,7 +3,6 @@
 #include <string.h>
 #include "fs_logger.h"
 #include "common/common.h"
-#include "common/fs_defs.h"
 #include "common/loader_defs.h"
 #include "common/retain_vars.h"
 #include "controller_patcher/cp_retain_vars.h"
@@ -29,6 +28,7 @@
 #include "settings/SettingsEnums.h"
 #include "system/memory.h"
 #include "controller_patcher/controller_patcher.h"
+#include "video/CursorDrawer.h"
 
 #include "cpp_to_c_util.h"
 
@@ -97,13 +97,13 @@ static int getPathType(const char *path) {
     new_path[len++] = 0;
 
     /* Note : no need to check everything, it is faster this way */
-    if (m_strncasecmp(new_path, "/vol/content", 12) == 0)
+    if (strncasecmp(new_path, "/vol/content", 12) == 0)
         return PATH_TYPE_GAME;
 
-    if (m_strncasecmp(new_path, "/vol/save", 9) == 0)
+    if (strncasecmp(new_path, "/vol/save", 9) == 0)
         return PATH_TYPE_SAVE;
 
-    if (m_strncasecmp(new_path, "/vol/aoc", 8) == 0)
+    if (strncasecmp(new_path, "/vol/aoc", 8) == 0)
         return PATH_TYPE_AOC;
 
     return 0;
@@ -131,15 +131,15 @@ static void compute_new_path(char* new_path, const char* path, int len, int path
 		char * pathfoo = (char*)path + 13 + path_offset;
 		if(path[13 + path_offset] == '/') pathfoo++; //Skip double slash
 
-        n = m_strlcpy(new_path, bss.mount_base, sizeof(bss.mount_base));
+        n = strlcpy(new_path, bss.mount_base, sizeof(bss.mount_base));
 
 		if(gSettingUseUpdatepath){
 			if(replacement_FileReplacer_isFileExisting(bss.file_replacer,pathfoo) == 0){
                 n -= (sizeof(CONTENT_PATH) -1); // Go back the content folder! (-1 to ignore \0)
-                n += m_strlcpy(new_path+n, UPDATE_PATH, sizeof(UPDATE_PATH));
+                n += strlcpy(new_path+n, UPDATE_PATH, sizeof(UPDATE_PATH));
                 new_path[n++] = '/';
-                n += m_strlcpy(new_path+n, gamePathStruct.update_folder, sizeof(gamePathStruct.update_folder));
-                n += m_strlcpy(new_path+n, CONTENT_PATH, sizeof(CONTENT_PATH));
+                n += strlcpy(new_path+n, gamePathStruct.update_folder, sizeof(gamePathStruct.update_folder));
+                n += strlcpy(new_path+n, CONTENT_PATH, sizeof(CONTENT_PATH));
 			}
 		}
 
@@ -157,20 +157,20 @@ static void compute_new_path(char* new_path, const char* path, int len, int path
     }
     else if(pathType == PATH_TYPE_SAVE)
     {
-        n = m_strlcpy(new_path, bss.save_base, sizeof(bss.save_base));
+        n = strlcpy(new_path, bss.save_base, sizeof(bss.save_base));
         new_path[n++] = '/';
 
         if(gSettingUseUpdatepath){
             if(gamePathStruct.extraSave){
-                n += m_strlcpy(new_path+n, gamePathStruct.update_folder, sizeof(gamePathStruct.update_folder));
-                n += m_strlcpy(new_path+n, "/", 2);
+                n += strlcpy(new_path+n, gamePathStruct.update_folder, sizeof(gamePathStruct.update_folder));
+                n += strlcpy(new_path+n, "/", 2);
             }
         }
 
         // Create path for common and user dirs
         if (path[10 + path_offset] == 'c') // common dir ("common")
         {
-            n += m_strlcpy(&new_path[n], bss.save_dir_common, m_strlen(bss.save_dir_common) + 1);
+            n += strlcpy(&new_path[n], bss.save_dir_common, strlen(bss.save_dir_common) + 1);
 
             // copy the save game filename now with the slash at the beginning
             for (i = 0; i < (len - 16 - path_offset); i++) {
@@ -184,7 +184,7 @@ static void compute_new_path(char* new_path, const char* path, int len, int path
         }
         else if (path[10 + path_offset] == '8') // user dir ("800000??") ?? = user permanent id
         {
-            n += m_strlcpy(&new_path[n], bss.save_dir_user, m_strlen(bss.save_dir_user) + 1);
+            n += strlcpy(&new_path[n], bss.save_dir_user, strlen(bss.save_dir_user) + 1);
 
             // copy the save game filename now with the slash at the beginning
             for (i = 0; i < (len - 18 - path_offset); i++) {
@@ -203,9 +203,9 @@ static void compute_new_path(char* new_path, const char* path, int len, int path
         char * pathfoo = (char*)path + 4 + path_offset;
         if(pathfoo[0] == '/') pathfoo++; //Skip double slash
 
-        n = m_strlcpy(new_path, bss.mount_base, sizeof(bss.mount_base)) - m_strlen(CONTENT_PATH);
-        n += m_strlcpy(new_path + n, "/", sizeof(bss.mount_base) - n);
-        n += m_strlcpy(new_path + n, pathfoo, sizeof(bss.mount_base) - n);
+        n = strlcpy(new_path, bss.mount_base, sizeof(bss.mount_base)) - strlen(CONTENT_PATH);
+        n += strlcpy(new_path + n, "/", sizeof(bss.mount_base) - n);
+        n += strlcpy(new_path + n, pathfoo, sizeof(bss.mount_base) - n);
 
         new_path[n++] = '\0';
     }
@@ -226,20 +226,20 @@ static int getNewPathLen(int pathType){
     int len_base = 0;
     if(pathType == PATH_TYPE_SAVE)
     {
-        len_base += m_strlen(bss.save_base) + 15;
+        len_base += strlen(bss.save_base) + 15;
         if(gSettingUseUpdatepath){
             if(gamePathStruct.extraSave){
-                len_base += (m_strlen(gamePathStruct.update_folder) + 2);
+                len_base += (strlen(gamePathStruct.update_folder) + 2);
             }
         }
     }
     else if(pathType == PATH_TYPE_AOC)
     {
-        len_base += m_strlen(bss.mount_base) - m_strlen(CONTENT_PATH) + 23;
+        len_base += strlen(bss.mount_base) - strlen(CONTENT_PATH) + 23;
     }
     else
     {
-        len_base += m_strlen(bss.mount_base);
+        len_base += strlen(bss.mount_base);
         if(gSettingUseUpdatepath){
              len_base += sizeof(UPDATE_PATH);
              //len_base += sizeof(CONTENT_PATH); <-- Is already in the path!
@@ -264,8 +264,8 @@ DECL(int, FSInit, void)
             return real_FSInit();
 
         // copy pointer
-        bss_ptr = mem_ptr;
-        m_memset(bss_ptr, 0, sizeof(struct bss_t));
+        bss_ptr = (bss_t*)mem_ptr;
+        memset(bss_ptr, 0, sizeof(struct bss_t));
 
         // first thing is connect to logger
         fs_logger_connect(&bss.global_sock);
@@ -369,7 +369,7 @@ DECL(int, FSGetStat, void *pClient, void *pCmd, const char *path, FSStat *stats,
         // change path if it is a game file
         int pathType = getPathType(path);
         if (pathType) {
-            int len = m_strlen(path);
+            int len = strlen(path);
             int len_base = getNewPathLen(pathType);
 
             char new_path[len + len_base + 1];
@@ -391,7 +391,7 @@ DECL(int, FSGetStatAsync, void *pClient, void *pCmd, const char *path, void *sta
         // change path if it is a game/save file
         int pathType = getPathType(path);
         if (pathType) {
-            int len = m_strlen(path);
+            int len = strlen(path);
             int len_base = getNewPathLen(pathType);
 
             char new_path[len + len_base + 1];
@@ -435,7 +435,7 @@ DECL(int, FSOpenFileAsync, void *pClient, void *pCmd, const char *path, const ch
         // change path if it is a game file
         int pathType = getPathType(path);
         if (pathType) {
-            int len = m_strlen(path);
+            int len = strlen(path);
             int len_base = getNewPathLen(pathType);
 
             char new_path[len + len_base + 1];
@@ -456,7 +456,7 @@ DECL(int, FSOpenDir, void *pClient, void* pCmd, const char *path, int *handle, i
         // change path if it is a game folder
         int pathType = getPathType(path);
         if (pathType) {
-            int len = m_strlen(path);
+            int len = strlen(path);
             int len_base = getNewPathLen(pathType);
 
             char new_path[len + len_base + 1];
@@ -477,7 +477,7 @@ DECL(int, FSOpenDirAsync, void *pClient, void* pCmd, const char *path, int *hand
         // change path if it is a game folder
         int pathType = getPathType(path);
         if (pathType) {
-            int len = m_strlen(path);
+            int len = strlen(path);
             int len_base = getNewPathLen(pathType);
 
             char new_path[len + len_base + 1];
@@ -498,7 +498,7 @@ DECL(int, FSChangeDir, void *pClient, void *pCmd, const char *path, int error) {
         // change path if it is a game folder
         int pathType = getPathType(path);
         if (pathType) {
-            int len = m_strlen(path);
+            int len = strlen(path);
             int len_base = getNewPathLen(pathType);
 
             char new_path[len + len_base + 1];
@@ -519,7 +519,7 @@ DECL(int, FSChangeDirAsync, void *pClient, void *pCmd, const char *path, int err
         // change path if it is a game folder
         int pathType = getPathType(path);
         if (pathType) {
-            int len = m_strlen(path);
+            int len = strlen(path);
             int len_base = getNewPathLen(pathType);
 
             char new_path[len + len_base + 1];
@@ -541,7 +541,7 @@ DECL(int, FSMakeDir, void *pClient, void *pCmd, const char *path, int error) {
         // change path if it is a save folder
         int pathType = getPathType(path);
         if (pathType == PATH_TYPE_SAVE) {
-            int len = m_strlen(path);
+            int len = strlen(path);
             int len_base = getNewPathLen(pathType);
             char new_path[len + len_base + 1];
             compute_new_path(new_path, path, len, pathType);
@@ -565,7 +565,7 @@ DECL(int, FSMakeDirAsync, void *pClient, void *pCmd, const char *path, int error
         // change path if it is a save folder
         int pathType = getPathType(path);
         if (pathType == PATH_TYPE_SAVE) {
-            int len = m_strlen(path);
+            int len = strlen(path);
             int len_base = getNewPathLen(pathType);
             char new_path[len + len_base + 1];
             compute_new_path(new_path, path, len, pathType);
@@ -592,12 +592,12 @@ DECL(int, FSRename, void *pClient, void *pCmd, const char *oldPath, const char *
         if (pathType == PATH_TYPE_SAVE) {
             // old path
             int len_base = getNewPathLen(pathType);
-            int len_old = m_strlen(oldPath);
+            int len_old = strlen(oldPath);
             char new_old_path[len_old + len_base + 1];
             compute_new_path(new_old_path, oldPath, len_old, pathType);
 
             // new path
-            int len_new = m_strlen(newPath);
+            int len_new = strlen(newPath);
             char new_new_path[len_new + len_base + 1];
             compute_new_path(new_new_path, newPath, len_new, pathType);
 
@@ -624,12 +624,12 @@ DECL(int, FSRenameAsync, void *pClient, void *pCmd, const char *oldPath, const c
         if (pathType == PATH_TYPE_SAVE) {
             // old path
             int len_base = getNewPathLen(pathType);
-            int len_old = m_strlen(oldPath);
+            int len_old = strlen(oldPath);
             char new_old_path[len_old + len_base + 1];
             compute_new_path(new_old_path, oldPath, len_old, pathType);
 
             // new path
-            int len_new = m_strlen(newPath);
+            int len_new = strlen(newPath);
             char new_new_path[len_new + len_base + 1];
             compute_new_path(new_new_path, newPath, len_new, pathType);
 
@@ -653,7 +653,7 @@ DECL(int, FSRemove, void *pClient, void *pCmd, const char *path, int error) {
         // change path if it is a save folder
         int pathType = getPathType(path);
         if (pathType == PATH_TYPE_SAVE) {
-            int len = m_strlen(path);
+            int len = strlen(path);
             int len_base = getNewPathLen(pathType);
             char new_path[len + len_base + 1];
             compute_new_path(new_path, path, len, pathType);
@@ -677,7 +677,7 @@ DECL(int, FSRemoveAsync, void *pClient, void *pCmd, const char *path, int error,
         // change path if it is a save folder
         int pathType = getPathType(path);
         if (pathType == PATH_TYPE_SAVE) {
-            int len = m_strlen(path);
+            int len = strlen(path);
             int len_base = getNewPathLen(pathType);
             char new_path[len + len_base + 1];
             compute_new_path(new_path, path, len, pathType);
@@ -703,7 +703,7 @@ DECL(int, FSFlushQuota, void *pClient, void *pCmd, const char* path, int error) 
         // change path if it is a save folder
         int pathType = getPathType(path);
         if (pathType == PATH_TYPE_SAVE) {
-            int len = m_strlen(path);
+            int len = strlen(path);
             int len_base = getNewPathLen(pathType);
             char new_path[len + len_base + 1];
             compute_new_path(new_path, path, len, pathType);
@@ -728,7 +728,7 @@ DECL(int, FSFlushQuotaAsync, void *pClient, void *pCmd, const char *path, int er
         // change path if it is a save folder
         int pathType = getPathType(path);
         if (pathType == PATH_TYPE_SAVE) {
-            int len = m_strlen(path);
+            int len = strlen(path);
             int len_base = getNewPathLen(pathType);
             char new_path[len + len_base + 1];
             compute_new_path(new_path, path, len, pathType);
@@ -754,7 +754,7 @@ DECL(int, FSGetFreeSpaceSize, void *pClient, void *pCmd, const char *path, uint6
         // change path if it is a save folder
         int pathType = getPathType(path);
         if (pathType == PATH_TYPE_SAVE) {
-            int len = m_strlen(path);
+            int len = strlen(path);
             int len_base = getNewPathLen(pathType);
             char new_path[len + len_base + 1];
             compute_new_path(new_path, path, len, pathType);
@@ -779,7 +779,7 @@ DECL(int, FSGetFreeSpaceSizeAsync, void *pClient, void *pCmd, const char *path, 
         // change path if it is a save folder
         int pathType = getPathType(path);
         if (pathType == PATH_TYPE_SAVE) {
-            int len = m_strlen(path);
+            int len = strlen(path);
             int len_base = getNewPathLen(pathType);
             char new_path[len + len_base + 1];
             compute_new_path(new_path, path, len, pathType);
@@ -804,7 +804,7 @@ DECL(int, FSRollbackQuota, void *pClient, void *pCmd, const char *path, int erro
         // change path if it is a save folder
         int pathType = getPathType(path);
         if (pathType == PATH_TYPE_SAVE) {
-            int len = m_strlen(path);
+            int len = strlen(path);
             int len_base = getNewPathLen(pathType);
             char new_path[len + len_base + 1];
             compute_new_path(new_path, path, len, pathType);
@@ -828,7 +828,7 @@ DECL(int, FSRollbackQuotaAsync, void *pClient, void *pCmd, const char *path, int
         // change path if it is a save folder
         int pathType = getPathType(path);
         if (pathType == PATH_TYPE_SAVE) {
-            int len = m_strlen(path);
+            int len = strlen(path);
             int len_base = getNewPathLen(pathType);
             char new_path[len + len_base + 1];
             compute_new_path(new_path, path, len, pathType);
@@ -868,9 +868,9 @@ static int LoadRPLToMemory(s_rpx_rpl *rpl_entry)
     }
 
     // calculate path length for SD access of RPL
-    int path_len = m_strlen(gamePathStruct.os_game_path_base) + m_strlen(gamePathStruct.game_dir) + m_strlen(RPX_RPL_PATH) + m_strlen(rpl_entry->name) + 3;
+    int path_len = strlen(gamePathStruct.os_game_path_base) + strlen(gamePathStruct.game_dir) + strlen(RPX_RPL_PATH) + strlen(rpl_entry->name) + 3;
 	char *path_update_rpl = NULL;
-    char *path_rpl = malloc(path_len);
+    char *path_rpl = (char *) malloc(path_len);
     if(!path_rpl) {
         free(pCmd);
         free(pClient);
@@ -901,8 +901,8 @@ static int LoadRPLToMemory(s_rpx_rpl *rpl_entry)
 
 	if(gSettingUseUpdatepath){
         free(path_rpl);
-		int path_len_update_rpl = m_strlen(gamePathStruct.os_game_path_base) + m_strlen(gamePathStruct.game_dir) + m_strlen(UPDATE_PATH) + m_strlen(gamePathStruct.update_folder) + m_strlen(RPX_RPL_PATH) + m_strlen(rpl_entry->name) + 4;
-		path_update_rpl = malloc(path_len_update_rpl);
+		int path_len_update_rpl = strlen(gamePathStruct.os_game_path_base) + strlen(gamePathStruct.game_dir) + strlen(UPDATE_PATH) + strlen(gamePathStruct.update_folder) + strlen(RPX_RPL_PATH) + strlen(rpl_entry->name) + 4;
+		path_update_rpl = (char *) malloc(path_len_update_rpl);
 		if(!path_update_rpl) {
 			free(pCmd);
 			free(pClient);
@@ -931,7 +931,7 @@ static int LoadRPLToMemory(s_rpx_rpl *rpl_entry)
         // Copy rpl in memory
         while ((ret = FSReadFile(pClient, pCmd, dataBuf, 0x1, 0x10000, fd, 0, FS_RET_ALL_ERROR)) > 0)
         {
-			m_DCFlushRange((u32)dataBuf, ret);
+			DCFlushRange((void *)dataBuf, ret);
 
             // Copy in memory and save offset
             int copiedData = rpxRplCopyDataToMem(rpl_entry, rpl_size, dataBufPhysical, ret);
@@ -985,14 +985,14 @@ static int CheckAndLoadRPL(const char *rpl) {
         if(rpl_entry->is_rpx)
             continue;
 
-        int len = m_strlen(rpl);
-        int len2 = m_strlen(rpl_entry->name);
+        int len = strlen(rpl);
+        int len2 = strlen(rpl_entry->name);
         if ((len != len2) && (len != (len2 - 4))) {
             continue;
         }
 
         // compare name string case insensitive and without ".rpl" extension
-        if (m_strncasecmp(rpl_entry->name, rpl, len) == 0)
+        if (strncasecmp(rpl_entry->name, rpl, len) == 0)
         {
             int result = LoadRPLToMemory(rpl_entry);
             return result;
@@ -1148,12 +1148,12 @@ DECL(int, LiWaitOneChunk, unsigned int * iRemainingBytes, const char *filename, 
             // there skip the filename check for RPX
             if(fileType == 1)
             {
-                int len = m_strnlen(filename, 0x1000);
-                int len2 = m_strnlen(rpl_struct->name, 0x1000);
+                int len = strnlen(filename, 0x1000);
+                int len2 = strnlen(rpl_struct->name, 0x1000);
                 if ((len != len2) && (len != (len2 - 4)))
                     continue;
 
-                if(m_strncasecmp(filename, rpl_struct->name, len) != 0) {
+                if(strncasecmp(filename, rpl_struct->name, len) != 0) {
                     found = 0;
                 }
             }
@@ -1172,11 +1172,11 @@ DECL(int, LiWaitOneChunk, unsigned int * iRemainingBytes, const char *filename, 
                     // truncate size
                     remaining_bytes = 0x400000;
 
-                m_DCFlushRange(load_address, remaining_bytes);
+                DCFlushRange((void *)load_address, remaining_bytes);
 
                 rpxRplCopyDataFromMem(rpl_struct, sgFileOffset, (unsigned char*)load_addressPhys, remaining_bytes);
 
-                m_DCInvalidateRange(load_address, remaining_bytes);
+                DCInvalidateRange((void *) load_address, remaining_bytes);
 
                 // set result to 0 -> "everything OK"
                 result = 0;
@@ -1359,15 +1359,14 @@ DECL(int, FSGetVolumeState_log, void *pClient) {
 #endif
 
 DECL(void, GX2CopyColorBufferToScanBuffer, const GX2ColorBuffer *colorBuffer, s32 scan_target){
-
-    if(gHIDCurrentDevice & HID_LIST_MOUSE && gHID_Mouse_Mode == HID_MOUSE_MODE_TOUCH) {
-        draw_Cursor_at(gHID_Mouse.pad_data[0].data[0].X, gHID_Mouse.pad_data[0].data[0].Y);
+    if(gHIDCurrentDevice & gHID_LIST_MOUSE && gHID_Mouse_Mode == HID_MOUSE_MODE_TOUCH) {
+        CursorDrawer::draw(gHID_Mouse.pad_data[0].data[0].X, gHID_Mouse.pad_data[0].data[0].Y);
     }
     real_GX2CopyColorBufferToScanBuffer(colorBuffer,scan_target);
 }
 
 DECL(void, _Exit, void){
-    draw_Cursor_destroy();
+    CursorDrawer::destroyInstance();
     real__Exit();
 }
 
@@ -1375,8 +1374,10 @@ DECL(int, VPADRead, int chan, VPADData *buffer, u32 buffer_size, s32 *error) {
 
     int result = real_VPADRead(chan, buffer, buffer_size, error);
 
+
     if((gHIDPADEnabled == SETTING_ON) && gHIDAttached){
-        setControllerDataFromHID(buffer,gHIDCurrentDevice);
+        setControllerDataFromHID(buffer,HID_ALL_CONNECTED_DEVICES);
+        if(HID_DEBUG) printButtons(buffer);
     }
 
     if(gSettingPadconMode == SETTING_ON){

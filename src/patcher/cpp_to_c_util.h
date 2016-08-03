@@ -10,7 +10,4 @@
  EXTERNC void replacement_FileReplacer_destroy(replacement_FileReplacer_t filereplacer);
  EXTERNC int replacement_FileReplacer_isFileExisting(replacement_FileReplacer_t self, char* param);
 
- EXTERNC void draw_Cursor_at(f32 x, f32 y);
- EXTERNC void draw_Cursor_destroy();
-
  #undef EXTERNC
