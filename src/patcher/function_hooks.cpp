@@ -1377,7 +1377,11 @@ DECL(int, VPADRead, int chan, VPADData *buffer, u32 buffer_size, s32 *error) {
 
     if((gHIDPADEnabled == SETTING_ON) && gHIDAttached){
         setControllerDataFromHID(buffer,HID_ALL_CONNECTED_DEVICES);
-        if(HID_DEBUG) printButtons(buffer);
+    }
+
+    if((gHIDPADEnabled == SETTING_ON) && (gButtonRemappingConfigDone && gConfig_done)){
+        buttonRemapping(buffer);
+        if (HID_DEBUG) printButtons(buffer);
     }
 
     if(gSettingPadconMode == SETTING_ON){
