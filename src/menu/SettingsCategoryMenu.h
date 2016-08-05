@@ -24,10 +24,10 @@
 class SettingsCategoryMenu : public GuiFrame, public sigslot::has_slots<>
 {
 public:
-    SettingsCategoryMenu(int w, int h, const std::string & titleText, const SettingType * categorySettings, int settingsCount);
+    SettingsCategoryMenu(int w, int h, const std::string & titleText, const char *nameTitleImage, const SettingType * categorySettings, int settingsCount);
     virtual ~SettingsCategoryMenu();
 
-     void update(GuiController *c);
+    void update(GuiController *c);
 
     sigslot::signal1<GuiElement *> settingsBackClicked;
 private:
@@ -43,7 +43,6 @@ private:
 
     void OnDPADClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
 
-
     void OnKeyPadOkClicked(GuiElement *element, const std::string & newValue);
     void OnButtonChoiceOkClicked(GuiElement *element, int selectedButton);
 
@@ -51,6 +50,7 @@ private:
 
     const SettingType * categorySettings;
     const int categorySettingsCount;
+	const char * categoryNameTitle;
 
     int currentYOffset;
 
@@ -73,6 +73,8 @@ private:
     typedef struct
     {
         GuiImage *settingImage;
+		GuiImage *settingIcon;
+		GuiImage *settingIconOver;
         GuiImage *settingImageSelected;
         GuiButton *settingButton;
         GuiText *settingLabel;
@@ -89,8 +91,7 @@ private:
 
     GuiButton DPADButtons;
 
-    bool updateButtons = false;;
-
+    bool updateButtons = false;
     int currentSettingsIdx;
 	int selectedButtonDPAD;
 };

@@ -1,11 +1,11 @@
 # Loadiine GX2 language source file.
-# chinese_Tr.lang - v0.34
+# chinese.lang - v0.34
 # don't delete/change this line (é).
 msgid ""
 msgstr ""
 "Project-Id-Version: Loadiine GX2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-09 23:11+0200\n"
+"POT-Creation-Date: 2016-05-08 22:45+0200\n"
 "PO-Revision-Date: 2009-10-01 01:00+0200\n"
 "Last-Translator: kavid by 91wii.com \n"
 "Language-Team: 91wii.com\n"
@@ -121,18 +121,18 @@ msgstr "遊戲"
 
 msgid "HID settings"
 msgstr "HID設置"
-
+ 
 msgid "Launch method selection"
 msgstr "運行模式選擇"
 
 msgid "Log server control"
 msgstr "日誌服務器控制"
 
-msgid "Padcon settings"
-msgstr "平板顯示控制設置"
-
-msgid "PyGecko settings"
+msgid "Read and write memory"
 msgstr "金手指設置"
+
+msgid "Turn off the screen Gamepad"
+msgstr "平板顯示控制設置"
 
 msgid "Credits"
 msgstr "感謝"
@@ -161,13 +161,10 @@ msgstr "遊戲存檔路徑"
 msgid "Game Save Mode"
 msgstr "遊戲存檔模式"
 
-msgid "Log Server Control"
-msgstr "日誌服務器控制"
-
-msgid "PyGecko"
+msgid "Load PyGecko"
 msgstr "金手指"
 
-msgid "Padcon"
+msgid "Enable Padcon"
 msgstr "平板屏幕控制"
 
 msgid "HID-Pad"
@@ -191,5 +188,68 @@ msgstr "卡拉OK模式"
 msgid "Art Atelier Mode"
 msgstr "繪心教室模式"
 
-#~ msgid "Log Server IP"
-#~ msgstr "日誌服務器IP"
+msgid "Download languages"
+msgstr ""
+
+msgid "Select language"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "Languages"
+msgstr ""
+
+msgid "Default"
+msgstr ""
+
+msgid "Brazilian"
+msgstr ""
+
+msgid "English"
+msgstr ""
+
+msgid "Chinese"
+msgstr ""
+
+msgid "Traditional Chinese"
+msgstr ""
+
+msgid "French"
+msgstr ""
+
+msgid "German"
+msgstr ""
+
+msgid "Hungarian"
+msgstr ""
+
+msgid "Italian"
+msgstr ""
+
+msgid "Spanish"
+msgstr ""
+
+msgid "Swedish"
+msgstr ""
+
+msgid "Loaded language"
+msgstr ""
+
+msgid "Reloaded logger to change IP to settings IP"
+msgstr ""
+
+msgid "Loaded HID settings"
+msgstr ""
+
+msgid "Loaded resources"
+msgstr ""
+
+msgid "Loading game list"
+msgstr ""
+
+msgid "Loading Music"
+msgstr ""
+
+msgid "Initializing main"
+msgstr ""

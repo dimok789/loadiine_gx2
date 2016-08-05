@@ -80,12 +80,13 @@ public:
         BgMusicPath,
         GameCover3DPath,
         ConsoleRegionCode,
+		LanguagesPath,
 		AppLanguage,
         GameStartIndex,
 		PadconMode,
         LaunchPyGecko,
-        HIDPadEnabled,
-        ShowGameSettings,
+		HIDPadEnabled,
+		ShowGameSettings,
         MAX_VALUE
     };
 

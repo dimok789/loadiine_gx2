@@ -161,13 +161,10 @@ msgstr "Játék mentési helye"
 msgid "Game Save Mode"
 msgstr "Játék mentési módja"
 
-msgid "Log Server Control"
-msgstr "Log szerver vezérlése"
-
-msgid "PyGecko"
+msgid "Load PyGecko"
 msgstr ""
 
-msgid "Padcon"
+msgid "Enable Padcon"
 msgstr ""
 
 msgid "HID-Pad"
@@ -191,5 +188,68 @@ msgstr "Karaoke Mód"
 msgid "Art Atelier Mode"
 msgstr "Art Atelier Mód"
 
-#~ msgid "Log Server IP"
-#~ msgstr "Log szerver IP"
+msgid "Download languages"
+msgstr ""
+
+msgid "Select language"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "Languages"
+msgstr ""
+
+msgid "Default"
+msgstr ""
+
+msgid "Brazilian"
+msgstr ""
+
+msgid "English"
+msgstr ""
+
+msgid "Chinese"
+msgstr ""
+
+msgid "Traditional Chinese"
+msgstr ""
+
+msgid "French"
+msgstr ""
+
+msgid "German"
+msgstr ""
+
+msgid "Hungarian"
+msgstr ""
+
+msgid "Italian"
+msgstr ""
+
+msgid "Spanish"
+msgstr ""
+
+msgid "Swedish"
+msgstr ""
+
+msgid "Loaded language"
+msgstr ""
+
+msgid "Reloaded logger to change IP to settings IP"
+msgstr ""
+
+msgid "Loaded HID settings"
+msgstr ""
+
+msgid "Loaded resources"
+msgstr ""
+
+msgid "Loading game list"
+msgstr ""
+
+msgid "Loading Music"
+msgstr ""
+
+msgid "Initializing main"
+msgstr ""
