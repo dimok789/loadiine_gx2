@@ -1,0 +1,195 @@
+# Loadiine GX2 language source file.
+# greek.lang - v0.1
+# don't delete/change this line (é).
+msgid ""
+msgstr ""
+"Project-Id-Version: Loadiine GX2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-06-26 05:19+0200\n"
+"PO-Revision-Date: 2009-10-01 01:00+0200\n"
+"Last-Translator: George35000vr\n" #edit after edit
+"Language-Team: George35000vr,\n" #edit after edit
+"Language: Ελληνικά\n" 
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Loadiine GX2"
+msgstr "Loadiine GX2"
+
+msgid "Official Site:"
+msgstr "Επίσημη ιστοσελίδα:"
+
+msgid "Coding:"
+msgstr "Προγραμματισμός:"
+
+msgid "Design:"
+msgstr "Εμφάνιση"
+
+msgid "Some guy who doesn't want to be named."
+msgstr "Ένας τύπος που δεν θέλει να ονομαστεί."
+
+msgid "Testing:"
+msgstr "Δοκιμή:"
+
+msgid "Cyan / Maschell / n1ghty / OnionKnight and many more"
+msgstr "Cyan / Maschell / n1ghty / OnionKnight και πολλοί άλλοι"
+
+msgid "Social Presence:"
+msgstr "Κοινωνική παρουσία:"
+
+msgid "Based on:"
+msgstr "Βασισμένο σε:"
+
+msgid "Loadiine v4.0 by Golden45 and Dimok"
+msgstr "Loadiine v4.0 απο τους Golden45 και Dimok"
+
+msgid "Big thanks to:"
+msgstr "Ένα μεγάλο ευχαριστώ στον:"
+
+msgid "lustar for GameTDB and hosting covers / disc images"
+msgstr "lustar για το GameTDB και για το hosting εξωφύλων παιχνιδιών"
+
+msgid "Marionumber1 for his kernel exploit"
+msgstr "Marionumber1 για το Kernel Exploit"
+
+msgid "The whole libwiiu team and it's contributors."
+msgstr "Όλη την ομάδα του libwiiu και τους εθελοντές του."
+
+msgid "Extra Save:"
+msgstr "Επιπλέον αρχείο αποθήκευσης"
+
+msgid "Enable DLC Support:"
+msgstr "Ενεργοποίηση υποστήριξης DLC"
+
+msgid "Update Folder"
+msgstr "Φάκελος Ενημερώσεων"
+
+msgid "Save Mode"
+msgstr "Τρόπος Αποθήκευσης"
+
+msgid "Launch Mode"
+msgstr "Τρόπος Εκκίνησης"
+
+msgid "<Settings Default>"
+msgstr "<Προεπιλεγμένες Ρυθμίσεις>"
+
+msgid "Saving game settings!"
+msgstr "Αποθήκευση ρυθμίσεων παιχνιδιού"
+
+msgid "Off"
+msgstr "Κλειστό"
+
+msgid "On"
+msgstr "Ανοιχτό"
+
+msgid "Icon Carousel"
+msgstr "Καρουζέλ εικονιδίων"
+
+msgid "Grid View"
+msgstr "Πλέγμα"
+
+msgid "Cover Carousel"
+msgstr "Καρουζέλ εξωφύλων"
+
+msgid "Background customizations"
+msgstr "Ρυθμίσεις φόντου"
+
+msgid "GUI"
+msgstr "Εμφάνιση"
+
+msgid "Game View Selection"
+msgstr "Επιλογή εμφάνισης παιχνιδιών"
+
+msgid "Adjust log server IP and port"
+msgstr "Αλλαγή IP και port του log server"
+
+msgid "Customize games path"
+msgstr "Αλλαγή τοποθεσίας παιχνιδιών"
+
+msgid "Customize save path"
+msgstr "Αλλαγή τοποθεσίας αρχείων αποθήκευσης"
+
+msgid "Loader"
+msgstr "Εκκινητής"
+
+msgid "Set save mode"
+msgstr "Επιλέξτε τρόπο αποθήκευσης"
+
+msgid "Game"
+msgstr "Παιχνίδι"
+
+msgid "HID settings"
+msgstr "Ρυθμίσεις HID"
+
+msgid "Launch method selection"
+msgstr "Επιλογή τρόπου εκκίνησης"
+
+msgid "Log server control"
+msgstr "Διαχείρηση μέσω Log Server"
+
+msgid "Padcon settings"
+msgstr "Ρυθμίσεις Padcon"
+
+msgid "PyGecko settings"
+msgstr "Ρυθμίσεις PyGecko"
+
+msgid "Credits"
+msgstr "Έπαινοι"
+
+msgid "Credits to all contributors"
+msgstr "Επαίνοι προς όλους τους εθελοντές"
+
+msgid "Game View TV"
+msgstr "Εμφάνιση παιχνιδιών στην TV"
+
+msgid "Game View DRC"
+msgstr "Εμφάνιση παιχνιδιών στo Gamepad"
+
+msgid "Show Game Settings"
+msgstr "Εμφάνιση ρύθμισης παιχνιδιών"
+
+msgid "Host IP"
+msgstr "IP διακομιστή"
+
+msgid "Game Path"
+msgstr "Τοποθεσία παιχνιδιών"
+
+msgid "Game Save Path"
+msgstr "Τοποθεσία αποθήκευσης παιχνιδιών"
+
+msgid "Game Save Mode"
+msgstr "Τρόπος αποθήκευσης παιχνιδιών"
+
+msgid "Log Server Control"
+msgstr "Διαχείρηση μέσω Log Server"
+
+msgid "PyGecko"
+msgstr ""
+
+msgid "Padcon"
+msgstr ""
+
+msgid "HID-Pad"
+msgstr ""
+
+msgid "Shared Mode"
+msgstr "Κοινόχρηστος τρόπος"
+
+msgid "Unique Mode"
+msgstr "Ξεχωριστός τρόπος"
+
+msgid "Mii Maker Mode"
+msgstr "Μέσω Mii Maker"
+
+msgid "Smash Bros Mode"
+msgstr "Μέσω Smash Bros"
+
+msgid "Karaoke Mode"
+msgstr "Μέσω Karaoke"
+
+msgid "Art Atelier Mode"
+msgstr "Μέσω Art Atelier"
+
+#~ msgid "Log Server IP"
+#~ msgstr "Διεύθυνση IP του Log Server"

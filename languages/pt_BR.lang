@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Loadiine GX2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-07 01:41+0200\n"
+"POT-Creation-Date: 2016-05-07 10:15+0200\n"
 "PO-Revision-Date: 2009-10-01 01:00+0200\n"
 "Last-Translator: AndréFranco\n"
 "Language-Team: AndréFranco\n"
@@ -121,17 +121,17 @@ msgstr "Jogo"
 
 msgid "HID settings"
 msgstr ""
-
+ 
 msgid "Launch method selection"
 msgstr "Selecionar modo de carregamento"
 
 msgid "Log server control"
 msgstr "Iniciar servidor de Log"
 
-msgid "Padcon settings"
+msgid "Read and write memory"
 msgstr ""
 
-msgid "PyGecko settings"
+msgid "Turn off the screen Gamepad"
 msgstr ""
 
 msgid "Credits"
@@ -161,13 +161,10 @@ msgstr "Caminho do save"
 msgid "Game Save Mode"
 msgstr "Modo de save"
 
-msgid "Log Server Control"
-msgstr "Controle do servidor de log"
-
-msgid "PyGecko"
+msgid "Load PyGecko"
 msgstr ""
 
-msgid "Padcon"
+msgid "Enable Padcon"
 msgstr ""
 
 msgid "HID-Pad"
@@ -191,5 +188,68 @@ msgstr "Modo Karaokê"
 msgid "Art Atelier Mode"
 msgstr "Modo Art Atelier"
 
-#~ msgid "Log Server IP"
-#~ msgstr "IP do servidor de log"
+msgid "Download languages"
+msgstr ""
+
+msgid "Select language"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "Languages"
+msgstr ""
+
+msgid "Default"
+msgstr ""
+
+msgid "Brazilian"
+msgstr ""
+
+msgid "English"
+msgstr ""
+
+msgid "Chinese"
+msgstr ""
+
+msgid "Traditional Chinese"
+msgstr ""
+
+msgid "French"
+msgstr ""
+
+msgid "German"
+msgstr ""
+
+msgid "Hungarian"
+msgstr ""
+
+msgid "Italian"
+msgstr ""
+
+msgid "Spanish"
+msgstr ""
+
+msgid "Swedish"
+msgstr ""
+
+msgid "Loaded language"
+msgstr ""
+
+msgid "Reloaded logger to change IP to settings IP"
+msgstr ""
+
+msgid "Loaded HID settings"
+msgstr ""
+
+msgid "Loaded resources"
+msgstr ""
+
+msgid "Loading game list"
+msgstr ""
+
+msgid "Loading Music"
+msgstr ""
+
+msgid "Initializing main"
+msgstr ""
