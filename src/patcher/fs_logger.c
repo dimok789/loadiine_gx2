@@ -2,129 +2,91 @@
 #include "common/common.h"
 #include "dynamic_libs/os_functions.h"
 #include "dynamic_libs/socket_functions.h"
-#include "function_hooks.h"
+#include "utils/function_patcher.h"
 #include "fs_logger.h"
 #include "utils/utils.h"
+#include "utils/logger.h"
 
 #define CHECK_ERROR(cond) if (cond) { goto error; }
 
-static int sendwait(int sock, const unsigned char *buffer, int len) {
-    while (bss.lock)
-        usleep(5000);
-    bss.lock = 1;
+static int cur_sock = 1;
 
-    int ret;
-    while (len > 0) {
-        ret = send(sock, buffer, len, 0);
-        if(ret < 0)
-        {
-            len = ret;
-            break;
-        }
-
-        len -= ret;
-        buffer += ret;
-    }
-    bss.lock = 0;
-    return len;
-}
-
-
-int fs_logger_connect(int *psock) {
-    struct sockaddr_in addr;
-    int sock, ret;
-
-    // No ip means that we don't have any server running, so no logs
-    if (SERVER_IP == 0) {
-        *psock = -1;
-        return 0;
-    }
-
-    socket_lib_init();
-
-    sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    CHECK_ERROR(sock == -1);
-
-    addr.sin_family = AF_INET;
-    addr.sin_port = 7332;
-    addr.sin_addr.s_addr = SERVER_IP;
-
-    ret = connect(sock, (void *)&addr, sizeof(addr));
-    CHECK_ERROR(ret < 0);
-
-    int enable = 1;
-    setsockopt(sock, IPPROTO_TCP, TCP_NODELAY, (char*)&enable, sizeof(enable));
-
-    unsigned char buffer[2];
-    ret = recv(sock, buffer, 1, 0);
-    CHECK_ERROR(ret < 0);
-
-    *psock = sock;
-
-    bss.lock = 0;
+int fs_logger_connect(int *socket) {
+    *socket = cur_sock++;
+    log_printf("[%02X] connected\n",*socket);
     return 0;
-
-error:
-    if (sock != -1)
-        socketclose(sock);
-
-    *psock = -1;
-    return -1;
 }
 
-void fs_logger_disconnect(int sock) {
-    CHECK_ERROR(sock == -1);
+void fs_logger_disconnect(int socket) {
+    log_printf("[%02X] disconnected\n",socket);
+}
 
-    unsigned char buffer[2];
-    buffer[0] = BYTE_DISCONNECT;
-    buffer[1] = 0;
-    sendwait(sock, buffer, 1);
+char * getNameForByte(u8 byte){
+    switch(byte) {
+        case BYTE_NORMAL:                       return "NORMAL";
+        case BYTE_SPECIAL:                      return "SPECIAL";
+        case BYTE_OK:                           return "OK";
+        case BYTE_PING:                         return "PING";
+        case BYTE_DISCONNECT:                   return "DISCONNECT";
+        case BYTE_LOG_STR:                      return "Logging";
+        case BYTE_MOUNT_SD:                     return "Mounting SD Card";
+        case BYTE_MOUNT_SD_OK:                  return "Mounting SD Card success";
+        case BYTE_MOUNT_SD_BAD:                 return "Mounting SD Card failed";
+        case BYTE_STAT:                         return "GetStat";
+        case BYTE_STAT_ASYNC:                   return "GetStatAsync";
+        case BYTE_OPEN_FILE:                    return "OpenFile";
+        case BYTE_OPEN_FILE_ASYNC:              return "OpenFileAsync";
+        case BYTE_OPEN_DIR:                     return "OpenDir";
+        case BYTE_OPEN_DIR_ASYNC:               return "OpenDirAsync";
+        case BYTE_CHANGE_DIR:                   return "ChangeDir";
+        case BYTE_CHANGE_DIR_ASYNC:             return "ChangeDirAsync";
+        case BYTE_MAKE_DIR:                     return "MakeDir";
+        case BYTE_MAKE_DIR_ASYNC:               return "MakeDirAsync";
+        case BYTE_RENAME:                       return "Rename";
+        case BYTE_RENAME_ASYNC:                 return "RenameAsync";
+        case BYTE_REMOVE:                       return "Remove";
+        case BYTE_REMOVE_ASYNC:                 return "RemoveAsync";
+        case BYTE_CLOSE_FILE:                   return "CloseFile";
+        case BYTE_CLOSE_FILE_ASYNC:             return "CloseFileAsync";
+        case BYTE_CLOSE_DIR:                    return "CloseDir";
+        case BYTE_CLOSE_DIR_ASYNC:              return "CloseDirAsync";
+        case BYTE_FLUSH_FILE:                   return "FlushFile";
+        case BYTE_GET_ERROR_CODE_FOR_VIEWER:    return "GetErrorCodeV";
+        case BYTE_GET_LAST_ERROR:               return "LastError";
+        case BYTE_GET_MOUNT_SOURCE:             return "MountSource";
+        case BYTE_GET_MOUNT_SOURCE_NEXT:        return "MountSourceNext";
+        case BYTE_GET_POS_FILE:                 return "GetPosFile";
+        case BYTE_SET_POS_FILE:                 return "SetPosFile";
+        case BYTE_GET_STAT_FILE:                return "GetStatFile";
+        case BYTE_EOF:                          return "EOF";
+        case BYTE_READ_FILE:                    return "ReadFile";
+        case BYTE_READ_FILE_ASYNC:              return "ReadFileAsync";
+        case BYTE_READ_FILE_WITH_POS:           return "ReadFilePOS";
+        case BYTE_READ_DIR:                     return "ReadDir";
+        case BYTE_READ_DIR_ASYNC:               return "ReadDirAsync";
+        case BYTE_GET_CWD:                      return "GetCWD";
+        case BYTE_SET_STATE_CHG_NOTIF:          return "BYTE_SET_STATE_CHG_NOTIF";
+        case BYTE_TRUNCATE_FILE:                return "TruncateFile";
+        case BYTE_WRITE_FILE:                   return "WriteFile";
+        case BYTE_WRITE_FILE_WITH_POS:          return "WriteFilePos";
+        case BYTE_SAVE_INIT:                    return "SaveInit";
+        case BYTE_SAVE_SHUTDOWN:                return "SaveShutdown";
+        case BYTE_SAVE_INIT_SAVE_DIR:           return "SaveInitSaveDir";
+        case BYTE_SAVE_FLUSH_QUOTA:             return "SaveFlushQuota";
+        case BYTE_SAVE_OPEN_DIR:                return "SaveOpenDir";
+        case BYTE_SAVE_REMOVE:                  return "SaveRemove";
+        case BYTE_CREATE_THREAD:                return "CreateThread";
 
-    socketclose(sock);
-error:
-    return;
+        default:                                return "UNKWN";
+    }
+    return "";
 }
 
 void fs_log_string(int sock, const char* str, unsigned char flag_byte) {
-    if(sock == -1) {
-		return;
-	}
-    int i;
-    int len_str = 0;
-    while (str[len_str])
-        len_str++;
 
-    //
-    {
-        unsigned char *buffer = memalign(0x40, ROUNDUP((1 + 4 + len_str + 1), 0x40));
-        if(!buffer)
-            return;
-
-        buffer[0] = flag_byte;
-        *(int *)(buffer + 1) = len_str + 1;
-        for (i = 0; i < len_str; i++)
-            buffer[5 + i] = str[i];
-
-        buffer[5 + i] = 0;
-
-        sendwait(sock, buffer, 1 + 4 + len_str + 1);
-
-        free(buffer);
-    }
-
+    log_printf("[%02d] %-24s: %s\n",sock, getNameForByte(flag_byte), str);
 }
 
-void fs_log_byte(int sock, unsigned char byte) {
-    if(sock != -1) {
-        unsigned char *buffer = memalign(0x40, 0x40);
-        if(!buffer)
-            return;
-
-        buffer[0] = byte;
-        buffer[1] = 0;
-
-        sendwait(sock, buffer, 1);
-
-        free(buffer);
-    }
+void fs_log_byte(int sock, unsigned char flag_byte) {
+    log_printf("[%02d] %-24s\n",sock, getNameForByte(flag_byte));
 }

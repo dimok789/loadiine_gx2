@@ -489,21 +489,22 @@ void MainWindow::OnGameLoadFinish(GameLauncher * launcher, const discHeader *hea
 {
     if(result == GameLauncher::SUCCESS)
     {
-        // Set game launched
-        struct in_addr ip;
-        ip.s_addr = 0;
 
         if(CSettings::getValueAsBool(CSettings::GameLogServer))
         {
-            inet_aton(CSettings::getValueAsString(CSettings::GameLogServerIp).c_str(), &ip);
+            const char * ip = CSettings::getValueAsString(CSettings::GameLogServerIp).c_str();
+            if(strlen(ip) > 0 && strlen(ip) < 16){
+                 memcpy(gServerIP,ip,strlen(ip)+1);
+            }
             log_printf("FS log server on %s\n", CSettings::getValueAsString(CSettings::GameLogServerIp).c_str());
         }
         else
         {
+            gServerIP[0] = '\0';
             log_printf("FS log server is off\n");
         }
 
-        SERVER_IP = ip.s_addr;
+
         GAME_LAUNCHED = 1;
         GAME_RPX_LOADED = 0;
         LOADIINE_MODE = CSettings::getValueAsU8(CSettings::GameLaunchMethod);

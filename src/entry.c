@@ -5,7 +5,7 @@
 #include "dynamic_libs/aoc_functions.h"
 #include "dynamic_libs/gx2_functions.h"
 #include "dynamic_libs/syshid_functions.h"
-#include "patcher/function_hooks.h"
+#include "utils/function_patcher.h"
 #include "patcher/cpp_to_c_util.h"
 #include "controller_patcher/controller_patcher.h"
 #include "patcher/pygecko.h"
@@ -25,6 +25,9 @@ int __entry_menu(int argc, char **argv)
     }
     InitOSFunctionPointers();
     InitSocketFunctionPointers();
+    InitAocFunctionPointers();
+    InitACPFunctionPointers();
+
 
     log_init("192.168.0.181");
 
@@ -39,7 +42,7 @@ int __entry_menu(int argc, char **argv)
     //!*******************************************************************
 
     if(GAME_LAUNCHED){
-         PatchMethodHooks();
+         ApplyPatches();
     }
 
     //! *******************************************************************
@@ -132,7 +135,7 @@ int __entry_menu(int argc, char **argv)
         return EXIT_RELAUNCH_ON_LOAD;
     }
 
-    RestoreInstructions();
+    RestoreAllInstructions();
 
     deinit_config_controller();
 
