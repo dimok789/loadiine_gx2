@@ -65,11 +65,16 @@
 
 #define BYTE_CREATE_THREAD              0x60
 
-
+#ifdef __cplusplus
+extern "C" {
+#endif
 int fs_logger_connect(int *socket);
 void fs_logger_disconnect(int socket);
 void fs_log_string(int sock, const char* str, unsigned char byte);
 void fs_log_byte(int sock, unsigned char byte);
+#ifdef __cplusplus
+}
+#endif
 
 
 #endif

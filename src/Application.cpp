@@ -29,6 +29,7 @@
 #include "utils/logger.h"
 #include "common/retain_vars.h"
 #include "controller_patcher/cp_retain_vars.h"
+#include "video/CursorDrawer.h"
 
 Application *Application::applicationInstance = NULL;
 bool Application::exitApplication = false;
@@ -70,9 +71,11 @@ Application::~Application()
 
 	gettextCleanUp();
 
-	if(!gHIDPADEnabled && config_done){
+	if(!gHIDPADEnabled && gConfig_done){
         deinit_config_controller(); //Needs InitSysHIDFunctionPointers();! here done by init_config_controller() when config_done is set.
     }
+	
+	CursorDrawer::destroyInstance();
 }
 
 void Application::exec()

@@ -1,7 +1,7 @@
 #include <gctypes.h>
 #include "elf_abi.h"
 #include "../../src/common/common.h"
-#include "../../src/common/fs_defs.h"
+#include "../../src/dynamic_libs/fs_defs.h"
 #include "../../src/common/os_defs.h"
 
 #define CODE_RW_BASE_OFFSET                             0

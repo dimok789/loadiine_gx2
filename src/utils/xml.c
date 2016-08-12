@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <string.h>
 #include "strings.h"
-#include "common/fs_defs.h"
 #include "common/kernel_defs.h"
 #include "dynamic_libs/fs_functions.h"
 #include "dynamic_libs/os_functions.h"

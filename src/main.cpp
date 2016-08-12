@@ -10,6 +10,8 @@
 #include "dynamic_libs/curl_functions.h"
 #include "dynamic_libs/ax_functions.h"
 #include "patcher/function_hooks.h"
+#include "controller_patcher/cp_retain_vars.h"
+#include "controller_patcher/config_reader.h"
 #include "fs/fs_utils.h"
 #include "fs/sd_fat_devoptab.h"
 #include "kernel/kernel_functions.h"
@@ -67,6 +69,17 @@ extern "C" int Menu_Main(void)
     //!*******************************************************************
     log_printf("Patch FS and loader functions\n");
 
+	//!*******************************************************************
+    //!                       Read Configs for HID support               *
+    //!*******************************************************************
+    if(gConfig_done == HID_INIT_DONE){
+        log_print("Reading config files from SD Card\n");
+        ConfigReader::getInstance(); //doing the magic automatically
+        ConfigReader::destroyInstance();
+        log_print("Done with reading config files from SD Card\n");
+        gConfig_done = HID_SDCARD_READ;
+    }
+
     PatchMethodHooks();
     PatchSDK();
 
@@ -90,7 +103,7 @@ extern "C" int Menu_Main(void)
     log_printf("Release memory\n");
     memoryRelease();
     log_printf("Loadiine peace out...\n");
-    log_deinit();
+    //log_deinit();
 
     return 0;
 }

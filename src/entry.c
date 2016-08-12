@@ -32,6 +32,7 @@ int __entry_menu(int argc, char **argv)
     //!                        Initialize HID Config                     *
     //!*******************************************************************
     init_config_controller();
+	init_button_remapping();
 
     //!*******************************************************************
     //!                        Dynamic Patching                          *
@@ -131,7 +132,6 @@ int __entry_menu(int argc, char **argv)
         return EXIT_RELAUNCH_ON_LOAD;
     }
 
-    draw_Cursor_destroy();
     RestoreInstructions();
 
     deinit_config_controller();
