@@ -351,13 +351,13 @@ bool GameLauncher::createFileList(const std::string & filepath){
         log_printf("Saving it to %s\n",filelist_name.c_str());
         progressWindow.setProgress(100.0f);
         FileReplacer replacer(filepath,CONTENT_PATH,"",progressWindow);
-        progressWindow.setTitle("");
+        progressWindow.setInfo("");
         std::string strBuffer = replacer.getFileListAsString();
         if(strBuffer.length() > 0){
             CFile  filelist(filelist_name, CFile::WriteOnly);
             if (filelist.isOpen()){
                 int ret = 0;
-                progressWindow.setTitle("Writing list to SD");
+                progressWindow.setInfo("Writing list to SD");
                 if((ret = filelist.write((u8*)strBuffer.c_str(), strBuffer.size())) == -1){
                     log_printf("Error on write: %d\n",ret);
                 }
@@ -434,7 +434,7 @@ int GameLauncher::LoadRpxRplToMem(const std::string & path, const std::string & 
         return NOT_ENOUGH_MEMORY;
     }
 
-    progressWindow.setTitle(strfmt("Loading file %s", name.c_str()));
+    progressWindow.setInfo(strfmt("Loading file %s", name.c_str()));
 
     // Copy rpl in memory
     while(bytesRead < fileSize)

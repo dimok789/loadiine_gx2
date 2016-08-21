@@ -21,32 +21,47 @@ ProgressWindow::ProgressWindow(const std::string & title)
     : GuiFrame(0, 0)
     , bgImageData(Resources::GetImageData("progressWindow.png"))
     , bgImage(bgImageData)
-    , progressImageBlack(bgImage.getWidth(), bgImage.getHeight()/2, (GX2Color){0, 0, 0, 255})
-    , progressImageColored(bgImage.getWidth(), bgImage.getHeight()/2, (GX2Color){0, 0, 0, 255})
+	, bgBlur(1280, 720, (GX2Color){0, 0, 0, 255})
+    , progressImageBlack(bgImage.getWidth() - 90 , 40, (GX2Color){0, 0, 0, 255})
+    , progressImageColored(bgImage.getWidth() - 90, 40, (GX2Color){0, 0, 0, 255})
 {
     width = bgImage.getWidth();
     height = bgImage.getHeight();
-
+    
+	bgBlur.setAlpha(0.5f);
+	append(&bgBlur);
+	
     append(&progressImageBlack);
     append(&progressImageColored);
     append(&bgImage);
-
-    progressImageColored.setAlignment(ALIGN_TOP_LEFT);
+    
+	progressImageBlack.setPosition(0, -210);
+	
+	progressImageColored.setAlignment(ALIGN_TOP_LEFT);
     progressImageColored.setImageColor((GX2Color){ 42, 159, 217, 255}, 0);
     progressImageColored.setImageColor((GX2Color){ 42, 159, 217, 255}, 1);
     progressImageColored.setImageColor((GX2Color){ 13, 104, 133, 255}, 2);
     progressImageColored.setImageColor((GX2Color){ 13, 104, 133, 255}, 3);
 
     titleText.setColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-    titleText.setFontSize(36);
-    titleText.setAlignment(ALIGN_LEFT | ALIGN_MIDDLE);
-    titleText.setPosition(50, 0);
+    titleText.setFontSize(48);
+    titleText.setAlignment(ALIGN_CENTER | ALIGN_MIDDLE);
+    titleText.setPosition(0, 0);
     titleText.setBlurGlowColor(5.0f, glm::vec4(0.0, 0.0, 0.0f, 1.0f));
     titleText.setText(title.c_str());
     append(&titleText);
+	
+	infoText.setColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+    infoText.setFontSize(28);
+    infoText.setAlignment(ALIGN_CENTER | ALIGN_MIDDLE);
+    infoText.setBlurGlowColor(5.0f, glm::vec4(0.0, 0.0, 0.0f, 1.0f));
+    append(&infoText);
+	
 
     progressImageColored.setParent(&progressImageBlack);
-    titleText.setParent(&progressImageBlack);
+	
+    titleText.setParent(&bgImage);
+	infoText.setParent(&progressImageBlack);
 
     setProgress(0.0f);
 }
@@ -56,9 +71,13 @@ ProgressWindow::~ProgressWindow()
     Resources::RemoveImageData(bgImageData);
 }
 
+void ProgressWindow::setInfo(const std::string & info)
+{
+	infoText.setText(info.c_str());
+}
 void ProgressWindow::setTitle(const std::string & title)
 {
-    titleText.setText(title.c_str());
+	titleText.setText(title.c_str());
 }
 
 void ProgressWindow::setProgress(f32 percent)

@@ -24,7 +24,7 @@ FileReplacer::FileReplacer(std::string path,std::string content,std::string file
 
 FileReplacer::FileReplacer(std::string filepath,std::string content,std::string filename, ProgressWindow & progressWindow){
     int entries = 0;
-    progressWindow.setTitle("Creating filelist.txt:");
+    progressWindow.setInfo("Creating filelist.txt:");
 
     dir_all = new Directory("content");
     read_dir(filepath + std::string("/") + content, dir_all, &entries, progressWindow);
@@ -113,7 +113,7 @@ int FileReplacer::read_dir(const std::string & path , Directory* dir, int * entr
 		bool isDir = dirent->d_type & DT_DIR;
 		const char *filename = dirent->d_name;
         if(*entries %25 == 0){
-            progressWindow.setTitle(strfmt("Creating filelist.txt: %d entries found", *entries));
+            progressWindow.setInfo(strfmt("Creating filelist.txt: %d entries found", *entries));
         }
         if(isDir){
             

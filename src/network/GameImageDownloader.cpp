@@ -133,7 +133,7 @@ void GameImageDownloader::FindMissing(const char * writepath, const  char * down
 
 int GameImageDownloader::DownloadProcess(int TotalDownloadCount)
 {
-	for(u32 i = 0, pos = 0; i < MissingImages.size(); ++i, ++pos)
+	for(u32 i = 0, pos = 1; i < MissingImages.size(); ++i, ++pos)
 	{
 		//if(ProgressCanceled())
 		//	break;
@@ -144,7 +144,7 @@ int GameImageDownloader::DownloadProcess(int TotalDownloadCount)
 
         char progressMsg[100];
         snprintf(progressMsg, sizeof(progressMsg), "http://gametdb.com : %s.png - %i files left", MissingImages[i].gameID.c_str(), TotalDownloadCount - pos);
-        progressWindow.setTitle(progressMsg);
+        progressWindow.setInfo(progressMsg);
         progressWindow.setProgress(100.0f * (f32)pos / (f32)TotalDownloadCount);
 
         std::string imageData;

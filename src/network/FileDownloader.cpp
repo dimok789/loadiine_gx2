@@ -94,7 +94,7 @@ bool FileDownloader::internalGetFile(const std::string & downloadUrl, curl_priva
     }
 
     if(!private_data->filesize) {
-        log_printf("file length is 0");
+        log_printf("file length is 0\n");
         n_curl_easy_cleanup(curl);
         return false;
     }
@@ -104,7 +104,7 @@ bool FileDownloader::internalGetFile(const std::string & downloadUrl, curl_priva
 
     if(resp != 200)
     {
-        log_printf("response != 200");
+        log_printf("response != 200\n");
         n_curl_easy_cleanup(curl);
         return false;
     }

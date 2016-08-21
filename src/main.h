@@ -3,7 +3,7 @@
 
 #include "common/types.h"
 #include "dynamic_libs/os_functions.h"
-#include "dynamic_libs/fs_defs.h
+#include "dynamic_libs/fs_defs.h"
 
 /* General defines */
 #define MAX_GAME_COUNT      255

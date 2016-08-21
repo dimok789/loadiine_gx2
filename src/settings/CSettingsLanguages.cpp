@@ -43,20 +43,9 @@ std::vector<std::string> CSettingsLanguages::LoadLanguages(int *languageSelect)
 	std::string appLanguage(CSettings::getValueAsString(CSettings::AppLanguage));
 	std::vector<std::string> languageName;
 	
-	typedef std::map<std::string, std::map<std::string, std::string > > languagesMap;
+	//typedef std::map<std::string, std::map<std::string, std::string > > languagesMap;
 
-	languagesMap languagesNames;
-
-	languagesNames["pt_BR.lang"]["pt_BR"] = trNOOP("Brazilian");
-	languagesNames["chinese.lang"]["chinese"] =  trNOOP("Chinese");
-	languagesNames["chinese_tr.lang"]["chinese_tr"] =  trNOOP("Traditional Chinese");
-	languagesNames["english.lang"]["english"] =  trNOOP("English");
-	languagesNames["french.lang"]["french"] =  trNOOP("French");
-	languagesNames["german.lang"]["german"] =  trNOOP("German");
-	languagesNames["hungarian.lang"]["hungarian"] =  trNOOP("Hungarian");
-	languagesNames["italian.lang"]["italian"] =  trNOOP("Italian");
-	languagesNames["spanish.lang"]["spanish"] =  trNOOP("Spanish");
-	languagesNames["swedish.lang"]["swedish"] =  trNOOP("Swedish");
+	//languagesMap languagesNames;
 	
 	enumLanguages.insert(std::pair<int, std::string>(languageName.size(), "default"));
 	languageName.push_back("Default");	
@@ -65,20 +54,29 @@ std::vector<std::string> CSettingsLanguages::LoadLanguages(int *languageSelect)
 	
 	if(dirList.LoadPath(languagesPath, filter))
 	{				
-		for(int i = 0; i < dirList.GetFilecount(); i++) {
-			for (languagesMap::iterator nameFile = languagesNames.begin(); nameFile != languagesNames.end(); ++nameFile) {
-				if(dirList.GetFilename(i) == nameFile->first)
-				{
-					for (std::map<std::string, std::string >::iterator nameLanguage = nameFile->second.begin(); nameLanguage != nameFile->second.end(); ++nameLanguage) {						
-						if (appLanguage == nameLanguage->first) 
-							*languageSelect = languageName.size();
-						enumLanguages.insert(std::pair<int, std::string>(languageName.size(), nameLanguage->first));
-						languageName.push_back(nameLanguage->second);
-					}
-				}
-			}
+		for(int i = 0; i < dirList.GetFilecount(); i++) 
+		{
+			
+			
+			std::vector<std::string> languageNameID = stringSplit(dirList.GetFilename(i), ".lang");
+			
+			std::string languageNameUpper = languageNameID[0];
+			languageNameUpper[0] = ::toupper( languageNameUpper[0] );
+			for ( std::string::iterator it = languageNameUpper.begin(); it != languageNameUpper.end(); it++ )
+				if ( *it == ' ' )
+			*( it+1 ) = ::toupper( *( it+1 ) );
+  
+			Languages.push_back ({dirList.GetFilename(i), languageNameID[0], trNOOP(languageNameUpper)});	
+			
+			if (appLanguage == Languages[i].languageID) 
+				*languageSelect = languageName.size();
+			enumLanguages.insert(std::pair<int, std::string>(languageName.size(), Languages[i].languageID.c_str()));
+			languageName.push_back(Languages[i].languageName.c_str());		
 		}
 	}
+	else
+		*languageSelect = 0;
+		
 	return languageName;
 	
 }

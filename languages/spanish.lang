@@ -212,7 +212,7 @@ msgstr "Ingles"
 msgid "Chinese"
 msgstr "Chino"
 
-msgid "Traditional Chinese"
+msgid "Chinese_tr"
 msgstr "Chino Tradicional"
 
 msgid "French"
@@ -232,6 +232,15 @@ msgstr "Español"
 
 msgid "Swedish"
 msgstr "Sueco"
+
+msgid "Greek"
+msgstr "Griego"
+
+msgid "Portuguese"
+msgstr "Portuges"
+
+msgid "Japanese"
+msgstr "Japones"
 
 msgid "Loaded language"
 msgstr "Cargado idioma"
@@ -253,3 +262,18 @@ msgstr "Cargando Musica"
 
 msgid "Initializing main"
 msgstr "Inicializando menu"
+
+msgid "Connecting.."
+msgstr "Conectando.."
+
+msgid "Getting file list"
+msgstr "Obteniendo lista de archivos"
+
+msgid "Downloading files"
+msgstr "Descargando archivos"
+
+msgid "Languages files:"
+msgstr "Archivos de idiomas:"
+
+msgid "files left"
+msgstr "archivos restantes"

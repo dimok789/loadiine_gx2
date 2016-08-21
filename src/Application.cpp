@@ -74,8 +74,8 @@ Application::~Application()
 	if(!gHIDPADEnabled && gConfig_done){
         deinit_config_controller(); //Needs InitSysHIDFunctionPointers();! here done by init_config_controller() when config_done is set.
     }
-	
-	CursorDrawer::destroyInstance();
+
+    CursorDrawer::destroyInstance();
 }
 
 void Application::exec()

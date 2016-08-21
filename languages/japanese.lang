@@ -1,0 +1,270 @@
+# Loadiine GX2 language source file.
+# japanese.lang - v0.1
+# don't delete/change this line (é).
+msgid ""
+msgstr ""
+"Project-Id-Version: Loadiine GX2\n"
+"Report-Msgid-Bugs-To: Glitch\n"
+"POT-Creation-Date: 2016-05-07 01:41+0200\n"
+"PO-Revision-Date: 2009-10-01 01:00+0200\n"
+"Last-Translator: Glitch\n"
+"Language-Team: Glitch\n"
+"Language: Japanese\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Loadiine GX2"
+msgstr ""
+
+msgid "Official Site:"
+msgstr "公式サイト"
+
+msgid "Coding:"
+msgstr "コード:"
+
+msgid "Design:"
+msgstr "設計:"
+
+msgid "Some guy who doesn't want to be named."
+msgstr "名前言われたくないやつ."
+
+msgid "Testing:"
+msgstr "テストした人:"
+
+msgid "Cyan / Maschell / n1ghty / OnionKnight and many more"
+msgstr "Cyan / Maschell / n1ghty / OnionKnight などなど"
+
+msgid "Social Presence:"
+msgstr "社会的存在感:"
+
+msgid "Based on:"
+msgstr "源:"
+
+msgid "Loadiine v4.0 by Golden45 and Dimok"
+msgstr "Golden45とDimokのLoadiine v4.0"
+
+msgid "Big thanks to:"
+msgstr "本当にありがとう:"
+
+msgid "lustar for GameTDB and hosting covers / disc images"
+msgstr "カバーとディスク画像ホスティング＆GameTDBのlustarさん"
+
+msgid "Marionumber1 for his kernel exploit"
+msgstr "カーネルエクスプロイト作ったのMarionumber1さん"
+
+msgid "The whole libwiiu team and it's contributors."
+msgstr "libwiiuチームのみんなと協力者がやりましたのみんな."
+
+msgid "Extra Save:"
+msgstr "別セーブ:"
+
+msgid "Enable DLC Support:"
+msgstr "DLC使用可能:"
+
+msgid "Update Folder"
+msgstr "更新フォルダ"
+
+msgid "Save Mode"
+msgstr "セーブモード"
+
+msgid "Launch Mode"
+msgstr "起動モード"
+
+msgid "<Settings Default>"
+msgstr "<デフォルト設定>"
+
+msgid "Saving game settings!"
+msgstr "ゲームの設定を保存する!"
+
+msgid "Off"
+msgstr "オフ"
+
+msgid "On"
+msgstr "オン"
+
+msgid "Icon Carousel"
+msgstr "アイコンカルーセル"
+
+msgid "Grid View"
+msgstr "グリッドビュー"
+
+msgid "Cover Carousel"
+msgstr "カバーカルーセル"
+
+msgid "Background customizations"
+msgstr "背景のカスタマイズ"
+
+msgid "GUI"
+msgstr ""
+
+msgid "Game View Selection"
+msgstr "ゲーム表示の設定"
+
+msgid "Adjust log server IP and port"
+msgstr "ログサーバーのIPとポートを設定"
+
+msgid "Customize games path"
+msgstr "ゲームパス変更"
+
+msgid "Customize save path"
+msgstr "セーブパス変更"
+
+msgid "Loader"
+msgstr "ローダー"
+
+msgid "Set save mode"
+msgstr "セーブモードの設定"
+
+msgid "Game"
+msgstr "ゲーム"
+
+msgid "HID settings"
+msgstr "HID設定"
+
+msgid "Launch method selection"
+msgstr "起動方法を選んで"
+
+msgid "Log server control"
+msgstr "ログサーバー管理"
+
+msgid "Read and write memory"
+msgstr ""
+
+msgid "Turn off the screen Gamepad"
+msgstr ""
+
+msgid "Credits"
+msgstr "関与した人々"
+
+msgid "Credits to all contributors"
+msgstr "協力者を称賛する"
+
+msgid "Game View TV"
+msgstr "テレビに映る"
+
+msgid "Game View DRC"
+msgstr "DRCに映る"
+
+msgid "Show Game Settings"
+msgstr "ゲームの設定を表示する"
+
+msgid "Host IP"
+msgstr "ホストIP"
+
+msgid "Game Path"
+msgstr "ゲームパス"
+
+msgid "Game Save Path"
+msgstr "セーブパス
+
+msgid "Game Save Mode"
+msgstr "セーブモード
+
+msgid "Load PyGecko"
+msgstr ""
+
+msgid "Enable Padcon"
+msgstr ""
+
+msgid "HID-Pad"
+msgstr ""
+
+msgid "Shared Mode"
+msgstr "共有モード"
+
+msgid "Unique Mode"
+msgstr "特有モード"
+
+msgid "Mii Maker Mode"
+msgstr "Miiスタジオモード"
+
+msgid "Smash Bros Mode"
+msgstr "スマブラモード"
+
+msgid "Karaoke Mode"
+msgstr "カラオケモード"
+
+msgid "Art Atelier Mode"
+msgstr "絵心教室アトリエモード"
+
+msgid "Download languages"
+msgstr ""
+
+msgid "Select language"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "Languages"
+msgstr ""
+
+msgid "Default"
+msgstr ""
+
+msgid "Brazilian"
+msgstr ""
+
+msgid "English"
+msgstr ""
+
+msgid "Chinese"
+msgstr ""
+
+msgid "Chinese_tr"
+msgstr "Traditional Chinese"
+
+msgid "French"
+msgstr ""
+
+msgid "German"
+msgstr ""
+
+msgid "Hungarian"
+msgstr ""
+
+msgid "Italian"
+msgstr ""
+
+msgid "Spanish"
+msgstr ""
+
+msgid "Swedish"
+msgstr ""
+
+msgid "Loaded language"
+msgstr ""
+
+msgid "Reloaded logger to change IP to settings IP"
+msgstr ""
+
+msgid "Loaded HID settings"
+msgstr ""
+
+msgid "Loaded resources"
+msgstr ""
+
+msgid "Loading game list"
+msgstr ""
+
+msgid "Loading Music"
+msgstr ""
+
+msgid "Initializing main"
+msgstr ""
+
+msgid "Connecting.."
+msgstr ""
+
+msgid "Getting file list"
+msgstr ""
+
+msgid "Downloading files"
+msgstr ""
+
+msgid "Languages files:"
+msgstr "
+
+msgid "files left"
+msgstr ""

@@ -1,0 +1,270 @@
+# Loadiine GX2 language source file.
+# pt_PT.lang - v0.1
+# don't delete/change this line (é).
+msgid ""
+msgstr ""
+"Project-Id-Version: Loadiine GX2\n"
+"Report-Msgid-Bugs-To: PTKickass\n"
+"POT-Creation-Date: 2016-05-07 01:41+0200\n"
+"PO-Revision-Date: 2009-10-01 01:00+0200\n"
+"Last-Translator: PTKickass\n"
+"Language-Team: PTKickass\n"
+"Language: Portuguese(Portugal)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Loadiine GX2"
+msgstr "Loadiine GX2"
+
+msgid "Official Site:"
+msgstr "Site oficial:"
+
+msgid "Coding:"
+msgstr "Programação:"
+
+msgid "Design:"
+msgstr "Design:"
+
+msgid "Some guy who doesn't want to be named."
+msgstr "Um gajo qualquer que não quer ser mencionado."
+
+msgid "Testing:"
+msgstr "Testadores:"
+
+msgid "Cyan / Maschell / n1ghty / OnionKnight and many more"
+msgstr "Cyan / Maschell / n1ghty / OnionKnight e muitos mais"
+
+msgid "Social Presence:"
+msgstr "Representante social:"
+
+msgid "Based on:"
+msgstr "Baseado em:"
+
+msgid "Loadiine v4.0 by Golden45 and Dimok"
+msgstr "Loadiine v4.0 por Golden45 e Dimok"
+
+msgid "Big thanks to:"
+msgstr "Um grande obrigado a:"
+
+msgid "lustar for GameTDB and hosting covers / disc images"
+msgstr "lustar da GameTDB por hospedar imagens de capas / discos"
+
+msgid "Marionumber1 for his kernel exploit"
+msgstr "Marionumber1 pelo seu kernel exploit"
+
+msgid "The whole libwiiu team and it's contributors."
+msgstr "Toda a equipa libwiiu e aos seus contribuidores."
+
+msgid "Extra Save:"
+msgstr "Jogo guardado extra:"
+
+msgid "Enable DLC Support:"
+msgstr "Ativar suporte a DLC:"
+
+msgid "Update Folder"
+msgstr "Pasta update"
+
+msgid "Save Mode"
+msgstr "Modo de guardamento"
+
+msgid "Launch Mode"
+msgstr "Modo de carregamento"
+
+msgid "<Settings Default>"
+msgstr "<Opções Predefinidas>"
+
+msgid "Saving game settings!"
+msgstr "A guardar opções do jogo!"
+
+msgid "Off"
+msgstr "Desligado"
+
+msgid "On"
+msgstr "Ligado"
+
+msgid "Icon Carousel"
+msgstr "Carrocel de Ícones"
+
+msgid "Grid View"
+msgstr "Vista em Grade"
+
+msgid "Cover Carousel"
+msgstr "Carrocel de Capas"
+
+msgid "Background customizations"
+msgstr "Customizações de fundo"
+
+msgid "GUI"
+msgstr "Interface"
+
+msgid "Game View Selection"
+msgstr "Tipo de vista de jogos"
+
+msgid "Adjust log server IP and port"
+msgstr "Ajustar a porta e IP do servidor de log"
+
+msgid "Customize games path"
+msgstr "Mudar localização de jogos"
+
+msgid "Customize save path"
+msgstr "Mudar localização de jogos guardados"
+
+msgid "Loader"
+msgstr "Carregador"
+
+msgid "Set save mode"
+msgstr "Definir modo de guardamento"
+
+msgid "Game"
+msgstr "Jogo"
+
+msgid "HID settings"
+msgstr "Definições de HID"
+
+msgid "Launch method selection"
+msgstr "Modo de carregamento"
+
+msgid "Log server control"
+msgstr "Controlo do servidor de log"
+
+msgid "Read and write memory"
+msgstr ""
+
+msgid "Turn off the screen Gamepad"
+msgstr ""
+
+msgid "Credits"
+msgstr "Créditos"
+
+msgid "Credits to all contributors"
+msgstr "Créditos a todos os contribuidores"
+
+msgid "Game View TV"
+msgstr "Vista de jogos - TV"
+
+msgid "Game View DRC"
+msgstr "Vista de jogos - DRC"
+
+msgid "Show Game Settings"
+msgstr "Mostrar definições de jogos"
+
+msgid "Host IP"
+msgstr "IP do hospedeiro"
+
+msgid "Game Path"
+msgstr "Localização de jogos"
+
+msgid "Game Save Path"
+msgstr "Localização de jogos guardados"
+
+msgid "Game Save Mode"
+msgstr "Modo de guardamento"
+
+msgid "Load PyGecko"
+msgstr ""
+
+msgid "Enable Padcon"
+msgstr ""
+
+msgid "HID-Pad"
+msgstr "HID-Pad"
+
+msgid "Shared Mode"
+msgstr "Modo partilhado"
+
+msgid "Unique Mode"
+msgstr "Modo único"
+
+msgid "Mii Maker Mode"
+msgstr "Modo Criador Mii"
+
+msgid "Smash Bros Mode"
+msgstr "Modo Smash Bros."
+
+msgid "Karaoke Mode"
+msgstr "Modo Karaoke"
+
+msgid "Art Atelier Mode"
+msgstr "Modo Art Atelier"
+
+msgid "Download languages"
+msgstr ""
+
+msgid "Select language"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "Languages"
+msgstr ""
+
+msgid "Default"
+msgstr ""
+
+msgid "Brazilian"
+msgstr ""
+
+msgid "English"
+msgstr ""
+
+msgid "Chinese"
+msgstr ""
+
+msgid "Chinese_tr"
+msgstr "Traditional Chinese"
+
+msgid "French"
+msgstr ""
+
+msgid "German"
+msgstr ""
+
+msgid "Hungarian"
+msgstr ""
+
+msgid "Italian"
+msgstr ""
+
+msgid "Spanish"
+msgstr ""
+
+msgid "Swedish"
+msgstr ""
+
+msgid "Loaded language"
+msgstr ""
+
+msgid "Reloaded logger to change IP to settings IP"
+msgstr ""
+
+msgid "Loaded HID settings"
+msgstr ""
+
+msgid "Loaded resources"
+msgstr ""
+
+msgid "Loading game list"
+msgstr ""
+
+msgid "Loading Music"
+msgstr ""
+
+msgid "Initializing main"
+msgstr ""
+
+msgid "Connecting.."
+msgstr ""
+
+msgid "Getting file list"
+msgstr ""
+
+msgid "Downloading files"
+msgstr ""
+
+msgid "Languages files:"
+msgstr "
+
+msgid "files left"
+msgstr ""

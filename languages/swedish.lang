@@ -233,6 +233,15 @@ msgstr ""
 msgid "Swedish"
 msgstr ""
 
+msgid "Greek"
+msgstr ""
+
+msgid "Portuguese"
+msgstr ""
+
+msgid "Japanese"
+msgstr ""
+
 msgid "Loaded language"
 msgstr ""
 
@@ -252,4 +261,19 @@ msgid "Loading Music"
 msgstr ""
 
 msgid "Initializing main"
+msgstr ""
+
+msgid "Connecting.."
+msgstr ""
+
+msgid "Getting file list"
+msgstr ""
+
+msgid "Downloading files"
+msgstr ""
+
+msgid "Languages files:"
+msgstr ""
+
+msgid "files left"
 msgstr ""

@@ -50,5 +50,14 @@ private:
 	std::string languagesPath;
 	const char *filter;
 	std::map<int, std::string> enumLanguages;
+	
+	struct language
+    {
+        std::string languageFile;
+        std::string languageID;
+		std::string languageName;	
+    };
+    std::vector<language> Languages;
+	
 };
 #endif // SETTINGS_LANGUAGES_H_

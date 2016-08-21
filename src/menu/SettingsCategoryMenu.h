@@ -20,6 +20,7 @@
 #include "gui/Gui.h"
 #include "settings/SettingsDefs.h"
 #include "gui/Scrollbar.h"
+#include "language/UpdateLanguage.h"
 
 class SettingsCategoryMenu : public GuiFrame, public sigslot::has_slots<>
 {
@@ -36,7 +37,11 @@ private:
     {
         settingsBackClicked(this);
     }
-
+	
+	void OnOpenEffectFinish(GuiElement *element);
+	
+	void OnUpdateLanguageFinish(GuiElement *element);
+	
     void OnSubMenuCloseClicked(GuiElement *element);
     void OnSubMenuOpenEffectFinish(GuiElement *element);
     void OnSubMenuCloseEffectFinish(GuiElement *element);

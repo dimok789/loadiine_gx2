@@ -21,7 +21,7 @@
 #include "menu/MainStartUp.h"
 #include "video/CVideo.h"
 #include "system/CThread.h"
-
+#include "controller_patcher/cp_retain_vars.h"
 class Application : public CThread
 {
 public:
