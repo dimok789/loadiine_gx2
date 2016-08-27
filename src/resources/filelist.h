@@ -1,7 +1,7 @@
 /****************************************************************************
  * Loadiine resource files.
  * This file is generated automatically.
- * Includes 117 files.
+ * Includes 114 files.
  *
  * NOTE:
  * Any manual modification of this file will be overwriten by the generation.
@@ -20,9 +20,6 @@ typedef struct _RecourceFile
 	u32		    CustomFileSize;
 } RecourceFile;
 
-extern const u8 arial_ttf[];
-extern const u32 arial_ttf_size;
-
 extern const u8 backButton_png[];
 extern const u32 backButton_png_size;
 
@@ -34,9 +31,6 @@ extern const u32 bgMusic_ogg_size;
 
 extern const u8 button_click_mp3[];
 extern const u32 button_click_mp3_size;
-
-extern const u8 calibri_ttf[];
-extern const u32 calibri_ttf_size;
 
 extern const u8 checkbox_png[];
 extern const u32 checkbox_png_size;
@@ -365,20 +359,15 @@ extern const u32 switchIconOn_png_size;
 extern const u8 validIcon_png[];
 extern const u32 validIcon_png_size;
 
-extern const u8 verdana_ttf[];
-extern const u32 verdana_ttf_size;
-
 extern const u8 warningIcon_png[];
 extern const u32 warningIcon_png_size;
 
 static RecourceFile RecourceList[] =
 {
-	{"arial.ttf", arial_ttf, arial_ttf_size, NULL, 0},
 	{"backButton.png", backButton_png, backButton_png_size, NULL, 0},
 	{"bgGridTile.png", bgGridTile_png, bgGridTile_png_size, NULL, 0},
 	{"bgMusic.ogg", bgMusic_ogg, bgMusic_ogg_size, NULL, 0},
 	{"button_click.mp3", button_click_mp3, button_click_mp3_size, NULL, 0},
-	{"calibri.ttf", calibri_ttf, calibri_ttf_size, NULL, 0},
 	{"checkbox.png", checkbox_png, checkbox_png_size, NULL, 0},
 	{"checkbox_highlighted.png", checkbox_highlighted_png, checkbox_highlighted_png_size, NULL, 0},
 	{"checkbox_selected.png", checkbox_selected_png, checkbox_selected_png_size, NULL, 0},
@@ -488,7 +477,6 @@ static RecourceFile RecourceList[] =
 	{"switchIconOff.png", switchIconOff_png, switchIconOff_png_size, NULL, 0},
 	{"switchIconOn.png", switchIconOn_png, switchIconOn_png_size, NULL, 0},
 	{"validIcon.png", validIcon_png, validIcon_png_size, NULL, 0},
-	{"verdana.ttf", verdana_ttf, verdana_ttf_size, NULL, 0},
 	{"warningIcon.png", warningIcon_png, warningIcon_png_size, NULL, 0},
 	{NULL, NULL, 0, NULL, 0}
 };

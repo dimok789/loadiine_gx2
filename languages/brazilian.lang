@@ -263,6 +263,9 @@ msgstr ""
 msgid "Initializing main"
 msgstr ""
 
+msgid "Download languages"
+msgstr ""
+
 msgid "Connecting.."
 msgstr ""
 
@@ -276,4 +279,19 @@ msgid "Languages files:"
 msgstr "
 
 msgid "files left"
+msgstr ""
+
+msgid "Download 3D Covers"
+msgstr ""
+
+msgid "Ok
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Yes"
+msgstr ""
+
+msgid "No"
 msgstr ""

@@ -33,7 +33,7 @@ void UpdateLanguage::executeThread()
 {
 	LanguageCount = 0;
 	
-	messageBox.setTitle(tr("Downloading languages"));
+	messageBox.setTitle(tr("Download languages"));
 	
 	GetLanguages();
 

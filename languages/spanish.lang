@@ -263,6 +263,9 @@ msgstr "Cargando Musica"
 msgid "Initializing main"
 msgstr "Inicializando menu"
 
+msgid "Download languages"
+msgstr "Descarga de idiomas"
+
 msgid "Connecting.."
 msgstr "Conectando.."
 
@@ -277,3 +280,18 @@ msgstr "Archivos de idiomas:"
 
 msgid "files left"
 msgstr "archivos restantes"
+
+msgid "Download 3D Covers"
+msgstr "Descarga de caratulas 3D"
+
+msgid "Ok
+msgstr "Aceptar"
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "Yes"
+msgstr "Si"
+
+msgid "No"
+msgstr "No"

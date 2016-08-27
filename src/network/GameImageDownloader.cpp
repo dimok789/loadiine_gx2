@@ -39,7 +39,7 @@ void GameImageDownloader::executeThread()
 {
 	MissingImagesCount = 0;
 	
-	messageBox.setTitle(tr("Downloading 3D Covers"));
+	messageBox.setTitle(tr("Download 3D Covers"));
 		
 	FindMissingImages();
 
