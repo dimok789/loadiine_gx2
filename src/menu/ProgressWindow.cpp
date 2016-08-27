@@ -15,15 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
 #include "ProgressWindow.h"
-#include "video/CVideo.h"
 
 ProgressWindow::ProgressWindow(const std::string & title)
     : GuiFrame(0, 0)
     , bgImageData(Resources::GetImageData("progressWindow.png"))
     , bgImage(bgImageData)
 	, bgBlur(1280, 720, (GX2Color){0, 0, 0, 255})
-    , progressImageBlack(bgImage.getWidth() - 90 , 40, (GX2Color){0, 0, 0, 255})
-    , progressImageColored(bgImage.getWidth() - 90, 40, (GX2Color){0, 0, 0, 255})
+    , progressImageBlack(bgImage.getWidth() - 10 , 40, (GX2Color){0, 0, 0, 255})
+    , progressImageColored(bgImage.getWidth() - 10, 40, (GX2Color){0, 0, 0, 255})
 {
     width = bgImage.getWidth();
     height = bgImage.getHeight();
@@ -35,21 +34,13 @@ ProgressWindow::ProgressWindow(const std::string & title)
     append(&progressImageColored);
     append(&bgImage);
     
-	progressImageBlack.setPosition(0, -210);
+	progressImageBlack.setPosition(0, 0);
 	
 	progressImageColored.setAlignment(ALIGN_TOP_LEFT);
     progressImageColored.setImageColor((GX2Color){ 42, 159, 217, 255}, 0);
     progressImageColored.setImageColor((GX2Color){ 42, 159, 217, 255}, 1);
     progressImageColored.setImageColor((GX2Color){ 13, 104, 133, 255}, 2);
     progressImageColored.setImageColor((GX2Color){ 13, 104, 133, 255}, 3);
-
-    titleText.setColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-    titleText.setFontSize(48);
-    titleText.setAlignment(ALIGN_CENTER | ALIGN_MIDDLE);
-    titleText.setPosition(0, 0);
-    titleText.setBlurGlowColor(5.0f, glm::vec4(0.0, 0.0, 0.0f, 1.0f));
-    titleText.setText(title.c_str());
-    append(&titleText);
 	
 	infoText.setColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
     infoText.setFontSize(28);
@@ -60,7 +51,6 @@ ProgressWindow::ProgressWindow(const std::string & title)
 
     progressImageColored.setParent(&progressImageBlack);
 	
-    titleText.setParent(&bgImage);
 	infoText.setParent(&progressImageBlack);
 
     setProgress(0.0f);
@@ -74,10 +64,6 @@ ProgressWindow::~ProgressWindow()
 void ProgressWindow::setInfo(const std::string & info)
 {
 	infoText.setText(info.c_str());
-}
-void ProgressWindow::setTitle(const std::string & title)
-{
-	titleText.setText(title.c_str());
 }
 
 void ProgressWindow::setProgress(f32 percent)

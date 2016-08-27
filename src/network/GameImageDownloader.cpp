@@ -22,6 +22,7 @@
 #include "fs/CFile.hpp"
 #include "fs/fs_utils.h"
 #include "utils/logger.h"
+#include "language/gettext.h"
 
 using namespace std;
 
@@ -37,6 +38,9 @@ static const char *serverURLCustomDiscs = "http://art.gametdb.com/wiiu/disccusto
 void GameImageDownloader::executeThread()
 {
 	MissingImagesCount = 0;
+	
+	messageBox.setTitle(tr("Downloading 3D Covers"));
+		
 	FindMissingImages();
 
 	if(MissingImagesCount == 0)
@@ -48,8 +52,10 @@ void GameImageDownloader::executeThread()
 
 	u32 TotalDownloadCount = MissingImagesCount;
 
-
+	messageBox.setMessage(tr("Connecting.."));
+	
 	DownloadProcess(TotalDownloadCount);
+	log_printf("OK!!\n");
 
 	asyncLoadFinished(this, MissingImages.size());
 }
@@ -57,7 +63,7 @@ void GameImageDownloader::executeThread()
 void GameImageDownloader::FindMissingImages()
 {
 	//if(choices & CheckedBox1)
-		FindMissing(CSettings::getValueAsString(CSettings::GameCover3DPath).c_str(), serverURL3D, NULL, "Downloading 3D Covers", NULL, ".png");
+		FindMissing(CSettings::getValueAsString(CSettings::GameCover3DPath).c_str(), serverURL3D, NULL, ".png");
 
     /*
 	if(choices & CheckedBox2)
@@ -103,7 +109,7 @@ int GameImageDownloader::GetMissingGameFiles(const string & path, const string &
 }
 
 
-void GameImageDownloader::FindMissing(const char * writepath, const  char * downloadURL, const char * backupURL, const  char * progressTitle, const  char * backupProgressTitle, const  char * fileExt)
+void GameImageDownloader::FindMissing(const char * writepath, const  char * downloadURL, const char * backupURL, const  char * fileExt)
 {
 	if (!CreateSubfolder(writepath))
 	{
@@ -112,8 +118,9 @@ void GameImageDownloader::FindMissing(const char * writepath, const  char * down
 	}
 
 	vector<string> MissingFilesList;
+	
     GetMissingGameFiles(writepath, fileExt, MissingFilesList);
-
+	
 	int size = MissingImages.size();
 	MissingImages.resize(size+MissingFilesList.size());
 
@@ -123,8 +130,6 @@ void GameImageDownloader::FindMissing(const char * writepath, const  char * down
 		MissingImages[n].downloadURL = downloadURL;
 		MissingImages[n].backupURL = backupURL;
 		MissingImages[n].writepath = writepath;
-		MissingImages[n].progressTitle = progressTitle;
-		MissingImages[n].backupProgressTitle = backupProgressTitle;
 		MissingImages[n].fileExt = fileExt;
 	}
 
@@ -141,11 +146,23 @@ int GameImageDownloader::DownloadProcess(int TotalDownloadCount)
         //snprintf(progressMsg, sizeof(progressMsg), "http://gametdb.com : %s.png", MissingImages[i].gameID.c_str());
 
 		//ShowProgress(MissingImages[i].progressTitle, fmt("%i %s", TotalDownloadCount - pos, tr( "files left" )), progressMsg, pos, TotalDownloadCount);
-
-        char progressMsg[100];
-        snprintf(progressMsg, sizeof(progressMsg), "http://gametdb.com : %s.png - %i files left", MissingImages[i].gameID.c_str(), TotalDownloadCount - pos);
-        progressWindow.setInfo(progressMsg);
-        progressWindow.setProgress(100.0f * (f32)pos / (f32)TotalDownloadCount);
+		
+		char buffer[100];
+		snprintf(buffer,sizeof(buffer), "%d", TotalDownloadCount - pos);
+        
+		string progressMsg = "http://gametdb.com :";
+		progressMsg += " ";
+		progressMsg += MissingImages[i].gameID.c_str();
+		progressMsg += ".png";
+		progressMsg += " - ";
+		progressMsg += std::string(buffer);
+		progressMsg += " ";
+		progressMsg += tr("files left.");
+		
+		messageBox.setInfo(progressMsg.c_str());
+		
+		
+        messageBox.setProgress(100.0f * (f32)pos / (f32)TotalDownloadCount);
 
         std::string imageData;
 
@@ -157,7 +174,6 @@ int GameImageDownloader::DownloadProcess(int TotalDownloadCount)
 				log_printf("Trying backup URL.\n");
 				MissingImages[i].downloadURL = MissingImages[i].backupURL;
 				MissingImages[i].backupURL = NULL;
-				MissingImages[i].progressTitle = MissingImages[i].backupProgressTitle;
 				--i;
 				--pos;
 			}
@@ -232,7 +248,9 @@ bool GameImageDownloader::DownloadImage(const char * url, const char * gameID, c
 	}
 
 	log_printf("downloadURL %s", downloadURL.c_str());
-
+	
+	messageBox.setMessage(tr("Downloading files"));
+	
 	FileDownloader::getFile(downloadURL, imageData);
 	if(VALID_IMAGE(imageData.size()))
 		return true;

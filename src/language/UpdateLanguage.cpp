@@ -22,6 +22,7 @@
 #include "fs/fs_utils.h"
 #include "utils/logger.h"
 #include "utils/StringTools.h"
+#include "language/gettext.h"
 
 using namespace std;
 
@@ -31,12 +32,14 @@ static const char *LanguageFilesURL = "http://masqchips.github.io/loadiine_gx2/l
 void UpdateLanguage::executeThread()
 {
 	LanguageCount = 0;
+	
+	messageBox.setTitle(tr("Downloading languages"));
+	
 	GetLanguages();
 
 	if(LanguageCount == 0)
 	{
 	    log_printf("No languages availables\n");
-		//asyncLoadFinished(this, LanguageFiles.size());
         asyncLoadFinished(this);
 		return;
 	}
@@ -44,19 +47,19 @@ void UpdateLanguage::executeThread()
 
 	DownloadFile(LanguageCount);
 	log_printf("OK!!\n");
-	//asyncLoadFinished(this, LanguageFiles.size());	
+	
 	asyncLoadFinished(this);
 }
 
 void UpdateLanguage::GetLanguages()
 {
 	
-	progressWindow.setTitle(tr("Connecting.."));
+	messageBox.setMessage(tr("Connecting.."));
 	
 	string sData;
 	FileDownloader::getFile(LanguageURL, sData);
 	
-	progressWindow.setTitle(tr("Getting file list"));
+	messageBox.setMessage(tr("Getting file list"));
 	
 	log_printf("downloadURL %s\n", LanguageURL);
 		
@@ -103,10 +106,10 @@ void UpdateLanguage::GetLanguagesFiles(std::vector<std::string> languageList)
 
 void UpdateLanguage::DownloadFile(int DownloadCount)
 {
+	
 	for(u32 i = 0, pos = 1; i < LanguageFiles.size(); ++i, ++pos)
 	{
-		
-        char buffer[100];
+		char buffer[100];
 		snprintf(buffer,sizeof(buffer), "%d", DownloadCount - pos);
         
 		string progressMsg = tr("Languages files:");
@@ -117,9 +120,9 @@ void UpdateLanguage::DownloadFile(int DownloadCount)
 		progressMsg += " ";
 		progressMsg += tr("files left.");
 		
-		progressWindow.setInfo(progressMsg.c_str());
+		messageBox.setInfo(progressMsg.c_str());
 		
-        progressWindow.setProgress(100.0f * (f32)pos / (f32)DownloadCount);
+        messageBox.setProgress(100.0f * (f32)pos / (f32)DownloadCount);
 
         string fileData;
 		
@@ -129,14 +132,19 @@ void UpdateLanguage::DownloadFile(int DownloadCount)
 
 		FileDownloader::getFile(downloadFileURL, fileData);
 		
-		progressWindow.setTitle(tr("Downloading files"));
-		
+		messageBox.setMessage(tr("Downloading files"));
+
 		if(!fileData.size())
 		{
 			continue;
 		}
 
 		string strOutpath = CSettings::getValueAsString(CSettings::LanguagesPath).c_str(); 
+		
+		if (!CreateSubfolder(strOutpath.c_str()))
+		{
+			//WindowPrompt(tr( "Error !" ), fmt("%s %s", tr("Can't create directory"), writepath), tr( "OK" ));
+		}
 		strOutpath += "/";
 		strOutpath += LanguageFiles[i].languageID.c_str();
 		

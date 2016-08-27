@@ -27,10 +27,8 @@ public:
 
     void setProgress(f32 percent);
     void setInfo(const std::string & info);
-	void setTitle(const std::string & title);
 private:
 
-    GuiText titleText;
 	GuiText infoText;
     GuiImageData *bgImageData;
     GuiImage bgImage;

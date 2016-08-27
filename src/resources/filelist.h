@@ -1,7 +1,7 @@
 /****************************************************************************
  * Loadiine resource files.
  * This file is generated automatically.
- * Includes 105 files.
+ * Includes 117 files.
  *
  * NOTE:
  * Any manual modification of this file will be overwriten by the generation.
@@ -20,6 +20,9 @@ typedef struct _RecourceFile
 	u32		    CustomFileSize;
 } RecourceFile;
 
+extern const u8 arial_ttf[];
+extern const u32 arial_ttf_size;
+
 extern const u8 backButton_png[];
 extern const u32 backButton_png_size;
 
@@ -31,6 +34,9 @@ extern const u32 bgMusic_ogg_size;
 
 extern const u8 button_click_mp3[];
 extern const u32 button_click_mp3_size;
+
+extern const u8 calibri_ttf[];
+extern const u32 calibri_ttf_size;
 
 extern const u8 checkbox_png[];
 extern const u32 checkbox_png_size;
@@ -76,6 +82,12 @@ extern const u32 emptyRoundButton_png_size;
 
 extern const u8 emptyRoundButtonSelected_png[];
 extern const u32 emptyRoundButtonSelected_png_size;
+
+extern const u8 errorIcon_png[];
+extern const u32 errorIcon_png_size;
+
+extern const u8 exclamationIcon_png[];
+extern const u32 exclamationIcon_png_size;
 
 extern const u8 flagsLanguageIcon_png[];
 extern const u32 flagsLanguageIcon_png_size;
@@ -173,6 +185,9 @@ extern const u32 guiTVIconGlow_png_size;
 extern const u8 iconEmpty_jpg[];
 extern const u32 iconEmpty_jpg_size;
 
+extern const u8 informationIcon_png[];
+extern const u32 informationIcon_png_size;
+
 extern const u8 keyPadBackButton_png[];
 extern const u32 keyPadBackButton_png_size;
 
@@ -218,6 +233,12 @@ extern const u32 loaderSettingsIcon_png_size;
 extern const u8 loaderSettingsIconGlow_png[];
 extern const u32 loaderSettingsIconGlow_png_size;
 
+extern const u8 messageBox_png[];
+extern const u32 messageBox_png_size;
+
+extern const u8 messageBoxButton_png[];
+extern const u32 messageBoxButton_png_size;
+
 extern const u8 modoSaveIcon_png[];
 extern const u32 modoSaveIcon_png_size;
 
@@ -254,8 +275,14 @@ extern const u32 player3_point_png_size;
 extern const u8 player4_point_png[];
 extern const u32 player4_point_png_size;
 
+extern const u8 progressBar_png[];
+extern const u32 progressBar_png_size;
+
 extern const u8 progressWindow_png[];
 extern const u32 progressWindow_png_size;
+
+extern const u8 questionIcon_png[];
+extern const u32 questionIcon_png_size;
 
 extern const u8 quitButton_png[];
 extern const u32 quitButton_png_size;
@@ -335,12 +362,23 @@ extern const u32 switchIconOff_png_size;
 extern const u8 switchIconOn_png[];
 extern const u32 switchIconOn_png_size;
 
+extern const u8 validIcon_png[];
+extern const u32 validIcon_png_size;
+
+extern const u8 verdana_ttf[];
+extern const u32 verdana_ttf_size;
+
+extern const u8 warningIcon_png[];
+extern const u32 warningIcon_png_size;
+
 static RecourceFile RecourceList[] =
 {
+	{"arial.ttf", arial_ttf, arial_ttf_size, NULL, 0},
 	{"backButton.png", backButton_png, backButton_png_size, NULL, 0},
 	{"bgGridTile.png", bgGridTile_png, bgGridTile_png_size, NULL, 0},
 	{"bgMusic.ogg", bgMusic_ogg, bgMusic_ogg_size, NULL, 0},
 	{"button_click.mp3", button_click_mp3, button_click_mp3_size, NULL, 0},
+	{"calibri.ttf", calibri_ttf, calibri_ttf_size, NULL, 0},
 	{"checkbox.png", checkbox_png, checkbox_png_size, NULL, 0},
 	{"checkbox_highlighted.png", checkbox_highlighted_png, checkbox_highlighted_png_size, NULL, 0},
 	{"checkbox_selected.png", checkbox_selected_png, checkbox_selected_png_size, NULL, 0},
@@ -356,6 +394,8 @@ static RecourceFile RecourceList[] =
 	{"downloadLanguageIconGlow.png", downloadLanguageIconGlow_png, downloadLanguageIconGlow_png_size, NULL, 0},
 	{"emptyRoundButton.png", emptyRoundButton_png, emptyRoundButton_png_size, NULL, 0},
 	{"emptyRoundButtonSelected.png", emptyRoundButtonSelected_png, emptyRoundButtonSelected_png_size, NULL, 0},
+	{"errorIcon.png", errorIcon_png, errorIcon_png_size, NULL, 0},
+	{"exclamationIcon.png", exclamationIcon_png, exclamationIcon_png_size, NULL, 0},
 	{"flagsLanguageIcon.png", flagsLanguageIcon_png, flagsLanguageIcon_png_size, NULL, 0},
 	{"flagsLanguageIconGlow.png", flagsLanguageIconGlow_png, flagsLanguageIconGlow_png_size, NULL, 0},
 	{"font.ttf", font_ttf, font_ttf_size, NULL, 0},
@@ -388,6 +428,7 @@ static RecourceFile RecourceList[] =
 	{"guiTVIcon.png", guiTVIcon_png, guiTVIcon_png_size, NULL, 0},
 	{"guiTVIconGlow.png", guiTVIconGlow_png, guiTVIconGlow_png_size, NULL, 0},
 	{"iconEmpty.jpg", iconEmpty_jpg, iconEmpty_jpg_size, NULL, 0},
+	{"informationIcon.png", informationIcon_png, informationIcon_png_size, NULL, 0},
 	{"keyPadBackButton.png", keyPadBackButton_png, keyPadBackButton_png_size, NULL, 0},
 	{"keyPadBg.png", keyPadBg_png, keyPadBg_png_size, NULL, 0},
 	{"keyPadButton.png", keyPadButton_png, keyPadButton_png_size, NULL, 0},
@@ -403,6 +444,8 @@ static RecourceFile RecourceList[] =
 	{"leftArrow.png", leftArrow_png, leftArrow_png_size, NULL, 0},
 	{"loaderSettingsIcon.png", loaderSettingsIcon_png, loaderSettingsIcon_png_size, NULL, 0},
 	{"loaderSettingsIconGlow.png", loaderSettingsIconGlow_png, loaderSettingsIconGlow_png_size, NULL, 0},
+	{"messageBox.png", messageBox_png, messageBox_png_size, NULL, 0},
+	{"messageBoxButton.png", messageBoxButton_png, messageBoxButton_png_size, NULL, 0},
 	{"modoSaveIcon.png", modoSaveIcon_png, modoSaveIcon_png_size, NULL, 0},
 	{"modoSaveIconGlow.png", modoSaveIconGlow_png, modoSaveIconGlow_png_size, NULL, 0},
 	{"noCover.png", noCover_png, noCover_png_size, NULL, 0},
@@ -415,7 +458,9 @@ static RecourceFile RecourceList[] =
 	{"player2_point.png", player2_point_png, player2_point_png_size, NULL, 0},
 	{"player3_point.png", player3_point_png, player3_point_png_size, NULL, 0},
 	{"player4_point.png", player4_point_png, player4_point_png_size, NULL, 0},
+	{"progressBar.png", progressBar_png, progressBar_png_size, NULL, 0},
 	{"progressWindow.png", progressWindow_png, progressWindow_png_size, NULL, 0},
+	{"questionIcon.png", questionIcon_png, questionIcon_png_size, NULL, 0},
 	{"quitButton.png", quitButton_png, quitButton_png_size, NULL, 0},
 	{"quitButtonSelected.png", quitButtonSelected_png, quitButtonSelected_png_size, NULL, 0},
 	{"rightArrow.png", rightArrow_png, rightArrow_png_size, NULL, 0},
@@ -442,6 +487,9 @@ static RecourceFile RecourceList[] =
 	{"switchIconBaseHighlighted.png", switchIconBaseHighlighted_png, switchIconBaseHighlighted_png_size, NULL, 0},
 	{"switchIconOff.png", switchIconOff_png, switchIconOff_png_size, NULL, 0},
 	{"switchIconOn.png", switchIconOn_png, switchIconOn_png_size, NULL, 0},
+	{"validIcon.png", validIcon_png, validIcon_png_size, NULL, 0},
+	{"verdana.ttf", verdana_ttf, verdana_ttf_size, NULL, 0},
+	{"warningIcon.png", warningIcon_png, warningIcon_png_size, NULL, 0},
 	{NULL, NULL, 0, NULL, 0}
 };
 
