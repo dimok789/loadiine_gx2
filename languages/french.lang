@@ -18,34 +18,34 @@ msgid "Loadiine GX2"
 msgstr ""
 
 msgid "Official Site:"
-msgstr "Site officiel:"
+msgstr "Site officiel :"
 
 msgid "Coding:"
-msgstr "Développement:"
+msgstr "Développement :"
 
-msgid "Design:"
+msgid "Design :"
 msgstr ""
 
 msgid "Some guy who doesn't want to be named."
 msgstr "Quelqu'un qui ne veut pas être nommé."
 
 msgid "Testing:"
-msgstr "Tests:"
+msgstr "Tests :"
 
 msgid "Cyan / Maschell / n1ghty / OnionKnight and many more"
 msgstr "Cyan / Maschell / n1ghty / OnionKnight et bien d'autres"
 
 msgid "Social Presence:"
-msgstr "Présence sociale:"
+msgstr "Présence sociale :"
 
 msgid "Based on:"
-msgstr "Basé sur:"
+msgstr "Basé sur :"
 
 msgid "Loadiine v4.0 by Golden45 and Dimok"
 msgstr "Loadiine v4.0 de Golden45 et Dimok"
 
 msgid "Big thanks to:"
-msgstr "Remerciements à:"
+msgstr "Remerciements à :"
 
 msgid "lustar for GameTDB and hosting covers / disc images"
 msgstr "lustar pour GameTDB et l'hébergement des jaquettes"
@@ -57,31 +57,31 @@ msgid "The whole libwiiu team and it's contributors."
 msgstr "Toute l'équipe libwiiu et ses contributeurs."
 
 msgid "Extra Save:"
-msgstr ""
+msgstr "Sauveg. suppl. :"
 
 msgid "Enable DLC Support:"
-msgstr ""
+msgstr "Activer support DLC :"
 
 msgid "Update Folder"
-msgstr ""
+msgstr "Rép. MàJ"
 
 msgid "Save Mode"
-msgstr ""
+msgstr "Mode sauveg."
 
 msgid "Launch Mode"
 msgstr "Mode de lancement"
 
 msgid "<Settings Default>"
-msgstr ""
+msgstr "<Param. par défaut>"
 
 msgid "Saving game settings!"
-msgstr ""
+msgstr "Sauveg. param. du jeu !"
 
 msgid "Off"
-msgstr ""
+msgstr "Désactivé"
 
 msgid "On"
-msgstr ""
+msgstr "Activé"
 
 msgid "Icon Carousel"
 msgstr "Carrousel d'icônes"
@@ -94,7 +94,7 @@ msgstr "Carrousel de jaquettes"
 
 # translated as nul terminator (hidden), as the option is not implemented yet.
 msgid "Background customizations"
-msgstr ""
+msgstr "Personnalis. arrière-plan"
 
 msgid "GUI"
 msgstr "Interface"
@@ -121,7 +121,7 @@ msgid "Game"
 msgstr "Jeu"
 
 msgid "HID settings"
-msgstr ""
+msgstr "Param. HID"
  
 msgid "Launch method selection"
 msgstr "Méthode de lancement des jeux"
@@ -132,8 +132,8 @@ msgstr "Serveur de log"
 msgid "Read and write memory"
 msgstr ""
 
-msgid "Turn off the screen Gamepad"
-msgstr ""
+msgid "Turn off the screen GamePad"
+msgstr "Éteindre écran GamePad"
 
 msgid "Credits"
 msgstr "Crédits"
@@ -148,10 +148,10 @@ msgid "Game View DRC"
 msgstr "Affichage des jeux sur GamePad"
 
 msgid "Show Game Settings"
-msgstr ""
+msgstr "Afficher param. du jeu"
 
 msgid "Host IP"
-msgstr ""
+msgstr "IP hôte"
 
 msgid "Game Path"
 msgstr "Emplacement des jeux"
@@ -163,10 +163,10 @@ msgid "Game Save Mode"
 msgstr "Mode de sauvegarde"
 
 msgid "Load PyGecko"
-msgstr ""
+msgstr "Charger PyGecko"
 
 msgid "Enable Padcon"
-msgstr ""
+msgstr "Activer Padcon"
 
 msgid "HID-Pad"
 msgstr ""
@@ -190,109 +190,109 @@ msgid "Art Atelier Mode"
 msgstr "Mode Art Atelier"
  
 msgid "Download languages"
-msgstr ""
+msgstr "Télécharger langues"
 
 msgid "Select language"
-msgstr ""
+msgstr "Choisir la langue"
 
 msgid "Download"
-msgstr ""
+msgstr "Téléchargement"
 
 msgid "Languages"
-msgstr ""
+msgstr "Langues"
 
 msgid "Default"
-msgstr ""
+msgstr "Défaut"
 
 msgid "Brazilian"
-msgstr ""
+msgstr "Brésilien"
 
 msgid "English"
-msgstr ""
+msgstr "Anglais"
 
 msgid "Chinese"
-msgstr ""
+msgstr "Chinois"
 
 msgid "Traditional Chinese"
-msgstr ""
+msgstr "Chinois trad."
 
 msgid "French"
-msgstr ""
+msgstr "Français"
 
 msgid "German"
-msgstr ""
+msgstr "Allemand"
 
 msgid "Hungarian"
-msgstr ""
+msgstr "Hongrois"
 
 msgid "Italian"
-msgstr ""
+msgstr "Italien"
 
 msgid "Spanish"
-msgstr ""
+msgstr "Espagnol"
 
 msgid "Swedish"
-msgstr ""
+msgstr "Suédois"
 
 msgid "Greek"
-msgstr ""
+msgstr "Grec"
 
 msgid "Portuguese"
-msgstr ""
+msgstr "Portugais"
 
 msgid "Japanese"
-msgstr ""
+msgstr "Japonais"
 
 msgid "Loaded language"
-msgstr ""
+msgstr "Langue chargée"
 
 msgid "Reloaded logger to change IP to settings IP"
 msgstr ""
 
 msgid "Loaded HID settings"
-msgstr ""
+msgstr "Param. HID chargés"
 
 msgid "Loaded resources"
-msgstr ""
+msgstr "Ressources chargées"
 
 msgid "Loading game list"
-msgstr ""
+msgstr "Chargement de la liste des jeux"
 
 msgid "Loading Music"
-msgstr ""
+msgstr "Chargement de la musique"
 
 msgid "Initializing main"
-msgstr ""
+msgstr "Initialisation principale"
 
 msgid "Download languages"
-msgstr ""
+msgstr "Téléchargement des langues"
 
-msgid "Connecting.."
-msgstr ""
+msgid "Connecting..."
+msgstr "Connexion..."
 
 msgid "Getting file list"
-msgstr ""
+msgstr "Rapatriement de la liste des fichiers"
 
 msgid "Downloading files"
-msgstr ""
+msgstr "Téléchargement des fichiers"
 
 msgid "Languages files:"
-msgstr "
+msgstr "Fichiers de langue :"
 
 msgid "files left"
-msgstr ""
+msgstr "fichier(s) restant(s)"
 
 msgid "Download 3D Covers"
-msgstr ""
+msgstr "Téléchargement jaquettes 3D"
 
-msgid "Ok
+msgid "Ok"
 msgstr ""
 
 msgid "Cancel"
-msgstr ""
+msgstr "Annuler"
 
 msgid "Yes"
-msgstr ""
+msgstr "Oui"
 
 msgid "No"
-msgstr ""
+msgstr "Non"
