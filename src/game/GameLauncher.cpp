@@ -267,13 +267,18 @@ int GameLauncher::loadGameToMemory(const discHeader *header)
         CreateSubfolder((saveGamePath + "/" + updateFolder + "/" + saveGamePathCommon).c_str());
     }
 
-
-    std::string tempPath = CSettings::getValueAsString(CSettings::GamePath);
-    //! remove "sd:" and replace with "/vol/external01"
+    std::string tempPath = header->gamepath;
+    pos = tempPath.rfind('/');
+    if(pos != std::string::npos)
+        tempPath = tempPath.substr(0,pos);
+	
+	//! remove "sd:" and replace with "/vol/external01"
     pos = tempPath.find('/');
     if(pos != std::string::npos)
         tempPath = std::string(CAFE_OS_SD_PATH) + tempPath.substr(pos);
-
+	
+    log_printf("tempPath: %s\n", tempPath.c_str());
+	
     strlcpy(gamePathStruct.os_game_path_base, tempPath.c_str(), sizeof(gamePathStruct.os_game_path_base));
 
     tempPath = CSettings::getValueAsString(CSettings::GameSavePath);
