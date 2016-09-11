@@ -123,7 +123,6 @@ private:
     int targetPosition;
     int animationSpeed;
     bool bUpdatePositions;
-    bool moving;
 };
 
 #endif //_SETTINGS_WINDOW_H_
