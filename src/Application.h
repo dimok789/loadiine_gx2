@@ -20,6 +20,8 @@
 #include "menu/MainWindow.h"
 #include "video/CVideo.h"
 #include "system/CThread.h"
+#include "menu/MainWindow.h"
+#include "menu/MainStartUp.h"
 
 class Application : public CThread
 {
@@ -66,6 +68,7 @@ private:
     GuiSound *bgMusic;
     CVideo *video;
     MainWindow *mainWindow;
+	MainStartUp *mainStartUp;
     GuiController *controller[5];
 };
 
