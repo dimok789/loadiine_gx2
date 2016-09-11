@@ -31,17 +31,25 @@ discHeader * GameList::getDiscHeader(const std::string & gameID) const
 	return NULL;
 }
 
-int GameList::readGameList()
+void GameList::readGameList()
 {
 	// Clear list
 	fullGameList.clear();
 	//! Clear memory of the vector completely
 	std::vector<discHeader>().swap(fullGameList);
 
-	int cnt = 0;
+	std::vector<std::string> subDirGame = getGameList(CSettings::getValueAsString(CSettings::GamePath));
+	
+	if(!subDirGame.empty())
+		for(u8 i = 0; i < subDirGame.size(); i++)	
+			getGameList(subDirGame[i]);		
+}
 
-	std::string gamePath = CSettings::getValueAsString(CSettings::GamePath);
-
+std::vector<std::string> GameList::getGameList(std::string gamePath)
+{
+	
+	std::vector<std::string> subDir;
+	
 	DirList dirList(gamePath, 0, DirList::Dirs);
 	dirList.SortList();
 
@@ -64,12 +72,14 @@ int GameList::readGameList()
 
                 fullGameList.push_back(newHeader);
             }
+            subDir.push_back(gamePath + "/" + filename);
             continue;
         }
 
         bool id4Title = (filename[len - 8] != '[');
 
         std::string gamePathName = filename;
+
         if(id4Title)
         {
             newHeader.id = gamePathName.substr(gamePathName.size() - 5, 4);
@@ -81,14 +91,15 @@ int GameList::readGameList()
             newHeader.name = gamePathName.substr(0, gamePathName.size() - 8);
         }
         newHeader.gamepath = gamePath + "/" + filename;
-
+		
         while(newHeader.name.size() > 0 && newHeader.name[newHeader.name.size()-1] == ' ')
             newHeader.name.resize(newHeader.name.size()-1);
 
-        fullGameList.push_back(newHeader);
+        fullGameList.push_back(newHeader); 
     }
-
-	return cnt;
+    
+    return subDir;
+    
 }
 
 void GameList::internalFilterList(std::vector<discHeader> &fullList)
