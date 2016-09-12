@@ -75,6 +75,7 @@ private:
     GuiImageData *quitImageData;
     GuiImageData *categoryImageData;
     GuiImageData *categoryBgImageData;
+	GuiImageData *arrowImageData;
 
 
     GuiImage quitImage;
@@ -88,6 +89,7 @@ private:
         GuiImage *categoryIconGlow;
         GuiImage *categoryImages;
         GuiImage *categoryBgImage;
+		GuiImage *categoryArrowImage;
         GuiButton *categoryButton;
         std::vector<GuiText *> descriptions;
     } GuiSettingsCategory;

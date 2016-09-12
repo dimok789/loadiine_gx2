@@ -87,6 +87,7 @@ SettingsMenu::SettingsMenu(int w, int h)
     , quitImageData(Resources::GetImageData("quitButton.png"))
     , categoryImageData(Resources::GetImageData("settingsCategoryButton.png"))
     , categoryBgImageData(Resources::GetImageData("settingsCategoryBg.png"))
+	, arrowImageData(Resources::GetImageData("settingsIconArrow.png"))
     , quitImage(quitImageData)
     , quitButton(quitImage.getWidth(), quitImage.getHeight())
     , touchTrigger(GuiTrigger::CHANNEL_1, GuiTrigger::VPAD_TOUCH)
@@ -141,7 +142,7 @@ SettingsMenu::SettingsMenu(int w, int h)
         category.categoryIconData = Resources::GetImageData(stSettingsCategories[idx].icon);
         category.categoryIconGlowData = Resources::GetImageData(stSettingsCategories[idx].iconGlow);
 
-        category.categoryLabel = new GuiText(tr(stSettingsCategories[idx].name), 46, glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));
+        category.categoryLabel = new GuiText(tr(stSettingsCategories[idx].name), 44, glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));
         category.categoryLabel->setPosition(0, -120);
 
         category.categoryBgImage = new GuiImage(categoryBgImageData);
@@ -170,14 +171,54 @@ SettingsMenu::SettingsMenu(int w, int h)
         category.categoryButton->setParent(category.categoryBgImage);
         category.categoryBgImage->setPosition(currentPosition + (category.categoryBgImage->getWidth() + 40) * idx, 0);
 
+        int line = 0;
+		
         for(u32 n = 0; n < splitDescriptions.size(); n++)
         {
-            GuiText * descr = new GuiText(tr(splitDescriptions[n].c_str()), 46, glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));
-            descr->setAlignment(ALIGN_MIDDLE | ALIGN_LEFT);
-            descr->setPosition(category.categoryBgImage->getWidth() * 0.5f - 50.0f, category.categoryBgImage->getHeight() * 0.5f - 100.0f - n * 60.0f);
-            categorySelectionFrame.append(descr);
-            descr->setParent(category.categoryBgImage);
-            category.descriptions.push_back(descr);
+
+			switch(splitDescriptions.size())
+				{
+				default: //! max 5 descriptions with new line
+					break;
+
+				case 1: {
+					line = category.categoryBgImage->getHeight() * 0.5f - 220.0f - n * 60.0f;
+					break;
+				}
+				case 2: {
+					line = category.categoryBgImage->getHeight() * 0.5f - 140.0f - (n * 3.0f) * 60.0f;
+					break;
+				}
+				case 3: {
+					line = category.categoryBgImage->getHeight() * 0.5f - 120.0f - (n * 2.0f) * 60.0f;
+					break;
+				}
+				case 4: {
+					line = category.categoryBgImage->getHeight() * 0.5f - 100.0f - (n * 1.5f) * 60.0f;
+					break;
+				}
+				case 5: {
+					line = category.categoryBgImage->getHeight() * 0.5f - 50.0f - (n * 1.5f) * 60.0f;
+					break;
+				}
+			}
+			
+			category.categoryArrowImage = new GuiImage(arrowImageData);
+            category.categoryArrowImage->setAlignment(ALIGN_MIDDLE | ALIGN_LEFT);
+			category.categoryArrowImage->setPosition(category.categoryBgImage->getWidth() * 0.5f - 80.0f, line + 4);
+		    categorySelectionFrame.append(category.categoryArrowImage);
+			category.categoryArrowImage->setParent(category.categoryBgImage);
+			
+            if(splitDescriptions.size() <= 5) 
+			{
+				GuiText * descr = new GuiText(tr(splitDescriptions[n].c_str()), 42, glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));
+				descr->setAlignment(ALIGN_MIDDLE | ALIGN_LEFT);
+				descr->setMaxWidth(category.categoryBgImage->getWidth() * 0.5f, GuiText::WRAP);
+				descr->setPosition(category.categoryBgImage->getWidth() * 0.5f - 50.0f, line);
+				categorySelectionFrame.append(descr);
+				descr->setParent(category.categoryBgImage);
+				category.descriptions.push_back(descr);
+			}
         }
 
         GuiImage *smallIconOver = new GuiImage(category.categoryIconGlowData);
@@ -246,7 +287,7 @@ SettingsMenu::~SettingsMenu()
         delete settingsCategories[i].categoryIconGlow;
         delete settingsCategories[i].categoryButton;
 
-        for(u32 n = 0; n < settingsCategories[i].descriptions.size(); n++)
+        for(u32 n = 0; n < settingsCategories[i].descriptions.size() && n <=5; n++)
             delete settingsCategories[i].descriptions[n];
 
         Resources::RemoveImageData(settingsCategories[i].categoryIconData);
@@ -259,6 +300,7 @@ SettingsMenu::~SettingsMenu()
     Resources::RemoveImageData(quitImageData);
     Resources::RemoveImageData(categoryImageData);
     Resources::RemoveImageData(categoryBgImageData);
+	Resources::RemoveImageData(arrowImageData);
     Resources::RemoveImageData(leftArrowImageData);
     Resources::RemoveImageData(rightArrowImageData);
     Resources::RemoveSound(buttonClickSound);
