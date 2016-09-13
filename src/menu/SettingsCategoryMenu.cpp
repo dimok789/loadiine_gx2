@@ -24,17 +24,18 @@
 
 #define MAX_SETTINGS_PER_PAGE 3
 
-SettingsCategoryMenu::SettingsCategoryMenu(int w, int h, const std::string & title, const SettingType * catSettings, int settingsCount)
+SettingsCategoryMenu::SettingsCategoryMenu(int w, int h, const std::string & title, const char *nameTitleImage, const SettingType * catSettings, int settingsCount)
     : GuiFrame(w, h)
     , categorySettings(catSettings)
     , categorySettingsCount(settingsCount)
+	, categoryNameTitle(nameTitleImage)
     , categoryFrame(w, h)
     , scrollbar(h - 150)
     , buttonClickSound(Resources::GetSound("settings_click_2.mp3"))
     , backImageData(Resources::GetImageData("backButton.png"))
     , backImage(backImageData)
     , backButton(backImage.getWidth(), backImage.getHeight())
-    , titleImageData(Resources::GetImageData("settingsTitle.png"))
+    , titleImageData(Resources::GetImageData(categoryNameTitle))
     , titleImage(titleImageData)
     , settingImageData(Resources::GetImageData("settingButton.png"))
     , settingSelectedImageData(Resources::GetImageData("settingSelectedButton.png"))
@@ -199,7 +200,7 @@ void SettingsCategoryMenu::OnSettingButtonClick(GuiButton *button, const GuiCont
             for(int n = 0; n < buttonCount; n++)
                 buttonNames.push_back(tr(categorySettings[i].valueStrings[n].name));
 
-            ButtonChoiceMenu *buttonMenu = new ButtonChoiceMenu(width, height, tr(categorySettings[i].name), buttonNames, buttonSelected);
+            ButtonChoiceMenu *buttonMenu = new ButtonChoiceMenu(width, height, tr(categorySettings[i].name), categoryNameTitle, buttonNames, buttonSelected);
             buttonMenu->settingsBackClicked.connect(this, &SettingsCategoryMenu::OnSubMenuCloseClicked);
             buttonMenu->settingsOkClicked.connect(this, &SettingsCategoryMenu::OnButtonChoiceOkClicked);
             menu = buttonMenu;

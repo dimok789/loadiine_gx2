@@ -45,14 +45,15 @@ static const struct
     const char *name;
     const char *icon;
     const char *iconGlow;
+	const char *imageTitle;
     const char *descriptions;
 }
 stSettingsCategories[] =
 {
-    { trNOOP("GUI"),     "guiSettingsIcon.png",    "guiSettingsIconGlow.png",    trNOOP("Game View Selection") "\n" trNOOP("Background customizations") },
-    { trNOOP("Loader"),  "loaderSettingsIcon.png", "loaderSettingsIconGlow.png", trNOOP("Customize games path") "\n" trNOOP("Customize save path") "\n" trNOOP("Set save mode") "\n" trNOOP("Adjust log server IP and port") },
-    { trNOOP("Game"),    "gameSettingsIcon.png",   "gameSettingsIconGlow.png",   trNOOP("Launch method selection") "\n" trNOOP("Log server control") "\n"  "\n" trNOOP("PyGecko settings") "\n" trNOOP("Padcon settings") "\n" trNOOP("HID settings")},
-    { trNOOP("Credits"), "creditsIcon.png",        "creditsIconGlow.png",        trNOOP("Credits to all contributors") }
+    { trNOOP("GUI"),     "guiSettingsIcon.png",    "guiSettingsIconGlow.png", "settingsTitleGUI.png",       trNOOP("Game View Selection") "\n"     trNOOP("Background customizations") },
+    { trNOOP("Loader"),  "loaderSettingsIcon.png", "loaderSettingsIconGlow.png", "settingsTitleLoader.png", trNOOP("Customize games path") "\n"    trNOOP("Customize save path") "\n" trNOOP("Set save mode") "\n"    trNOOP("Adjust log server IP and port") },
+    { trNOOP("Game"),    "gameSettingsIcon.png",   "gameSettingsIconGlow.png", "settingsTitleGame.png",     trNOOP("Launch method selection") "\n" trNOOP("Log server control") "\n"  trNOOP("PyGecko settings") "\n" trNOOP("Padcon settings") "\n" trNOOP("HID settings") },
+    { trNOOP("Credits"), "creditsIcon.png",        "creditsIconGlow.png", "settingsTitleCredits.png",       trNOOP("Credits to all contributors") }
 };
 
 static const SettingType GuiSettings[] =
@@ -405,7 +406,7 @@ void SettingsMenu::OnCategoryClick(GuiButton *button, const GuiController *contr
             break;
         case 3:
         {
-            CreditsMenu * menu = new CreditsMenu(getWidth(), getHeight(), tr(stSettingsCategories[indexClicked].name));
+            CreditsMenu * menu = new CreditsMenu(getWidth(), getHeight(), tr(stSettingsCategories[indexClicked].name), stSettingsCategories[indexClicked].imageTitle);
             menu->setEffect(EFFECT_FADE, 10, 255);
             menu->setState(STATE_DISABLED);
             menu->effectFinished.connect(this, &SettingsMenu::OnSubMenuOpenEffectFinish);
@@ -424,7 +425,7 @@ void SettingsMenu::OnCategoryClick(GuiButton *button, const GuiController *contr
             return;
         }
 
-        SettingsCategoryMenu *menu = new SettingsCategoryMenu(getWidth(), getHeight(), tr(stSettingsCategories[indexClicked].name), categorySettings, categorySettingsCount);
+        SettingsCategoryMenu *menu = new SettingsCategoryMenu(getWidth(), getHeight(), tr(stSettingsCategories[indexClicked].name), stSettingsCategories[indexClicked].imageTitle, categorySettings, categorySettingsCount);
         menu->setEffect(EFFECT_FADE, 10, 255);
         menu->setState(STATE_DISABLED);
         menu->effectFinished.connect(this, &SettingsMenu::OnSubMenuOpenEffectFinish);

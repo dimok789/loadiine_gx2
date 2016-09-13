@@ -18,7 +18,7 @@
 #include "utils/StringTools.h"
 #include "KeyPadMenu.h"
 
-ButtonChoiceMenu::ButtonChoiceMenu(int w, int h, const std::string & title, const std::vector<std::string> & buttonNames, int selected)
+ButtonChoiceMenu::ButtonChoiceMenu(int w, int h, const std::string & title, const char *nameTitleImage, const std::vector<std::string> & buttonNames, int selected)
     : GuiFrame(w, h)
     , buttonClickSound(Resources::GetSound("settings_click_2.mp3"))
     , backImageData(Resources::GetImageData("backButton.png"))
@@ -30,7 +30,7 @@ ButtonChoiceMenu::ButtonChoiceMenu(int w, int h, const std::string & title, cons
     , okSelectedImage(okSelectedImageData)
     , okButton(okImage.getWidth(), okImage.getHeight())
     , okText("O.K.", 46, glm::vec4(0.1f, 0.1f, 0.1f, 1.0f))
-    , titleImageData(Resources::GetImageData("settingsTitle.png"))
+    , titleImageData(Resources::GetImageData(nameTitleImage))
     , titleImage(titleImageData)
     , touchTrigger(GuiTrigger::CHANNEL_1, GuiTrigger::VPAD_TOUCH)
     , wpadTouchTrigger(GuiTrigger::CHANNEL_2 | GuiTrigger::CHANNEL_3 | GuiTrigger::CHANNEL_4 | GuiTrigger::CHANNEL_5, GuiTrigger::BUTTON_A)
