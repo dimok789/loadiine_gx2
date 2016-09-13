@@ -24,7 +24,7 @@ enum SettingTypes
     Type3Buttons,
     Type4Buttons,
     TypeIP,
-    TypeList,
+    TypeSelectLanguage
 };
 
 typedef struct

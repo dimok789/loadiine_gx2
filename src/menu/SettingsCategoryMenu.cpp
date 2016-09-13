@@ -20,6 +20,7 @@
 #include "utils/StringTools.h"
 #include "KeyPadMenu.h"
 #include "ButtonChoiceMenu.h"
+#include "SettingsLanguageMenu.h"
 #include "language/gettext.h"
 
 #define MAX_SETTINGS_PER_PAGE 3
@@ -169,6 +170,16 @@ void SettingsCategoryMenu::OnSettingButtonClick(GuiButton *button, const GuiCont
             keyMenu->settingsOkClicked.connect(this, &SettingsCategoryMenu::OnKeyPadOkClicked);
             menu = keyMenu;
             break;
+        }
+		case TypeSelectLanguage: {
+ 			if(CSettings::getDataType(categorySettings[i].index) != CSettings::TypeString)
+                return;
+ 			
+ 			SettingsLanguageMenu *LanguageMenu = new SettingsLanguageMenu(width, height, tr(categorySettings[i].name), categoryNameTitle);
+ 			LanguageMenu->settingsBackClicked.connect(this, &SettingsCategoryMenu::OnSubMenuCloseClicked);
+ 			menu = LanguageMenu;
+ 			break;
+ 			
         }
         case Type2Buttons:
         case Type3Buttons:
