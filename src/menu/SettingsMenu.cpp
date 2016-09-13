@@ -58,26 +58,26 @@ stSettingsCategories[] =
 
 static const SettingType GuiSettings[] =
 {
-    { trNOOP("Game View TV"), ValueGameViewMode, Type3Buttons, CSettings::GameViewModeTv },
-    { trNOOP("Game View DRC"), ValueGameViewMode, Type3Buttons, CSettings::GameViewModeDrc }
+    { trNOOP("Game View TV"), ValueGameViewMode, "guiTVIcon.png", "guiTVIconGlow.png", Type3Buttons, CSettings::GameViewModeTv },
+    { trNOOP("Game View DRC"), ValueGameViewMode, "guiDRCIcon.png", "guiDRCIconGlow.png", Type3Buttons, CSettings::GameViewModeDrc }
 };
 
 static const SettingType LoaderSettings[] =
 {
-    { trNOOP("Show Game Settings"), ValueOnOff, Type2Buttons, CSettings::ShowGameSettings },
-    { trNOOP("Host IP"), 0, TypeIP, CSettings::GameLogServerIp },
-    { trNOOP("Game Path"), 0, TypeDisplayOnly, CSettings::GamePath },
-    { trNOOP("Game Save Path"), 0, TypeDisplayOnly, CSettings::GameSavePath },
-    { trNOOP("Game Save Mode"), ValueGameSaveModes, Type2Buttons, CSettings::GameSaveMode }
+    { trNOOP("Show Game Settings"), ValueOnOff, "showGameSettings.png", "showGameSettings.png", Type2Buttons, CSettings::ShowGameSettings },
+    { trNOOP("Host IP"), 0, "gameSettingsIP.png", "gameSettingsIP.png", TypeIP, CSettings::GameLogServerIp },
+    { trNOOP("Game Path"), 0, "pathGameIcon.png", "pathGameIconGlow.png", TypeDisplayOnly, CSettings::GamePath },
+    { trNOOP("Game Save Path"), 0, "pathSaveIcon.png", "pathSaveIconGlow.png", TypeDisplayOnly, CSettings::GameSavePath },
+    { trNOOP("Game Save Mode"), ValueGameSaveModes, "modoSaveIcon.png", "modoSaveIconGlow.png", Type2Buttons, CSettings::GameSaveMode }
 };
 
 static const SettingType GameSettings[] =
 {
-    { trNOOP("Launch Mode"), ValueLaunchMode, Type4Buttons, CSettings::GameLaunchMethod },
-    { trNOOP("Log Server Control"), ValueOnOff, Type2Buttons, CSettings::GameLogServer },
-    { trNOOP("PyGecko"), ValueOnOff, Type2Buttons, CSettings::LaunchPyGecko },
-    { trNOOP("Padcon"), ValueOnOff, Type2Buttons, CSettings::PadconMode },
-    { trNOOP("HID-Pad"), ValueOnOff, Type2Buttons, CSettings::HIDPadEnabled }
+    { trNOOP("Launch Mode"), ValueLaunchMode, "gameModeLoad.png", "gameModeLoadGlow.png", Type4Buttons, CSettings::GameLaunchMethod },
+    { trNOOP("Log Server Control"), ValueOnOff, "gameLoadLog.png", "gameLoadLogGlow.png", Type2Buttons, CSettings::GameLogServer },
+    { trNOOP("PyGecko"), ValueOnOff, "gamePyGeckoLoad.png", "gamePyGeckoLoadGlow.png", Type2Buttons, CSettings::LaunchPyGecko },
+    { trNOOP("Padcon"), ValueOnOff, "gamePadconIcon.png", "gamePadconIconGlow.png", Type2Buttons, CSettings::PadconMode },
+    { trNOOP("HID-Pad"), ValueOnOff, "gameHIDIcon.png", "gameHIDIconGlow.png", Type2Buttons, CSettings::HIDPadEnabled }
 };
 
 SettingsMenu::SettingsMenu(int w, int h)

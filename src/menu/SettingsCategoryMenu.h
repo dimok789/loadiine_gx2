@@ -75,6 +75,8 @@ private:
     typedef struct
     {
         GuiImage *settingImage;
+		GuiImage *settingIcon;
+ 		GuiImage *settingIconOver;
         GuiImage *settingImageSelected;
         GuiButton *settingButton;
         GuiText *settingLabel;

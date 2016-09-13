@@ -73,14 +73,20 @@ SettingsCategoryMenu::SettingsCategoryMenu(int w, int h, const std::string & tit
     for(int i = 0; i < categorySettingsCount; i++)
     {
         settings[i].settingImage = new GuiImage(settingImageData);
+		settings[i].settingIcon = new GuiImage(Resources::GetImageData(categorySettings[i].icon));
+		settings[i].settingIconOver = new GuiImage(Resources::GetImageData(categorySettings[i].iconGlow));
         settings[i].settingImageSelected = new GuiImage(settingSelectedImageData);
         settings[i].settingButton = new GuiButton(settingImageData->getWidth(), settingImageData->getHeight());
         settings[i].settingLabel = new GuiText(tr(categorySettings[i].name), 46, glm::vec4(0.8f, 0.8f, 0.8f, 1.0f));
 
-        settings[i].settingButton->setIconOver(settings[i].settingImageSelected);
-        settings[i].settingButton->setImage(settings[i].settingImage);
+        settings[i].settingButton->setImageSelectOver(settings[i].settingImageSelected);
+		settings[i].settingButton->setIcon(settings[i].settingIcon);
+		settings[i].settingButton->setIconOver(settings[i].settingIconOver);
+		settings[i].settingButton->setImage(settings[i].settingImage);
         settings[i].settingButton->setLabel(settings[i].settingLabel);
-
+		
+		settings[i].settingIcon->setPosition(-300, 0);
+		settings[i].settingIconOver->setPosition(-300, 0);
         settings[i].settingButton->setPosition(0, 150 - (settings[i].settingImage->getHeight() + 30) * i);
         settings[i].settingButton->setTrigger(&touchTrigger);
         settings[i].settingButton->setTrigger(&wpadTouchTrigger);
@@ -123,6 +129,8 @@ SettingsCategoryMenu::~SettingsCategoryMenu()
     for(u32 i = 0; i < settings.size(); ++i)
     {
         delete settings[i].settingImage;
+		delete settings[i].settingIcon;
+		delete settings[i].settingIconOver;
         delete settings[i].settingImageSelected;
         delete settings[i].settingButton;
         delete settings[i].settingLabel;
