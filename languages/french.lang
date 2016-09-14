@@ -5,47 +5,47 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Loadiine GX2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-28 11:40+0200\n"
-"PO-Revision-Date: 2016-04-03 19:00+0200\n"
+"POT-Creation-Date: 2016-05-07 09:59+0200\n"
+"PO-Revision-Date: 2016-14-09 14:10+0200\n"
 "Last-Translator: BHackUP, littlebalup, Cyan\n"
 "Language-Team: BHackUP, littlebalup, Cyan\n"
+"Language: Français\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: Français\n"
 
 msgid "Loadiine GX2"
 msgstr ""
 
 msgid "Official Site:"
-msgstr "Site officiel:"
+msgstr "Site officiel :"
 
 msgid "Coding:"
-msgstr "Développement:"
+msgstr "Développement :"
 
-msgid "Design:"
+msgid "Design :"
 msgstr ""
 
 msgid "Some guy who doesn't want to be named."
 msgstr "Quelqu'un qui ne veut pas être nommé."
 
 msgid "Testing:"
-msgstr "Tests:"
+msgstr "Tests :"
 
 msgid "Cyan / Maschell / n1ghty / OnionKnight and many more"
 msgstr "Cyan / Maschell / n1ghty / OnionKnight et bien d'autres"
 
 msgid "Social Presence:"
-msgstr "Présence sociale:"
+msgstr "Présence sociale :"
 
 msgid "Based on:"
-msgstr "Basé sur:"
+msgstr "Basé sur :"
 
 msgid "Loadiine v4.0 by Golden45 and Dimok"
 msgstr "Loadiine v4.0 de Golden45 et Dimok"
 
 msgid "Big thanks to:"
-msgstr "Remerciements à:"
+msgstr "Remerciements à :"
 
 msgid "lustar for GameTDB and hosting covers / disc images"
 msgstr "lustar pour GameTDB et l'hébergement des jaquettes"
@@ -57,31 +57,31 @@ msgid "The whole libwiiu team and it's contributors."
 msgstr "Toute l'équipe libwiiu et ses contributeurs."
 
 msgid "Extra Save:"
-msgstr ""
+msgstr "Sauveg. suppl. :"
 
 msgid "Enable DLC Support:"
-msgstr ""
+msgstr "Activer support DLC :"
 
 msgid "Update Folder"
-msgstr ""
+msgstr "Rép. MàJ"
 
 msgid "Save Mode"
-msgstr ""
+msgstr "Mode sauveg."
 
 msgid "Launch Mode"
 msgstr "Mode de lancement"
 
 msgid "<Settings Default>"
-msgstr ""
+msgstr "<Param. par défaut>"
 
 msgid "Saving game settings!"
-msgstr ""
+msgstr "Sauveg. param. du jeu !"
 
 msgid "Off"
-msgstr ""
+msgstr "Désactivé"
 
 msgid "On"
-msgstr ""
+msgstr "Activé"
 
 msgid "Icon Carousel"
 msgstr "Carrousel d'icônes"
@@ -92,9 +92,8 @@ msgstr "Grille"
 msgid "Cover Carousel"
 msgstr "Carrousel de jaquettes"
 
-# translated as nul terminator (hidden), as the option is not implemented yet.
 msgid "Background customizations"
-msgstr ""
+msgstr "Personnalis. arrière-plan"
 
 msgid "GUI"
 msgstr "Interface"
@@ -121,19 +120,19 @@ msgid "Game"
 msgstr "Jeu"
 
 msgid "HID settings"
-msgstr ""
-
+msgstr "Param. HID"
+ 
 msgid "Launch method selection"
 msgstr "Méthode de lancement des jeux"
 
 msgid "Log server control"
 msgstr "Serveur de log"
 
-msgid "Padcon settings"
+msgid "Read and write memory"
 msgstr ""
 
-msgid "PyGecko settings"
-msgstr ""
+msgid "Turn off the screen GamePad"
+msgstr "Éteindre écran GamePad"
 
 msgid "Credits"
 msgstr "Crédits"
@@ -148,10 +147,10 @@ msgid "Game View DRC"
 msgstr "Affichage des jeux sur GamePad"
 
 msgid "Show Game Settings"
-msgstr ""
+msgstr "Afficher param. du jeu"
 
 msgid "Host IP"
-msgstr ""
+msgstr "IP hôte"
 
 msgid "Game Path"
 msgstr "Emplacement des jeux"
@@ -162,14 +161,11 @@ msgstr "Emplacement des sauvegardes"
 msgid "Game Save Mode"
 msgstr "Mode de sauvegarde"
 
-msgid "Log Server Control"
-msgstr "Activer les logs"
+msgid "Load PyGecko"
+msgstr "Charger PyGecko"
 
-msgid "PyGecko"
-msgstr ""
-
-msgid "Padcon"
-msgstr ""
+msgid "Enable Padcon"
+msgstr "Activer Padcon"
 
 msgid "HID-Pad"
 msgstr ""
@@ -191,6 +187,123 @@ msgstr "Mode Karaoke"
 
 msgid "Art Atelier Mode"
 msgstr "Mode Art Atelier"
+ 
+msgid "Download languages"
+msgstr "Télécharger langues"
 
-#~ msgid "Log Server IP"
-#~ msgstr "Adresse IP du serveur log"
+msgid "Select language"
+msgstr "Choisir la langue"
+
+msgid "Download"
+msgstr "Téléchargement"
+
+msgid "Languages"
+msgstr "Langues"
+
+msgid "Default"
+msgstr "Défaut"
+
+msgid "Brazilian"
+msgstr "Brésilien"
+
+msgid "English"
+msgstr "Anglais"
+
+msgid "Chinese"
+msgstr "Chinois"
+
+msgid "Traditional Chinese"
+msgstr "Chinois trad."
+
+msgid "French"
+msgstr "Français"
+
+msgid "German"
+msgstr "Allemand"
+
+msgid "Hungarian"
+msgstr "Hongrois"
+
+msgid "Italian"
+msgstr "Italien"
+
+msgid "Spanish"
+msgstr "Espagnol"
+
+msgid "Swedish"
+msgstr "Suédois"
+
+msgid "Greek"
+msgstr "Grec"
+
+msgid "Portuguese"
+msgstr "Portugais"
+
+msgid "Japanese"
+msgstr "Japonais"
+
+msgid "Loaded language"
+msgstr "Langue chargée"
+
+msgid "Reloaded logger to change IP to settings IP"
+msgstr ""
+
+msgid "Loaded HID settings"
+msgstr "Param. HID chargés"
+
+msgid "Loaded resources"
+msgstr "Ressources chargées"
+
+msgid "Loading game list"
+msgstr "Chargement de la liste des jeux"
+
+msgid "Loading Music"
+msgstr "Chargement de la musique"
+
+msgid "Initializing main"
+msgstr "Initialisation principale"
+
+msgid "Download languages"
+msgstr "Téléchargement des langues"
+
+msgid "Connecting..."
+msgstr "Connexion..."
+
+msgid "Getting file list"
+msgstr "Rapatriement de la liste des fichiers"
+
+msgid "Downloading files"
+msgstr "Téléchargement des fichiers"
+
+msgid "Languages files:"
+msgstr "Fichiers de langue :"
+
+msgid "files left"
+msgstr "fichier(s) restant(s)"
+
+msgid "Download 3D Covers"
+msgstr "Téléchargement jaquettes 3D"
+
+msgid "Ok"
+msgstr ""
+
+msgid "Cancel"
+msgstr "Annuler"
+
+msgid "Yes"
+msgstr "Oui"
+
+msgid "No"
+msgstr "Non"
+
+msgid "Loading file"
+msgstr ""
+
+msgid "Writing list to SD"
+msgstr ""
+
+msgid "Creating filelist.txt:"
+msgstr ""
+
+msgid "entries found"
+msgstr ""

@@ -5,14 +5,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Loadiine GX2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-28 11:41+0200\n"
-"PO-Revision-Date: 2016-04-02 07:28+0200\n"
+"POT-Creation-Date: 2016-05-30 02:52+0200\n"
+"PO-Revision-Date: 2016-14-09 14:10+0200\n"
 "Last-Translator: MasQchips\n"
 "Language-Team: MasQchips\n"
+"Language: Español\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: Español\n"
 
 msgid "Loadiine GX2"
 msgstr ""
@@ -57,10 +57,10 @@ msgid "The whole libwiiu team and it's contributors."
 msgstr "Todo el equipo de libwiiu y sus colaboradores."
 
 msgid "Extra Save:"
-msgstr ""
+msgstr "Guardado Extra:"
 
 msgid "Enable DLC Support:"
-msgstr "Activar Soporte DLC"
+msgstr "Activado Soporte DCL"
 
 msgid "Update Folder"
 msgstr "Actualizar Carpeta"
@@ -72,16 +72,16 @@ msgid "Launch Mode"
 msgstr "Modo de Carga"
 
 msgid "<Settings Default>"
-msgstr "<Ajustes por Defecto>"
+msgstr "<Ajustes por defecto>"
 
 msgid "Saving game settings!"
-msgstr "Guardando ajustes del juego!"
+msgstr "¡Guardando ajustes del juego!"
 
 msgid "Off"
-msgstr "Apagado"
+msgstr "Desactivado"
 
 msgid "On"
-msgstr "Encendido"
+msgstr "Activado"
 
 msgid "Icon Carousel"
 msgstr "Carrusel de Iconos"
@@ -120,19 +120,19 @@ msgid "Game"
 msgstr "Juego"
 
 msgid "HID settings"
-msgstr "Configuracion HID"
-
+msgstr "HID ajustes"
+ 
 msgid "Launch method selection"
 msgstr "Seleccionar metodo de carga"
 
 msgid "Log server control"
 msgstr "Iniciar servidor"
 
-msgid "Padcon settings"
-msgstr ""
+msgid "Read and write memory"
+msgstr "Leer y escribir en la memoria"
 
-msgid "PyGecko settings"
-msgstr ""
+msgid "Turn off the screen Gamepad"
+msgstr "Apagar la pantalla del Gamepad"
 
 msgid "Credits"
 msgstr "Creditos"
@@ -147,10 +147,10 @@ msgid "Game View DRC"
 msgstr "Vista del Juego DRC"
 
 msgid "Show Game Settings"
-msgstr "Mostrar Configuracion del Juego"
+msgstr "Mostrar Ajustes del Juego"
 
 msgid "Host IP"
-msgstr ""
+msgstr "Servidor IP"
 
 msgid "Game Path"
 msgstr "Ruta del Juego"
@@ -161,14 +161,11 @@ msgstr "Ruta de guardado"
 msgid "Game Save Mode"
 msgstr "Modo de Guardado"
 
-msgid "Log Server Control"
-msgstr "Control de Registros"
+msgid "Load PyGecko"
+msgstr "Cargar PyGecko"
 
-msgid "PyGecko"
-msgstr ""
-
-msgid "Padcon"
-msgstr ""
+msgid "Enable Padcon"
+msgstr "Activar Padcon"
 
 msgid "HID-Pad"
 msgstr ""
@@ -191,5 +188,122 @@ msgstr "Modo Karaoke"
 msgid "Art Atelier Mode"
 msgstr "Modo Art Atelier"
 
-#~ msgid "Log Server IP"
-#~ msgstr "IP del Servidor"
+msgid "Download languages"
+msgstr "Descargar idiomas"
+
+msgid "Select language"
+msgstr "Seleccionar idioma"
+
+msgid "Download"
+msgstr "Descargar"
+
+msgid "Languages"
+msgstr "Idiomas"
+
+msgid "Default"
+msgstr "Por Defecto"
+
+msgid "Brazilian"
+msgstr "Brasileño"
+
+msgid "English"
+msgstr "Ingles"
+
+msgid "Chinese"
+msgstr "Chino"
+
+msgid "Chinese_tr"
+msgstr "Chino Tradicional"
+
+msgid "French"
+msgstr "Frances"
+
+msgid "German"
+msgstr "Alemán"
+
+msgid "Hungarian"
+msgstr "Hungaro"
+
+msgid "Italian"
+msgstr "Italiano"
+
+msgid "Spanish"
+msgstr "Español"
+
+msgid "Swedish"
+msgstr "Sueco"
+
+msgid "Greek"
+msgstr "Griego"
+
+msgid "Portuguese"
+msgstr "Portuges"
+
+msgid "Japanese"
+msgstr "Japones"
+
+msgid "Loaded language"
+msgstr "Cargado idioma"
+
+msgid "Reloaded logger to change IP to settings IP"
+msgstr "Recargando cambios IP logger de ajustes de IP "
+
+msgid "Loaded HID settings"
+msgstr "Cargado ajustes de HID"
+
+msgid "Loaded resources"
+msgstr "Cargado recursos"
+
+msgid "Loading game list"
+msgstr "Cargando lista de juegos"
+
+msgid "Loading Music"
+msgstr "Cargando Musica"
+
+msgid "Initializing main"
+msgstr "Inicializando menu"
+
+msgid "Download languages"
+msgstr "Descarga de idiomas"
+
+msgid "Connecting.."
+msgstr "Conectando.."
+
+msgid "Getting file list"
+msgstr "Obteniendo lista de archivos"
+
+msgid "Downloading files"
+msgstr "Descargando archivos"
+
+msgid "Languages files:"
+msgstr "Archivos de idiomas:"
+
+msgid "files left"
+msgstr "archivos restantes"
+
+msgid "Download 3D Covers"
+msgstr "Descarga de caratulas 3D"
+
+msgid "Ok
+msgstr "Aceptar"
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "Yes"
+msgstr "Si"
+
+msgid "No"
+msgstr "No"
+
+msgid "Loading file"
+msgstr "Cargando archivo"
+
+msgid "Writing list to SD"
+msgstr "Escribiendo lista en SD"
+
+msgid "Creating filelist.txt:"
+msgstr "Creando filelist.txt:"
+
+msgid "entries found"
+msgstr "entradas encontradas"
