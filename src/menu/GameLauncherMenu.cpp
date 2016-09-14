@@ -489,7 +489,7 @@ void GameLauncherMenu::OnOKButtonClick(GuiButton *button, const GuiController *c
 {
     CSettings::setValueAsU16(CSettings::GameStartIndex,gameIdx);
     gameLauncherMenuFrame.setState(STATE_DISABLED);
-    progresswindow.setTitle(tr("Saving game settings!"));
+    progresswindow.setInfo(tr("Saving game settings!"));
     progresswindow.setProgress(0.0f);
     progresswindow.setVisible(true);
     bringToFront(&progresswindow);
