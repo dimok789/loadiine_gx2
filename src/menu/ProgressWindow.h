@@ -26,15 +26,15 @@ public:
     virtual ~ProgressWindow();
 
     void setProgress(f32 percent);
-    void setInfo(const std::string & info);
+    void setTitle(const std::string & title);
 private:
 
-	GuiText infoText;
+    GuiText titleText;
     GuiImageData *bgImageData;
     GuiImage bgImage;
-	GuiImage bgBlur;
     GuiImage progressImageBlack;
     GuiImage progressImageColored;
+
     GuiTrigger touchTrigger;
     GuiTrigger wpadTouchTrigger;
 };
