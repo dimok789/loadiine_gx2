@@ -438,6 +438,7 @@ int GameLauncher::LoadRpxRplToMem(const std::string & path, const std::string & 
         log_printf("Not enough memory for file %s\n", path.c_str());
         return NOT_ENOUGH_MEMORY;
     }
+	std::string progressMsg = tr("Loading file");
 	progressMsg += " ";
 	progressMsg += name.c_str();
     progressWindow.setInfo(progressMsg.c_str());
