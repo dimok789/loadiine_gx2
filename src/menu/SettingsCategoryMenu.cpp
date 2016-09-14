@@ -171,6 +171,17 @@ void SettingsCategoryMenu::OnSettingButtonClick(GuiButton *button, const GuiCont
             menu = keyMenu;
             break;
         }
+		case TypeDownloadLanguage: {			
+			categoryFrame.setState(GuiElement::STATE_DISABLED);
+
+			UpdateLanguage *DownloaderLanguage = new UpdateLanguage();
+			DownloaderLanguage->setEffect(EFFECT_FADE, 15, 255);
+			DownloaderLanguage->effectFinished.connect(this, &SettingsCategoryMenu::OnOpenEffectFinish);
+			DownloaderLanguage->asyncLoadFinished.connect(this, &SettingsCategoryMenu::OnUpdateLanguageFinish);
+			DownloaderLanguage->startDownloadingLanguage();
+			append(DownloaderLanguage);
+			break;
+		}
 		case TypeSelectLanguage: {
  			if(CSettings::getDataType(categorySettings[i].index) != CSettings::TypeString)
                 return;
@@ -227,15 +238,18 @@ void SettingsCategoryMenu::OnSettingButtonClick(GuiButton *button, const GuiCont
         }
     }
 
-    menu->setEffect(EFFECT_FADE, 10, 255);
-    menu->setState(STATE_DISABLED);
-    menu->effectFinished.connect(this, &SettingsCategoryMenu::OnSubMenuOpenEffectFinish);
-
-    append(menu);
-
-    //! disable all current elements and fade them out with fading in new menu
-    categoryFrame.setState(STATE_DISABLED);
-    categoryFrame.setEffect(EFFECT_FADE, -10, 0);
+    if(categorySettings[i].type != TypeDownloadLanguage)
+	{
+		menu->setEffect(EFFECT_FADE, 10, 255);
+	    menu->setState(STATE_DISABLED);
+	    menu->effectFinished.connect(this, &SettingsCategoryMenu::OnSubMenuOpenEffectFinish);
+  		  
+	    append(menu);
+  		  
+		//! disable all current elements and fade them out with fading in new menu
+		categoryFrame.setState(STATE_DISABLED);
+		categoryFrame.setEffect(EFFECT_FADE, -10, 0);
+	}
 }
 
 void SettingsCategoryMenu::OnButtonChoiceOkClicked(GuiElement *element, int selectedButton)
@@ -349,6 +363,22 @@ void SettingsCategoryMenu::OnKeyPadOkClicked(GuiElement *element, const std::str
     //! fade in category selection
     categoryFrame.setEffect(EFFECT_FADE, 10, 255);
     append(&categoryFrame);
+}
+
+void SettingsCategoryMenu::OnUpdateLanguageFinish(GuiElement *element)
+{
+    //! disable element for triggering buttons again
+    element->setState(GuiElement::STATE_DISABLED);
+    element->setEffect(EFFECT_FADE, -10, 0);
+    element->effectFinished.connect(this, &SettingsCategoryMenu::OnSubMenuCloseEffectFinish);
+}
+
+void SettingsCategoryMenu::OnOpenEffectFinish(GuiElement *element)
+{
+    //! once the menu is open reset its state and allow it to be "clicked/hold"
+    element->effectFinished.disconnect(this);
+    element->clearState(GuiElement::STATE_DISABLED);
+
 }
 
 void SettingsCategoryMenu::OnSubMenuCloseClicked(GuiElement *element)

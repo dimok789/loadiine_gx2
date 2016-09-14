@@ -24,6 +24,7 @@ enum SettingTypes
     Type3Buttons,
     Type4Buttons,
     TypeIP,
+	TypeDownloadLanguage,
     TypeSelectLanguage
 };
 
