@@ -9,6 +9,7 @@ extern u8 gCursorInitDone;
 extern u8 gPatchSDKDone;
 extern u8 gHIDPADEnabled;
 extern u8 gEnableDLC;
+extern u8 gEnableDLCnL;
 extern u32 gLoaderPhysicalBufferAddr;
 extern char gServerIP[16];
 
