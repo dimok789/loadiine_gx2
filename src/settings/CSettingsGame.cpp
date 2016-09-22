@@ -116,7 +116,7 @@ bool CSettingsGame::Load()
 
 		std::string ID6 = lines[0];
 
-		std::vector<CSettingsGame::SettingValue> newValues = getSettingValuesFromGameSettings(std::string(COMMON_UPDATE_PATH), false, GAME_SAVES_DEFAULT, LOADIINE_MODE_DEFAULT, SETTING_OFF);
+		std::vector<CSettingsGame::SettingValue> newValues = getSettingValuesFromGameSettings(std::string(COMMON_UPDATE_PATH), false, GAME_SAVES_DEFAULT, LOADIINE_MODE_DEFAULT, SETTING_OFF, SETTING_OFF);
 
 		for(u32 i = 1; i < lines.size(); ++i)
 		{
@@ -206,6 +206,7 @@ bool CSettingsGame::LoadGameSettings(std::string ID6, GameSettings & result){
         result.save_method = GAME_SAVES_DEFAULT;
         result.updateFolder = COMMON_UPDATE_PATH;
         result.EnableDLC = SETTING_OFF;
+		result.EnableDLCnL = SETTING_OFF;
         return false;
     }
 }
@@ -292,10 +293,10 @@ bool CSettingsGame::Save()
 }
 
 std::vector<CSettingsGame::SettingValue> CSettingsGame::getSettingValuesFromGameSettings(GameSettings gameSettings){
-	return getSettingValuesFromGameSettings(gameSettings.updateFolder,gameSettings.extraSave,gameSettings.save_method,gameSettings.launch_method,gameSettings.EnableDLC);
+	return getSettingValuesFromGameSettings(gameSettings.updateFolder,gameSettings.extraSave,gameSettings.save_method,gameSettings.launch_method,gameSettings.EnableDLC,gameSettings.EnableDLCnL);
 }
 
-std::vector<CSettingsGame::SettingValue> CSettingsGame::getSettingValuesFromGameSettings(std::string updateFolder,bool extraSave,u8 save_method,u8 launch_method, u8 enableDlc){
+std::vector<CSettingsGame::SettingValue> CSettingsGame::getSettingValuesFromGameSettings(std::string updateFolder,bool extraSave,u8 save_method,u8 launch_method, u8 enableDlc, u8 enableDlcnl){
 	std::vector<CSettingsGame::SettingValue> result;
 
 	result = std::vector<CSettingsGame::SettingValue>();
@@ -311,6 +312,8 @@ std::vector<CSettingsGame::SettingValue> CSettingsGame::getSettingValuesFromGame
 	result.at(LaunchMethod).ucValue = launch_method;
 	result.at(EnableDLC).dataType = TypeU8;
 	result.at(EnableDLC).ucValue = enableDlc;
+	result.at(EnableDLCnL).dataType = TypeU8;
+	result.at(EnableDLCnL).ucValue = enableDlcnl;
 	return result;
 }
 
@@ -323,6 +326,7 @@ GameSettings * CSettingsGame::GetGameSettingsBySettingGameValue(std::string ID6,
 	set->save_method = settings.at(SaveMethod).ucValue;
 	set->launch_method = settings.at(LaunchMethod).ucValue;
 	set->EnableDLC = settings.at(EnableDLC).ucValue;
+	set->EnableDLCnL = settings.at(EnableDLCnL).ucValue;
 
 	return set;
 }

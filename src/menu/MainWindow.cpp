@@ -513,6 +513,7 @@ void MainWindow::OnGameLoadFinish(GameLauncher * launcher, const discHeader *hea
         //! load HID settings
         gHIDPADEnabled = CSettings::getValueAsU8(CSettings::HIDPadEnabled);
         gEnableDLC = 0;
+		gEnableDLCnL = 0;
 
 		GameSettings gs;
 		bool result = CSettingsGame::getInstance()->LoadGameSettings(header->id,gs);
@@ -543,6 +544,7 @@ void MainWindow::OnGameLoadFinish(GameLauncher * launcher, const discHeader *hea
 			}
 
 			gEnableDLC = gs.EnableDLC;
+			gEnableDLCnL = gs.EnableDLCnL;
 		}
         Application::instance()->quit();
     }

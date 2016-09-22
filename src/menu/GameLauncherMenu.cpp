@@ -51,6 +51,7 @@ GameLauncherMenu::GameLauncherMenu(int gameIdx)
     , titleImage(titleImageData)
     , extraSaveText(tr("Extra Save:"), 40, glm::vec4(0.8f, 0.8f, 0.8f, 1.0f))
     , dlcEnableText(tr("Enable DLC Support:"), 40, glm::vec4(0.8f, 0.8f, 0.8f, 1.0f))
+	, dlcnlEnableText(tr("Enable DLC no legitimet"), 40, glm::vec4(0.8f, 0.8f, 0.8f, 1.0f))
     , frameImageData(Resources::GetImageData("gameSettingsFrame.png"))
     , frameImage(frameImageData)
     , touchTrigger(GuiTrigger::CHANNEL_1, GuiTrigger::VPAD_TOUCH)
@@ -72,6 +73,7 @@ GameLauncherMenu::GameLauncherMenu(int gameIdx)
     , DPADButtons(0,0)
     , extraSaveBox(false)
     , dlcEnableBox(false)
+	, dlcnlEnableBox(false)
     , progresswindow("")
     , pathSelectBox(tr("Update Folder"),NULL)
     , saveModeSelectBox(tr("Save Mode"),NULL)
@@ -195,6 +197,13 @@ GameLauncherMenu::GameLauncherMenu(int gameIdx)
     dlcEnableBox.setTrigger(&wpadTouchTrigger);
     dlcEnableBox.setSoundClick(buttonClickSound);
     dlcEnableBox.valueChanged.connect(this, &GameLauncherMenu::OnDLCEnableValueChanged);
+	
+	gameLauncherMenuFrame.append(&dlcnlEnableBox);
+	
+	dlcnlEnableBox.setTrigger(&touchTrigger);
+    dlcnlEnableBox.setTrigger(&wpadTouchTrigger);
+    dlcnlEnableBox.setSoundClick(buttonClickSound);
+    dlcnlEnableBox.valueChanged.connect(this, &GameLauncherMenu::OnDLCnLEnableValueChanged);
 
     gameLauncherMenuFrame.append(&dlcEnableBox);
 
@@ -202,17 +211,23 @@ GameLauncherMenu::GameLauncherMenu(int gameIdx)
     f32 yOffset = -(0.3 * height);
 
     dlcEnableBox.setScale(buttonscale*windowScale);
+	dlcnlEnableBox.setScale(buttonscale*windowScale);
     saveModeSelectBox.setScale(buttonscale*windowScale);
     launchModeSelectBox.setScale(buttonscale*windowScale);
     extraSaveBox.setScale(buttonscale*windowScale);
     extraSaveText.setScale(buttonscale*windowScale);
     dlcEnableText.setScale(buttonscale*windowScale);
+	dlcnlEnableText.setScale(buttonscale*windowScale);
     pathSelectBox.setScale(buttonscale* windowScale);
-
+	
+	dlcnlEnableBox.setPosition(xpos*width + (saveModeSelectBox.getTopValueWidth()*saveModeSelectBox.getScale() /2.0) - (dlcnlEnableBox.getWidth()*dlcnlEnableBox.getScale()/2.0), yOffset);
+    dlcnlEnableText.setPosition(xpos*width - (saveModeSelectBox.getTopValueWidth()*saveModeSelectBox.getScale() /2.0)+ (dlcnlEnableText.getTextWidth()/2.0), yOffset);
+    yOffset += saveModeSelectBox.getTopValueHeight() * saveModeSelectBox.getScale();
+	
     dlcEnableBox.setPosition(xpos*width + (saveModeSelectBox.getTopValueWidth()*saveModeSelectBox.getScale() /2.0) - (dlcEnableBox.getWidth()*dlcEnableBox.getScale()/2.0), yOffset);
     dlcEnableText.setPosition(xpos*width - (saveModeSelectBox.getTopValueWidth()*saveModeSelectBox.getScale() /2.0)+ (dlcEnableText.getTextWidth()/2.0), yOffset);
     yOffset += saveModeSelectBox.getTopValueHeight() * saveModeSelectBox.getScale();
-
+	
     saveModeSelectBox.setPosition(xpos*width, yOffset);
     yOffset += saveModeSelectBox.getTopValueHeight() * saveModeSelectBox.getScale();
 
@@ -236,6 +251,7 @@ GameLauncherMenu::GameLauncherMenu(int gameIdx)
     saveModeSelectBox.valueChanged.connect(this, &GameLauncherMenu::OnSelectBoxValueChanged);
 
     gameLauncherMenuFrame.append(&dlcEnableText);
+	gameLauncherMenuFrame.append(&dlcnlEnableText);
     gameLauncherMenuFrame.append(&extraSaveText);
     gameLauncherMenuFrame.append(&saveModeSelectBox);
     gameLauncherMenuFrame.append(&pathSelectBox);
@@ -250,6 +266,7 @@ GameLauncherMenu::GameLauncherMenu(int gameIdx)
 
     focusElements[GamelaunchermenuFocus::ExtraSave] = &extraSaveBox;
     focusElements[GamelaunchermenuFocus::EnableDLC] = &dlcEnableBox;
+	focusElements[GamelaunchermenuFocus::EnableDLCnL] = &dlcnlEnableBox;
     focusElements[GamelaunchermenuFocus::Quit] = &quitButton;
     focusElements[GamelaunchermenuFocus::UpdatePath] = &pathSelectBox;
     focusElements[GamelaunchermenuFocus::SaveMethod] = &saveModeSelectBox;
@@ -353,6 +370,12 @@ void GameLauncherMenu::OnDLCEnableValueChanged(GuiToggle * toggle,bool value){
     bChanged = true;
 }
 
+void GameLauncherMenu::OnDLCnLEnableValueChanged(GuiToggle * toggle,bool value){
+    gamesettings.EnableDLCnL = value;
+    gamesettingsChanged = true;
+    bChanged = true;
+}
+
 void GameLauncherMenu::OnGotHeaderFromMain(GuiElement *button, int gameIdx)
 {
     this->gameIdx = gameIdx;
@@ -450,6 +473,7 @@ void GameLauncherMenu::setHeader(const discHeader * header)
     launchModeSelectBox.Init(launchModeNames,launchmodeID);
     extraSaveBox.setValue(gamesettings.extraSave);
     dlcEnableBox.setValue(gamesettings.EnableDLC);
+	dlcnlEnableBox.setValue(gamesettings.EnableDLCnL);
 
     gamesettingsChanged = false;
     bChanged = true;
@@ -679,6 +703,19 @@ void GameLauncherMenu::update(GuiController *c)
             extraSaveBox.setState(STATE_DISABLED);
             extraSaveText.setState(STATE_DISABLED);
         }
+		if(gamesettings.EnableDLC != 0){
+			dlcnlEnableBox.setAlpha(1.0f);
+            dlcnlEnableText.setAlpha(1.0f);
+            dlcnlEnableBox.clearState(STATE_DISABLED);
+            dlcnlEnableText.clearState(STATE_DISABLED);
+		}else{
+            dlcnlEnableBox.setAlpha(0.3f);
+            dlcnlEnableText.setAlpha(0.3f);
+            dlcnlEnableBox.setUnchecked();
+            dlcnlEnableBox.setState(STATE_DISABLED);
+            dlcnlEnableText.setState(STATE_DISABLED);
+        }
+		
         bChanged = false;
     }
     GuiFrame::update(c);
