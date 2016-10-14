@@ -12,5 +12,6 @@ extern u8 gEnableDLC;
 extern u8 gEnableDLCnL;
 extern u32 gLoaderPhysicalBufferAddr;
 extern char gServerIP[16];
+extern char gAoc_Id[256];
 
 #endif // RETAINS_VARS_H_

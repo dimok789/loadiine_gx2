@@ -10,3 +10,4 @@ u8 gEnableDLCnL __attribute__((section(".data"))) = 0;
 u32 gLoaderPhysicalBufferAddr __attribute__((section(".data"))) = 0;
 u32 gLogUDP __attribute__((section(".data"))) = 0;
 char gServerIP[16] __attribute__((section(".data")));
+char gAoc_Id[256] __attribute__((section(".data")));

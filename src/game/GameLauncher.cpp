@@ -19,6 +19,7 @@
 #include "settings/SettingsGameDefs.h"
 #include "utils/FileReplacer.h"
 #include "common/retain_vars.h"
+#include "patcher/aoc_patcher.h"
 
 /* RPX stuff */
 #define RPX_SH_STRNDX_OFFSET            0x0032
@@ -333,7 +334,29 @@ int GameLauncher::loadGameToMemory(const discHeader *header)
     log_printf("sdk_version:     %i\n", cosAppXmlInfoStruct.sdk_version);
     log_printf("title_version:   %08X\n", cosAppXmlInfoStruct.title_version);
 
-    return 0;
+    if(gs.EnableDLC){
+		
+		char  aoc_title[AOC_TITLE_SIZE];
+	    const char  *aoc_title_dir;
+		std::string Aoc_id;
+
+		sprintf(aoc_title, "aoc0005000c%08x", (unsigned int)(cosAppXmlInfoStruct.title_id & 0xffffffff));
+
+		DirList dirList(header->gamepath, 0, DirList::Dirs);
+
+		for(int i = 0; i < dirList.GetFilecount(); i++){
+            aoc_title_dir = dirList.GetFilename(i);
+            if (strncmp(aoc_title,aoc_title_dir, strlen(aoc_title_dir) - 2) == 0){
+				log_printf("aoc titles: %s\n" ,aoc_title_dir);
+                aoc_title_dir += strlen(aoc_title_dir) - 2;
+                Aoc_id += aoc_title_dir;
+            }
+        }
+        memcpy(gAoc_Id, Aoc_id.c_str(), Aoc_id.size() +1);
+		log_printf("Total titles: %i titles\n" ,strlen(gAoc_Id) / 2);
+	}
+	
+	return 0;
 }
 
 bool GameLauncher::createFileList(const std::string & filepath){

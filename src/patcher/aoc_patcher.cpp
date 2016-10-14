@@ -1,7 +1,12 @@
 #include <stdio.h>
+#include <string.h>
+#include <string>
 #include "aoc_patcher.h"
 #include "common/retain_vars.h"
 #include "controller_patcher/cp_retain_vars.h"
+
+const char  *aoc_title_dir;
+int num_content = 0;
 
 DECL(int, ACPGetAddOnUniqueId, unsigned int * id_buffer, int buffer_size)
 {
@@ -16,13 +21,16 @@ DECL(int, ACPGetAddOnUniqueId, unsigned int * id_buffer, int buffer_size)
     return result;
 }
 
-DECL(int, AOC_ListTitle, u32 * num_titles, void * titles, u32 max_titles, void * buffer, u32 buffer_size)
+DECL(int, AOC_ListTitle, u32 * num_titles, AOC_TitleListType* titles, u32 max_titles, void * buffer, u32 buffer_size)
 {
 	int result = real_AOC_ListTitle(num_titles, titles, max_titles, buffer, buffer_size);
 
-    if(GAME_LAUNCHED && gEnableDLC && gEnableDLCnL)
+    if(GAME_LAUNCHED && gEnableDLCnL)
     {
-		*num_titles = 1;
+		*num_titles = strlen(gAoc_Id) / 2;
+		aoc_title_dir = gAoc_Id;
+		titles->title_ID = 0x0005000c00000000  | (unsigned int)(cosAppXmlInfoStruct.title_id & 0xffffffff);
+
 		result = 0;
     }
 
@@ -35,7 +43,17 @@ DECL(int, AOC_OpenTitle, char * path, void * target, void * buffer, unsigned int
 		
     if(GAME_LAUNCHED && gEnableDLC && (result != 0))
     {
-		sprintf(path, "/vol/aoc0005000c%08x", (u32)(cosAppXmlInfoStruct.title_id & 0xffffffff));
+		std::string Aoc_id;
+		snprintf( path, 23, "/vol/aoc0005000c%08x", (u32)(cosAppXmlInfoStruct.title_id & 0xffffffff));
+
+		for(int i = num_content; i < (num_content + 2) ; i++)
+			Aoc_id += aoc_title_dir[i];
+		
+		strcat(path, Aoc_id.c_str());
+		
+		aoc_title_dir +=1;
+		num_content ++;
+		
 		result = 0;
     }
 	
@@ -46,7 +64,7 @@ DECL(int, AOC_GetPurchaseInfo, u32 * bResult, u64 title_id, u16 contentIndexes[]
 {
     int result  = real_AOC_GetPurchaseInfo(bResult, title_id, contentIndexes, numberOfContent, buffer, buffer_size );
 		
-	if(GAME_LAUNCHED && gEnableDLC && gEnableDLCnL)
+	if(GAME_LAUNCHED && gEnableDLCnL)
     {
 		*bResult = 1;
 		result = 0;
