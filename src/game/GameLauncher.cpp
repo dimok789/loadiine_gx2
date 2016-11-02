@@ -346,14 +346,14 @@ int GameLauncher::loadGameToMemory(const discHeader *header)
 
 		for(int i = 0; i < dirList.GetFilecount(); i++){
             aoc_title_dir = dirList.GetFilename(i);
-            if (strncmp(aoc_title,aoc_title_dir, strlen(aoc_title_dir) - 2) == 0){
+            if (strnicmp(aoc_title,aoc_title_dir, strlen(aoc_title_dir) - 2) == 0){
 				log_printf("aoc titles: %s\n" ,aoc_title_dir);
                 aoc_title_dir += strlen(aoc_title_dir) - 2;
                 Aoc_id += aoc_title_dir;
             }
         }
         memcpy(gAoc_Id, Aoc_id.c_str(), Aoc_id.size() +1);
-		log_printf("AOC Total titles: %i titles\n" ,strlen(gAoc_Id) / 2);
+		log_printf("aoc Total titles: %i titles\n" ,strlen(gAoc_Id) / 2);
 	}
 	
 	return 0;
