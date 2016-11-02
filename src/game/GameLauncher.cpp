@@ -334,7 +334,7 @@ int GameLauncher::loadGameToMemory(const discHeader *header)
     log_printf("sdk_version:     %i\n", cosAppXmlInfoStruct.sdk_version);
     log_printf("title_version:   %08X\n", cosAppXmlInfoStruct.title_version);
 
-    if(gs.EnableDLC){
+     if(gs.EnableDLC){
 		
 		char  aoc_title[AOC_TITLE_SIZE];
 	    const char  *aoc_title_dir;
@@ -353,7 +353,7 @@ int GameLauncher::loadGameToMemory(const discHeader *header)
             }
         }
         memcpy(gAoc_Id, Aoc_id.c_str(), Aoc_id.size() +1);
-		log_printf("Total titles: %i titles\n" ,strlen(gAoc_Id) / 2);
+		log_printf("AOC Total titles: %i titles\n" ,strlen(gAoc_Id) / 2);
 	}
 	
 	return 0;

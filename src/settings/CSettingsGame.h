@@ -51,7 +51,6 @@ public:
 		SaveMethod,
 		LaunchMethod,
 		EnableDLC,
-		EnableDLCnL,
         MAX_VALUE
     };
 
@@ -85,7 +84,6 @@ private:
 		settingsNames[SaveMethod] = "SaveMethod";
 		settingsNames[LaunchMethod] = "LaunchMethod";
 		settingsNames[EnableDLC] = "EnableDLC";
-		settingsNames[EnableDLCnL] = "EnableDLCnL";
 	}
 
 	typedef struct
@@ -121,6 +119,6 @@ private:
 
 	GameSettings * GetGameSettingsBySettingGameValue(std::string ID6,std::vector<SettingValue> settings);
 	std::vector<SettingValue> getSettingValuesFromGameSettings(GameSettings gameSettings);
-	std::vector<SettingValue> getSettingValuesFromGameSettings(std::string updateFolder,bool extraSave,u8 save_method,u8 launch_method,u8 enableDlc, u8 enableDlcnl);
+	std::vector<SettingValue> getSettingValuesFromGameSettings(std::string updateFolder,bool extraSave,u8 save_method,u8 launch_method,u8 enableDlc);
 };
 #endif

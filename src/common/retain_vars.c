@@ -6,7 +6,6 @@ u8 gCursorInitDone __attribute__((section(".data"))) = 0;
 u8 gPatchSDKDone __attribute__((section(".data"))) = 0;
 u8 gHIDPADEnabled __attribute__((section(".data"))) = 0;
 u8 gEnableDLC __attribute__((section(".data"))) = 0;
-u8 gEnableDLCnL __attribute__((section(".data"))) = 0;
 u32 gLoaderPhysicalBufferAddr __attribute__((section(".data"))) = 0;
 u32 gLogUDP __attribute__((section(".data"))) = 0;
 char gServerIP[16] __attribute__((section(".data")));
