@@ -122,13 +122,47 @@ int __entry_menu(int argc, char **argv)
                 _SYSLaunchTitleByPathFromLauncher(buf_vol_odd, 18, 0);
             }
         }
+        else if (LOADIINE_MODE == LOADIINE_MODE_ART_ATELIER)
+        {
+            if(SYSCheckTitleExists(0x000500001017B500)) { // EUR
+                SYSLaunchTitle(0x000500001017B500);
+            }
+            else if(SYSCheckTitleExists(0x000500001017BF00)) { // USA
+                SYSLaunchTitle(0x000500001017BF00);
+            }
+            else if(SYSCheckTitleExists(0x000500001017BE00)) { // JAP
+                SYSLaunchTitle(0x000500001017BE00);
+            }
+            else {
+                // Launch disk without exiting to menu
+                char buf_vol_odd[20];
+                strcpy(buf_vol_odd, "/vol/storage_odd03");
+                _SYSLaunchTitleByPathFromLauncher(buf_vol_odd, 18, 0);
+            }
+        }
+        else if (LOADIINE_MODE == LOADIINE_MODE_KARAOKE)
+        {
+            if(SYSCheckTitleExists(0x0005000010149600)) { // EUR
+                SYSLaunchTitle(0x0005000010149600);
+            }
+            else if(SYSCheckTitleExists(0x0005000010100D00)) { // JAP
+                SYSLaunchTitle(0x0005000010100D00);
+            }
+            else if(SYSCheckTitleExists(0x0005000010102500)) { // JAP2 ?
+                SYSLaunchTitle(0x0005000010102500);
+            }
+            else {
+                // Fallback to mii maker if Karaoke is not found
+                SYSRelaunchTitle(0, 0);
+                __Exit();
+            }
+        }
         else if(LOADIINE_MODE == LOADIINE_MODE_MII_MAKER)
         {
             // Restart mii maker
             SYSRelaunchTitle(0, 0);
             __Exit();
         }
-        //! TODO: add auto launch with SYSLaunchTitle for Karaoke and Art Atelier Modes
 
         //! *******************************************************************
         //! *                 Jump to original application                    *
