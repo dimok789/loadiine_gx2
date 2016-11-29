@@ -52,9 +52,9 @@ extern "C" {
 #define LIB_LOADER              0x1001
 
 /* Loadiine Modes */
-#define LOADIINE_MODE_MII_MAKER     0
+#define LOADIINE_MODE_MII_MAKER     1
 #define LOADIINE_MODE_SMASH_BROS    1
-#define LOADIINE_MODE_KARAOKE       2
+#define LOADIINE_MODE_KARAOKE       0
 #define LOADIINE_MODE_ART_ATELIER   3
 #define LOADIINE_MODE_DEFAULT	    255
 
