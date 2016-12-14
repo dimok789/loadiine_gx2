@@ -17,6 +17,7 @@ void my_PrepareTitle(CosAppXmlInfo *xmlKernelInfo)
     // check for Mii Maker RPX or Smash Bros RPX when we started (region independent check)
     if(GAME_LAUNCHED &&
        (   ((strncasecmp("ffl_app.rpx", xmlKernelInfo->rpx_name, FS_MAX_ENTNAME_SIZE) == 0) && (LOADIINE_MODE == LOADIINE_MODE_MII_MAKER))
+        || ((strncasecmp("homebrew_launcher.rpx", xmlKernelInfo->rpx_name, FS_MAX_ENTNAME_SIZE) == 0) && (LOADIINE_MODE == LOADIINE_MODE_MII_MAKER))
         || ((strncasecmp("cross_f.rpx", xmlKernelInfo->rpx_name, FS_MAX_ENTNAME_SIZE) == 0) && (LOADIINE_MODE == LOADIINE_MODE_SMASH_BROS))
         || ((strncasecmp("app.rpx", xmlKernelInfo->rpx_name, FS_MAX_ENTNAME_SIZE) == 0) && (LOADIINE_MODE == LOADIINE_MODE_KARAOKE))
         || ((strncasecmp("Treasure.rpx", xmlKernelInfo->rpx_name, FS_MAX_ENTNAME_SIZE) == 0) && (LOADIINE_MODE == LOADIINE_MODE_ART_ATELIER))))

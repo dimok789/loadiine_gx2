@@ -51,7 +51,8 @@ int __entry_menu(int argc, char **argv)
     if (OSGetTitleID != 0 &&
         OSGetTitleID() != 0x000500101004A200 && // mii maker eur
         OSGetTitleID() != 0x000500101004A100 && // mii maker usa
-        OSGetTitleID() != 0x000500101004A000)   // mii maker jpn
+        OSGetTitleID() != 0x000500101004A000 && // mii maker jpn
+        OSGetTitleID() != 0x0005000013374842)   // hbl channel
     {
         return EXIT_RELAUNCH_ON_LOAD;
     }
