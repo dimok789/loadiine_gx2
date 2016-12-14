@@ -25,7 +25,7 @@ DECL(int, AOC_ListTitle, u32 * num_titles, AOC_TitleListType* titles, u32 max_ti
 {
 	int result = real_AOC_ListTitle(num_titles, titles, max_titles, buffer, buffer_size);
 
-    if(GAME_LAUNCHED && gEnableDLCnL)
+    if(GAME_LAUNCHED && gEnableDLC)
     {
 		*num_titles = strlen(gAoc_Id) / 2;
 		aoc_title_dir = gAoc_Id;
@@ -60,13 +60,18 @@ DECL(int, AOC_OpenTitle, char * path, void * target, void * buffer, unsigned int
     return result;
 }
 
+
 DECL(int, AOC_GetPurchaseInfo, u32 * bResult, u64 title_id, u16 contentIndexes[], u32 numberOfContent, void * buffer, u32 buffer_size)
 {
     int result  = real_AOC_GetPurchaseInfo(bResult, title_id, contentIndexes, numberOfContent, buffer, buffer_size );
 		
-	if(GAME_LAUNCHED && gEnableDLCnL)
+	if(GAME_LAUNCHED && gEnableDLC)
     {
-		*bResult = 1;
+		for (u32 i = 0; i < numberOfContent; i++)
+		{
+			if (bResult != NULL)
+				*bResult++ = 1;
+		}
 		result = 0;
 	}
     
