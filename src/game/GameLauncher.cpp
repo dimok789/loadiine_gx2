@@ -19,6 +19,7 @@
 #include "settings/SettingsGameDefs.h"
 #include "utils/FileReplacer.h"
 #include "common/retain_vars.h"
+#include "patcher/aoc_patcher.h"
 
 /* RPX stuff */
 #define RPX_SH_STRNDX_OFFSET            0x0032
@@ -267,13 +268,18 @@ int GameLauncher::loadGameToMemory(const discHeader *header)
         CreateSubfolder((saveGamePath + "/" + updateFolder + "/" + saveGamePathCommon).c_str());
     }
 
-
-    std::string tempPath = CSettings::getValueAsString(CSettings::GamePath);
-    //! remove "sd:" and replace with "/vol/external01"
+    std::string tempPath = header->gamepath;
+    pos = tempPath.rfind('/');
+    if(pos != std::string::npos)
+        tempPath = tempPath.substr(0,pos);
+	
+	//! remove "sd:" and replace with "/vol/external01"
     pos = tempPath.find('/');
     if(pos != std::string::npos)
         tempPath = std::string(CAFE_OS_SD_PATH) + tempPath.substr(pos);
-
+	
+    log_printf("tempPath: %s\n", tempPath.c_str());
+	
     strlcpy(gamePathStruct.os_game_path_base, tempPath.c_str(), sizeof(gamePathStruct.os_game_path_base));
 
     tempPath = CSettings::getValueAsString(CSettings::GameSavePath);
@@ -328,7 +334,29 @@ int GameLauncher::loadGameToMemory(const discHeader *header)
     log_printf("sdk_version:     %i\n", cosAppXmlInfoStruct.sdk_version);
     log_printf("title_version:   %08X\n", cosAppXmlInfoStruct.title_version);
 
-    return 0;
+     if(gs.EnableDLC){
+		
+		char  aoc_title[AOC_TITLE_SIZE];
+	    const char  *aoc_title_dir;
+		std::string Aoc_id;
+
+		sprintf(aoc_title, "aoc0005000c%08x", (unsigned int)(cosAppXmlInfoStruct.title_id & 0xffffffff));
+
+		DirList dirList(header->gamepath, 0, DirList::Dirs);
+
+		for(int i = 0; i < dirList.GetFilecount(); i++){
+            aoc_title_dir = dirList.GetFilename(i);
+            if (strnicmp(aoc_title,aoc_title_dir, strlen(aoc_title_dir) - 2) == 0){
+				log_printf("aoc titles: %s\n" ,aoc_title_dir);
+                aoc_title_dir += strlen(aoc_title_dir) - 2;
+                Aoc_id += aoc_title_dir;
+            }
+        }
+        memcpy(gAoc_Id, Aoc_id.c_str(), Aoc_id.size() +1);
+		log_printf("aoc Total titles: %i titles\n" ,strlen(gAoc_Id) / 2);
+	}
+	
+	return 0;
 }
 
 bool GameLauncher::createFileList(const std::string & filepath){
@@ -351,13 +379,13 @@ bool GameLauncher::createFileList(const std::string & filepath){
         log_printf("Saving it to %s\n",filelist_name.c_str());
         progressWindow.setProgress(100.0f);
         FileReplacer replacer(filepath,CONTENT_PATH,"",progressWindow);
-        progressWindow.setTitle("");
+        progressWindow.setInfo("");
         std::string strBuffer = replacer.getFileListAsString();
         if(strBuffer.length() > 0){
             CFile  filelist(filelist_name, CFile::WriteOnly);
             if (filelist.isOpen()){
                 int ret = 0;
-                progressWindow.setTitle("Writing list to SD");
+                progressWindow.setInfo(tr("Writing list to SD"));
                 if((ret = filelist.write((u8*)strBuffer.c_str(), strBuffer.size())) == -1){
                     log_printf("Error on write: %d\n",ret);
                 }
@@ -433,8 +461,10 @@ int GameLauncher::LoadRpxRplToMem(const std::string & path, const std::string & 
         log_printf("Not enough memory for file %s\n", path.c_str());
         return NOT_ENOUGH_MEMORY;
     }
-
-    progressWindow.setTitle(strfmt("Loading file %s", name.c_str()));
+	std::string progressMsg = tr("Loading file");
+	progressMsg += " ";
+	progressMsg += name.c_str();
+    progressWindow.setInfo(progressMsg.c_str());
 
     // Copy rpl in memory
     while(bytesRead < fileSize)

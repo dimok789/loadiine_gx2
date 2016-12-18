@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Loadiine GX2\n"
 "Report-Msgid-Bugs-To: Glitch\n"
 "POT-Creation-Date: 2016-05-07 01:41+0200\n"
-"PO-Revision-Date: 2009-10-01 01:00+0200\n"
+"PO-Revision-Date: 2016-22-09 14:10+0200\n"
 "Last-Translator: Glitch\n"
 "Language-Team: Glitch\n"
 "Language: Japanese\n"
@@ -128,11 +128,11 @@ msgstr "起動方法を選んで"
 msgid "Log server control"
 msgstr "ログサーバー管理"
 
-msgid "Padcon settings"
-msgstr "Padconの設定"
+msgid "Read and write memory"
+msgstr ""
 
-msgid "PyGecko settings"
-msgstr "PyGeckoの設定"
+msgid "Turn off the screen Gamepad"
+msgstr ""
 
 msgid "Credits"
 msgstr "関与した人々"
@@ -156,18 +156,15 @@ msgid "Game Path"
 msgstr "ゲームパス"
 
 msgid "Game Save Path"
-msgstr "セーブパス"
+msgstr "セーブパス
 
 msgid "Game Save Mode"
-msgstr "セーブモード"
+msgstr "セーブモード
 
-msgid "Log Server Control"
-msgstr "ログサーバー管理"
-
-msgid "PyGecko"
+msgid "Load PyGecko"
 msgstr ""
 
-msgid "Padcon"
+msgid "Enable Padcon"
 msgstr ""
 
 msgid "HID-Pad"
@@ -190,3 +187,117 @@ msgstr "カラオケモード"
 
 msgid "Art Atelier Mode"
 msgstr "絵心教室アトリエモード"
+
+msgid "Download languages"
+msgstr ""
+
+msgid "Select language"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "Languages"
+msgstr ""
+
+msgid "Default"
+msgstr ""
+
+msgid "Brazilian"
+msgstr ""
+
+msgid "English"
+msgstr ""
+
+msgid "Chinese"
+msgstr ""
+
+msgid "Chinese_tr"
+msgstr "Traditional Chinese"
+
+msgid "French"
+msgstr ""
+
+msgid "German"
+msgstr ""
+
+msgid "Hungarian"
+msgstr ""
+
+msgid "Italian"
+msgstr ""
+
+msgid "Spanish"
+msgstr ""
+
+msgid "Swedish"
+msgstr ""
+
+msgid "Loaded language"
+msgstr ""
+
+msgid "Reloaded logger to change IP to settings IP"
+msgstr ""
+
+msgid "Loaded HID settings"
+msgstr ""
+
+msgid "Loaded resources"
+msgstr ""
+
+msgid "Loading game list"
+msgstr ""
+
+msgid "Loading Music"
+msgstr ""
+
+msgid "Initializing main"
+msgstr ""
+
+msgid "Download languages"
+msgstr ""
+
+msgid "Connecting.."
+msgstr ""
+
+msgid "Getting file list"
+msgstr ""
+
+msgid "Downloading files"
+msgstr ""
+
+msgid "Languages files:"
+msgstr "
+
+msgid "files left"
+msgstr ""
+
+msgid "Download 3D Covers"
+msgstr ""
+
+msgid "Ok
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Yes"
+msgstr ""
+
+msgid "No"
+msgstr ""
+
+msgid "Loading file"
+msgstr ""
+
+msgid "Writing list to SD"
+msgstr ""
+
+msgid "Creating filelist.txt:"
+msgstr ""
+
+msgid "entries found"
+msgstr ""
+
+msgid "Enable DLC no legitimate"
+msgstr ""

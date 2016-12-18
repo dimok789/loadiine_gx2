@@ -46,38 +46,6 @@ Application::Application()
     controller[3] = new WPadController(GuiTrigger::CHANNEL_4);
     controller[4] = new WPadController(GuiTrigger::CHANNEL_5);
 
-    CSettings::instance()->Load();
-
-    //! reload logger to change IP to settings IP
-    log_deinit();
-    log_init(CSettings::getValueAsString(CSettings::GameLogServerIp).c_str());
-
-    //! load HID settings
-    gHIDPADEnabled = CSettings::getValueAsU8(CSettings::HIDPadEnabled);
-
-    //! load resources
-    Resources::LoadFiles("sd:/wiiu/apps/loadiine_gx2/resources");
-
-    //! create bgMusic
-    if(CSettings::getValueAsString(CSettings::BgMusicPath).empty())
-    {
-        bgMusic = new GuiSound(Resources::GetFile("bgMusic.ogg"), Resources::GetFileSize("bgMusic.ogg"));
-    }
-    else
-    {
-        bgMusic = new GuiSound(CSettings::getValueAsString(CSettings::BgMusicPath).c_str());
-    }
-    bgMusic->SetLoop(true);
-    bgMusic->Play();
-    bgMusic->SetVolume(50);
-
-	//! load language
-    if(!CSettings::getValueAsString(CSettings::AppLanguage).empty())
-    {
-        std::string languagePath = "sd:/wiiu/apps/loadiine_gx2/languages/" + CSettings::getValueAsString(CSettings::AppLanguage) + ".lang";
-		gettextLoadLanguage(languagePath.c_str());
-    }
-
 	exitApplication = false;
 }
 
@@ -170,22 +138,64 @@ void Application::executeThread(void)
 {
     //! setup exceptions on the main GX2 core
     setup_os_exceptions();
-
-    log_printf("Loading game list\n");
-    GameList::instance()->loadUnfiltered();
-
-    log_printf("Initialize video\n");
-    video = new CVideo(GX2_TV_SCAN_MODE_720P, GX2_DRC_SINGLE);
-
-    log_printf("Video size %i x %i\n", video->getTvWidth(), video->getTvHeight());
-
-    //! setup default Font
+	
+	CSettings::instance()->Load();
+	
+	//! setup default Font
     log_printf("Initialize main font system\n");
     FreeTypeGX *fontSystem = new FreeTypeGX(Resources::GetFile("font.ttf"), Resources::GetFileSize("font.ttf"), true);
     GuiText::setPresetFont(fontSystem);
+	
+	//! initialize video
+	log_printf("Initialize video\n");
+    video = new CVideo(GX2_TV_SCAN_MODE_720P, GX2_DRC_SINGLE);
+    log_printf("Video size %i x %i\n", video->getTvWidth(), video->getTvHeight());
+	
+	//! initialize splash
+	mainStartUp = new MainStartUp(video);
+	
+	//! load language
+    if(!CSettings::getValueAsString(CSettings::AppLanguage).empty())
+    {
+        std::string languagePath = "sd:/wiiu/apps/loadiine_gx2/languages/" + CSettings::getValueAsString(CSettings::AppLanguage) + ".lang";
+		gettextLoadLanguage(languagePath.c_str());
+    }
+	mainStartUp->SetText(trNOOP("Loaded language"));
 
+    //! reload logger to change IP to settings IP
+    log_deinit();
+    log_init(CSettings::getValueAsString(CSettings::GameLogServerIp).c_str());
+	mainStartUp->SetText(trNOOP("Reloaded logger to change IP to settings IP"));
+	
+    //! load HID settings
+    gHIDPADEnabled = CSettings::getValueAsU8(CSettings::HIDPadEnabled);
+	mainStartUp->SetText(trNOOP("Loaded HID settings"));
+	
+    //! load resources
+    Resources::LoadFiles("sd:/wiiu/apps/loadiine_gx2/resources");
+	mainStartUp->SetText(trNOOP("Loaded resources"));
+	
+    log_printf("Loading game list\n");
+    GameList::instance()->loadUnfiltered();
+	mainStartUp->SetText(trNOOP("Loading game list"));
+	
+	//! create bgMusic
+	mainStartUp->SetText(trNOOP("Loading Music"));
+    if(CSettings::getValueAsString(CSettings::BgMusicPath).empty())
+    {
+        bgMusic = new GuiSound(Resources::GetFile("bgMusic.ogg"), Resources::GetFileSize("bgMusic.ogg"));
+    }
+    else
+    {
+        bgMusic = new GuiSound(CSettings::getValueAsString(CSettings::BgMusicPath).c_str());
+    }
+    bgMusic->SetLoop(true);
+    bgMusic->Play();
+    bgMusic->SetVolume(50);
+	
     log_printf("Initialize main window\n");
-
+	mainStartUp->SetText(trNOOP("Initializing main"));
+	
     mainWindow = new MainWindow(video->getTvWidth(), video->getTvHeight());
 
     log_printf("Entering main loop\n");
@@ -236,7 +246,7 @@ void Application::executeThread(void)
 	}
 
 	fadeOut();
-
+	
     delete mainWindow;
     delete fontSystem;
     delete video;

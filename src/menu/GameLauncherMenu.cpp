@@ -50,7 +50,7 @@ GameLauncherMenu::GameLauncherMenu(int gameIdx)
     , titleImageData(Resources::GetImageData("settingsTitle.png"))
     , titleImage(titleImageData)
     , extraSaveText(tr("Extra Save:"), 40, glm::vec4(0.8f, 0.8f, 0.8f, 1.0f))
-    , dlcEnableText(tr("Enable DLC Support:"), 40, glm::vec4(0.8f, 0.8f, 0.8f, 1.0f))
+    , dlcEnableText(tr("Enable DLC On SD:"), 40, glm::vec4(0.8f, 0.8f, 0.8f, 1.0f))
     , frameImageData(Resources::GetImageData("gameSettingsFrame.png"))
     , frameImage(frameImageData)
     , touchTrigger(GuiTrigger::CHANNEL_1, GuiTrigger::VPAD_TOUCH)
@@ -208,11 +208,11 @@ GameLauncherMenu::GameLauncherMenu(int gameIdx)
     extraSaveText.setScale(buttonscale*windowScale);
     dlcEnableText.setScale(buttonscale*windowScale);
     pathSelectBox.setScale(buttonscale* windowScale);
-
+	
     dlcEnableBox.setPosition(xpos*width + (saveModeSelectBox.getTopValueWidth()*saveModeSelectBox.getScale() /2.0) - (dlcEnableBox.getWidth()*dlcEnableBox.getScale()/2.0), yOffset);
     dlcEnableText.setPosition(xpos*width - (saveModeSelectBox.getTopValueWidth()*saveModeSelectBox.getScale() /2.0)+ (dlcEnableText.getTextWidth()/2.0), yOffset);
     yOffset += saveModeSelectBox.getTopValueHeight() * saveModeSelectBox.getScale();
-
+	
     saveModeSelectBox.setPosition(xpos*width, yOffset);
     yOffset += saveModeSelectBox.getTopValueHeight() * saveModeSelectBox.getScale();
 
@@ -489,7 +489,7 @@ void GameLauncherMenu::OnOKButtonClick(GuiButton *button, const GuiController *c
 {
     CSettings::setValueAsU16(CSettings::GameStartIndex,gameIdx);
     gameLauncherMenuFrame.setState(STATE_DISABLED);
-    progresswindow.setTitle(tr("Saving game settings!"));
+    progresswindow.setInfo(tr("Saving game settings!"));
     progresswindow.setProgress(0.0f);
     progresswindow.setVisible(true);
     bringToFront(&progresswindow);
@@ -679,6 +679,7 @@ void GameLauncherMenu::update(GuiController *c)
             extraSaveBox.setState(STATE_DISABLED);
             extraSaveText.setState(STATE_DISABLED);
         }
+		
         bChanged = false;
     }
     GuiFrame::update(c);

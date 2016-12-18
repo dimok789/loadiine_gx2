@@ -23,7 +23,7 @@
 class ButtonChoiceMenu : public GuiFrame, public sigslot::has_slots<>
 {
 public:
-    ButtonChoiceMenu(int w, int h, const std::string & titleText, const std::vector<std::string> & buttonNames, int selected);
+    ButtonChoiceMenu(int w, int h, const std::string & titleText, const char *nameTitleImage, const std::vector<std::string> & buttonNames, int selected);
     virtual ~ButtonChoiceMenu();
 
     sigslot::signal2<GuiElement *, int> settingsOkClicked;

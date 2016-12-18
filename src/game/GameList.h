@@ -54,8 +54,9 @@ class GameList
 		std::vector<discHeader> & getFullGameList(void) { return fullGameList; }
 	protected:
 		GameList() : selectedGame(0) { };
-
-		int readGameList();
+		
+		void readGameList();
+		std::vector<std::string> getGameList(std::string gamePath);
 
 		void internalFilterList(std::vector<discHeader> & fullList);
 		void internalLoadUnfiltered(std::vector<discHeader> & fullList);

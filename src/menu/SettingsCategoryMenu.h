@@ -20,11 +20,12 @@
 #include "gui/Gui.h"
 #include "settings/SettingsDefs.h"
 #include "gui/Scrollbar.h"
+#include "language/UpdateLanguage.h"
 
 class SettingsCategoryMenu : public GuiFrame, public sigslot::has_slots<>
 {
 public:
-    SettingsCategoryMenu(int w, int h, const std::string & titleText, const SettingType * categorySettings, int settingsCount);
+	SettingsCategoryMenu(int w, int h, const std::string & titleText, const char *nameTitleImage, const SettingType * categorySettings, int settingsCount);
     virtual ~SettingsCategoryMenu();
 
      void update(GuiController *c);
@@ -37,6 +38,8 @@ private:
         settingsBackClicked(this);
     }
 
+	void OnOpenEffectFinish(GuiElement *element);
+ 	void OnUpdateLanguageFinish(GuiElement *element);
     void OnSubMenuCloseClicked(GuiElement *element);
     void OnSubMenuOpenEffectFinish(GuiElement *element);
     void OnSubMenuCloseEffectFinish(GuiElement *element);
@@ -51,6 +54,8 @@ private:
 
     const SettingType * categorySettings;
     const int categorySettingsCount;
+	
+	const char * categoryNameTitle;
 
     int currentYOffset;
 
@@ -73,6 +78,8 @@ private:
     typedef struct
     {
         GuiImage *settingImage;
+		GuiImage *settingIcon;
+ 		GuiImage *settingIconOver;
         GuiImage *settingImageSelected;
         GuiButton *settingButton;
         GuiText *settingLabel;

@@ -105,7 +105,11 @@ void CSettings::SetDefault()
     settingsNames[ConsoleRegionCode] = "ConsoleRegionCode";
     settingsValues[ConsoleRegionCode].dataType = TypeString;
     settingsValues[ConsoleRegionCode].strValue = new std::string("EN");
-
+	
+	settingsNames[LanguagesPath] = "LanguagesPath";
+    settingsValues[LanguagesPath].dataType = TypeString;
+    settingsValues[LanguagesPath].strValue = new std::string(SD_PATH WIIU_PATH "/apps/loadiine_gx2/languages");
+ 
 	settingsNames[AppLanguage] = "AppLanguage";
     settingsValues[AppLanguage].dataType = TypeString;
     settingsValues[AppLanguage].strValue = new std::string();
