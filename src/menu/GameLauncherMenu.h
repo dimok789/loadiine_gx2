@@ -51,7 +51,6 @@ public:
         ExtraSave,
         UpdatePath,
        	EnableDLC,
-		EnableDLCnL,
        	Quit,
        	MAX_VALUE
     };
@@ -89,7 +88,6 @@ private:
     void OnSelectBoxValueChanged(GuiSelectBox * selectbox,std::string value);
     void OnExtraSaveValueChanged(GuiToggle * toggle,bool value);
     void OnDLCEnableValueChanged(GuiToggle * toggle,bool value);
-	void OnDLCnLEnableValueChanged(GuiToggle * toggle,bool value);
 
     void OnGotHeaderFromMain(GuiElement *button, int gameIdx);
     void OnLeftArrowClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
@@ -128,7 +126,6 @@ private:
 
     GuiText extraSaveText;
     GuiText dlcEnableText;
-	GuiText dlcnlEnableText;
 
     GuiImageData *frameImageData;
     GuiImage frameImage;
@@ -155,7 +152,6 @@ private:
 
     GuiSwitch extraSaveBox;
     GuiSwitch dlcEnableBox;
-	GuiSwitch dlcnlEnableBox;
 
     const discHeader *header;
     GameSettings gamesettings;
