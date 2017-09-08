@@ -4,189 +4,245 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Loadiine GX2\n"
-"Report-Msgid-Bugs-To: Glitch\n"
-"POT-Creation-Date: 2016-05-07 01:41+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-08-28 11:40+0200\n"
 "PO-Revision-Date: 2009-10-01 01:00+0200\n"
 "Last-Translator: Glitch\n"
 "Language-Team: Glitch\n"
 "Language: Japanese\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: src/menu/CreditsMenu.cpp:69
 msgid "Loadiine GX2"
 msgstr ""
 
+#: src/menu/CreditsMenu.cpp:76
 msgid "Official Site:"
 msgstr "公式サイト"
 
+#: src/menu/CreditsMenu.cpp:89
 msgid "Coding:"
 msgstr "コード:"
 
+#: src/menu/CreditsMenu.cpp:102
 msgid "Design:"
 msgstr "設計:"
 
+#: src/menu/CreditsMenu.cpp:108
 msgid "Some guy who doesn't want to be named."
 msgstr "名前言われたくないやつ."
 
+#: src/menu/CreditsMenu.cpp:115
 msgid "Testing:"
 msgstr "テストした人:"
 
+#: src/menu/CreditsMenu.cpp:121
 msgid "Cyan / Maschell / n1ghty / OnionKnight and many more"
 msgstr "Cyan / Maschell / n1ghty / OnionKnight などなど"
 
+#: src/menu/CreditsMenu.cpp:128
 msgid "Social Presence:"
 msgstr "社会的存在感:"
 
+#: src/menu/CreditsMenu.cpp:141
 msgid "Based on:"
 msgstr "源:"
 
+#: src/menu/CreditsMenu.cpp:147
 msgid "Loadiine v4.0 by Golden45 and Dimok"
 msgstr "Golden45とDimokのLoadiine v4.0"
 
+#: src/menu/CreditsMenu.cpp:154
 msgid "Big thanks to:"
 msgstr "本当にありがとう:"
 
+#: src/menu/CreditsMenu.cpp:160
 msgid "lustar for GameTDB and hosting covers / disc images"
 msgstr "カバーとディスク画像ホスティング＆GameTDBのlustarさん"
 
+#: src/menu/CreditsMenu.cpp:167
 msgid "Marionumber1 for his kernel exploit"
 msgstr "カーネルエクスプロイト作ったのMarionumber1さん"
 
+#: src/menu/CreditsMenu.cpp:174
 msgid "The whole libwiiu team and it's contributors."
 msgstr "libwiiuチームのみんなと協力者がやりましたのみんな."
 
+#: src/menu/GameLauncherMenu.cpp:52
 msgid "Extra Save:"
 msgstr "別セーブ:"
 
+#: src/menu/GameLauncherMenu.cpp:53
 msgid "Enable DLC Support:"
 msgstr "DLC使用可能:"
 
+#: src/menu/GameLauncherMenu.cpp:76
 msgid "Update Folder"
 msgstr "更新フォルダ"
 
+#: src/menu/GameLauncherMenu.cpp:77
 msgid "Save Mode"
 msgstr "セーブモード"
 
+#: src/menu/GameLauncherMenu.cpp:78 src/menu/SettingsMenu.cpp:75
 msgid "Launch Mode"
 msgstr "起動モード"
 
+#: src/menu/GameLauncherMenu.cpp:89 src/menu/GameLauncherMenu.cpp:94
+#, fuzzy
 msgid "<Settings Default>"
 msgstr "<デフォルト設定>"
 
+#: src/menu/GameLauncherMenu.cpp:492
 msgid "Saving game settings!"
 msgstr "ゲームの設定を保存する!"
 
+#: src/menu/SettingsMenu.cpp:32
 msgid "Off"
 msgstr "オフ"
 
+#: src/menu/SettingsMenu.cpp:33
 msgid "On"
 msgstr "オン"
 
+#: src/menu/SettingsMenu.cpp:38
 msgid "Icon Carousel"
 msgstr "アイコンカルーセル"
 
+#: src/menu/SettingsMenu.cpp:39
 msgid "Grid View"
 msgstr "グリッドビュー"
 
+#: src/menu/SettingsMenu.cpp:40
 msgid "Cover Carousel"
 msgstr "カバーカルーセル"
 
+#: src/menu/SettingsMenu.cpp:52
 msgid "Background customizations"
 msgstr "背景のカスタマイズ"
 
+#: src/menu/SettingsMenu.cpp:52
 msgid "GUI"
 msgstr ""
 
+#: src/menu/SettingsMenu.cpp:52
 msgid "Game View Selection"
 msgstr "ゲーム表示の設定"
 
+#: src/menu/SettingsMenu.cpp:53
 msgid "Adjust log server IP and port"
 msgstr "ログサーバーのIPとポートを設定"
 
+#: src/menu/SettingsMenu.cpp:53
 msgid "Customize games path"
 msgstr "ゲームパス変更"
 
+#: src/menu/SettingsMenu.cpp:53
 msgid "Customize save path"
 msgstr "セーブパス変更"
 
+#: src/menu/SettingsMenu.cpp:53
 msgid "Loader"
 msgstr "ローダー"
 
+#: src/menu/SettingsMenu.cpp:53
 msgid "Set save mode"
 msgstr "セーブモードの設定"
 
+#: src/menu/SettingsMenu.cpp:54
 msgid "Game"
 msgstr "ゲーム"
 
+#: src/menu/SettingsMenu.cpp:54
+#, fuzzy
 msgid "HID settings"
 msgstr "HID設定"
 
+#: src/menu/SettingsMenu.cpp:54
 msgid "Launch method selection"
 msgstr "起動方法を選んで"
 
+#: src/menu/SettingsMenu.cpp:54
 msgid "Log server control"
 msgstr "ログサーバー管理"
 
+#: src/menu/SettingsMenu.cpp:54
 msgid "Padcon settings"
 msgstr "Padconの設定"
 
+#: src/menu/SettingsMenu.cpp:54
 msgid "PyGecko settings"
 msgstr "PyGeckoの設定"
 
+#: src/menu/SettingsMenu.cpp:55
 msgid "Credits"
 msgstr "関与した人々"
 
+#: src/menu/SettingsMenu.cpp:55
 msgid "Credits to all contributors"
 msgstr "協力者を称賛する"
 
+#: src/menu/SettingsMenu.cpp:60
 msgid "Game View TV"
 msgstr "テレビに映る"
 
+#: src/menu/SettingsMenu.cpp:61
 msgid "Game View DRC"
 msgstr "DRCに映る"
 
+#: src/menu/SettingsMenu.cpp:66
 msgid "Show Game Settings"
 msgstr "ゲームの設定を表示する"
 
+#: src/menu/SettingsMenu.cpp:67
 msgid "Host IP"
 msgstr "ホストIP"
 
+#: src/menu/SettingsMenu.cpp:68
 msgid "Game Path"
 msgstr "ゲームパス"
 
+#: src/menu/SettingsMenu.cpp:69
 msgid "Game Save Path"
 msgstr "セーブパス"
 
+#: src/menu/SettingsMenu.cpp:70
 msgid "Game Save Mode"
 msgstr "セーブモード"
 
+#: src/menu/SettingsMenu.cpp:76
 msgid "Log Server Control"
 msgstr "ログサーバー管理"
 
+#: src/menu/SettingsMenu.cpp:77
+#, fuzzy
 msgid "PyGecko"
-msgstr ""
+msgstr "PyGeckoの設定"
 
+#: src/menu/SettingsMenu.cpp:78
 msgid "Padcon"
 msgstr ""
 
+#: src/menu/SettingsMenu.cpp:79
 msgid "HID-Pad"
 msgstr ""
 
-msgid "Shared Mode"
-msgstr "共有モード"
+#~ msgid "Art Atelier Mode"
+#~ msgstr "絵心教室アトリエモード"
 
-msgid "Unique Mode"
-msgstr "特有モード"
+#~ msgid "Shared Mode"
+#~ msgstr "共有モード"
 
-msgid "Mii Maker Mode"
-msgstr "Miiスタジオモード"
+#~ msgid "Unique Mode"
+#~ msgstr "特有モード"
 
-msgid "Smash Bros Mode"
-msgstr "スマブラモード"
+#~ msgid "Mii Maker Mode"
+#~ msgstr "Miiスタジオモード"
 
-msgid "Karaoke Mode"
-msgstr "カラオケモード"
+#~ msgid "Smash Bros Mode"
+#~ msgstr "スマブラモード"
 
-msgid "Art Atelier Mode"
-msgstr "絵心教室アトリエモード"
+#~ msgid "Karaoke Mode"
+#~ msgstr "カラオケモード"

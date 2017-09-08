@@ -5,191 +5,249 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Loadiine GX2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-28 11:41+0200\n"
+"POT-Creation-Date: 2016-08-28 11:40+0200\n"
 "PO-Revision-Date: 2016-04-02 07:28+0200\n"
 "Last-Translator: MasQchips\n"
 "Language-Team: MasQchips\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
 "Language: Español\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
 
+#: src/menu/CreditsMenu.cpp:69
 msgid "Loadiine GX2"
 msgstr ""
 
+#: src/menu/CreditsMenu.cpp:76
 msgid "Official Site:"
 msgstr "Sitio Oficial:"
 
+#: src/menu/CreditsMenu.cpp:89
 msgid "Coding:"
 msgstr "Codificación:"
 
+#: src/menu/CreditsMenu.cpp:102
 msgid "Design:"
 msgstr "Diseño:"
 
+#: src/menu/CreditsMenu.cpp:108
 msgid "Some guy who doesn't want to be named."
 msgstr "Alguien que no quiso ser identificado."
 
+#: src/menu/CreditsMenu.cpp:115
 msgid "Testing:"
 msgstr "Pruebas:"
 
+#: src/menu/CreditsMenu.cpp:121
 msgid "Cyan / Maschell / n1ghty / OnionKnight and many more"
 msgstr "Cyan / Maschell / n1ghty / OnionKnight y muchos mas"
 
+#: src/menu/CreditsMenu.cpp:128
 msgid "Social Presence:"
 msgstr "Presencia Social:"
 
+#: src/menu/CreditsMenu.cpp:141
 msgid "Based on:"
 msgstr "Basado en:"
 
+#: src/menu/CreditsMenu.cpp:147
 msgid "Loadiine v4.0 by Golden45 and Dimok"
 msgstr "Loadiine v4.0 de Golden45 y Dimok"
 
+#: src/menu/CreditsMenu.cpp:154
 msgid "Big thanks to:"
 msgstr "Muchas Gracias a:"
 
+#: src/menu/CreditsMenu.cpp:160
 msgid "lustar for GameTDB and hosting covers / disc images"
 msgstr "lustar de GameTDB y alojamiento de caratulas"
 
+#: src/menu/CreditsMenu.cpp:167
 msgid "Marionumber1 for his kernel exploit"
 msgstr "Marionumber1 por su kernel exploit"
 
+#: src/menu/CreditsMenu.cpp:174
 msgid "The whole libwiiu team and it's contributors."
 msgstr "Todo el equipo de libwiiu y sus colaboradores."
 
+#: src/menu/GameLauncherMenu.cpp:52
 msgid "Extra Save:"
 msgstr ""
 
+#: src/menu/GameLauncherMenu.cpp:53
 msgid "Enable DLC Support:"
 msgstr "Activar Soporte DLC"
 
+#: src/menu/GameLauncherMenu.cpp:76
 msgid "Update Folder"
 msgstr "Actualizar Carpeta"
 
+#: src/menu/GameLauncherMenu.cpp:77
 msgid "Save Mode"
 msgstr "Modo de Guardado"
 
+#: src/menu/GameLauncherMenu.cpp:78 src/menu/SettingsMenu.cpp:75
 msgid "Launch Mode"
 msgstr "Modo de Carga"
 
+#: src/menu/GameLauncherMenu.cpp:89 src/menu/GameLauncherMenu.cpp:94
+#, fuzzy
 msgid "<Settings Default>"
 msgstr "<Ajustes por Defecto>"
 
+#: src/menu/GameLauncherMenu.cpp:492
 msgid "Saving game settings!"
 msgstr "Guardando ajustes del juego!"
 
+#: src/menu/SettingsMenu.cpp:32
 msgid "Off"
 msgstr "Apagado"
 
+#: src/menu/SettingsMenu.cpp:33
 msgid "On"
 msgstr "Encendido"
 
+#: src/menu/SettingsMenu.cpp:38
 msgid "Icon Carousel"
 msgstr "Carrusel de Iconos"
 
+#: src/menu/SettingsMenu.cpp:39
 msgid "Grid View"
 msgstr "Vista de Rejilla"
 
+#: src/menu/SettingsMenu.cpp:40
 msgid "Cover Carousel"
 msgstr "Carrusel de Caratulas"
 
+#: src/menu/SettingsMenu.cpp:52
 msgid "Background customizations"
 msgstr "Personalización del fondo"
 
+#: src/menu/SettingsMenu.cpp:52
 msgid "GUI"
 msgstr ""
 
+#: src/menu/SettingsMenu.cpp:52
 msgid "Game View Selection"
 msgstr "Vista de selección del juego"
 
+#: src/menu/SettingsMenu.cpp:53
 msgid "Adjust log server IP and port"
 msgstr "Ajustar IP y puerto del servidor"
 
+#: src/menu/SettingsMenu.cpp:53
 msgid "Customize games path"
 msgstr "Personalizar ruta del juego"
 
+#: src/menu/SettingsMenu.cpp:53
 msgid "Customize save path"
 msgstr "Personalizar ruta de guardado"
 
+#: src/menu/SettingsMenu.cpp:53
 msgid "Loader"
 msgstr "Cargador"
 
+#: src/menu/SettingsMenu.cpp:53
 msgid "Set save mode"
 msgstr "Establecer modo de guardado"
 
+#: src/menu/SettingsMenu.cpp:54
 msgid "Game"
 msgstr "Juego"
 
+#: src/menu/SettingsMenu.cpp:54
+#, fuzzy
 msgid "HID settings"
 msgstr "Configuracion HID"
 
+#: src/menu/SettingsMenu.cpp:54
 msgid "Launch method selection"
 msgstr "Seleccionar metodo de carga"
 
+#: src/menu/SettingsMenu.cpp:54
 msgid "Log server control"
 msgstr "Iniciar servidor"
 
+#: src/menu/SettingsMenu.cpp:54
+#, fuzzy
 msgid "Padcon settings"
-msgstr ""
+msgstr "Configuracion HID"
 
+#: src/menu/SettingsMenu.cpp:54
+#, fuzzy
 msgid "PyGecko settings"
-msgstr ""
+msgstr "Configuracion HID"
 
+#: src/menu/SettingsMenu.cpp:55
 msgid "Credits"
 msgstr "Creditos"
 
+#: src/menu/SettingsMenu.cpp:55
 msgid "Credits to all contributors"
 msgstr "Créditos de los colaboladores"
 
+#: src/menu/SettingsMenu.cpp:60
 msgid "Game View TV"
 msgstr "Vista del Juego TV"
 
+#: src/menu/SettingsMenu.cpp:61
 msgid "Game View DRC"
 msgstr "Vista del Juego DRC"
 
+#: src/menu/SettingsMenu.cpp:66
 msgid "Show Game Settings"
 msgstr "Mostrar Configuracion del Juego"
 
+#: src/menu/SettingsMenu.cpp:67
 msgid "Host IP"
 msgstr ""
 
+#: src/menu/SettingsMenu.cpp:68
 msgid "Game Path"
 msgstr "Ruta del Juego"
 
+#: src/menu/SettingsMenu.cpp:69
 msgid "Game Save Path"
 msgstr "Ruta de guardado"
 
+#: src/menu/SettingsMenu.cpp:70
 msgid "Game Save Mode"
 msgstr "Modo de Guardado"
 
+#: src/menu/SettingsMenu.cpp:76
 msgid "Log Server Control"
 msgstr "Control de Registros"
 
+#: src/menu/SettingsMenu.cpp:77
+#, fuzzy
 msgid "PyGecko"
-msgstr ""
+msgstr "Configuracion HID"
 
+#: src/menu/SettingsMenu.cpp:78
 msgid "Padcon"
 msgstr ""
 
+#: src/menu/SettingsMenu.cpp:79
 msgid "HID-Pad"
 msgstr ""
 
-msgid "Shared Mode"
-msgstr "Modo Compartido"
+#~ msgid "Art Atelier Mode"
+#~ msgstr "Modo Art Atelier"
 
-msgid "Unique Mode"
-msgstr "Modo Unico"
+#~ msgid "Shared Mode"
+#~ msgstr "Modo Compartido"
 
-msgid "Mii Maker Mode"
-msgstr "Modo Mii Maker"
+#~ msgid "Unique Mode"
+#~ msgstr "Modo Unico"
 
-msgid "Smash Bros Mode"
-msgstr "Modo Smash Bros"
+#~ msgid "Mii Maker Mode"
+#~ msgstr "Modo Mii Maker"
 
-msgid "Karaoke Mode"
-msgstr "Modo Karaoke"
+#~ msgid "Smash Bros Mode"
+#~ msgstr "Modo Smash Bros"
 
-msgid "Art Atelier Mode"
-msgstr "Modo Art Atelier"
+#~ msgid "Karaoke Mode"
+#~ msgstr "Modo Karaoke"
 
 #~ msgid "Log Server IP"
 #~ msgstr "IP del Servidor"

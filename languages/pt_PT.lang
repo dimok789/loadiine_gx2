@@ -5,188 +5,251 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Loadiine GX2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-28 11:41+0200\n"
+"POT-Creation-Date: 2016-08-28 11:40+0200\n"
 "PO-Revision-Date: 2009-10-01 01:00+0200\n"
 "Last-Translator: PTKickass\n"
 "Language-Team: PTKickass\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
 "Language: Portuguese(Portugal)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
 
+#: src/menu/CreditsMenu.cpp:69
 msgid "Loadiine GX2"
 msgstr "Loadiine GX2"
 
+#: src/menu/CreditsMenu.cpp:76
 msgid "Official Site:"
 msgstr "Site oficial:"
 
+#: src/menu/CreditsMenu.cpp:89
 msgid "Coding:"
 msgstr "Programação:"
 
+#: src/menu/CreditsMenu.cpp:102
 msgid "Design:"
 msgstr "Design:"
 
+#: src/menu/CreditsMenu.cpp:108
 msgid "Some guy who doesn't want to be named."
 msgstr "Um gajo qualquer que não quer ser mencionado."
 
+#: src/menu/CreditsMenu.cpp:115
 msgid "Testing:"
 msgstr "Testadores:"
 
+#: src/menu/CreditsMenu.cpp:121
 msgid "Cyan / Maschell / n1ghty / OnionKnight and many more"
 msgstr "Cyan / Maschell / n1ghty / OnionKnight e muitos mais"
 
+#: src/menu/CreditsMenu.cpp:128
 msgid "Social Presence:"
 msgstr "Representante social:"
 
+#: src/menu/CreditsMenu.cpp:141
 msgid "Based on:"
 msgstr "Baseado em:"
 
+#: src/menu/CreditsMenu.cpp:147
 msgid "Loadiine v4.0 by Golden45 and Dimok"
 msgstr "Loadiine v4.0 por Golden45 e Dimok"
 
+#: src/menu/CreditsMenu.cpp:154
 msgid "Big thanks to:"
 msgstr "Um grande obrigado a:"
 
+#: src/menu/CreditsMenu.cpp:160
 msgid "lustar for GameTDB and hosting covers / disc images"
 msgstr "lustar da GameTDB por hospedar imagens de capas / discos"
 
+#: src/menu/CreditsMenu.cpp:167
 msgid "Marionumber1 for his kernel exploit"
 msgstr "Marionumber1 pelo seu kernel exploit"
 
+#: src/menu/CreditsMenu.cpp:174
 msgid "The whole libwiiu team and it's contributors."
 msgstr "Toda a equipa libwiiu e aos seus contribuidores."
 
+#: src/menu/GameLauncherMenu.cpp:52
 msgid "Extra Save:"
 msgstr "Jogo guardado extra:"
 
+#: src/menu/GameLauncherMenu.cpp:53
 msgid "Enable DLC Support:"
 msgstr "Ativar suporte a DLC:"
 
+#: src/menu/GameLauncherMenu.cpp:76
 msgid "Update Folder"
 msgstr "Pasta update"
 
+#: src/menu/GameLauncherMenu.cpp:77
 msgid "Save Mode"
 msgstr "Modo de guardamento"
 
+#: src/menu/GameLauncherMenu.cpp:78 src/menu/SettingsMenu.cpp:75
 msgid "Launch Mode"
 msgstr "Modo de carregamento"
 
+#: src/menu/GameLauncherMenu.cpp:89 src/menu/GameLauncherMenu.cpp:94
+#, fuzzy
 msgid "<Settings Default>"
 msgstr "<Opções Predefinidas>"
 
+#: src/menu/GameLauncherMenu.cpp:492
 msgid "Saving game settings!"
 msgstr "A guardar opções do jogo!"
 
+#: src/menu/SettingsMenu.cpp:32
 msgid "Off"
 msgstr "Desligado"
 
+#: src/menu/SettingsMenu.cpp:33
 msgid "On"
 msgstr "Ligado"
 
+#: src/menu/SettingsMenu.cpp:38
 msgid "Icon Carousel"
 msgstr "Carrocel de Ícones"
 
+#: src/menu/SettingsMenu.cpp:39
 msgid "Grid View"
 msgstr "Vista em Grade"
 
+#: src/menu/SettingsMenu.cpp:40
 msgid "Cover Carousel"
 msgstr "Carrocel de Capas"
 
+#: src/menu/SettingsMenu.cpp:52
 msgid "Background customizations"
 msgstr "Customizações de fundo"
 
+#: src/menu/SettingsMenu.cpp:52
 msgid "GUI"
 msgstr "Interface"
 
+#: src/menu/SettingsMenu.cpp:52
 msgid "Game View Selection"
 msgstr "Tipo de vista de jogos"
 
+#: src/menu/SettingsMenu.cpp:53
 msgid "Adjust log server IP and port"
 msgstr "Ajustar a porta e IP do servidor de log"
 
+#: src/menu/SettingsMenu.cpp:53
 msgid "Customize games path"
 msgstr "Mudar localização de jogos"
 
+#: src/menu/SettingsMenu.cpp:53
 msgid "Customize save path"
 msgstr "Mudar localização de jogos guardados"
 
+#: src/menu/SettingsMenu.cpp:53
 msgid "Loader"
 msgstr "Carregador"
 
+#: src/menu/SettingsMenu.cpp:53
 msgid "Set save mode"
 msgstr "Definir modo de guardamento"
 
+#: src/menu/SettingsMenu.cpp:54
 msgid "Game"
 msgstr "Jogo"
 
+#: src/menu/SettingsMenu.cpp:54
+#, fuzzy
 msgid "HID settings"
 msgstr "Definições de HID"
 
+#: src/menu/SettingsMenu.cpp:54
 msgid "Launch method selection"
 msgstr "Modo de carregamento"
 
+#: src/menu/SettingsMenu.cpp:54
 msgid "Log server control"
 msgstr "Controlo do servidor de log"
 
+#: src/menu/SettingsMenu.cpp:54
 msgid "Padcon settings"
 msgstr "Definições do Padcon"
 
+#: src/menu/SettingsMenu.cpp:54
 msgid "PyGecko settings"
 msgstr "Definições do PyGecko"
 
+#: src/menu/SettingsMenu.cpp:55
 msgid "Credits"
 msgstr "Créditos"
 
+#: src/menu/SettingsMenu.cpp:55
 msgid "Credits to all contributors"
 msgstr "Créditos a todos os contribuidores"
 
+#: src/menu/SettingsMenu.cpp:60
 msgid "Game View TV"
 msgstr "Vista de jogos - TV"
 
+#: src/menu/SettingsMenu.cpp:61
 msgid "Game View DRC"
 msgstr "Vista de jogos - DRC"
 
+#: src/menu/SettingsMenu.cpp:66
 msgid "Show Game Settings"
 msgstr "Mostrar definições de jogos"
 
+#: src/menu/SettingsMenu.cpp:67
 msgid "Host IP"
 msgstr "IP do hospedeiro"
 
+#: src/menu/SettingsMenu.cpp:68
 msgid "Game Path"
 msgstr "Localização de jogos"
 
+#: src/menu/SettingsMenu.cpp:69
 msgid "Game Save Path"
 msgstr "Localização de jogos guardados"
 
+#: src/menu/SettingsMenu.cpp:70
 msgid "Game Save Mode"
 msgstr "Modo de guardamento"
 
+#: src/menu/SettingsMenu.cpp:76
 msgid "Log Server Control"
 msgstr "Controlo do servidor de log"
 
+#: src/menu/SettingsMenu.cpp:77
 msgid "PyGecko"
 msgstr "PyGecko"
 
+#: src/menu/SettingsMenu.cpp:78
 msgid "Padcon"
 msgstr "Padcon"
 
+#: src/menu/SettingsMenu.cpp:79
 msgid "HID-Pad"
 msgstr "HID-Pad"
 
-msgid "Shared Mode"
-msgstr "Modo partilhado"
+#, fuzzy
+#~ msgid "HID-Pad Network"
+#~ msgstr "HID-Pad"
 
-msgid "Unique Mode"
-msgstr "Modo único"
+#, fuzzy
+#~ msgid "HID-Pad Rumble"
+#~ msgstr "HID-Pad"
 
-msgid "Mii Maker Mode"
-msgstr "Modo Criador Mii"
+#~ msgid "Art Atelier Mode"
+#~ msgstr "Modo Art Atelier"
 
-msgid "Smash Bros Mode"
-msgstr "Modo Smash Bros."
+#~ msgid "Shared Mode"
+#~ msgstr "Modo partilhado"
 
-msgid "Karaoke Mode"
-msgstr "Modo Karaoke"
+#~ msgid "Unique Mode"
+#~ msgstr "Modo único"
 
-msgid "Art Atelier Mode"
-msgstr "Modo Art Atelier"
+#~ msgid "Mii Maker Mode"
+#~ msgstr "Modo Criador Mii"
+
+#~ msgid "Smash Bros Mode"
+#~ msgstr "Modo Smash Bros."
+
+#~ msgid "Karaoke Mode"
+#~ msgstr "Modo Karaoke"

@@ -9,187 +9,249 @@ msgstr ""
 "PO-Revision-Date: 2016-04-05 5:52+0200\n"
 "Last-Translator: Cava\n"
 "Language-Team: Cava\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
 "Language: magyar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
 
+#: src/menu/CreditsMenu.cpp:69
 msgid "Loadiine GX2"
 msgstr ""
 
+#: src/menu/CreditsMenu.cpp:76
 msgid "Official Site:"
 msgstr "Hivatalos Oldal:"
 
+#: src/menu/CreditsMenu.cpp:89
 msgid "Coding:"
 msgstr "Kódolás:"
 
+#: src/menu/CreditsMenu.cpp:102
 msgid "Design:"
 msgstr "Kinézet:"
 
+#: src/menu/CreditsMenu.cpp:108
 msgid "Some guy who doesn't want to be named."
 msgstr "Néhány srác, aki nem akarja, hogy meg legyen nevezve."
 
+#: src/menu/CreditsMenu.cpp:115
+#, fuzzy
 msgid "Testing:"
 msgstr "Tesztelés:"
 
+#: src/menu/CreditsMenu.cpp:121
 msgid "Cyan / Maschell / n1ghty / OnionKnight and many more"
 msgstr "Cyan / Maschell / n1ghty / OnionKnight és még sokan mások"
 
+#: src/menu/CreditsMenu.cpp:128
 msgid "Social Presence:"
 msgstr "Társadalmi Jelenlét:"
 
+#: src/menu/CreditsMenu.cpp:141
 msgid "Based on:"
 msgstr "Ennek alapján készült:"
 
+#: src/menu/CreditsMenu.cpp:147
 msgid "Loadiine v4.0 by Golden45 and Dimok"
 msgstr "Loadiine v4.0 Golden45-től és Dimok-tól"
 
+#: src/menu/CreditsMenu.cpp:154
 msgid "Big thanks to:"
 msgstr "Hatalmas köszönet:"
 
+#: src/menu/CreditsMenu.cpp:160
 msgid "lustar for GameTDB and hosting covers / disc images"
 msgstr "lustar-nak a GameTDB miatt és a borítókért / lemezek képeiért"
 
+#: src/menu/CreditsMenu.cpp:167
 msgid "Marionumber1 for his kernel exploit"
 msgstr "Marionumber1-nek a kernel exploitért"
 
+#: src/menu/CreditsMenu.cpp:174
 msgid "The whole libwiiu team and it's contributors."
 msgstr "Az egész libwiiu csapatnak és a közreműködőknek."
 
+#: src/menu/GameLauncherMenu.cpp:52
 msgid "Extra Save:"
 msgstr ""
 
+#: src/menu/GameLauncherMenu.cpp:53
 msgid "Enable DLC Support:"
 msgstr ""
 
+#: src/menu/GameLauncherMenu.cpp:76
 msgid "Update Folder"
 msgstr ""
 
+#: src/menu/GameLauncherMenu.cpp:77
+#, fuzzy
 msgid "Save Mode"
-msgstr ""
+msgstr "Megosztott mód"
 
+#: src/menu/GameLauncherMenu.cpp:78 src/menu/SettingsMenu.cpp:75
 msgid "Launch Mode"
 msgstr "Indító Mód"
 
+#: src/menu/GameLauncherMenu.cpp:89 src/menu/GameLauncherMenu.cpp:94
+#, fuzzy
 msgid "<Settings Default>"
-msgstr ""
+msgstr "Tesztelés:"
 
+#: src/menu/GameLauncherMenu.cpp:492
+#, fuzzy
 msgid "Saving game settings!"
-msgstr ""
+msgstr "Tesztelés:"
 
+#: src/menu/SettingsMenu.cpp:32
 msgid "Off"
 msgstr "Ki"
 
+#: src/menu/SettingsMenu.cpp:33
 msgid "On"
 msgstr "Be"
 
+#: src/menu/SettingsMenu.cpp:38
 msgid "Icon Carousel"
 msgstr "Kör-körös ikonok"
 
+#: src/menu/SettingsMenu.cpp:39
 msgid "Grid View"
 msgstr "Rácsnézet"
 
+#: src/menu/SettingsMenu.cpp:40
 msgid "Cover Carousel"
 msgstr "Kör-körös borító"
 
+#: src/menu/SettingsMenu.cpp:52
 msgid "Background customizations"
 msgstr "Háttér testreszabása"
 
+#: src/menu/SettingsMenu.cpp:52
 msgid "GUI"
 msgstr "Grafikus felület"
 
+#: src/menu/SettingsMenu.cpp:52
 msgid "Game View Selection"
 msgstr "Játéknézet választó"
 
+#: src/menu/SettingsMenu.cpp:53
 msgid "Adjust log server IP and port"
 msgstr "Log szerver és IP port beállítása"
 
+#: src/menu/SettingsMenu.cpp:53
 msgid "Customize games path"
 msgstr "Játék útvonalának testreszabása"
 
+#: src/menu/SettingsMenu.cpp:53
 msgid "Customize save path"
 msgstr "Játék mentés útvonalának testreszabása"
 
+#: src/menu/SettingsMenu.cpp:53
 msgid "Loader"
 msgstr "Betöltő"
 
+#: src/menu/SettingsMenu.cpp:53
 msgid "Set save mode"
 msgstr "Mentés mód beállítása"
 
+#: src/menu/SettingsMenu.cpp:54
 msgid "Game"
 msgstr "Játék"
 
+#: src/menu/SettingsMenu.cpp:54
+#, fuzzy
 msgid "HID settings"
-msgstr ""
+msgstr "Tesztelés:"
 
+#: src/menu/SettingsMenu.cpp:54
 msgid "Launch method selection"
 msgstr "Indítási mód kiválaszatása"
 
+#: src/menu/SettingsMenu.cpp:54
 msgid "Log server control"
 msgstr "Log szerver vezérlése"
 
+#: src/menu/SettingsMenu.cpp:54
+#, fuzzy
 msgid "Padcon settings"
-msgstr ""
+msgstr "Tesztelés:"
 
+#: src/menu/SettingsMenu.cpp:54
+#, fuzzy
 msgid "PyGecko settings"
-msgstr ""
+msgstr "Tesztelés:"
 
+#: src/menu/SettingsMenu.cpp:55
 msgid "Credits"
 msgstr "Köszönet"
 
+#: src/menu/SettingsMenu.cpp:55
 msgid "Credits to all contributors"
 msgstr "Köszönet az összes hozzájárulónak"
 
+#: src/menu/SettingsMenu.cpp:60
 msgid "Game View TV"
 msgstr "Játék nézet TV-n"
 
+#: src/menu/SettingsMenu.cpp:61
 msgid "Game View DRC"
 msgstr "Játék nézet a GamePaden"
 
+#: src/menu/SettingsMenu.cpp:66
+#, fuzzy
 msgid "Show Game Settings"
-msgstr ""
+msgstr "Tesztelés:"
 
+#: src/menu/SettingsMenu.cpp:67
 msgid "Host IP"
 msgstr ""
 
+#: src/menu/SettingsMenu.cpp:68
 msgid "Game Path"
 msgstr "Játék elérési helye"
 
+#: src/menu/SettingsMenu.cpp:69
 msgid "Game Save Path"
 msgstr "Játék mentési helye"
 
+#: src/menu/SettingsMenu.cpp:70
 msgid "Game Save Mode"
 msgstr "Játék mentési módja"
 
+#: src/menu/SettingsMenu.cpp:76
 msgid "Log Server Control"
 msgstr "Log szerver vezérlése"
 
+#: src/menu/SettingsMenu.cpp:77
+#, fuzzy
 msgid "PyGecko"
-msgstr ""
+msgstr "Tesztelés:"
 
+#: src/menu/SettingsMenu.cpp:78
 msgid "Padcon"
 msgstr ""
 
+#: src/menu/SettingsMenu.cpp:79
 msgid "HID-Pad"
 msgstr ""
 
-msgid "Shared Mode"
-msgstr "Megosztott mód"
+#~ msgid "Art Atelier Mode"
+#~ msgstr "Art Atelier Mód"
 
-msgid "Unique Mode"
-msgstr "Egyedi Mód"
+#~ msgid "Shared Mode"
+#~ msgstr "Megosztott mód"
 
-msgid "Mii Maker Mode"
-msgstr "Mii készítő mód"
+#~ msgid "Unique Mode"
+#~ msgstr "Egyedi Mód"
 
-msgid "Smash Bros Mode"
-msgstr "Smash Bros Mód"
+#~ msgid "Mii Maker Mode"
+#~ msgstr "Mii készítő mód"
 
-msgid "Karaoke Mode"
-msgstr "Karaoke Mód"
+#~ msgid "Smash Bros Mode"
+#~ msgstr "Smash Bros Mód"
 
-msgid "Art Atelier Mode"
-msgstr "Art Atelier Mód"
+#~ msgid "Karaoke Mode"
+#~ msgstr "Karaoke Mód"
 
 #~ msgid "Log Server IP"
 #~ msgstr "Log szerver IP"

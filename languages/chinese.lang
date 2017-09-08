@@ -9,187 +9,250 @@ msgstr ""
 "PO-Revision-Date: 2009-10-01 01:00+0200\n"
 "Last-Translator: kavid by 91wii.com \n"
 "Language-Team: 91wii.com\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
 "Language: Simplified Chinese\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
 
+#: src/menu/CreditsMenu.cpp:69
 msgid "Loadiine GX2"
 msgstr "Loadiine GX2"
 
+#: src/menu/CreditsMenu.cpp:76
 msgid "Official Site:"
 msgstr "官方网站"
 
+#: src/menu/CreditsMenu.cpp:89
 msgid "Coding:"
 msgstr "代码编写："
 
+#: src/menu/CreditsMenu.cpp:102
 msgid "Design:"
 msgstr "界面设计："
 
+#: src/menu/CreditsMenu.cpp:108
 msgid "Some guy who doesn't want to be named."
 msgstr "有些人不想被提到名字。"
 
+#: src/menu/CreditsMenu.cpp:115
 msgid "Testing:"
 msgstr "测试者："
 
+#: src/menu/CreditsMenu.cpp:121
 msgid "Cyan / Maschell / n1ghty / OnionKnight and many more"
 msgstr "Cyan / Maschell / n1ghty / OnionKnight 等等更多人"
 
+#: src/menu/CreditsMenu.cpp:128
 msgid "Social Presence:"
 msgstr "参与人员："
 
+#: src/menu/CreditsMenu.cpp:141
 msgid "Based on:"
 msgstr "基于："
 
+#: src/menu/CreditsMenu.cpp:147
 msgid "Loadiine v4.0 by Golden45 and Dimok"
 msgstr "Loadiine v4.0作者Golden45和Dimok"
 
+#: src/menu/CreditsMenu.cpp:154
 msgid "Big thanks to:"
 msgstr "强烈感谢："
 
+#: src/menu/CreditsMenu.cpp:160
 msgid "lustar for GameTDB and hosting covers / disc images"
 msgstr "lustar的GameTDB与提供的封面和光盘封面"
 
+#: src/menu/CreditsMenu.cpp:167
 msgid "Marionumber1 for his kernel exploit"
 msgstr "Marionumber1开发的内核破解程序"
 
+#: src/menu/CreditsMenu.cpp:174
 msgid "The whole libwiiu team and it's contributors."
 msgstr "还有libwiiu小组和其他人所做出贡献"
 
+#: src/menu/GameLauncherMenu.cpp:52
 msgid "Extra Save:"
 msgstr "扩展存档："
 
+#: src/menu/GameLauncherMenu.cpp:53
 msgid "Enable DLC Support:"
 msgstr "启用DLC支持："
 
+#: src/menu/GameLauncherMenu.cpp:76
 msgid "Update Folder"
 msgstr "更新文件夹"
 
+#: src/menu/GameLauncherMenu.cpp:77
 msgid "Save Mode"
 msgstr "存档模式"
 
+#: src/menu/GameLauncherMenu.cpp:78 src/menu/SettingsMenu.cpp:75
 msgid "Launch Mode"
 msgstr "运行模式"
 
+#: src/menu/GameLauncherMenu.cpp:89 src/menu/GameLauncherMenu.cpp:94
+#, fuzzy
 msgid "<Settings Default>"
 msgstr "<默认设置>"
 
+#: src/menu/GameLauncherMenu.cpp:492
 msgid "Saving game settings!"
 msgstr "保存游戏设置！"
 
+#: src/menu/SettingsMenu.cpp:32
 msgid "Off"
 msgstr "关闭"
 
+#: src/menu/SettingsMenu.cpp:33
 msgid "On"
 msgstr "开启"
 
+#: src/menu/SettingsMenu.cpp:38
 msgid "Icon Carousel"
 msgstr "旋转图标模式"
 
+#: src/menu/SettingsMenu.cpp:39
 msgid "Grid View"
 msgstr "网格视图"
 
+#: src/menu/SettingsMenu.cpp:40
 msgid "Cover Carousel"
 msgstr "旋转封面模式"
 
+#: src/menu/SettingsMenu.cpp:52
 msgid "Background customizations"
 msgstr "自定义背景"
 
+#: src/menu/SettingsMenu.cpp:52
 msgid "GUI"
 msgstr "图形化"
 
+#: src/menu/SettingsMenu.cpp:52
 msgid "Game View Selection"
 msgstr "游戏查看选择"
 
+#: src/menu/SettingsMenu.cpp:53
 msgid "Adjust log server IP and port"
 msgstr "更改日志服务器的ip和端口"
 
+#: src/menu/SettingsMenu.cpp:53
 msgid "Customize games path"
 msgstr "自定义游戏路径"
 
+#: src/menu/SettingsMenu.cpp:53
 msgid "Customize save path"
 msgstr "自定义保存路径"
 
+#: src/menu/SettingsMenu.cpp:53
 msgid "Loader"
 msgstr "加载器"
 
+#: src/menu/SettingsMenu.cpp:53
 msgid "Set save mode"
 msgstr "设置存档模式"
 
+#: src/menu/SettingsMenu.cpp:54
 msgid "Game"
 msgstr "游戏"
 
+#: src/menu/SettingsMenu.cpp:54
+#, fuzzy
 msgid "HID settings"
 msgstr "HID设置"
 
+#: src/menu/SettingsMenu.cpp:54
 msgid "Launch method selection"
 msgstr "运行模式选择"
 
+#: src/menu/SettingsMenu.cpp:54
 msgid "Log server control"
 msgstr "日志服务器控制"
 
+#: src/menu/SettingsMenu.cpp:54
 msgid "Padcon settings"
 msgstr "屏幕控制设置"
 
+#: src/menu/SettingsMenu.cpp:54
 msgid "PyGecko settings"
 msgstr "金手指设置"
 
+#: src/menu/SettingsMenu.cpp:55
 msgid "Credits"
 msgstr "感谢"
 
+#: src/menu/SettingsMenu.cpp:55
 msgid "Credits to all contributors"
 msgstr "感谢所有为此项目的贡献者"
 
+#: src/menu/SettingsMenu.cpp:60
 msgid "Game View TV"
 msgstr "电视显示样式"
 
+#: src/menu/SettingsMenu.cpp:61
 msgid "Game View DRC"
 msgstr "平板显示样式"
 
+#: src/menu/SettingsMenu.cpp:66
 msgid "Show Game Settings"
 msgstr "显示游戏设置"
 
+#: src/menu/SettingsMenu.cpp:67
 msgid "Host IP"
 msgstr "主机IP"
 
+#: src/menu/SettingsMenu.cpp:68
 msgid "Game Path"
 msgstr "游戏路径"
 
+#: src/menu/SettingsMenu.cpp:69
 msgid "Game Save Path"
 msgstr "游戏存档路径"
 
+#: src/menu/SettingsMenu.cpp:70
 msgid "Game Save Mode"
 msgstr "游戏存档模式"
 
+#: src/menu/SettingsMenu.cpp:76
 msgid "Log Server Control"
 msgstr "日志服务器控制"
 
+#: src/menu/SettingsMenu.cpp:77
 msgid "PyGecko"
 msgstr "金手指"
 
+#: src/menu/SettingsMenu.cpp:78
 msgid "Padcon"
 msgstr "平板屏幕控制"
 
+#: src/menu/SettingsMenu.cpp:79
 msgid "HID-Pad"
 msgstr "HID转PAD控制"
 
-msgid "Shared Mode"
-msgstr "共享模式"
+#, fuzzy
+#~ msgid "HID-Pad Network"
+#~ msgstr "HID转PAD控制"
 
-msgid "Unique Mode"
-msgstr "独享模式"
+#, fuzzy
+#~ msgid "HID-Pad Rumble"
+#~ msgstr "HID转PAD控制"
 
-msgid "Mii Maker Mode"
-msgstr "Mii Maker模式"
+#~ msgid "Art Atelier Mode"
+#~ msgstr "绘心教室模式"
 
-msgid "Smash Bros Mode"
-msgstr "超级大乱斗模式"
+#~ msgid "Shared Mode"
+#~ msgstr "共享模式"
 
-msgid "Karaoke Mode"
-msgstr "卡拉OK模式"
+#~ msgid "Unique Mode"
+#~ msgstr "独享模式"
 
-msgid "Art Atelier Mode"
-msgstr "绘心教室模式"
+#~ msgid "Mii Maker Mode"
+#~ msgstr "Mii Maker模式"
+
+#~ msgid "Smash Bros Mode"
+#~ msgstr "超级大乱斗模式"
+
+#~ msgid "Karaoke Mode"
+#~ msgstr "卡拉OK模式"
 
 #~ msgid "Log Server IP"
 #~ msgstr "日志服务器IP"
