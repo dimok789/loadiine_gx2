@@ -35,14 +35,14 @@ class SoundDecoder
 public:
 	SoundDecoder();
 	SoundDecoder(const std::string & filepath);
-	SoundDecoder(const u8 * buffer, int size);
+	SoundDecoder(const u8 * buffer, s32 size);
 	virtual ~SoundDecoder();
 	virtual void Lock() { mutex.lock(); }
 	virtual void Unlock() { mutex.unlock(); }
-	virtual int Read(u8 * buffer, int buffer_size, int pos);
-	virtual int Tell() { return CurPos; }
-	virtual int Seek(int pos) { CurPos = pos; return file_fd->seek(CurPos, SEEK_SET); }
-	virtual int Rewind();
+	virtual s32 Read(u8 * buffer, s32 buffer_size, s32 pos);
+	virtual s32 Tell() { return CurPos; }
+	virtual s32 Seek(s32 pos) { CurPos = pos; return file_fd->seek(CurPos, SEEK_SET); }
+	virtual s32 Rewind();
 	virtual u16 GetFormat() { return Format; }
 	virtual u16 GetSampleRate() { return SampleRate; }
 	virtual void Decode();
@@ -87,8 +87,8 @@ protected:
 	u8 SoundType;
 	u16 whichLoad;
 	u16 SoundBlocks;
-	int SoundBlockSize;
-	int CurPos;
+	s32 SoundBlockSize;
+	s32 CurPos;
 	bool ResampleTo48kHz;
 	bool Loop;
 	bool EndOfFile;

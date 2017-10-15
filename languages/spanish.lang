@@ -231,6 +231,14 @@ msgstr ""
 msgid "HID-Pad"
 msgstr ""
 
+#: src/menu/SettingsMenu.cpp:80
+msgid "HID-Pad Rumble"
+msgstr ""
+
+#: src/menu/SettingsMenu.cpp:81
+msgid "HID-Pad Network"
+msgstr ""
+
 #~ msgid "Art Atelier Mode"
 #~ msgstr "Modo Art Atelier"
 

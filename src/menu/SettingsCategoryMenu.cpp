@@ -306,7 +306,7 @@ void SettingsCategoryMenu::OnDPADClick(GuiButton *button, const GuiController *c
     }
 }
 
-void SettingsCategoryMenu::OnScrollbarListChange(int selectItem, int pageIndex)
+void SettingsCategoryMenu::OnScrollbarListChange(s32 selectItem, s32 pageIndex)
 {
     currentYOffset = selectItem + pageIndex;
 

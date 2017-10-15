@@ -51,10 +51,9 @@ void AsyncDeleter::triggerDeleteProcess(void)
 
 void AsyncDeleter::executeThread(void)
 {
-    while(!exitApplication)
+    while(!exitApplication || !realDeleteElements.empty())
     {
-        suspendThread();
-
+        if(realDeleteElements.empty()) suspendThread();
         //! delete elements that require post process deleting
         //! because otherwise they would block or do invalid access on GUI thread
         while(!realDeleteElements.empty())

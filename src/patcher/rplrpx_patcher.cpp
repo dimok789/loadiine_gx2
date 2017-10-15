@@ -87,7 +87,7 @@ static int LoadRPLToMemory(s_rpx_rpl *rpl_entry)
 		}
 	}
 
-    int fd = 0;
+    s32 fd = 0;
     if (real_FSOpenFile(pClient, pCmd, path_rpl, "r", &fd, FS_RET_ALL_ERROR) == FS_STATUS_OK)
     {
         int ret;
@@ -216,7 +216,7 @@ DECL(int, LiWaitOneChunk, unsigned int * iRemainingBytes, const char *filename, 
 {
     unsigned int result;
     register int core_id;
-    int remaining_bytes = 0;
+    s32 remaining_bytes = 0;
 
     int sgFileOffset;
     int sgBufferNumber;
@@ -424,5 +424,5 @@ hooks_magic_t method_hooks_rplrpx[] __attribute__((section(".data"))) = {
 u32 method_hooks_size_rplrpx __attribute__((section(".data"))) = sizeof(method_hooks_rplrpx) / sizeof(hooks_magic_t);
 
 //! buffer to store our instructions needed for our replacements
-volatile unsigned int method_calls_rplrpx[sizeof(method_hooks_rplrpx) / sizeof(hooks_magic_t) * FUNCTION_PATCHER_METHOD_STORE_SIZE] __attribute__((section(".data")));
+volatile u32 method_calls_rplrpx[sizeof(method_hooks_rplrpx) / sizeof(hooks_magic_t) * FUNCTION_PATCHER_METHOD_STORE_SIZE] __attribute__((section(".data")));
 

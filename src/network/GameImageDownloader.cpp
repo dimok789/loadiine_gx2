@@ -41,7 +41,7 @@ void GameImageDownloader::executeThread()
 
 	if(MissingImagesCount == 0)
 	{
-	    log_printf("No images missing\n");
+	    DEBUG_FUNCTION_LINE("No images missing\n");
         asyncLoadFinished(this, MissingImages.size());
 		return;
 	}
@@ -154,7 +154,7 @@ int GameImageDownloader::DownloadProcess(int TotalDownloadCount)
 		{
 			if(MissingImages[i].backupURL)
 			{
-				log_printf("Trying backup URL.\n");
+				DEBUG_FUNCTION_LINE("Trying backup URL.\n");
 				MissingImages[i].downloadURL = MissingImages[i].backupURL;
 				MissingImages[i].backupURL = NULL;
 				MissingImages[i].progressTitle = MissingImages[i].backupProgressTitle;
@@ -164,7 +164,7 @@ int GameImageDownloader::DownloadProcess(int TotalDownloadCount)
 			continue;
 		}
 
-		log_printf(" - OK\n");
+		DEBUG_FUNCTION_LINE(" - OK\n");
 
 		std::string strOutpath;
 		strOutpath = MissingImages[i].writepath;
@@ -231,7 +231,7 @@ bool GameImageDownloader::DownloadImage(const char * url, const char * gameID, c
 			break;
 	}
 
-	log_printf("downloadURL %s", downloadURL.c_str());
+	DEBUG_FUNCTION_LINE("downloadURL %s", downloadURL.c_str());
 
 	FileDownloader::getFile(downloadURL, imageData);
 	if(VALID_IMAGE(imageData.size()))
@@ -253,7 +253,7 @@ bool GameImageDownloader::DownloadImage(const char * url, const char * gameID, c
 	if(PAL && strcmp(CheckedRegion, "EN") != 0)
 	{
 		snprintf(downloadURL, sizeof(downloadURL), "%sEN/%s.png", url, gameID);
-		log_printf(" - Not found.\n%s", downloadURL);
+		DEBUG_FUNCTION_LINE(" - Not found.\n%s", downloadURL);
 		file = downloadfile(downloadURL);
 		if(VALID_IMAGE(file))
 			return file;
@@ -266,7 +266,7 @@ bool GameImageDownloader::DownloadImage(const char * url, const char * gameID, c
 			lang = "US";
 
 		snprintf(downloadURL, sizeof(downloadURL), "%s%s/%s.png", url, lang, gameID);
-		log_printf(" - Not found.\n%s", downloadURL);
+		DEBUG_FUNCTION_LINE(" - Not found.\n%s", downloadURL);
 		file = downloadfile(downloadURL);
 		if(VALID_IMAGE(file))
 			return file;
@@ -274,13 +274,13 @@ bool GameImageDownloader::DownloadImage(const char * url, const char * gameID, c
 		free(file.data);
 
 		snprintf(downloadURL, sizeof(downloadURL), "%sOTHER/%s.png", url, gameID);
-		log_printf(" - Not found.\n%s", downloadURL);
+		DEBUG_FUNCTION_LINE(" - Not found.\n%s", downloadURL);
 		file = downloadfile(downloadURL);
 		if(VALID_IMAGE(file))
 			return file;
 	}
 
-	log_printf(" - Not found.\n");
+	DEBUG_FUNCTION_LINE(" - Not found.\n");
 	free(file.data);
 
 	memset(&file, 0, sizeof(struct block));

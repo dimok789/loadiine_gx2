@@ -24,6 +24,11 @@
 class GuiTrigger
 {
 public:
+    enum eClicked{
+        CLICKED_NONE        = 0x00,
+        CLICKED_TOUCH       = 0x01,
+        CLICKED_BUTTON      = 0x02,
+    };
     enum eChannels {
         CHANNEL_1       = 0x01,
         CHANNEL_2       = 0x02,
@@ -86,7 +91,7 @@ public:
     bool right(const GuiController *controller) const;
     bool up(const GuiController *controller) const;
     bool down(const GuiController *controller) const;
-    bool clicked(const GuiController *controller) const;
+    s32 clicked(const GuiController *controller) const;
     bool held(const GuiController *controller) const;
     bool released(const GuiController *controller) const;
 private:

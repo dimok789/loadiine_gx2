@@ -34,32 +34,32 @@
 //! Memory functions
 //! This is the only place where those are needed so lets keep them more or less private
 //!----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-extern unsigned int * pMEMAllocFromDefaultHeapEx;
-extern unsigned int * pMEMAllocFromDefaultHeap;
-extern unsigned int * pMEMFreeToDefaultHeap;
+extern u32 * pMEMAllocFromDefaultHeapEx;
+extern u32 * pMEMAllocFromDefaultHeap;
+extern u32 * pMEMFreeToDefaultHeap;
 
-extern int (* MEMGetBaseHeapHandle)(int mem_arena);
-extern unsigned int (* MEMGetAllocatableSizeForFrmHeapEx)(int heap, int align);
-extern void *(* MEMAllocFromFrmHeapEx)(int heap, unsigned int size, int align);
-extern void (* MEMFreeToFrmHeap)(int heap, int mode);
-extern void *(* MEMAllocFromExpHeapEx)(int heap, unsigned int size, int align);
-extern int (* MEMCreateExpHeapEx)(void* address, unsigned int size, unsigned short flags);
-extern void *(* MEMDestroyExpHeap)(int heap);
-extern void (* MEMFreeToExpHeap)(int heap, void* ptr);
+extern s32 (* MEMGetBaseHeapHandle)(s32 mem_arena);
+extern u32 (* MEMGetAllocatableSizeForFrmHeapEx)(s32 heap, s32 align);
+extern void *(* MEMAllocFromFrmHeapEx)(s32 heap, u32 size, s32 align);
+extern void (* MEMFreeToFrmHeap)(s32 heap, s32 mode);
+extern void *(* MEMAllocFromExpHeapEx)(s32 heap, u32 size, s32 align);
+extern s32 (* MEMCreateExpHeapEx)(void* address, u32 size, unsigned short flags);
+extern void *(* MEMDestroyExpHeap)(s32 heap);
+extern void (* MEMFreeToExpHeap)(s32 heap, void* ptr);
 
-static int mem1_heap = -1;
-static int bucket_heap = -1;
+static s32 mem1_heap = -1;
+static s32 bucket_heap = -1;
 
 void memoryInitialize(void)
 {
-    int mem1_heap_handle = MEMGetBaseHeapHandle(MEMORY_ARENA_1);
-    unsigned int mem1_allocatable_size = MEMGetAllocatableSizeForFrmHeapEx(mem1_heap_handle, 4);
+    s32 mem1_heap_handle = MEMGetBaseHeapHandle(MEMORY_ARENA_1);
+    u32 mem1_allocatable_size = MEMGetAllocatableSizeForFrmHeapEx(mem1_heap_handle, 4);
     void *mem1_memory = MEMAllocFromFrmHeapEx(mem1_heap_handle, mem1_allocatable_size, 4);
     if(mem1_memory)
         mem1_heap = MEMCreateExpHeapEx(mem1_memory, mem1_allocatable_size, 0);
 
-    int bucket_heap_handle = MEMGetBaseHeapHandle(MEMORY_ARENA_FG_BUCKET);
-    unsigned int bucket_allocatable_size = MEMGetAllocatableSizeForFrmHeapEx(bucket_heap_handle, 4);
+    s32 bucket_heap_handle = MEMGetBaseHeapHandle(MEMORY_ARENA_FG_BUCKET);
+    u32 bucket_allocatable_size = MEMGetAllocatableSizeForFrmHeapEx(bucket_heap_handle, 4);
     void *bucket_memory = MEMAllocFromFrmHeapEx(bucket_heap_handle, bucket_allocatable_size, 4);
     if(bucket_memory)
         bucket_heap = MEMCreateExpHeapEx(bucket_memory, bucket_allocatable_size, 0);
@@ -116,8 +116,27 @@ size_t __wrap_malloc_usable_size(void *p)
 	return 0x7FFFFFFF;
 }
 
-void *__wrap_realloc(void *p, size_t size)
+void *__wrap_realloc(void *ptr, size_t size)
 {
+    void *newPtr;
+
+    if (!ptr) {
+        newPtr = __wrap_malloc(size);
+        if (!newPtr) { goto error; }
+    } else {
+        newPtr = __wrap_malloc(size);
+        if (!newPtr) { goto error; }
+
+        memcpy(newPtr, ptr, size);
+
+        __wrap_free(ptr);
+    }
+
+    return newPtr;
+error:
+    return NULL;
+}
+    /*
     void *new_ptr = __wrap_malloc(size);
 	if (new_ptr != 0)
 	{
@@ -125,7 +144,7 @@ void *__wrap_realloc(void *p, size_t size)
 		__wrap_free(p);
 	}
 	return new_ptr;
-}
+}*/
 
 //!-------------------------------------------------------------------------------------------
 //! reent versions
@@ -163,7 +182,7 @@ void *__wrap__realloc_r(struct _reent *r, void *p, size_t size)
 //!-------------------------------------------------------------------------------------------
 //! some wrappers
 //!-------------------------------------------------------------------------------------------
-void * MEM2_alloc(unsigned int size, unsigned int align)
+void * MEM2_alloc(u32 size, u32 align)
 {
     return __wrap_memalign(align, size);
 }
@@ -173,7 +192,7 @@ void MEM2_free(void *ptr)
     __wrap_free(ptr);
 }
 
-void * MEM1_alloc(unsigned int size, unsigned int align)
+void * MEM1_alloc(u32 size, u32 align)
 {
     if (align < 4)
         align = 4;
@@ -185,7 +204,7 @@ void MEM1_free(void *ptr)
     MEMFreeToExpHeap(mem1_heap, ptr);
 }
 
-void * MEMBucket_alloc(unsigned int size, unsigned int align)
+void * MEMBucket_alloc(u32 size, u32 align)
 {
     if (align < 4)
         align = 4;

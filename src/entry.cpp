@@ -5,18 +5,20 @@
 #include "dynamic_libs/aoc_functions.h"
 #include "dynamic_libs/gx2_functions.h"
 #include "dynamic_libs/syshid_functions.h"
+#include "fs/sd_fat_devoptab.h"
 #include "utils/function_patcher.h"
+#include "controller_patcher/ControllerPatcher.hpp"
 #include "patcher/cpp_to_c_util.h"
-#include "controller_patcher/controller_patcher.h"
 #include "patcher/pygecko.h"
 #include "common/common.h"
 #include "common/retain_vars.h"
 #include "utils/utils.h"
 #include "utils/logger.h"
+#include "video/CursorDrawer.h"
 #include "main.h"
 
 
-int __entry_menu(int argc, char **argv)
+extern "C" int __entry_menu(int argc, char **argv)
 {
     //! Launch PyGecko if requested
     if (GAME_LAUNCHED && gSettingLaunchPyGecko)
@@ -27,15 +29,19 @@ int __entry_menu(int argc, char **argv)
     InitSocketFunctionPointers();
     InitAocFunctionPointers();
     InitACPFunctionPointers();
+    InitFSFunctionPointers();
 
-
-    log_init("192.168.0.181");
+    log_init();
 
     //!*******************************************************************
     //!                        Initialize HID Config                     *
     //!*******************************************************************
-    init_config_controller();
-    init_button_remapping();
+    mount_sd_fat("sd");
+    ControllerPatcher::Init(CONTROLLER_PATCHER_PATH);
+    unmount_sd_fat("sd");
+    ControllerPatcher::disableControllerMapping();
+    if(gHIDPADNetwork){ ControllerPatcher::startNetworkServer(); }
+    ControllerPatcher::setRumbleActivated(gHIDPADRumble);
 
     //!*******************************************************************
     //!                        Dynamic Patching                          *
@@ -138,7 +144,9 @@ int __entry_menu(int argc, char **argv)
 
     RestoreAllInstructions();
 
-    deinit_config_controller();
+    CursorDrawer::destroyInstance();
+    ControllerPatcher::DeInit();
+    ControllerPatcher::stopNetworkServer();
 
     //! *******************************************************************
     //! *                 Jump to homebrew launcher                       *

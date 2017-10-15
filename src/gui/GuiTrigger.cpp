@@ -107,22 +107,22 @@ bool GuiTrigger::down(const GuiController *controller) const
 	return false;
 }
 
-bool GuiTrigger::clicked(const GuiController *controller) const
+s32 GuiTrigger::clicked(const GuiController *controller) const
 {
     if((controller->chan & chan) == 0) {
-        return false;
+        return CLICKED_NONE;
     }
 
-    bool bResult = false;
+    s32 bResult = CLICKED_NONE;
 
     if(controller->data.touched && controller->data.validPointer && (btns & VPAD_TOUCH) && !controller->lastData.touched)
     {
-        bResult = true;
+        bResult = CLICKED_TOUCH;
     }
 
 	if(controller->data.buttons_d & btns)
 	{
-	    bResult = true;
+	    bResult = CLICKED_BUTTON;
 	}
 	return bResult;
 }

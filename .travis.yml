@@ -31,13 +31,13 @@ before_install:
 - export DEVKITPPC=${DEVKITPRO}/devkitPPC
 - mkdir -p $DEVKITPRO
 - cd $DEVKITPRO
-- wget -N http://sourceforge.net/projects/devkitpro/files/Automated%20Installer/devkitPPCupdate.pl
-- wget -N https://github.com/dimok789/loadiine_gx2/releases/download/v0.2/libogc.7z
-- wget -N https://github.com/dimok789/loadiine_gx2/releases/download/v0.2/portlibs.7z
+- wget -N https://raw.githubusercontent.com/dimok789/loadiine_gx2/master/other/devkitPPCupdatePPCr29.pl
+- wget -N https://raw.githubusercontent.com/dimok789/loadiine_gx2/master/other/libogc.7z
+- wget -N https://raw.githubusercontent.com/dimok789/loadiine_gx2/master/other/portlibs.7z
 
 install:
 - cd $DEVKITPRO
-- perl devkitPPCupdate.pl
+- perl devkitPPCupdatePPCr29.pl
 - 7z x -y libogc.7z
 - 7z x -y portlibs.7z
 - cp -R portlibs/ppc/* devkitPPC/

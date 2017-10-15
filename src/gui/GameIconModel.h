@@ -755,6 +755,6 @@ const float cfGameIconStrokeVtxs[] =
 -0.376756459475,1.046143651009,0.0f
 };
 
-const unsigned int cuGameIconStrokeVtxCount = sizeof(cfGameIconStrokeVtxs) / (sizeof(float) * 3);
+const u32 cuGameIconStrokeVtxCount = sizeof(cfGameIconStrokeVtxs) / (sizeof(float) * 3);
 
 #endif

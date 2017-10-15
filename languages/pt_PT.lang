@@ -228,13 +228,15 @@ msgstr "Padcon"
 msgid "HID-Pad"
 msgstr "HID-Pad"
 
+#: src/menu/SettingsMenu.cpp:80
 #, fuzzy
-#~ msgid "HID-Pad Network"
-#~ msgstr "HID-Pad"
+msgid "HID-Pad Rumble"
+msgstr "HID-Pad"
 
+#: src/menu/SettingsMenu.cpp:81
 #, fuzzy
-#~ msgid "HID-Pad Rumble"
-#~ msgstr "HID-Pad"
+msgid "HID-Pad Network"
+msgstr "HID-Pad"
 
 #~ msgid "Art Atelier Mode"
 #~ msgstr "Modo Art Atelier"

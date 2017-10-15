@@ -15,8 +15,7 @@
 #include "patcher/extra_log_patcher.h"
 #include "patcher/hid_controller_function_patcher.h"
 #include "patcher/aoc_patcher.h"
-#include "controller_patcher/cp_retain_vars.h"
-#include "controller_patcher/config_reader.h"
+#include "controller_patcher/ControllerPatcher.hpp"
 #include "fs/fs_utils.h"
 #include "fs/sd_fat_devoptab.h"
 #include "kernel/kernel_functions.h"
@@ -40,8 +39,8 @@ extern "C" int Menu_Main(void)
     InitOSFunctionPointers();
     InitSocketFunctionPointers();
 
-    log_init(LOADIINE_LOGGER_IP);
-    log_print("Starting Loadiine GX2 " LOADIINE_VERSION "\n");
+    log_init();
+    DEBUG_FUNCTION_LINE("Starting Loadiine GX2 " LOADIINE_VERSION "\n");
 
     InitFSFunctionPointers();
     InitGX2FunctionPointers();
@@ -54,96 +53,83 @@ extern "C" int Menu_Main(void)
     InitAocFunctionPointers();
     InitACPFunctionPointers();
 
-
-
-    log_printf("Function exports loaded\n");
+    DEBUG_FUNCTION_LINE("Function exports loaded\n");
 
     //!*******************************************************************
     //!                Initialize our kernel variables                   *
     //!*******************************************************************
-    log_printf("Setup kernel variables\n");
+    DEBUG_FUNCTION_LINE("Setup kernel variables\n");
     SetupKernelCallback();
     //!*******************************************************************
     //!                    Initialize heap memory                        *
     //!*******************************************************************
-    log_print("Initialize memory management\n");
+    DEBUG_FUNCTION_LINE("Initialize memory management\n");
     memoryInitialize();
 
     //!*******************************************************************
     //!                        Initialize FS                             *
     //!*******************************************************************
-    log_printf("Mount SD partition\n");
+    DEBUG_FUNCTION_LINE("Mount SD partition\n");
     mount_sd_fat("sd");
-
-    //!*******************************************************************
-    //!                       Read Configs for HID support               *
-    //!*******************************************************************
-    if(gConfig_done == HID_INIT_DONE){
-        log_print("Reading config files from SD Card\n");
-        ConfigReader::getInstance(); //doing the magic automatically
-        ConfigReader::destroyInstance();
-        log_print("Done with reading config files from SD Card\n");
-        gConfig_done = HID_SDCARD_READ;
-    }
 
     //!*******************************************************************
     //!                       Patch Functions                            *
     //!*******************************************************************
-    log_printf("Patch FS and loader functions\n");
+    DEBUG_FUNCTION_LINE("Patch FS and loader functions\n");
     ApplyPatches();
     PatchSDK();
 
     //!*******************************************************************
     //!                    Setup exception handler                       *
     //!*******************************************************************
-    log_printf("Setup exception handler\n");
+    DEBUG_FUNCTION_LINE("Setup exception handler\n");
     setup_os_exceptions();
 
     //!*******************************************************************
     //!                    Enter main application                        *
     //!*******************************************************************
-    log_printf("Start main application\n");
+    DEBUG_FUNCTION_LINE("Start main application\n");
     Application::instance()->exec();
-    log_printf("Main application stopped\n");
+    DEBUG_FUNCTION_LINE("Main application stopped\n");
 
     Application::destroyInstance();
 
-    log_printf("Unmount SD\n");
+    DEBUG_FUNCTION_LINE("Unmount SD\n");
     unmount_sd_fat("sd");
-    log_printf("Release memory\n");
+    DEBUG_FUNCTION_LINE("Release memory\n");
     memoryRelease();
-    log_printf("Loadiine peace out...\n");
+    DEBUG_FUNCTION_LINE("Loadiine peace out...\n");
     //log_deinit();
 
     return 0;
 }
 
 void ApplyPatches(){
-    log_print("Patching FS functions\n");
+    DEBUG_FUNCTION_LINE("Patching FS functions\n");
     PatchInvidualMethodHooks(method_hooks_fs,                   method_hooks_size_fs,               method_calls_fs);
-    log_print("Patching functions for AOC support\n");
+    DEBUG_FUNCTION_LINE("Patching functions for AOC support\n");
     PatchInvidualMethodHooks(method_hooks_aoc,                  method_hooks_size_aoc,              method_calls_aoc);
-    log_print("Patching more FS functions (SD)\n");
+    DEBUG_FUNCTION_LINE("Patching more FS functions (SD)\n");
     PatchInvidualMethodHooks(method_hooks_fs_sd,                method_hooks_size_fs_sd,            method_calls_fs_sd);
-    log_print("Patching functions for RPX/RPL loading\n");
+    DEBUG_FUNCTION_LINE("Patching functions for RPX/RPL loading\n");
     PatchInvidualMethodHooks(method_hooks_rplrpx,               method_hooks_size_rplrpx,           method_calls_rplrpx);
-    log_print("Patching extra log functions\n");
+    DEBUG_FUNCTION_LINE("Patching extra log functions\n");
     PatchInvidualMethodHooks(method_hooks_extra_log,            method_hooks_size_extra_log,        method_calls_extra_log);
-    log_print("Patching controller_patcher (Hid to VPAD)\n");
+    DEBUG_FUNCTION_LINE("Patching controller_patcher (HID to VPAD)\n");
     PatchInvidualMethodHooks(method_hooks_hid_controller,       method_hooks_size_hid_controller,   method_calls_hid_controller);
 }
 
 void RestoreAllInstructions(){
-    log_print("Restoring FS functions\n");
+    DEBUG_FUNCTION_LINE("Restoring FS functions\n");
     RestoreInvidualInstructions(method_hooks_fs,                method_hooks_size_fs);
-    log_print("Restoring functions for AOC support\n");
+    DEBUG_FUNCTION_LINE("Restoring functions for AOC support\n");
     RestoreInvidualInstructions(method_hooks_aoc,               method_hooks_size_aoc);
-    log_print("Restoring more FS functions (SD)\n");
+    DEBUG_FUNCTION_LINE("Restoring more FS functions (SD)\n");
     RestoreInvidualInstructions(method_hooks_fs_sd,             method_hooks_size_fs_sd);
-    log_print("Restoring functions for RPX/RPL loading\n");
+    DEBUG_FUNCTION_LINE("Restoring functions for RPX/RPL loading\n");
     RestoreInvidualInstructions(method_hooks_rplrpx,            method_hooks_size_rplrpx);
-    log_print("Restoring extra log functions\n");
+    DEBUG_FUNCTION_LINE("Restoring extra log functions\n");
     RestoreInvidualInstructions(method_hooks_extra_log,         method_hooks_size_extra_log);
-    log_print("Restoring controller_patcher (Hid to VPAD)\n");
+    DEBUG_FUNCTION_LINE("Restoring controller_patcher (HID to VPAD)\n");
     RestoreInvidualInstructions(method_hooks_hid_controller,    method_hooks_size_hid_controller);
 }

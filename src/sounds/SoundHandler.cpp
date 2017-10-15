@@ -50,7 +50,7 @@ SoundHandler::SoundHandler()
 
     //! wait for initialization
     while(!isThreadSuspended())
-        usleep(1000);
+        os_usleep(1000);
 }
 
 SoundHandler::~SoundHandler()
@@ -61,7 +61,7 @@ SoundHandler::~SoundHandler()
 	ClearDecoderList();
 }
 
-void SoundHandler::AddDecoder(int voice, const char * filepath)
+void SoundHandler::AddDecoder(s32 voice, const char * filepath)
 {
 	if(voice < 0 || voice >= MAX_DECODERS)
 		return;
@@ -72,7 +72,7 @@ void SoundHandler::AddDecoder(int voice, const char * filepath)
 	DecoderList[voice] = GetSoundDecoder(filepath);
 }
 
-void SoundHandler::AddDecoder(int voice, const u8 * snd, int len)
+void SoundHandler::AddDecoder(s32 voice, const u8 * snd, s32 len)
 {
 	if(voice < 0 || voice >= MAX_DECODERS)
 		return;
@@ -83,7 +83,7 @@ void SoundHandler::AddDecoder(int voice, const u8 * snd, int len)
 	DecoderList[voice] = GetSoundDecoder(snd, len);
 }
 
-void SoundHandler::RemoveDecoder(int voice)
+void SoundHandler::RemoveDecoder(s32 voice)
 {
 	if(voice < 0 || voice >= MAX_DECODERS)
 		return;
@@ -96,7 +96,7 @@ void SoundHandler::RemoveDecoder(int voice)
                 voiceList[voice]->setState(Voice::STATE_STOP);
 
             while(voiceList[voice]->getState() != Voice::STATE_STOPPED)
-                usleep(1000);
+                os_usleep(1000);
         }
         SoundDecoder *decoder = DecoderList[voice];
         decoder->Lock();
@@ -137,7 +137,7 @@ static inline bool CheckMP3Signature(const u8 * buffer)
 		return true;
 	}
 
-	for(int i = 1; i < 13; i++)
+	for(s32 i = 1; i < 13; i++)
 	{
 		if(buffer[0] == MP3_Magic[i][0] && buffer[1] == MP3_Magic[i][1])
 			return true;
@@ -182,10 +182,10 @@ SoundDecoder * SoundHandler::GetSoundDecoder(const char * filepath)
 	return new SoundDecoder(filepath);
 }
 
-SoundDecoder * SoundHandler::GetSoundDecoder(const u8 * sound, int length)
+SoundDecoder * SoundHandler::GetSoundDecoder(const u8 * sound, s32 length)
 {
 	const u8 * check = sound;
-	int counter = 0;
+	s32 counter = 0;
 
 	while(check[0] == 0 && counter < length)
 	{
@@ -235,7 +235,7 @@ void SoundHandler::executeThread()
     // we would need MAX_DECODERS > Voice::PRIO_MAX
     for(u32 i = 0; i < MAX_DECODERS; ++i)
     {
-        int priority = (MAX_DECODERS - i) * Voice::PRIO_MAX  / MAX_DECODERS;
+        s32 priority = (MAX_DECODERS - i) * Voice::PRIO_MAX  / MAX_DECODERS;
         voiceList[i] = new Voice(priority); // allocate voice 0 with highest priority
     }
 

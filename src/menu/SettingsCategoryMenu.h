@@ -47,7 +47,7 @@ private:
     void OnKeyPadOkClicked(GuiElement *element, const std::string & newValue);
     void OnButtonChoiceOkClicked(GuiElement *element, int selectedButton);
 
-    void OnScrollbarListChange(int selectItem, int pageIndex);
+    void OnScrollbarListChange(s32 selectItem, s32 pageIndex);
 
     const SettingType * categorySettings;
     const int categorySettingsCount;

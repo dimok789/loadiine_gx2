@@ -30,25 +30,25 @@
 class Scrollbar : public GuiElement, public sigslot::has_slots<>
 {
 	public:
-		Scrollbar(int height);
+		Scrollbar(s32 height);
 		virtual ~Scrollbar();
 		void ScrollOneUp();
 		void ScrollOneDown();
-		int GetSelectedItem() { return SelItem; }
-		int GetSelectedIndex() { return SelInd; }
+		s32 GetSelectedItem() { return SelItem; }
+		s32 GetSelectedIndex() { return SelInd; }
 		void draw(CVideo * video);
 		void update(GuiController * t);
 
 		//! Signals
-		sigslot::signal2<int, int> listChanged;
+		sigslot::signal2<s32, s32> listChanged;
 		//! Slots
-		void SetPageSize(int size);
-		void SetRowSize(int size);
-		void SetSelectedItem(int pos);
-		void SetSelectedIndex(int pos);
-		void SetEntrieCount(int cnt);
+		void SetPageSize(s32 size);
+		void SetRowSize(s32 size);
+		void SetSelectedItem(s32 pos);
+		void SetSelectedIndex(s32 pos);
+		void SetEntrieCount(s32 cnt);
 	protected:
-		void setScrollboxPosition(int SelItem, int SelInd);
+		void setScrollboxPosition(s32 SelItem, s32 SelInd);
 		void OnUpButtonClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
 		void OnDownButtonClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
 		void OnBoxButtonHold(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
@@ -56,13 +56,13 @@ class Scrollbar : public GuiElement, public sigslot::has_slots<>
 		u32 ScrollState;
 		u16 ScrollSpeed;
 
-		int MinHeight;
-		int MaxHeight;
-		int SelItem;
-		int SelInd;
-		int PageSize;
-		int EntrieCount;
-		int pressedChan;
+		s32 MinHeight;
+		s32 MaxHeight;
+		s32 SelItem;
+		s32 SelInd;
+		s32 PageSize;
+		s32 EntrieCount;
+		s32 pressedChan;
 
 		GuiButton * arrowUpBtn;
 		GuiButton * arrowDownBtn;

@@ -39,16 +39,16 @@ public:
     //!\param w Image width
     //!\param h Image height
     //!\param c Array with 4 x image color (BL, BR, TL, TR)
-    GuiImage(int w, int h, const GX2Color & c, int imgType = IMAGE_COLOR);
-    GuiImage(int w, int h, const GX2Color * c, u32 colorCount = 1, int imgType = IMAGE_COLOR);
+    GuiImage(s32 w, s32 h, const GX2Color & c, s32 imgType = IMAGE_COLOR);
+    GuiImage(s32 w, s32 h, const GX2Color * c, u32 colorCount = 1, s32 imgType = IMAGE_COLOR);
     //!Destructor
     virtual ~GuiImage();
     //!Sets the number of times to draw the image horizontally
     //!\param t Number of times to draw the image
-    void setTileHorizontal(int t) { tileHorizontal = t; }
+    void setTileHorizontal(s32 t) { tileHorizontal = t; }
     //!Sets the number of times to draw the image vertically
     //!\param t Number of times to draw the image
-    void setTileVertical(int t) { tileVertical = t; }
+    void setTileVertical(s32 t) { tileVertical = t; }
     //!Constantly called to draw the image
     void draw(CVideo *pVideo);
     //!Gets the image data
@@ -60,16 +60,16 @@ public:
     //!Gets the pixel color at the specified coordinates of the image
     //!\param x X coordinate
     //!\param y Y coordinate
-    GX2Color getPixel(int x, int y);
+    GX2Color getPixel(s32 x, s32 y);
     //!Sets the pixel color at the specified coordinates of the image
     //!\param x X coordinate
     //!\param y Y coordinate
     //!\param color Pixel color
-    void setPixel(int x, int y, const GX2Color & color);
+    void setPixel(s32 x, s32 y, const GX2Color & color);
     //!Change ImageColor
-    void setImageColor(const GX2Color & c, int idx = -1);
+    void setImageColor(const GX2Color & c, s32 idx = -1);
     //!Change ImageColor
-    void setSize(int w, int h);
+    void setSize(s32 w, s32 h);
 
     void setPrimitiveVertex(s32 prim, const f32 *pos, const f32 *tex, u32 count);
 
@@ -84,12 +84,12 @@ public:
         colorIntensity = col;
     }
 protected:
-    void internalInit(int w, int h);
+    void internalInit(s32 w, s32 h);
 
-    int imgType;                //!< Type of image data (IMAGE_TEXTURE, IMAGE_COLOR, IMAGE_DATA)
+    s32 imgType;                //!< Type of image data (IMAGE_TEXTURE, IMAGE_COLOR, IMAGE_DATA)
     GuiImageData * imageData;   //!< Poiner to image data. May be shared with GuiImageData data
-    int tileHorizontal;         //!< Number of times to draw (tile) the image horizontally
-    int tileVertical;           //!< Number of times to draw (tile) the image vertically
+    s32 tileHorizontal;         //!< Number of times to draw (tile) the image horizontally
+    s32 tileVertical;           //!< Number of times to draw (tile) the image vertically
 
     //! Internally used variables for rendering
     u8 *colorVtxs;

@@ -56,7 +56,7 @@ bool FileDownloader::getFile(const std::string & downloadUrl, const std::string 
     if(!private_data.file->isOpen())
     {
         delete private_data.file;
-        log_printf("Can not write to file %s\n", outputPath.c_str());
+        DEBUG_FUNCTION_LINE("Can not write to file %s\n", outputPath.c_str());
         return false;
     }
 
@@ -88,13 +88,13 @@ bool FileDownloader::internalGetFile(const std::string & downloadUrl, curl_priva
     int ret = n_curl_easy_perform(curl);
     if(ret)
     {
-        log_printf("n_curl_easy_perform ret %i\n", ret);
+        DEBUG_FUNCTION_LINE("n_curl_easy_perform ret %i\n", ret);
         n_curl_easy_cleanup(curl);
         return false;
     }
 
     if(!private_data->filesize) {
-        log_printf("file length is 0");
+        DEBUG_FUNCTION_LINE("file length is 0");
         n_curl_easy_cleanup(curl);
         return false;
     }
@@ -104,7 +104,7 @@ bool FileDownloader::internalGetFile(const std::string & downloadUrl, curl_priva
 
     if(resp != 200)
     {
-        log_printf("response != 200");
+        DEBUG_FUNCTION_LINE("response != 200");
         n_curl_easy_cleanup(curl);
         return false;
     }

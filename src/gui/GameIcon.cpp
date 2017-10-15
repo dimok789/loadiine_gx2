@@ -183,7 +183,7 @@ void GameIcon::draw(CVideo *pVideo, const glm::mat4 & projectionMtx, const glm::
     f32 strokeScaleX = pVideo->getWidthScaleFactor() * strokeWidth * 0.25f + cfIconMirrorScale;
     f32 strokeScaleY = pVideo->getHeightScaleFactor() * strokeWidth * 0.25f + cfIconMirrorScale;
 
-    for(int iDraw = 0; iDraw < 2; iDraw++)
+    for(s32 iDraw = 0; iDraw < 2; iDraw++)
     {
         glm::vec4 * alphaFadeOut;
         glm::mat4 m_iconView;

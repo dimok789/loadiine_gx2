@@ -374,7 +374,7 @@ error:
         clientfd = -1;
         sockfd = -1;
 		bss->error = ret;
-		usleep(100000);
+		os_usleep(100000);
 	}
 	return 0;
 }

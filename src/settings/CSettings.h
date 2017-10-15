@@ -85,6 +85,8 @@ public:
 		PadconMode,
         LaunchPyGecko,
         HIDPadEnabled,
+        HIDPadRumble,
+        HIDPadNetwork,
         ShowGameSettings,
         MAX_VALUE
     };

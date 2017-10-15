@@ -57,9 +57,9 @@ class WavDecoder : public SoundDecoder
 {
 	public:
 		WavDecoder(const char * filepath);
-		WavDecoder(const u8 * snd, int len);
+		WavDecoder(const u8 * snd, s32 len);
 		virtual ~WavDecoder();
-		int Read(u8 * buffer, int buffer_size, int pos);
+		s32 Read(u8 * buffer, s32 buffer_size, s32 pos);
 	protected:
 		void OpenFile();
 		void CloseFile();

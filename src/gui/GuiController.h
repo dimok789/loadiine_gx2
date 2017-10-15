@@ -24,7 +24,7 @@ class GuiController
 {
 public:
     //!Constructor
-    GuiController(int channel)
+    GuiController(s32 channel)
         : chan(channel)
     {
         memset(&lastData, 0, sizeof(lastData));
@@ -54,22 +54,22 @@ public:
     //!Destructor
     virtual ~GuiController()  {}
 
-    virtual bool update(int width, int height) = 0;
+    virtual bool update(s32 width, s32 height) = 0;
 
     typedef struct
     {
-        unsigned int buttons_h;
-        unsigned int buttons_d;
-        unsigned int buttons_r;
+        u32 buttons_h;
+        u32 buttons_d;
+        u32 buttons_r;
         bool validPointer;
         bool touched;
         float pointerAngle;
-        int x;
-        int y;
+        s32 x;
+        s32 y;
     } PadData;
 
-    int chan;
-    int chanIdx;
+    s32 chan;
+    s32 chanIdx;
     PadData data;
     PadData lastData;
 

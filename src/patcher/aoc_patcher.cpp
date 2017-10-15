@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include "aoc_patcher.h"
 #include "common/retain_vars.h"
-#include "controller_patcher/cp_retain_vars.h"
 
 DECL(int, ACPGetAddOnUniqueId, unsigned int * id_buffer, int buffer_size)
 {
@@ -41,4 +40,4 @@ hooks_magic_t method_hooks_aoc[] __attribute__((section(".data"))) = {
 u32 method_hooks_size_aoc __attribute__((section(".data"))) = sizeof(method_hooks_aoc) / sizeof(hooks_magic_t);
 
 //! buffer to store our instructions needed for our replacements
-volatile unsigned int method_calls_aoc[sizeof(method_hooks_aoc) / sizeof(hooks_magic_t) * FUNCTION_PATCHER_METHOD_STORE_SIZE] __attribute__((section(".data")));
+volatile u32 method_calls_aoc[sizeof(method_hooks_aoc) / sizeof(hooks_magic_t) * FUNCTION_PATCHER_METHOD_STORE_SIZE] __attribute__((section(".data")));

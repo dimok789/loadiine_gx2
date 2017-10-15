@@ -512,6 +512,8 @@ void MainWindow::OnGameLoadFinish(GameLauncher * launcher, const discHeader *hea
         gSettingPadconMode= CSettings::getValueAsU8(CSettings::PadconMode);
         //! load HID settings
         gHIDPADEnabled = CSettings::getValueAsU8(CSettings::HIDPadEnabled);
+        gHIDPADRumble = CSettings::getValueAsU8(CSettings::HIDPadRumble);
+        gHIDPADNetwork = CSettings::getValueAsU8(CSettings::HIDPadNetwork);
         gEnableDLC = 0;
 
 		GameSettings gs;

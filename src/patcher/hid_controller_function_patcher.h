@@ -9,7 +9,7 @@ extern "C" {
 
 extern hooks_magic_t method_hooks_hid_controller[];
 extern u32 method_hooks_size_hid_controller;
-extern volatile unsigned int method_calls_hid_controller[];
+extern volatile u32 method_calls_hid_controller[];
 
 #ifdef __cplusplus
 }

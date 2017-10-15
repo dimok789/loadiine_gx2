@@ -35,12 +35,15 @@ class GuiSelectBox : public GuiFrame, public sigslot::has_slots<>
         sigslot::signal2<GuiSelectBox *, std::string> valueChanged;
         sigslot::signal2<GuiSelectBox *, bool> showhide;
         void OnTopValueClicked(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
-        void Init(std::map<std::string,std::string> values, int valueID);
+        void Init(std::map<std::string,std::string> values, s32 valueID);
 
-        void setState(int s, int c = -1);
+        void setState(s32 s, s32 c = -1);
 
         virtual f32 getTopValueHeight();
         virtual f32 getTopValueWidth();
+
+        virtual f32 getHeight();
+        virtual f32 getWidth();
 
 	protected:
 	    void DeleteValueData();
@@ -86,7 +89,6 @@ class GuiSelectBox : public GuiFrame, public sigslot::has_slots<>
 
         GuiSound* buttonClickSound;
 
-        std::string getCaptionWithValue(std::string value);
         typedef struct
         {
             GuiImage *valueButtonImg;

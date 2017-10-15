@@ -76,7 +76,9 @@ static const SettingType GameSettings[] =
     { trNOOP("Log Server Control"), ValueOnOff, Type2Buttons, CSettings::GameLogServer },
     { trNOOP("PyGecko"), ValueOnOff, Type2Buttons, CSettings::LaunchPyGecko },
     { trNOOP("Padcon"), ValueOnOff, Type2Buttons, CSettings::PadconMode },
-    { trNOOP("HID-Pad"), ValueOnOff, Type2Buttons, CSettings::HIDPadEnabled }
+    { trNOOP("HID-Pad"), ValueOnOff, Type2Buttons, CSettings::HIDPadEnabled },
+    { trNOOP("HID-Pad Rumble"), ValueOnOff, Type2Buttons, CSettings::HIDPadRumble },
+    { trNOOP("HID-Pad Network"), ValueOnOff, Type2Buttons, CSettings::HIDPadNetwork }
 };
 
 SettingsMenu::SettingsMenu(int w, int h)

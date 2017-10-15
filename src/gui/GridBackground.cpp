@@ -20,7 +20,7 @@ GridBackground::GridBackground(GuiImageData *img)
 
     if(m_posVtxs)
     {
-        int i = 0;
+        s32 i = 0;
         m_posVtxs[i++] = -1.0f; m_posVtxs[i++] = 0.0f; m_posVtxs[i++] = 1.0f;
         m_posVtxs[i++] =  1.0f; m_posVtxs[i++] = 0.0f; m_posVtxs[i++] = 1.0f;
         m_posVtxs[i++] =  1.0f; m_posVtxs[i++] = 0.0f; m_posVtxs[i++] = -1.0f;
@@ -44,7 +44,7 @@ GridBackground::GridBackground(GuiImageData *img)
             sinRot, cosRot
         });
 
-        for(int i = 0; i < 4; i++)  {
+        for(s32 i = 0; i < 4; i++)  {
             texCoordVec[i] = texRotateMtx * texCoordVec[i];
             m_texCoords[i*2 + 0] = texCoordVec[i][0];
             m_texCoords[i*2 + 1] = texCoordVec[i][1];

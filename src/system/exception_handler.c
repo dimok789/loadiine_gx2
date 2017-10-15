@@ -9,32 +9,6 @@
 #define OS_EXCEPTION_ISI                        3
 #define OS_EXCEPTION_PROGRAM                    6
 
-/* Exceptions */
-typedef struct OSContext
-{
-  /* OSContext identifier */
-  uint32_t tag1;
-  uint32_t tag2;
-
-  /* GPRs */
-  uint32_t gpr[32];
-
-  /* Special registers */
-  uint32_t cr;
-  uint32_t lr;
-  uint32_t ctr;
-  uint32_t xer;
-
-  /* Initial PC and MSR */
-  uint32_t srr0;
-  uint32_t srr1;
-
-  /* Only valid during DSI exception */
-  uint32_t exception_specific0;
-  uint32_t exception_specific1;
-
-  /* There is actually a lot more here but we don't need the rest*/
-} OSContext;
 
 #define CPU_STACK_TRACE_DEPTH		10
 #define __stringify(rn)				#rn
@@ -98,7 +72,7 @@ static unsigned char exception_cb(void * c, unsigned char exception_type) {
 	pos += sprintf(buf + pos, exception_print_formats[9], context->lr, context->srr0, context->srr1);
 
 	//if(exception_type == OS_EXCEPTION_DSI) {
-        pos += sprintf(buf + pos, exception_print_formats[10], context->exception_specific1, context->exception_specific0); // this freezes
+        pos += sprintf(buf + pos, exception_print_formats[10], context->ex1, context->ex0); // this freezes
 	//}
 
     void *pc = (void*)context->srr0;
@@ -152,13 +126,13 @@ static unsigned char exception_cb(void * c, unsigned char exception_type) {
     return 1;
 }
 
-static unsigned char dsi_exception_cb(void * context) {
+static unsigned char dsi_exception_cb(OSContext * context) {
     return exception_cb(context, 0);
 }
-static unsigned char isi_exception_cb(void * context) {
+static unsigned char isi_exception_cb(OSContext * context) {
     return exception_cb(context, 1);
 }
-static unsigned char program_exception_cb(void * context) {
+static unsigned char program_exception_cb(OSContext * context) {
     return exception_cb(context, 2);
 }
 

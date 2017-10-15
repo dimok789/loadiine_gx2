@@ -28,8 +28,8 @@
 extern "C" {
 #endif
 
-int mount_sd_fat(const char *path);
-int unmount_sd_fat(const char *path);
+s32 mount_sd_fat(const char *path);
+s32 unmount_sd_fat(const char *path);
 
 #ifdef __cplusplus
 }

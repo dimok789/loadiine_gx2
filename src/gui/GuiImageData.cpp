@@ -31,7 +31,7 @@ GuiImageData::GuiImageData()
 /**
  * Constructor for the GuiImageData class.
  */
-GuiImageData::GuiImageData(const u8 * img, int imgSize, int textureClamp, int textureFormat)
+GuiImageData::GuiImageData(const u8 * img, s32 imgSize, s32 textureClamp, s32 textureFormat)
 {
     texture = NULL;
     sampler = NULL;
@@ -74,7 +74,7 @@ void GuiImageData::releaseData(void)
     }
 }
 
-void GuiImageData::loadImage(const u8 *img, int imgSize, int textureClamp, int textureFormat)
+void GuiImageData::loadImage(const u8 *img, s32 imgSize, s32 textureClamp, s32 textureFormat)
 {
 	if(!img || (imgSize < 8))
 		return;

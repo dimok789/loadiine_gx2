@@ -9,14 +9,14 @@ extern "C" {
 
 extern hooks_magic_t            method_hooks_rplrpx[];
 extern u32                      method_hooks_size_rplrpx;
-extern volatile unsigned int    method_calls_rplrpx[];
+extern volatile u32             method_calls_rplrpx[];
 
-extern int (* FSInit)(void);
-extern int (* real_FSInit)(void);
-extern int (* FSGetStat)(void *pClient, void *pCmd, const char *path, FSStat *stats, int errHandling);
-extern int (* real_FSGetStat)(void *pClient, void *pCmd, const char *path, FSStat *stats, int errHandling);
-extern int (* FSOpenFile)(void *pClient, void *pCmd, const char *path, const char *mode, int *fd, int errHandling);
-extern int (* real_FSOpenFile)(void *pClient, void *pCmd, const char *path, const char *mode, int *fd, int errHandling);
+extern s32 (* FSInit)(void);
+extern s32 (* real_FSInit)(void);
+extern s32 (* FSGetStat)(void *pClient, void *pCmd, const char *path, FSStat *stats, s32 errHandling);
+extern s32 (* real_FSGetStat)(void *pClient, void *pCmd, const char *path, FSStat *stats, s32 errHandling);
+extern s32 (* FSOpenFile)(void *pClient, void *pCmd, const char *path, const char *mode, s32 *fd, s32 errHandling);
+extern s32 (* real_FSOpenFile)(void *pClient, void *pCmd, const char *path, const char *mode, s32 *fd, s32 errHandling);
 
 #ifdef __cplusplus
 }

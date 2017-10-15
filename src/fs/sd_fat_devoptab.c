@@ -32,6 +32,7 @@
 #include "dynamic_libs/fs_functions.h"
 #include "dynamic_libs/os_functions.h"
 #include "fs_utils.h"
+#include "utils/logger.h"
 
 #define FS_ALIGNMENT            0x40
 #define FS_ALIGN(x)             (((x) + FS_ALIGNMENT - 1) & ~(FS_ALIGNMENT - 1))
@@ -145,7 +146,7 @@ static int sd_fat_open_r (struct _reent *r, void *fileStruct, const char *path, 
         return -1;
     }
 
-    int fd = -1;
+    s32 fd = -1;
 
     OSLockMutex(dev->pMutex);
 
@@ -183,7 +184,7 @@ static int sd_fat_open_r (struct _reent *r, void *fileStruct, const char *path, 
 }
 
 
-static int sd_fat_close_r (struct _reent *r, int fd)
+static int sd_fat_close_r (struct _reent *r, void *fd)
 {
     sd_fat_file_state_t *file = (sd_fat_file_state_t *)fd;
     if(!file->dev) {
@@ -205,7 +206,7 @@ static int sd_fat_close_r (struct _reent *r, int fd)
     return 0;
 }
 
-static off_t sd_fat_seek_r (struct _reent *r, int fd, off_t pos, int dir)
+static off_t sd_fat_seek_r (struct _reent *r, void* fd, off_t pos, int dir)
 {
     sd_fat_file_state_t *file = (sd_fat_file_state_t *)fd;
     if(!file->dev) {
@@ -243,7 +244,7 @@ static off_t sd_fat_seek_r (struct _reent *r, int fd, off_t pos, int dir)
     return result;
 }
 
-static ssize_t sd_fat_write_r (struct _reent *r, int fd, const char *ptr, size_t len)
+static ssize_t sd_fat_write_r (struct _reent *r, void *fd, const char *ptr, size_t len)
 {
     sd_fat_file_state_t *file = (sd_fat_file_state_t *)fd;
     if(!file->dev) {
@@ -301,7 +302,7 @@ static ssize_t sd_fat_write_r (struct _reent *r, int fd, const char *ptr, size_t
     return done;
 }
 
-static ssize_t sd_fat_read_r (struct _reent *r, int fd, char *ptr, size_t len)
+static ssize_t sd_fat_read_r (struct _reent *r, void* fd, char *ptr, size_t len)
 {
     sd_fat_file_state_t *file = (sd_fat_file_state_t *)fd;
     if(!file->dev) {
@@ -360,7 +361,7 @@ static ssize_t sd_fat_read_r (struct _reent *r, int fd, char *ptr, size_t len)
 }
 
 
-static int sd_fat_fstat_r (struct _reent *r, int fd, struct stat *st)
+static int sd_fat_fstat_r (struct _reent *r, void* fd, struct stat *st)
 {
     sd_fat_file_state_t *file = (sd_fat_file_state_t *)fd;
     if(!file->dev) {
@@ -398,7 +399,7 @@ static int sd_fat_fstat_r (struct _reent *r, int fd, struct stat *st)
     return 0;
 }
 
-static int sd_fat_ftruncate_r (struct _reent *r, int fd, off_t len)
+static int sd_fat_ftruncate_r (struct _reent *r, void* fd, off_t len)
 {
     sd_fat_file_state_t *file = (sd_fat_file_state_t *)fd;
     if(!file->dev) {
@@ -420,7 +421,7 @@ static int sd_fat_ftruncate_r (struct _reent *r, int fd, off_t len)
     return 0;
 }
 
-static int sd_fat_fsync_r (struct _reent *r, int fd)
+static int sd_fat_fsync_r (struct _reent *r, void* fd)
 {
     sd_fat_file_state_t *file = (sd_fat_file_state_t *)fd;
     if(!file->dev) {
@@ -716,7 +717,7 @@ static DIR_ITER *sd_fat_diropen_r (struct _reent *r, DIR_ITER *dirState, const c
         return NULL;
     }
 
-    int dirHandle;
+    s32 dirHandle;
 
     int result = FSOpenDir(dev->pClient, dev->pCmd, real_path, &dirHandle, -1);
 
@@ -825,7 +826,7 @@ static int sd_fat_dirnext_r (struct _reent *r, DIR_ITER *dirState, char *filenam
     return 0;
 }
 
-// NTFS device driver devoptab
+// SD device driver devoptab
 static const devoptab_t devops_sd_fat = {
     NULL, /* Device name */
     sizeof (sd_fat_file_state_t),
@@ -849,10 +850,12 @@ static const devoptab_t devops_sd_fat = {
     sd_fat_statvfs_r,
     sd_fat_ftruncate_r,
     sd_fat_fsync_r,
+    NULL,  /* Device data */
     NULL, /* sd_fat_chmod_r */
     NULL, /* sd_fat_fchmod_r */
-    NULL  /* Device data */
+    NULL  /* sd_fat_rmdir_r */
 };
+
 
 static int sd_fat_add_device (const char *name, const char *mount_path, void *pClient, void *pCmd)
 {
@@ -879,7 +882,11 @@ static int sd_fat_add_device (const char *name, const char *mount_path, void *pC
     strcpy(devname, name);
 
     // create private data
-    sd_fat_private_t *priv = (sd_fat_private_t *)malloc(sizeof(sd_fat_private_t) + strlen(mount_path) + 1);
+    int mount_path_len = 0;
+    if(mount_path != NULL){
+        mount_path_len = strlen(mount_path);
+    }
+    sd_fat_private_t *priv = (sd_fat_private_t *)malloc(sizeof(sd_fat_private_t) + mount_path_len + 1);
     if(!priv) {
         free(dev);
         errno = ENOMEM;
@@ -887,7 +894,9 @@ static int sd_fat_add_device (const char *name, const char *mount_path, void *pC
     }
 
     devpath = (char*)(priv+1);
-    strcpy(devpath, mount_path);
+    if(mount_path != NULL){
+        strcpy(devpath, mount_path);
+    }
 
     // setup private data
     priv->mount_path = devpath;
@@ -926,6 +935,29 @@ static int sd_fat_add_device (const char *name, const char *mount_path, void *pC
     return -1;
 }
 
+/*
+Because of some weird reason unmounting doesn't work properly.
+This fix if mainly when a usb drive is connected.
+It resets the devoptab_list, otherwise mounting again would throw an exception (in strlen).
+No memory is free'd here. Maybe a problem?!?!?
+*/
+
+void deleteDevTabsNames(){
+    const devoptab_t * devoptab = NULL;
+    u32 last_entry = (u32) devoptab_list[STD_MAX-1];
+    for (int i = 3; i < STD_MAX; i++) {
+        devoptab = devoptab_list[i];
+
+        if (devoptab) {
+            //log_printf("check devotab %d %08X\n",i,devoptab);
+            if((u32) devoptab != last_entry){
+                devoptab_list[i] = (const devoptab_t *)last_entry;
+                //log_printf("Removed devotab %d %08X %08X %08X\n",i,devoptab,devoptab->name,devoptab->deviceData);
+            }
+        }
+    }
+}
+
 static int sd_fat_remove_device (const char *path, void **pClient, void **pCmd, char **mountPath)
 {
     const devoptab_t *devoptab = NULL;
@@ -949,11 +981,13 @@ static int sd_fat_remove_device (const char *path, void **pClient, void **pCmd, 
                 if(devoptab->deviceData)
                 {
                     sd_fat_private_t *priv = (sd_fat_private_t *)devoptab->deviceData;
-                    *pClient = priv->pClient;
-                    *pCmd = priv->pCmd;
-                    *mountPath = (char*) malloc(strlen(priv->mount_path)+1);
-                    if(*mountPath)
-                        strcpy(*mountPath, priv->mount_path);
+                    if(pClient != NULL) *pClient = priv->pClient;
+                    if(pCmd != NULL) *pCmd = priv->pCmd;
+                    if(mountPath != NULL){
+                        *mountPath = (char*) malloc(strlen(priv->mount_path)+1);
+                        if(*mountPath)
+                            strcpy(*mountPath, priv->mount_path);
+                    }
                     if(priv->pMutex)
                         free(priv->pMutex);
                     free(devoptab->deviceData);
@@ -1016,4 +1050,12 @@ int unmount_sd_fat(const char *path)
         //FSShutdown();
     }
     return result;
+}
+
+int mount_fake(){
+    return sd_fat_add_device("fake", NULL, NULL, NULL);
+}
+
+int unmount_fake(){
+    return sd_fat_remove_device ("fake", NULL,NULL,NULL);
 }

@@ -24,7 +24,7 @@ class WPadController : public GuiController
 {
 public:
     //!Constructor
-    WPadController(int channel)
+    WPadController(s32 channel)
         : GuiController(channel)
     {
         memset(&kpadData, 0, sizeof(kpadData));
@@ -130,7 +130,7 @@ public:
         return conv_buttons;
     }
 
-    bool update(int width, int height)
+    bool update(s32 width, s32 height)
     {
         lastData = data;
 

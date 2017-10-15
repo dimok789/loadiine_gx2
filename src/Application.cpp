@@ -26,9 +26,10 @@
 #include "settings/CSettingsGame.h"
 #include "sounds/SoundHandler.hpp"
 #include "system/exception_handler.h"
+#include "controller_patcher/ControllerPatcher.hpp"
 #include "utils/logger.h"
 #include "common/retain_vars.h"
-#include "controller_patcher/cp_retain_vars.h"
+//#include "controller_patcher/cp_retain_vars.h"
 #include "video/CursorDrawer.h"
 
 Application *Application::applicationInstance = NULL;
@@ -47,10 +48,6 @@ Application::Application()
     controller[4] = new WPadController(GuiTrigger::CHANNEL_5);
 
     CSettings::instance()->Load();
-
-    //! reload logger to change IP to settings IP
-    log_deinit();
-    log_init(CSettings::getValueAsString(CSettings::GameLogServerIp).c_str());
 
     //! load HID settings
     gHIDPADEnabled = CSettings::getValueAsU8(CSettings::HIDPadEnabled);
@@ -72,8 +69,7 @@ Application::Application()
     bgMusic->SetVolume(50);
 
 	//! load language
-    if(!CSettings::getValueAsString(CSettings::AppLanguage).empty())
-    {
+    if(!CSettings::getValueAsString(CSettings::AppLanguage).empty()){
         std::string languagePath = "sd:/wiiu/apps/loadiine_gx2/languages/" + CSettings::getValueAsString(CSettings::AppLanguage) + ".lang";
 		gettextLoadLanguage(languagePath.c_str());
     }
@@ -95,7 +91,18 @@ Application::~Application()
     for(int i = 0; i < 5; i++)
         delete controller[i];
 
-	AsyncDeleter::destroyInstance();
+    //We may have to handle Asyncdelete in the Destructors.
+    DEBUG_FUNCTION_LINE("Destroy async deleter\n");
+    do{
+        DEBUG_FUNCTION_LINE("Triggering AsyncDeleter\n");
+        AsyncDeleter::triggerDeleteProcess();
+        while(!AsyncDeleter::realListEmpty()){
+            os_usleep(1000);
+        }
+    }while(!AsyncDeleter::deleteListEmpty());
+    AsyncDeleter::destroyInstance();
+
+
     GuiImageAsync::threadExit();
     Resources::Clear();
 
@@ -103,8 +110,8 @@ Application::~Application()
 
 	gettextCleanUp();
 
-	if(!gHIDPADEnabled && gConfig_done){
-        deinit_config_controller(); //Needs InitSysHIDFunctionPointers();! here done by init_config_controller() when config_done is set.
+	if(!gHIDPADEnabled){
+        ControllerPatcher::destroyConfigHelper();
     }
 
     CursorDrawer::destroyInstance();
@@ -171,24 +178,24 @@ void Application::executeThread(void)
     //! setup exceptions on the main GX2 core
     setup_os_exceptions();
 
-    log_printf("Loading game list\n");
+    DEBUG_FUNCTION_LINE("Loading game list\n");
     GameList::instance()->loadUnfiltered();
 
-    log_printf("Initialize video\n");
+    DEBUG_FUNCTION_LINE("Initialize video\n");
     video = new CVideo(GX2_TV_SCAN_MODE_720P, GX2_DRC_SINGLE);
 
-    log_printf("Video size %i x %i\n", video->getTvWidth(), video->getTvHeight());
+    DEBUG_FUNCTION_LINE("Video size %i x %i\n", video->getTvWidth(), video->getTvHeight());
 
     //! setup default Font
-    log_printf("Initialize main font system\n");
+    DEBUG_FUNCTION_LINE("Initialize main font system\n");
     FreeTypeGX *fontSystem = new FreeTypeGX(Resources::GetFile("font.ttf"), Resources::GetFileSize("font.ttf"), true);
     GuiText::setPresetFont(fontSystem);
 
-    log_printf("Initialize main window\n");
+    DEBUG_FUNCTION_LINE("Initialize main window\n");
 
     mainWindow = new MainWindow(video->getTvWidth(), video->getTvHeight());
 
-    log_printf("Entering main loop\n");
+    DEBUG_FUNCTION_LINE("Entering main loop\n");
 
     //! main GX2 loop (60 Hz cycle with max priority on core 1)
 	while(!exitApplication)

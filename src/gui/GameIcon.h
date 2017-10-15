@@ -72,7 +72,7 @@ private:
     f32 *strokePosVtxs;
     f32 *strokeTexCoords;
     u8 *strokeColorVtxs;
-    int strokeFractalEnable;
+    s32 strokeFractalEnable;
     f32 strokeBlurBorder;
     glm::vec4 selectionBlurOuterColorIntensity;
     f32 selectionBlurOuterSize;

@@ -37,13 +37,13 @@ class BufferCircle
 		//!> Destructor
 		~BufferCircle();
 		//!> Set circle size
-		void Resize(int size);
+		void Resize(s32 size);
 		//!> Get the circle size
-		int Size() { return SoundBuffer.size(); };
+		s32 Size() { return SoundBuffer.size(); };
 		//!> Set/resize the buffer size
-		void SetBufferBlockSize(int size);
+		void SetBufferBlockSize(s32 size);
 		//!> Remove a buffer
-		void RemoveBuffer(int pos);
+		void RemoveBuffer(s32 pos);
 		//!> Set all buffers clear
 		void ClearBuffer();
 		//!> Free all buffers
@@ -53,28 +53,28 @@ class BufferCircle
 		//!> Get the current buffer
 		u8 * GetBuffer() { return GetBuffer(which); };
 		//!> Get a buffer at a position
-		u8 * GetBuffer(int pos) { if(!Valid(pos)) return NULL; else return SoundBuffer[pos]; };
+		u8 * GetBuffer(s32 pos) { if(!Valid(pos)) return NULL; else return SoundBuffer[pos]; };
 		//!> Get current buffer size
 		u32 GetBufferSize() { return GetBufferSize(which); };
 		//!> Get buffer size at position
-		u32 GetBufferSize(int pos) { if(!Valid(pos)) return 0; else return BufferSize[pos]; };
+		u32 GetBufferSize(s32 pos) { if(!Valid(pos)) return 0; else return BufferSize[pos]; };
 		//!> Is current buffer ready
 		bool IsBufferReady() { return IsBufferReady(which); };
 		//!> Is  a buffer at a position ready
-		bool IsBufferReady(int pos) { if(!Valid(pos)) return false; else return BufferReady[pos]; };
+		bool IsBufferReady(s32 pos) { if(!Valid(pos)) return false; else return BufferReady[pos]; };
 		//!> Set a buffer at a position to a ready state
-		void SetBufferReady(int pos, bool st);
+		void SetBufferReady(s32 pos, bool st);
 		//!> Set the buffersize at a position
-		void SetBufferSize(int pos, int size);
+		void SetBufferSize(s32 pos, s32 size);
 		//!> Get the current position in the circle
 		u16 Which() { return which; };
 
 		//!> Get the next location
 		inline u16 Next() { return (which+1 >= Size()) ? 0 : which+1; }
-		inline u16 Prev() { if(Size() == 0) return 0; else return ((int)which-1 < 0) ? Size()-1 : which-1; }
+		inline u16 Prev() { if(Size() == 0) return 0; else return ((s32)which-1 < 0) ? Size()-1 : which-1; }
 	protected:
 		//!> Check if the position is a valid position in the vector
-		bool Valid(int pos) { return !(pos < 0 || pos >= Size()); };
+		bool Valid(s32 pos) { return !(pos < 0 || pos >= Size()); };
 
 		u16 which;
 		u32 BufferBlockSize;

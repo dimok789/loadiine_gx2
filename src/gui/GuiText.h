@@ -30,12 +30,12 @@ public:
     //!\param t Text
     //!\param s Font size
     //!\param c Font color
-    GuiText(const char * t, int s, const glm::vec4 & c);
+    GuiText(const char * t, s32 s, const glm::vec4 & c);
     //!\overload
     //!\param t Text
     //!\param s Font size
     //!\param c Font color
-    GuiText(const wchar_t * t, int s, const glm::vec4 & c);
+    GuiText(const wchar_t * t, s32 s, const glm::vec4 & c);
     //!\overload
     //!\Assumes SetPresets() has been called to setup preferred text attributes
     //!\param t Text
@@ -54,16 +54,16 @@ public:
     //!\param w Maximum width of texture image (for text wrapping)
     //!\param wrap Wrapmode when w>0
     //!\param a Text alignment
-    static void setPresets(int sz, const glm::vec4 & c, int w, int a);
+    static void setPresets(s32 sz, const glm::vec4 & c, s32 w, s32 a);
     static void setPresetFont(FreeTypeGX *font);
     //!Sets the font size
     //!\param s Font size
-    void setFontSize(int s);
+    void setFontSize(s32 s);
     //!Sets the maximum width of the drawn texture image
     //!If the text exceeds this, it is wrapped to the next line
     //!\param w Maximum width
     //!\param m WrapMode
-    void setMaxWidth(int w = 0, int m = WRAP);
+    void setMaxWidth(s32 w = 0, s32 m = WRAP);
     //!Sets the font color
     //!\param c Font color
     void setColor(const glm::vec4 & c);
@@ -75,21 +75,21 @@ public:
     virtual const wchar_t * getText() const { return text; }
     virtual std::string toUTF8(void) const;
     //!Get the Horizontal Size of Text
-    int getTextWidth() { return textWidth; }
-    int getTextWidth(int ind);
+    s32 getTextWidth() { return textWidth; }
+    s32 getTextWidth(s32 ind);
     //!Get the max textwidth
-    int getTextMaxWidth() { return maxWidth; }
+    s32 getTextMaxWidth() { return maxWidth; }
     //!Get fontsize
-    int getFontSize() { return size; };
+    s32 getFontSize() { return size; };
     //!Set max lines to draw
-    void setLinesToDraw(int l) { linestodraw = l; }
+    void setLinesToDraw(s32 l) { linestodraw = l; }
     //!Get current Textline (for position calculation)
-    const wchar_t * getDynText(int ind = 0);
-    virtual const wchar_t * getTextLine(int ind) { return getDynText(ind); };
+    const wchar_t * getDynText(s32 ind = 0);
+    virtual const wchar_t * getTextLine(s32 ind) { return getDynText(ind); };
     //!Change the font
     bool setFont(FreeTypeGX *font);
     //! virtual function used in child classes
-    virtual int getStartWidth() { return 0; };
+    virtual s32 getStartWidth() { return 0; };
     //!Constantly called to draw the text
     void draw(CVideo *pVideo);
     //! text enums
@@ -102,9 +102,10 @@ public:
     };
 protected:
     static FreeTypeGX * presentFont;
-    static int presetSize;
-    static int presetMaxWidth;
-    static int presetAlignment;
+    static s32 presetSize;
+    static s32 presetMaxWidth;
+    static float presetInternalRenderingScale;
+    static s32 presetAlignment;
     static GX2ColorF32 presetColor;
 
     //!Clear the dynamic text
@@ -119,21 +120,22 @@ protected:
     wchar_t * text;
     std::vector<wchar_t *> textDyn;
     std::vector<uint16_t> textDynWidth;
-    int wrapMode; //!< Wrapping toggle
-    int textScrollPos; //!< Current starting index of text string for scrolling
-    int textScrollInitialDelay; //!< Delay to wait before starting to scroll
-    int textScrollDelay; //!< Scrolling speed
-    int size; //!< Font size
-    int maxWidth; //!< Maximum width of the generated text object (for text wrapping)
+    s32 wrapMode; //!< Wrapping toggle
+    s32 textScrollPos; //!< Current starting index of text string for scrolling
+    s32 textScrollInitialDelay; //!< Delay to wait before starting to scroll
+    s32 textScrollDelay; //!< Scrolling speed
+    s32 size; //!< Font size
+    s32 maxWidth; //!< Maximum width of the generated text object (for text wrapping)
     FreeTypeGX *font;
-    int textWidth;
-    int currentSize;
-    int linestodraw;
+    s32 textWidth;
+    s32 currentSize;
+    s32 linestodraw;
     glm::vec4 color;
     float defaultBlur;
     float blurGlowIntensity;
     float blurAlpha;
     glm::vec4 blurGlowColor;
+    float internalRenderingScale;
 };
 
 #endif

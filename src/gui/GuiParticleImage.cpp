@@ -30,7 +30,7 @@ static inline f32 getRandMinusOneToOneF32()
     return getRandZeroToOneF32() * 2.0f - 1.0f;
 }
 
-GuiParticleImage::GuiParticleImage(int w, int h, u32 particleCount)
+GuiParticleImage::GuiParticleImage(s32 w, s32 h, u32 particleCount)
     : GuiImage(NULL)
 {
     width = w;
@@ -62,8 +62,8 @@ GuiParticleImage::GuiParticleImage(int w, int h, u32 particleCount)
         particles[i].position.y = getRandMinusOneToOneF32() * getHeight() * 0.5f;
         particles[i].position.z = 0.0f;
         particles[i].colors = glm::vec4(1.0f, 1.0f, 1.0f, (getRandZeroToOneF32() * 0.6f) + 0.05f);
-        particles[i].radius = getRandZeroToOneF32() * 30.0f;
-        particles[i].speed = (getRandZeroToOneF32() * 0.6f) + 0.2f;
+        particles[i].radius = getRandZeroToOneF32() * 30.0f + 60.0f;
+        particles[i].speed = (getRandZeroToOneF32() * 0.4f) + 0.6f;
         particles[i].direction = getRandMinusOneToOneF32();
     }
 }
@@ -97,8 +97,8 @@ void GuiParticleImage::draw(CVideo *pVideo)
             particles[i].position.x = getRandMinusOneToOneF32() * getWidth() * 0.5f;
             particles[i].position.y = -getHeight() * 0.5f - 30.0f;
             particles[i].colors = glm::vec4(1.0f, 1.0f, 1.0f, (getRandZeroToOneF32() * 0.6f) + 0.05f);
-            particles[i].radius = getRandZeroToOneF32() * 30.0f;
-            particles[i].speed = (getRandZeroToOneF32() * 0.6f) + 0.2f;
+            particles[i].radius = getRandZeroToOneF32() * 30.0f + 60.0f;
+            particles[i].speed = (getRandZeroToOneF32() * 0.4f) + 0.6f;
             particles[i].direction = getRandMinusOneToOneF32();
         }
         if(particles[i].position.x < (-getWidth() * 0.5f - 50.0f))

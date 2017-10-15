@@ -29,22 +29,22 @@ public:
     GuiImageData();
     //!\param img Image data
     //!\param imgSize The image size
-    GuiImageData(const u8 * img, int imgSize, int textureClamp = GX2_TEX_CLAMP_CLAMP, int textureFormat = GX2_SURFACE_FORMAT_TCS_R8_G8_B8_A8_UNORM);
+    GuiImageData(const u8 * img, s32 imgSize, s32 textureClamp = GX2_TEX_CLAMP_CLAMP, s32 textureFormat = GX2_SURFACE_FORMAT_TCS_R8_G8_B8_A8_UNORM);
     //!Destructor
     virtual ~GuiImageData();
     //!Load image from buffer
     //!\param img Image data
     //!\param imgSize The image size
-    void loadImage(const u8 * img, int imgSize, int textureClamp = GX2_TEX_CLAMP_CLAMP, int textureFormat = GX2_SURFACE_FORMAT_TCS_R8_G8_B8_A8_UNORM);
+    void loadImage(const u8 * img, s32 imgSize, s32 textureClamp = GX2_TEX_CLAMP_CLAMP, s32 textureFormat = GX2_SURFACE_FORMAT_TCS_R8_G8_B8_A8_UNORM);
     //! getter functions
     const GX2Texture * getTexture() const { return texture; };
     const GX2Sampler * getSampler() const { return sampler; };
     //!Gets the image width
     //!\return image width
-    int getWidth() const { if(texture) return texture->surface.width; else return 0; };
+    s32 getWidth() const { if(texture) return texture->surface.width; else return 0; };
     //!Gets the image height
     //!\return image height
-    int getHeight() const { if(texture) return texture->surface.height; else return 0; };
+    s32 getHeight() const { if(texture) return texture->surface.height; else return 0; };
     //! release memory of the image data
     void releaseData(void);
 private:

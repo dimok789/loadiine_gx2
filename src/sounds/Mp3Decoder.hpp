@@ -31,10 +31,10 @@ class Mp3Decoder : public SoundDecoder
 {
 	public:
 		Mp3Decoder(const char * filepath);
-		Mp3Decoder(const u8 * sound, int len);
+		Mp3Decoder(const u8 * sound, s32 len);
 		virtual ~Mp3Decoder();
-		int Rewind();
-		int Read(u8 * buffer, int buffer_size, int pos);
+		s32 Rewind();
+		s32 Read(u8 * buffer, s32 buffer_size, s32 pos);
 	protected:
 		void OpenFile();
 		struct mad_stream Stream;

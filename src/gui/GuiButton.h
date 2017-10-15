@@ -52,19 +52,19 @@ class GuiButton : public GuiElement
 		//!Sets the button's label
 		//!\param t Pointer to GuiText object
 		//!\param n Index of label to set (optional, default is 0)
-		void setLabel(GuiText* t, int n = 0);
+		void setLabel(GuiText* t, s32 n = 0);
 		//!Sets the button's label on over (eg: different colored text)
 		//!\param t Pointer to GuiText object
 		//!\param n Index of label to set (optional, default is 0)
-		void setLabelOver(GuiText* t, int n = 0);
+		void setLabelOver(GuiText* t, s32 n = 0);
 		//!Sets the button's label on hold
 		//!\param t Pointer to GuiText object
 		//!\param n Index of label to set (optional, default is 0)
-		void setLabelHold(GuiText* t, int n = 0);
+		void setLabelHold(GuiText* t, s32 n = 0);
 		//!Sets the button's label on click
 		//!\param t Pointer to GuiText object
 		//!\param n Index of label to set (optional, default is 0)
-		void setLabelClick(GuiText* t, int n = 0);
+		void setLabelClick(GuiText* t, s32 n = 0);
 		//!Sets the sound to play on over
 		//!\param s Pointer to GuiSound object
 		void setSoundOver(GuiSound * s);
@@ -77,7 +77,7 @@ class GuiButton : public GuiElement
 		//!Set a new GuiTrigger for the element
 		//!\param i Index of trigger array to set
 		//!\param t Pointer to GuiTrigger
-		void setTrigger(GuiTrigger * t, int idx = -1);
+		void setTrigger(GuiTrigger * t, s32 idx = -1);
 		//!
 		void resetState(void);
 		//!Constantly called to draw the GuiButton
@@ -85,7 +85,7 @@ class GuiButton : public GuiElement
 		//!Constantly called to allow the GuiButton to respond to updated input data
 		//!\param t Pointer to a GuiTrigger, containing the current input data from PAD/WPAD
 		void update(GuiController * c);
-	
+
 		sigslot::signal2<GuiButton *, const GuiController *> selected;
 		sigslot::signal2<GuiButton *, const GuiController *> deSelected;
 		sigslot::signal2<GuiButton *, const GuiController *> pointedOn;
@@ -94,7 +94,7 @@ class GuiButton : public GuiElement
 		sigslot::signal3<GuiButton *, const GuiController *, GuiTrigger *> held;
 		sigslot::signal3<GuiButton *, const GuiController *, GuiTrigger *> released;
 	protected:
-        static const int iMaxGuiTriggers = 10;
+        static const s32 iMaxGuiTriggers = 10;
 
 		GuiImage * image; //!< Button image (default)
 		GuiImage * imageOver; //!< Button image for STATE_SELECTED

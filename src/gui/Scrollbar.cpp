@@ -24,7 +24,7 @@
 #include "Scrollbar.h"
 #include "resources/Resources.h"
 
-Scrollbar::Scrollbar(int h)
+Scrollbar::Scrollbar(s32 h)
     : touchTrigger(GuiTrigger::CHANNEL_1, GuiTrigger::VPAD_TOUCH)
     , wpadTouchTrigger(GuiTrigger::CHANNEL_2 | GuiTrigger::CHANNEL_3 | GuiTrigger::CHANNEL_4 | GuiTrigger::CHANNEL_5, GuiTrigger::BUTTON_A)
 {
@@ -164,19 +164,21 @@ void Scrollbar::OnDownButtonClick(GuiButton *button, const GuiController *contro
 
 void Scrollbar::OnBoxButtonHold(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
 {
-    if(EntrieCount == 0)
+    if(EntrieCount == 0){
         return;
+    }
 
-	if(!controller->data.validPointer)
+	if(!controller->data.validPointer){
 		return;
+    }
 
-	int y = controller->data.y - this->getCenterY();
+	s32 y = controller->data.y - this->getCenterY();
 
-	int positionWiimote = LIMIT(y - MinHeight, 0, MaxHeight - MinHeight);
+	s32 positionWiimote = LIMIT(y - MinHeight, 0, MaxHeight - MinHeight);
 
-	int newSelected = (EntrieCount - 1) - (int) ((float) positionWiimote / (float) (MaxHeight-MinHeight) * (float) (EntrieCount-1));
+	s32 newSelected = (EntrieCount - 1) - (s32) ((float) positionWiimote / (float) (MaxHeight-MinHeight) * (float) (EntrieCount-1));
 
-    int diff = newSelected-SelInd-SelItem;
+    s32 diff = newSelected-SelInd-SelItem;
 
     if(newSelected <= 0)
     {
@@ -190,7 +192,7 @@ void Scrollbar::OnBoxButtonHold(GuiButton *button, const GuiController *controll
     }
     else if(newSelected < PageSize && SelInd == 0 && diff < 0)
     {
-        SelItem = std::max(SelItem+diff, 0);
+        SelItem = std::max(SelItem+diff, (s32)0);
     }
     else if(EntrieCount-newSelected < PageSize && SelInd == EntrieCount-PageSize && diff > 0)
     {
@@ -205,7 +207,7 @@ void Scrollbar::OnBoxButtonHold(GuiButton *button, const GuiController *controll
 	listChanged(SelItem, SelInd);
 }
 
-void Scrollbar::SetPageSize(int size)
+void Scrollbar::SetPageSize(s32 size)
 {
 	if(PageSize == size)
 		return;
@@ -214,7 +216,7 @@ void Scrollbar::SetPageSize(int size)
 	listChanged(SelItem, SelInd);
 }
 
-void Scrollbar::SetSelectedItem(int pos)
+void Scrollbar::SetSelectedItem(s32 pos)
 {
 	if(SelItem == pos)
 		return;
@@ -223,7 +225,7 @@ void Scrollbar::SetSelectedItem(int pos)
 	listChanged(SelItem, SelInd);
 }
 
-void Scrollbar::SetSelectedIndex(int pos)
+void Scrollbar::SetSelectedIndex(s32 pos)
 {
 	if(SelInd == pos)
 		return;
@@ -232,7 +234,7 @@ void Scrollbar::SetSelectedIndex(int pos)
 	listChanged(SelItem, SelInd);
 }
 
-void Scrollbar::SetEntrieCount(int cnt)
+void Scrollbar::SetEntrieCount(s32 cnt)
 {
 	if(EntrieCount == cnt)
 		return;
@@ -241,9 +243,9 @@ void Scrollbar::SetEntrieCount(int cnt)
 	listChanged(SelItem, SelInd);
 }
 
-void Scrollbar::setScrollboxPosition(int SelItem, int SelInd)
+void Scrollbar::setScrollboxPosition(s32 SelItem, s32 SelInd)
 {
-    int position = MaxHeight-(MaxHeight-MinHeight)*(SelInd+SelItem)/(EntrieCount-1);
+    s32 position = MaxHeight-(MaxHeight-MinHeight)*(SelInd+SelItem)/(EntrieCount-1);
 
     if(position < MinHeight || (SelInd+SelItem >= EntrieCount-1))
         position = MinHeight;

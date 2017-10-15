@@ -40,7 +40,7 @@ WavDecoder::WavDecoder(const char * filepath)
 	OpenFile();
 }
 
-WavDecoder::WavDecoder(const u8 * snd, int len)
+WavDecoder::WavDecoder(const u8 * snd, s32 len)
 	: SoundDecoder(snd, len)
 {
 	SoundType = SOUND_WAV;
@@ -93,7 +93,7 @@ void WavDecoder::OpenFile()
 	{
 		DataOffset += 8+le32(DataChunk.size);
 		file_fd->seek(DataOffset, SEEK_SET);
-		int ret = file_fd->read((u8 *) &DataChunk, sizeof(SWaveChunk));
+		s32 ret = file_fd->read((u8 *) &DataChunk, sizeof(SWaveChunk));
 		if(ret <= 0)
 		{
 			CloseFile();
@@ -124,20 +124,20 @@ void WavDecoder::CloseFile()
 	file_fd = NULL;
 }
 
-int WavDecoder::Read(u8 * buffer, int buffer_size, int pos)
+s32 WavDecoder::Read(u8 * buffer, s32 buffer_size, s32 pos)
 {
 	if(!file_fd)
 		return -1;
 
-	if(CurPos >= (int) DataSize)
+	if(CurPos >= (s32) DataSize)
 		return 0;
 
 	file_fd->seek(DataOffset+CurPos, SEEK_SET);
 
-	if(buffer_size > (int) DataSize-CurPos)
+	if(buffer_size > (s32) DataSize-CurPos)
 		buffer_size = DataSize-CurPos;
 
-	int read = file_fd->read(buffer, buffer_size);
+	s32 read = file_fd->read(buffer, buffer_size);
 	if(read > 0)
 	{
 		if (Is16Bit)

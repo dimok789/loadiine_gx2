@@ -28,7 +28,7 @@ class GuiSound : public AsyncDeleter::Element
 		//!\param sound Pointer to the sound data
 		//!\param filesize Length of sound data
 		GuiSound(const char * filepath);
-		GuiSound(const u8 * sound, int length);
+		GuiSound(const u8 * sound, s32 length);
 		//!Destructor
 		virtual ~GuiSound();
 		//!Load a file and replace the old one

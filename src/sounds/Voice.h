@@ -38,7 +38,7 @@ public:
         STATE_STOP,
     };
 
-    Voice(int prio)
+    Voice(s32 prio)
         : state(STATE_STOPPED)
     {
         lastLoopCounter = 0;

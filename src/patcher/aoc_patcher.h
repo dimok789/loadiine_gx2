@@ -10,7 +10,7 @@ extern "C" {
 
 extern hooks_magic_t            method_hooks_aoc[];
 extern u32                      method_hooks_size_aoc;
-extern volatile unsigned int    method_calls_aoc[];
+extern volatile u32             method_calls_aoc[];
 
 extern ReducedCosAppXmlInfo cosAppXmlInfoStruct;
 

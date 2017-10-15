@@ -21,8 +21,8 @@
  * Constructor for the GuiSwitch class.
  */
 
-GuiSwitch::GuiSwitch(bool checked,f32 switchscale)
- : GuiToggle(checked,90*switchscale,38*switchscale)
+GuiSwitch::GuiSwitch(bool checked,f32 w, f32 h)
+ : GuiToggle(checked,w,h)
  ,switchbase_imgdata(Resources::GetImageData("switchIconBase.png"))
  ,switchbase_img(switchbase_imgdata)
  ,switchbase_highlighted_imgdata(Resources::GetImageData("switchIconBaseHighlighted.png"))
@@ -32,9 +32,9 @@ GuiSwitch::GuiSwitch(bool checked,f32 switchscale)
  ,switchOff_imgdata(Resources::GetImageData("switchIconOff.png"))
  ,switchOff_img(switchOff_imgdata)
 {
-    f32 scale = 0.0;
+    f32 scale = 1.0;
     if(switchbase_img.getHeight() > switchbase_img.getWidth()){
-        scale = height*switchscale/switchbase_img.getHeight();
+        scale = height/switchbase_img.getHeight();
     }else{
         scale = width/switchbase_img.getWidth();
     }
@@ -45,9 +45,11 @@ GuiSwitch::GuiSwitch(bool checked,f32 switchscale)
     switchOff_img.setScale(scale);
 
     switchOn_img.setParent(this);
-    switchOn_img.setPosition((width/4.0),0);
+    switchOn_img.setAlignment(ALIGN_RIGHT);
+    //switchOn_img.setPosition((width/4.0),0);
     switchOff_img.setParent(this);
-    switchOff_img.setPosition(-((width/4.0)),0);
+    switchOff_img.setAlignment(ALIGN_LEFT);
+    //switchOff_img.setPosition(-((width/4.0)),0);
     setImage(&switchbase_img);
     setIconOver(&switchbase_highlighted_img);
 }

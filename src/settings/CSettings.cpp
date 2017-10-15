@@ -126,6 +126,14 @@ void CSettings::SetDefault()
     settingsValues[HIDPadEnabled].dataType = TypeU8;
     settingsValues[HIDPadEnabled].ucValue = SETTING_OFF;
 
+    settingsNames[HIDPadRumble] = "HIDPadRumble";
+    settingsValues[HIDPadRumble].dataType = TypeU8;
+    settingsValues[HIDPadRumble].ucValue = SETTING_ON;
+
+    settingsNames[HIDPadNetwork] = "HIDPadNetwork";
+    settingsValues[HIDPadNetwork].dataType = TypeU8;
+    settingsValues[HIDPadNetwork].ucValue = SETTING_ON;
+
     settingsNames[ShowGameSettings] = "ShowGameSettings";
     settingsValues[ShowGameSettings].dataType = TypeU8;
     settingsValues[ShowGameSettings].ucValue = SETTING_ON;

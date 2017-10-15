@@ -1,5 +1,5 @@
 /****************************************************************************
- * Copyright (C) 2015 Dimok
+ * Copyright (C) 2016 Maschell
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,19 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
-#ifndef __GUI_H
-#define __GUI_H
+#ifndef GUICONFIGURATIONSCREEN_H_
+#define GUICONFIGURATIONSCREEN_H_
 
-#include "GuiElement.h"
-#include "GuiImageData.h"
-#include "GuiImage.h"
-#include "GuiFrame.h"
-#include "GuiController.h"
-#include "GuiText.h"
-#include "GuiSound.h"
-#include "GuiButton.h"
-#include "GuiTrigger.h"
-#include "GuiSelectBox.h"
-#include "GuiSwitch.h"
+#include "Gui.h"
+#include "sigslot.h"
 
-#endif
+class GuiConfigurationScreen : public GuiFrame
+{
+public:
+    GuiConfigurationScreen(s32 w, s32 h) : GuiFrame(w, h) {}
+    virtual ~GuiConfigurationScreen() {}
+
+    sigslot::signal2<GuiConfigurationScreen *, s32> gameLaunchClicked;
+    sigslot::signal2<GuiConfigurationScreen *, s32> gameSelectionChanged;
+};
+
+#endif /* GUICONFIGURATIONSCREEN_H_ */

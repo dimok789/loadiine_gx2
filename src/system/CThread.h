@@ -21,6 +21,7 @@
 #include <malloc.h>
 #include <unistd.h>
 #include "dynamic_libs/os_functions.h"
+#include "utils/logger.h"
 
 class CThread
 {
@@ -28,7 +29,7 @@ public:
 	typedef void (* Callback)(CThread *thread, void *arg);
 
 	//! constructor
-	CThread(int iAttr, int iPriority = 16, int iStackSize = 0x8000, CThread::Callback callback = NULL, void *callbackArg = NULL)
+	CThread(s32 iAttr, s32 iPriority = 16, s32 iStackSize = 0x8000, CThread::Callback callback = NULL, void *callbackArg = NULL)
 		: pThread(NULL)
 		, pThreadStack(NULL)
 		, pCallback(callback)
@@ -37,7 +38,7 @@ public:
 	    //! save attribute assignment
 	    iAttributes = iAttr;
 		//! allocate the thread
-		pThread = memalign(8, 0x1000);
+		pThread = (OSThread*) memalign(8, 0x1000);
 		//! allocate the stack
 		pThreadStack = (u8 *) memalign(0x20, iStackSize);
         //! create the thread
@@ -48,7 +49,7 @@ public:
 	//! destructor
 	virtual ~CThread() { shutdownThread(); }
 
-	static CThread *create(CThread::Callback callback, void *callbackArg, int iAttr = eAttributeNone, int iPriority = 16, int iStackSize = 0x8000)
+	static CThread *create(CThread::Callback callback, void *callbackArg, s32 iAttr = eAttributeNone, s32 iPriority = 16, s32 iStackSize = 0x8000)
 	{
 	    return ( new CThread(iAttr, iPriority, iStackSize, callback, callbackArg) );
 	}
@@ -66,7 +67,7 @@ public:
 	//! Resume thread
 	virtual void resumeThread(void) { if(!isThreadSuspended()) return; if(pThread) OSResumeThread(pThread); }
 	//! Set thread priority
-	virtual void setThreadPriority(int prio) { if(pThread) OSSetThreadPriority(pThread, prio); }
+	virtual void setThreadPriority(s32 prio) { if(pThread) OSSetThreadPriority(pThread, prio); }
 	//! Check if thread is suspended
 	virtual bool isThreadSuspended(void) const { if(pThread) return OSIsThreadSuspended(pThread); return false; }
 	//! Check if thread is terminated
@@ -79,17 +80,17 @@ public:
 		//! wait for thread to finish
 		if(pThread && !(iAttributes & eAttributeDetach))
 		{
-		    if(isThreadSuspended())
+		    while(isThreadSuspended()){
                 resumeThread();
-
+            }
 			OSJoinThread(pThread, NULL);
 		}
 		//! free the thread stack buffer
-		if(pThreadStack)
+		if(pThreadStack){
 			free(pThreadStack);
+        }
 		if(pThread)
 			free(pThread);
-
 		pThread = NULL;
 		pThreadStack = NULL;
 	}
@@ -104,14 +105,14 @@ public:
 	    eAttributePinnedAff         = 0x10
 	};
 private:
-	static int threadCallback(int argc, void *arg)
+	static s32 threadCallback(s32 argc, void *arg)
 	{
 		//! After call to start() continue with the internal function
 		((CThread *) arg)->executeThread();
 		return 0;
 	}
-    int iAttributes;
-	void *pThread;
+    s32 iAttributes;
+	OSThread *pThread;
 	u8 *pThreadStack;
 	Callback pCallback;
 	void *pCallbackArg;

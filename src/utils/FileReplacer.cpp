@@ -11,7 +11,7 @@
 
 FileReplacer::FileReplacer(std::string path,std::string content,std::string filename,void * pClient,void * pCmd){
 	bool result = false;
-	dir_all = new Directory("content");     
+	dir_all = new Directory("content");
     std::string filepath = path + std::string("/") + filename;
     log_printf("Read from file for replacement: %s\n",filename.c_str());
     result = this->readFromFile(pClient,pCmd,filepath,dir_all);
@@ -48,7 +48,7 @@ FileReplacer::~FileReplacer()
 }
 
 bool FileReplacer::readFromFile(void *pClient, void *pCmd, const std::string & path , Directory* dir){
-	int handle = 0;
+	s32 handle = 0;
 	FSStat stats;
 	int ret = -1;
 	if(FSGetStat(pClient, pCmd, path.c_str(),&stats,FS_RET_ALL_ERROR) == FS_STATUS_OK){
@@ -90,7 +90,7 @@ bool FileReplacer::readFromFile(void *pClient, void *pCmd, const std::string & p
                 dir_cur->addFile(dirname);
             }
 			ptr = strtok(NULL, delimiter);
-		}		
+		}
 		free(file);
 		return true;
 	}else{
@@ -116,7 +116,7 @@ int FileReplacer::read_dir(const std::string & path , Directory* dir, int * entr
             progressWindow.setTitle(strfmt("Creating filelist.txt: %d entries found", *entries));
         }
         if(isDir){
-            
+
             dirlist.push_back(new std::string(filename));
         }else{
             dir->addFile(filename);
@@ -129,7 +129,7 @@ int FileReplacer::read_dir(const std::string & path , Directory* dir, int * entr
         dir->addFolder(dir_new);
         read_dir((path + "/"+ *dirlist[i]),dir_new,entries,progressWindow);
     }
-    
+
     for(unsigned int i = 0; i < dirlist.size(); i++){
         delete dirlist[i];
     }

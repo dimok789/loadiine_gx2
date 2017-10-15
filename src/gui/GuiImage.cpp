@@ -33,7 +33,7 @@ GuiImage::GuiImage(GuiImageData * img)
 	imageData = img;
 }
 
-GuiImage::GuiImage(int w, int h, const GX2Color & c, int type)
+GuiImage::GuiImage(s32 w, s32 h, const GX2Color & c, s32 type)
 {
 	internalInit(w, h);
 	imgType = type;
@@ -47,7 +47,7 @@ GuiImage::GuiImage(int w, int h, const GX2Color & c, int type)
     }
 }
 
-GuiImage::GuiImage(int w, int h, const GX2Color *c, u32 color_count, int type)
+GuiImage::GuiImage(s32 w, s32 h, const GX2Color *c, u32 color_count, s32 type)
 {
 	internalInit(w, h);
 	imgType = type;
@@ -61,7 +61,7 @@ GuiImage::GuiImage(int w, int h, const GX2Color *c, u32 color_count, int type)
         for(u32 i = 0; i < colorCount; i++)
         {
             // take the last as reference if not enough colors defined
-            int idx = (i < color_count) ? i : (color_count - 1);
+            s32 idx = (i < color_count) ? i : (color_count - 1);
             setImageColor(c[idx], i);
         }
     }
@@ -78,7 +78,7 @@ GuiImage::~GuiImage()
     }
 }
 
-void GuiImage::internalInit(int w, int h)
+void GuiImage::internalInit(s32 w, s32 h)
 {
 	imageData = NULL;
 	width = w;
@@ -114,7 +114,7 @@ void GuiImage::setImageData(GuiImageData * img)
 	imgType = IMAGE_TEXTURE;
 }
 
-GX2Color GuiImage::getPixel(int x, int y)
+GX2Color GuiImage::getPixel(s32 x, s32 y)
 {
 	if(!imageData || this->getWidth() <= 0 || x < 0 || y < 0 || x >= this->getWidth() || y >= this->getHeight())
 		return (GX2Color){0, 0, 0, 0};
@@ -131,7 +131,7 @@ GX2Color GuiImage::getPixel(int x, int y)
 	return color;
 }
 
-void GuiImage::setPixel(int x, int y, const GX2Color & color)
+void GuiImage::setPixel(s32 x, s32 y, const GX2Color & color)
 {
 	if(!imageData || this->getWidth() <= 0 || x < 0 || y < 0 || x >= this->getWidth() || y >= this->getHeight())
 		return;
@@ -142,13 +142,13 @@ void GuiImage::setPixel(int x, int y, const GX2Color & color)
     imagePtr[y * pitch + x] = (color.r << 24) | (color.g << 16)  | (color.b << 8)  | (color.a << 0);
 }
 
-void GuiImage::setImageColor(const GX2Color & c, int idx)
+void GuiImage::setImageColor(const GX2Color & c, s32 idx)
 {
     if(!colorVtxs) {
         return;
     }
 
-    if(idx >= 0 && idx < (int)colorCount)
+    if(idx >= 0 && idx < (s32)colorCount)
     {
         colorVtxs[(idx << 2) + 0] = c.r;
         colorVtxs[(idx << 2) + 1] = c.g;
@@ -169,7 +169,7 @@ void GuiImage::setImageColor(const GX2Color & c, int idx)
     }
 }
 
-void GuiImage::setSize(int w, int h)
+void GuiImage::setSize(s32 w, s32 h)
 {
 	width = w;
 	height = h;
@@ -188,8 +188,8 @@ void GuiImage::setPrimitiveVertex(s32 prim, const f32 *posVtx, const f32 *texCoo
 
         for(u32 i = 0; i < vtxCount; i++)
         {
-            int newColorIdx = (i << 2);
-            int colorIdx = (i < colorCount) ? (newColorIdx) : ((colorCount - 1) << 2);
+            s32 newColorIdx = (i << 2);
+            s32 colorIdx = (i < colorCount) ? (newColorIdx) : ((colorCount - 1) << 2);
 
             newColorVtxs[newColorIdx + 0] = colorVtxs[colorIdx + 0];
             newColorVtxs[newColorIdx + 1] = colorVtxs[colorIdx + 1];
@@ -228,8 +228,8 @@ void GuiImage::draw(CVideo *pVideo)
 
 //	if(image && tileHorizontal > 0 && tileVertical > 0)
 //	{
-//		for(int n=0; n<tileVertical; n++)
-//			for(int i=0; i<tileHorizontal; i++)
+//		for(s32 n=0; n<tileVertical; n++)
+//			for(s32 i=0; i<tileHorizontal; i++)
 //			{
 //				if(bUnCut)
 //					Menu_DrawImg(image, width, height, format, currLeft+width*i, currTop+width*n, currZ, imageangle, currScaleX, currScaleY, currAlpha);
@@ -239,9 +239,9 @@ void GuiImage::draw(CVideo *pVideo)
 //	}
 //	else if(image && tileHorizontal > 0)
 //	{
-//		for(int i=0; i<tileHorizontal; i++)
+//		for(s32 i=0; i<tileHorizontal; i++)
 //		{
-//			int widthTile = (imageangle == 90 || imageangle == 270) ? height : width;
+//			s32 widthTile = (imageangle == 90 || imageangle == 270) ? height : width;
 //			if(bUnCut)
 //				Menu_DrawImg(image, width, height, format, currLeft+widthTile*i, currTop, currZ, imageangle, currScaleX, currScaleY, currAlpha);
 //			else
@@ -250,7 +250,7 @@ void GuiImage::draw(CVideo *pVideo)
 //	}
 //	else if(image && tileVertical > 0)
 //	{
-//		for(int i=0; i<tileVertical; i++)
+//		for(s32 i=0; i<tileVertical; i++)
 //		{
 //			if(bUnCut)
 //				Menu_DrawImg(image, width, height, format, currLeft, currTop+height*i, currZ, imageangle, currScaleX, currScaleY, currAlpha);

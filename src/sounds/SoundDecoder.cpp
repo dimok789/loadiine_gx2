@@ -36,7 +36,7 @@ SoundDecoder::SoundDecoder(const std::string & filepath)
 	Init();
 }
 
-SoundDecoder::SoundDecoder(const u8 * buffer, int size)
+SoundDecoder::SoundDecoder(const u8 * buffer, s32 size)
 {
 	file_fd = new CFile(buffer, size);
 	Init();
@@ -46,7 +46,7 @@ SoundDecoder::~SoundDecoder()
 {
 	ExitRequested = true;
 	while(Decoding)
-		usleep(1000);
+		os_usleep(1000);
 
 	//! lock unlock once to make sure it's really not decoding
 	Lock();
@@ -78,7 +78,7 @@ void SoundDecoder::Init()
 	ResampleRatio = 0;
 }
 
-int SoundDecoder::Rewind()
+s32 SoundDecoder::Rewind()
 {
 	CurPos = 0;
 	EndOfFile = false;
@@ -87,9 +87,9 @@ int SoundDecoder::Rewind()
 	return 0;
 }
 
-int SoundDecoder::Read(u8 * buffer, int buffer_size, int pos)
+s32 SoundDecoder::Read(u8 * buffer, s32 buffer_size, s32 pos)
 {
-	int ret = file_fd->read(buffer, buffer_size);
+	s32 ret = file_fd->read(buffer, buffer_size);
 	CurPos += ret;
 
 	return ret;
@@ -113,7 +113,7 @@ void SoundDecoder::EnableUpsample(void)
 
 void SoundDecoder::Upsample(s16 *src, s16 *dst, u32 nr_src_samples, u32 nr_dst_samples)
 {
-	int timer = 0;
+	s32 timer = 0;
 
 	for(u32 i = 0, n = 0; i < nr_dst_samples; i += 2)
 	{
@@ -129,7 +129,7 @@ void SoundDecoder::Upsample(s16 *src, s16 *dst, u32 nr_src_samples, u32 nr_dst_s
 
 		timer += ResampleRatio;
 
-		if(timer >= (int)FixedPointScale) {
+		if(timer >= (s32)FixedPointScale) {
 			n += 2;
 			timer -= FixedPointScale;
 		}
@@ -152,7 +152,7 @@ void SoundDecoder::Decode()
 
 	Decoding = true;
 
-	int done  = 0;
+	s32 done  = 0;
 	u8 * write_buf = SoundBuffer.GetBuffer(whichLoad);
 	if(!write_buf)
 	{
@@ -166,7 +166,7 @@ void SoundDecoder::Decode()
 
 	while(done < SoundBlockSize)
 	{
-		int ret = Read(&write_buf[done], SoundBlockSize-done, Tell());
+		s32 ret = Read(&write_buf[done], SoundBlockSize-done, Tell());
 
 		if(ret <= 0)
 		{
@@ -192,8 +192,8 @@ void SoundDecoder::Decode()
 		{
 			memcpy(ResampleBuffer, write_buf, done);
 
-			int src_samples = done >> 1;
-			int dest_samples = ( src_samples * FixedPointScale ) / ResampleRatio;
+			s32 src_samples = done >> 1;
+			s32 dest_samples = ( src_samples * FixedPointScale ) / ResampleRatio;
 			dest_samples &= ~0x01;
 			Upsample((s16*)ResampleBuffer, (s16*)write_buf, src_samples, dest_samples);
 			done = dest_samples << 1;
@@ -205,7 +205,7 @@ void SoundDecoder::Decode()
             s16* monoBuf = (s16*)write_buf;
 			done = done >> 1;
 
-            for(int i = 0; i < done; i++)
+            for(s32 i = 0; i < done; i++)
                 monoBuf[i] = monoBuf[i << 1];
 		}
 

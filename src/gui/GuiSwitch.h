@@ -27,25 +27,25 @@ class GuiSwitch : public GuiToggle
 	public:
 		//!Constructor
 		//!\param checked Checked
-		GuiSwitch(bool checked,f32 switchscale = 1.0f);
+		GuiSwitch(bool checked,f32 w, f32 h);
 		//!Destructor
 		virtual ~GuiSwitch();
 
 	protected:
 
-       GuiImageData * switchbase_imgdata;
-       GuiImage switchbase_img;
+        GuiImageData * switchbase_imgdata;
+        GuiImage switchbase_img;
 
-       GuiImageData * switchbase_highlighted_imgdata;
-       GuiImage switchbase_highlighted_img;
+        GuiImageData * switchbase_highlighted_imgdata;
+        GuiImage switchbase_highlighted_img;
 
-       GuiImageData * switchOn_imgdata;
-       GuiImage switchOn_img;
+        GuiImageData * switchOn_imgdata;
+        GuiImage switchOn_img;
 
-       GuiImageData * switchOff_imgdata;
-       GuiImage switchOff_img;
+        GuiImageData * switchOff_imgdata;
+        GuiImage switchOff_img;
 
-       void draw(CVideo * v);
+        void draw(CVideo * v);
 };
 
 #endif
