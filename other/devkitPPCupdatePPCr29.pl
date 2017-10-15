@@ -102,7 +102,7 @@
 	unlink("devkitProUpdatePPCr29.ini") or die $!;
   }
   printf("Downloading update file...");
-  system($downloader . " https://raw.githubusercontent.com/Maschell/hid_to_vpad/master/other/devkitProUpdatePPCr29.ini") and die "Failed to download!";
+  system($downloader . " https://raw.githubusercontent.com/dimok789/loadiine_gx2/master/other/devkitProUpdatePPCr29.ini") and die "Failed to download!";
   printf("OK!\n");
 
   # Initialize versions & newVersions
