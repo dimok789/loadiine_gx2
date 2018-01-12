@@ -1,0 +1,312 @@
+# Loadiine GX2 language source file.
+# english.lang - vx.x
+# don't delete/change this line (é).
+msgid ""
+msgstr ""
+"Project-Id-Version: Loadiine GX2\n"
+"Report-Msgid-Bugs-To: loadiinegx2@sidy.ru\n"
+"POT-Creation-Date: 2018-01-01 09:52+0200\n"
+"PO-Revision-Date: 2018-01-01 14:10+0200\n"
+"Last-Translator: BoyNG\n"
+"Language-Team: SidY\n"
+"Language: Russian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Loadiine GX2"
+msgstr ""
+
+msgid "Official Site:"
+msgstr "Официальный сайт"
+
+msgid "Coding:"
+msgstr "Кодинг:"
+
+msgid "Design:"
+msgstr "Дизайн:"
+
+msgid "Some guy who doesn't want to be named."
+msgstr "Какой то чел, который не захотел называть имя"
+
+msgid "Testing:"
+msgstr "Тестироване:"
+
+msgid "Cyan / Maschell / n1ghty / OnionKnight and many more"
+msgstr ""
+
+msgid "Social Presence:"
+msgstr ""
+
+msgid "Based on:"
+msgstr "Основан на:"
+
+msgid "Loadiine v4.0 by Golden45 and Dimok"
+msgstr ""
+
+msgid "Big thanks to:"
+msgstr "Большое спасибо:"
+
+msgid "lustar for GameTDB and hosting covers / disc images"
+msgstr ""
+
+msgid "Marionumber1 for his kernel exploit"
+msgstr ""
+
+msgid "The whole libwiiu team and it's contributors."
+msgstr ""
+
+msgid "Extra Save:"
+msgstr ""
+
+msgid "Enable DLC Support:"
+msgstr "Поддержка DLC"
+
+msgid "Update Folder"
+msgstr "Update каталог"
+
+msgid "Save Mode"
+msgstr "Режим сохранений"
+
+msgid "Launch Mode"
+msgstr "Способ запуска"
+
+msgid "<Settings Default>"
+msgstr "Сброс настроек"
+
+msgid "Saving game settings!"
+msgstr "Настройки сохранений игры"
+
+msgid "Off"
+msgstr "Выкл"
+
+msgid "On"
+msgstr "Вкл"
+
+msgid "Icon Carousel"
+msgstr "Карусель иконок"
+
+msgid "Grid View"
+msgstr "Сетка"
+
+msgid "Cover Carousel"
+msgstr "Карусель обложек"
+
+msgid "Background customizations"
+msgstr "Настройка фона"
+
+msgid "GUI"
+msgstr "Интерфейс"
+
+msgid "Game View Selection"
+msgstr "Отображение списка игр"
+
+msgid "Adjust log server IP and port"
+msgstr "Адрес:порт лог-сервера"
+
+msgid "Customize games path"
+msgstr "Настройка пути игр"
+
+msgid "Customize save path"
+msgstr "Настройка пути сохранений"
+
+msgid "Loader"
+msgstr "Загрузчик"
+
+msgid "Set save mode"
+msgstr "Задать режим сохранений"
+
+msgid "Game"
+msgstr "Игра"
+
+msgid "HID settings"
+msgstr "Настройка вида"
+ 
+msgid "Launch method selection"
+msgstr "Выбор метода запуска"
+
+msgid "Log server control"
+msgstr "Управление ло-сервером"
+
+msgid "Read and write memory"
+msgstr "Чтение и запись памяти"
+
+msgid "Turn off the screen Gamepad"
+msgstr "Выключение экрана Wii U pad"
+
+msgid "Credits"
+msgstr "Авторы"
+
+msgid "Credits to all contributors"
+msgstr ""
+
+msgid "Game View TV"
+msgstr "Отображение на ТВ"
+
+msgid "Game View DRC"
+msgstr "Отображение на планшете"
+
+msgid "Show Game Settings"
+msgstr "Показать настройки игры"
+
+msgid "Host IP"
+msgstr "IP адрес хоста"
+
+msgid "Game Path"
+msgstr "Путь игры"
+
+msgid "Game Save Path"
+msgstr "Путь сохранений игры"
+
+msgid "Game Save Mode"
+msgstr "Режим сохранений игры"
+
+msgid "Load PyGecko"
+msgstr "Загрузить PyGecko"
+
+msgid "Enable Padcon"
+msgstr "R-Stick отключает экран"
+
+msgid "HID-Pad"
+msgstr ""
+
+msgid "Shared Mode"
+msgstr ""
+
+msgid "Unique Mode"
+msgstr ""
+
+msgid "Mii Maker Mode"
+msgstr ""
+
+msgid "Smash Bros Mode"
+msgstr ""
+
+msgid "Karaoke Mode"
+msgstr ""
+
+msgid "Art Atelier Mode"
+msgstr ""
+
+msgid "Download languages"
+msgstr "Скачать языки"
+
+msgid "Select language"
+msgstr "Выбор языка"
+
+msgid "Download"
+msgstr "Скачать"
+
+msgid "Languages"
+msgstr "Языки"
+
+msgid "Default"
+msgstr "По-умолчанию"
+
+msgid "Brazilian"
+msgstr "Бразильский"
+
+msgid "English"
+msgstr "Английский"
+
+msgid "Chinese"
+msgstr "Китайский"
+
+msgid "Chinese_tr"
+msgstr "Traditional Chinese"
+
+msgid "French"
+msgstr "Французский"
+
+msgid "German"
+msgstr "Немецкий"
+
+msgid "Hungarian"
+msgstr "Иврит"
+
+msgid "Italian"
+msgstr "Итальянский"
+
+msgid "Spanish"
+msgstr "Испанский"
+
+msgid "Swedish"
+msgstr "Шведский"
+
+msgid "Greek"
+msgstr "Греческий"
+
+msgid "Portuguese"
+msgstr "Португальский"
+
+msgid "Japanese"
+msgstr "Японский"
+
+msgid "Loaded language"
+msgstr "Загруженный язык"
+
+msgid "Reloaded logger to change IP to settings IP"
+msgstr ""
+
+msgid "Loaded HID settings"
+msgstr "Настройки HID загружены"
+
+msgid "Loaded resources"
+msgstr "Ресурсы загружены"
+
+msgid "Loading game list"
+msgstr "Загрузка списка игр"
+
+msgid "Loading Music"
+msgstr "Загрузка музыки"
+
+msgid "Initializing main"
+msgstr "Основная инициализация"
+
+msgid "Download languages"
+msgstr "Загрузка языков"
+
+msgid "Connecting.."
+msgstr "Соединение"
+
+msgid "Getting file list"
+msgstr "Получение списка файлов"
+
+msgid "Downloading files"
+msgstr "Загрузка файлов"
+
+msgid "Languages files:"
+msgstr "Языковые файлы:"
+
+msgid "files left"
+msgstr "осталось файлов"
+
+msgid "Download 3D Covers"
+msgstr "Загрузка 3D обложек"
+
+msgid "Ok
+msgstr ""
+
+msgid "Cancel"
+msgstr "Отмена"
+
+msgid "Yes"
+msgstr "Да"
+
+msgid "No"
+msgstr "Нет"
+
+msgid "Loading file"
+msgstr "Загрузка файла"
+
+msgid "Writing list to SD"
+msgstr "Запись списка на SD"
+
+msgid "Creating filelist.txt:"
+msgstr "Создание filelist.txt:"
+
+msgid "entries found"
+msgstr "записей найдено"
+
+msgid "Enable DLC no legitimate"
+msgstr ""
