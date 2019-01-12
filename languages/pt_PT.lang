@@ -24,7 +24,7 @@ msgstr "Site oficial:"
 
 #: src/menu/CreditsMenu.cpp:89
 msgid "Coding:"
-msgstr "Programação:"
+msgstr "Código:"
 
 #: src/menu/CreditsMenu.cpp:102
 msgid "Design:"
@@ -32,7 +32,7 @@ msgstr "Design:"
 
 #: src/menu/CreditsMenu.cpp:108
 msgid "Some guy who doesn't want to be named."
-msgstr "Um gajo qualquer que não quer ser mencionado."
+msgstr "Alguém que não quer ser mencionado."
 
 #: src/menu/CreditsMenu.cpp:115
 msgid "Testing:"
@@ -72,7 +72,7 @@ msgstr "Toda a equipa libwiiu e aos seus contribuidores."
 
 #: src/menu/GameLauncherMenu.cpp:52
 msgid "Extra Save:"
-msgstr "Jogo guardado extra:"
+msgstr "Jogo Guardado Extra:"
 
 #: src/menu/GameLauncherMenu.cpp:53
 msgid "Enable DLC Support:"
@@ -80,15 +80,15 @@ msgstr "Ativar suporte a DLC:"
 
 #: src/menu/GameLauncherMenu.cpp:76
 msgid "Update Folder"
-msgstr "Pasta update"
+msgstr "Pasta Update"
 
 #: src/menu/GameLauncherMenu.cpp:77
 msgid "Save Mode"
-msgstr "Modo de guardamento"
+msgstr "Modo de Gravação"
 
 #: src/menu/GameLauncherMenu.cpp:78 src/menu/SettingsMenu.cpp:75
 msgid "Launch Mode"
-msgstr "Modo de carregamento"
+msgstr "Modo de Iniciação"
 
 #: src/menu/GameLauncherMenu.cpp:89 src/menu/GameLauncherMenu.cpp:94
 #, fuzzy
@@ -101,11 +101,11 @@ msgstr "A guardar opções do jogo!"
 
 #: src/menu/SettingsMenu.cpp:32
 msgid "Off"
-msgstr "Desligado"
+msgstr "Off"
 
 #: src/menu/SettingsMenu.cpp:33
 msgid "On"
-msgstr "Ligado"
+msgstr "On"
 
 #: src/menu/SettingsMenu.cpp:38
 msgid "Icon Carousel"
@@ -121,7 +121,7 @@ msgstr "Carrocel de Capas"
 
 #: src/menu/SettingsMenu.cpp:52
 msgid "Background customizations"
-msgstr "Customizações de fundo"
+msgstr "Customizações de Fundo"
 
 #: src/menu/SettingsMenu.cpp:52
 msgid "GUI"
@@ -129,7 +129,7 @@ msgstr "Interface"
 
 #: src/menu/SettingsMenu.cpp:52
 msgid "Game View Selection"
-msgstr "Tipo de vista de jogos"
+msgstr "Seleção de Vista de Jogos"
 
 #: src/menu/SettingsMenu.cpp:53
 msgid "Adjust log server IP and port"
@@ -149,7 +149,7 @@ msgstr "Carregador"
 
 #: src/menu/SettingsMenu.cpp:53
 msgid "Set save mode"
-msgstr "Definir modo de guardamento"
+msgstr "Definir modo de gravação"
 
 #: src/menu/SettingsMenu.cpp:54
 msgid "Game"
@@ -162,7 +162,7 @@ msgstr "Definições de HID"
 
 #: src/menu/SettingsMenu.cpp:54
 msgid "Launch method selection"
-msgstr "Modo de carregamento"
+msgstr "Modo de Iniciação"
 
 #: src/menu/SettingsMenu.cpp:54
 msgid "Log server control"
@@ -182,7 +182,7 @@ msgstr "Créditos"
 
 #: src/menu/SettingsMenu.cpp:55
 msgid "Credits to all contributors"
-msgstr "Créditos a todos os contribuidores"
+msgstr "Crédito a todos os contribuidores"
 
 #: src/menu/SettingsMenu.cpp:60
 msgid "Game View TV"
@@ -194,11 +194,11 @@ msgstr "Vista de jogos - DRC"
 
 #: src/menu/SettingsMenu.cpp:66
 msgid "Show Game Settings"
-msgstr "Mostrar definições de jogos"
+msgstr "Mostrar Definições de Jogos"
 
 #: src/menu/SettingsMenu.cpp:67
 msgid "Host IP"
-msgstr "IP do hospedeiro"
+msgstr "IP do Hospedeiro"
 
 #: src/menu/SettingsMenu.cpp:68
 msgid "Game Path"
@@ -210,7 +210,7 @@ msgstr "Localização de jogos guardados"
 
 #: src/menu/SettingsMenu.cpp:70
 msgid "Game Save Mode"
-msgstr "Modo de guardamento"
+msgstr "Modo de gravação"
 
 #: src/menu/SettingsMenu.cpp:76
 msgid "Log Server Control"
@@ -231,21 +231,21 @@ msgstr "HID-Pad"
 #: src/menu/SettingsMenu.cpp:80
 #, fuzzy
 msgid "HID-Pad Rumble"
-msgstr "HID-Pad"
+msgstr "Vibração HID-Pad"
 
 #: src/menu/SettingsMenu.cpp:81
 #, fuzzy
 msgid "HID-Pad Network"
-msgstr "HID-Pad"
+msgstr "Rede HID-Pad"
 
 #~ msgid "Art Atelier Mode"
 #~ msgstr "Modo Art Atelier"
 
 #~ msgid "Shared Mode"
-#~ msgstr "Modo partilhado"
+#~ msgstr "Modo Partilhado"
 
 #~ msgid "Unique Mode"
-#~ msgstr "Modo único"
+#~ msgstr "Modo Único"
 
 #~ msgid "Mii Maker Mode"
 #~ msgstr "Modo Criador Mii"
